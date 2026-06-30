@@ -162,7 +162,7 @@
                 <p class="text-gray-600 mb-6" id="review-desc">Real reviews from our clients.</p>
                 
                 <button onclick="openReviewModal()" class="bg-gray-900 text-white px-6 py-2 rounded-full font-bold hover:bg-gray-700 transition shadow-md text-sm cursor-pointer">
-                    <i class="fa-solid fa-pen mr-2"></i> Write a Review
+                    <i class="fa-solid fa-pen mr-2"></i> <span id="btn-write-review">Write a Review</span>
                 </button>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="review-list"></div>
@@ -202,9 +202,9 @@
 
             <div class="bg-white p-8 rounded-2xl shadow-sm mb-12">
                 <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold">Recent Questions</h3>
+                    <h3 class="text-xl font-bold" id="recent-q-title">Recent Questions</h3>
                     <button onclick="openInquiryModal()" class="bg-blue-600 text-white px-6 py-2 rounded-full font-bold hover:bg-blue-700 transition text-sm">
-                        <i class="fa-regular fa-envelope mr-2"></i>Ask a Question
+                        <i class="fa-regular fa-envelope mr-2"></i><span id="btn-ask">Ask a Question</span>
                     </button>
                 </div>
                 <div id="inquiry-list" class="space-y-4">
@@ -235,7 +235,7 @@
                 <h3 class="text-white text-xl font-bold mb-6 flex items-center">
                     <i class="fa-solid fa-plane-departure mr-2 text-blue-500"></i> Haedurio
                 </h3>
-                <p class="text-sm leading-relaxed mb-6">
+                <p class="text-sm leading-relaxed mb-6" id="footer-tagline">
                     Haedurio by <strong>Whaleland</strong>.<br>
                     Your best Korean friend for travel.<br>
                     We make your Korea trip perfect.
@@ -247,7 +247,7 @@
             </div>
 
             <div>
-                <h4 class="text-white font-bold mb-6">Contact Us</h4>
+                <h4 class="text-white font-bold mb-6" id="footer-contact">Contact Us</h4>
                 <ul class="space-y-4 text-sm">
                     <li class="flex items-center">
                         <i class="fa-regular fa-envelope w-6 text-blue-500"></i> 
@@ -265,7 +265,7 @@
             </div>
 
             <div class="lg:col-span-2">
-                <h4 class="text-white font-bold mb-6">Business Information</h4>
+                <h4 class="text-white font-bold mb-6" id="footer-biz">Business Information</h4>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-8 text-xs sm:text-sm">
                     <div>
                         <span class="block text-gray-500 mb-1">Company Name</span>
@@ -294,8 +294,8 @@
         <div class="border-t border-gray-800 pt-8 text-center text-xs">
             <p class="mb-4">&copy; 2026 Whaleland. All rights reserved.</p>
             <div class="space-x-6">
-                <button onclick="openLegalModal('tos')" class="hover:text-white transition underline">Terms of Service</button>
-                <button onclick="openLegalModal('pp')" class="hover:text-white transition underline">Privacy Policy</button>
+                <button onclick="openLegalModal('tos')" class="hover:text-white transition underline" id="footer-tos">Terms of Service</button>
+                <button onclick="openLegalModal('pp')" class="hover:text-white transition underline" id="footer-pp">Privacy Policy</button>
             </div>
         </div>
     </footer>
@@ -310,11 +310,11 @@
             <p id="modal-desc" class="text-gray-600 text-center mb-6 text-sm"></p>
             <div class="bg-gray-50 rounded-xl p-4 mb-6 text-sm text-gray-700 space-y-2">
                 <div class="flex justify-between border-b pb-2">
-                    <span class="font-bold" id="modal-fee">Service Fee</span>
+                    <span class="font-bold" id="modal-fee-label">Service Fee</span>
                     <span id="modal-price" class="text-blue-600 font-bold"></span>
                 </div>
                 <div class="pt-2">
-                    <p class="font-bold mb-1" id="modal-how">How it works:</p>
+                    <p class="font-bold mb-1" id="modal-how-label">How it works:</p>
                     <ol class="list-decimal list-inside space-y-1 text-xs" id="modal-steps"></ol>
                 </div>
             </div>
@@ -331,33 +331,33 @@
             <button onclick="closeReviewModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
                 <i class="fa-solid fa-xmark text-2xl"></i>
             </button>
-            <h3 class="text-2xl font-bold text-center mb-6">Write a Review</h3>
+            <h3 class="text-2xl font-bold text-center mb-6" id="rv-modal-title">Write a Review</h3>
             <form id="review-form" onsubmit="submitReview(event)" class="space-y-4">
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1">Order No. (Required)</label>
-                    <input type="text" id="order-id" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="e.g. ORD-12345">
+                    <label class="block text-sm font-bold text-gray-700 mb-1" id="rv-order-label">Order No. (Required)</label>
+                    <input type="text" id="order-id" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="e.g. ORD-12345" data-ph="rv-order-ph">
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1">Name</label>
-                    <input type="text" id="review-name" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Your Name">
+                    <label class="block text-sm font-bold text-gray-700 mb-1" id="rv-name-label">Name</label>
+                    <input type="text" id="review-name" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Your Name" data-ph="rv-name-ph">
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1">Rating: <span id="rating-display" class="text-blue-600">5.0</span></label>
+                    <label class="block text-sm font-bold text-gray-700 mb-1"><span id="rv-rating-label">Rating:</span> <span id="rating-display" class="text-blue-600">5.0</span></label>
                     <input type="range" id="rating-slider" min="1" max="5" step="0.5" value="5" oninput="updateRatingDisplay(this.value)">
                     <div class="text-yellow-400 text-xl mt-1" id="star-preview">
                         <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
                     </div>
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1">Review</label>
-                    <textarea id="review-content" required rows="3" class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="How was our service?"></textarea>
+                    <label class="block text-sm font-bold text-gray-700 mb-1" id="rv-review-label">Review</label>
+                    <textarea id="review-content" required rows="3" class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="How was our service?" data-ph="rv-review-ph"></textarea>
                 </div>
 
                 <div class="flex justify-center">
                     <div class="cf-turnstile" data-sitekey="0x4AAAAAACOamwget1BYd5tR"></div>
                 </div>
 
-                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition">Submit Review</button>
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition" id="rv-submit">Submit Review</button>
             </form>
         </div>
     </div>
@@ -367,30 +367,30 @@
             <button onclick="closeInquiryModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
                 <i class="fa-solid fa-xmark text-2xl"></i>
             </button>
-            <h3 class="text-2xl font-bold text-center mb-6">Ask a Question</h3>
+            <h3 class="text-2xl font-bold text-center mb-6" id="iq-modal-title">Ask a Question</h3>
             <form id="inquiry-form" onsubmit="submitInquiry(event)" class="space-y-4">
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1">Name</label>
-                    <input type="text" id="inquiry-name" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Your Name">
+                    <label class="block text-sm font-bold text-gray-700 mb-1" id="iq-name-label">Name</label>
+                    <input type="text" id="inquiry-name" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Your Name" data-ph="iq-name-ph">
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1">Contact Info</label>
-                    <input type="text" id="inquiry-contact" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="WhatsApp ID / Line ID / Email">
+                    <label class="block text-sm font-bold text-gray-700 mb-1" id="iq-contact-label">Contact Info</label>
+                    <input type="text" id="inquiry-contact" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="WhatsApp ID / Line ID / Email" data-ph="iq-contact-ph">
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1">Message</label>
-                    <textarea id="inquiry-message" required rows="4" class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="What can we help you with?"></textarea>
+                    <label class="block text-sm font-bold text-gray-700 mb-1" id="iq-message-label">Message</label>
+                    <textarea id="inquiry-message" required rows="4" class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="What can we help you with?" data-ph="iq-message-ph"></textarea>
                 </div>
                 <div class="flex items-center">
                     <input id="inquiry-secret" type="checkbox" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                    <label for="inquiry-secret" class="ml-2 block text-sm text-gray-700 font-bold">🔒 Secret Question (Only Admin can see)</label>
+                    <label for="inquiry-secret" class="ml-2 block text-sm text-gray-700 font-bold" id="iq-secret-label">🔒 Secret Question (Only Admin can see)</label>
                 </div>
 
                 <div class="flex justify-center">
                     <div class="cf-turnstile" data-sitekey="0x4AAAAAACOamwget1BYd5tR"></div>
                 </div>
 
-                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition">Send Message</button>
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition" id="iq-submit">Send Message</button>
             </form>
         </div>
     </div>
@@ -404,7 +404,7 @@
             <div id="legal-content" class="legal-content text-sm text-gray-600 leading-relaxed overflow-y-auto pr-2 flex-grow">
             </div>
             <div class="mt-4 pt-4 border-t border-gray-100 flex-shrink-0 text-center">
-                <button onclick="closeLegalModal()" class="bg-gray-900 text-white px-8 py-2 rounded-full font-bold hover:bg-gray-700 transition">Close</button>
+                <button onclick="closeLegalModal()" class="bg-gray-900 text-white px-8 py-2 rounded-full font-bold hover:bg-gray-700 transition" id="legal-close">Close</button>
             </div>
         </div>
     </div>
@@ -415,15 +415,15 @@
                 <i class="fa-solid fa-xmark text-2xl"></i>
             </button>
             <h3 class="text-xl font-bold mb-4 text-emerald-600">
-                <i class="fa-brands fa-weixin mr-2"></i>WeChat
+                <i class="fa-brands fa-weixin mr-2"></i><span id="wc-title">WeChat</span>
             </h3>
             <div class="bg-gray-100 p-2 rounded-lg mb-4 inline-block">
                 <img src="/wechat_qr.png" alt="WeChat QR Code" class="w-48 h-48 object-contain">
             </div>
-            <p class="text-sm text-gray-600 mb-4">
+            <p class="text-sm text-gray-600 mb-4" id="wc-desc">
                 Scan this QR code<br>or save image to add us!
             </p>
-            <button onclick="closeWechatModal()" class="bg-emerald-600 text-white px-6 py-2 rounded-full font-bold hover:bg-emerald-700 transition w-full">
+            <button onclick="closeWechatModal()" class="bg-emerald-600 text-white px-6 py-2 rounded-full font-bold hover:bg-emerald-700 transition w-full" id="wc-close">
                 Close
             </button>
         </div>
@@ -432,8 +432,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // 1. Supabase 설정
-       const supabaseUrl = 'https://sutvnkiroquezjaendkr.supabase.co';
-       const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1dHZua2lyb3F1ZXpqYWVuZGtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3ODU3OTEsImV4cCI6MjA5ODM2MTc5MX0.cnxKEJPVWzpiWNhhkQ800cacxp6lGLbiNzGNDSCHcaE';
+        const supabaseUrl = 'https://sutvnkiroquezjaendkr.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1dHZua2lyb3F1ZXpqYWVuZGtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3ODU3OTEsImV4cCI6MjA5ODM2MTc5MX0.cnxKEJPVWzpiWNhhkQ800cacxp6lGLbiNzGNDSCHcaE';
         const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
         // 2. 번역 데이터
@@ -453,7 +453,19 @@
                 "faq-q1": "How do I pay?", "faq-a1": "We accept PayPal (International cards) and KRW Cash. You can pay after we confirm your order.",
                 "faq-q2": "Can you deliver to my hotel?", "faq-a2": "Yes! However, most hotels do not allow delivery to room doors. Please pick up food at the Lobby.",
                 "faq-q3": "What are your operating hours?", "faq-a3": "We are open from 11:00 AM to 02:00 AM (KST) every day. You can leave a message anytime.",
-                "faq-q4": "How much is the fee?", "faq-a4": "Basic delivery fee starts from 3,000 KRW. It varies depending on distance and service type."
+                "faq-q4": "How much is the fee?", "faq-a4": "Basic delivery fee starts from 3,000 KRW. It varies depending on distance and service type.",
+                "recent-q-title": "Recent Questions", "btn-ask": "Ask a Question",
+                "btn-write-review": "Write a Review",
+                "rv-modal-title": "Write a Review", "rv-order-label": "Order No. (Required)", "rv-name-label": "Name",
+                "rv-rating-label": "Rating:", "rv-review-label": "Review", "rv-submit": "Submit Review",
+                "rv-order-ph": "e.g. ORD-12345", "rv-name-ph": "Your Name", "rv-review-ph": "How was our service?",
+                "iq-modal-title": "Ask a Question", "iq-name-label": "Name", "iq-contact-label": "Contact Info",
+                "iq-message-label": "Message", "iq-secret-label": "🔒 Secret Question (Only Admin can see)", "iq-submit": "Send Message",
+                "iq-name-ph": "Your Name", "iq-contact-ph": "WhatsApp ID / Line ID / Email", "iq-message-ph": "What can we help you with?",
+                "wc-title": "WeChat", "wc-desc": "Scan this QR code<br>or save image to add us!", "wc-close": "Close",
+                "footer-tagline": "Haedurio by <strong>Whaleland</strong>.<br>Your best Korean friend for travel.<br>We make your Korea trip perfect.",
+                "footer-contact": "Contact Us", "footer-biz": "Business Information", "footer-tos": "Terms of Service", "footer-pp": "Privacy Policy",
+                "modal-fee-label": "Service Fee", "modal-how-label": "How it works:", "legal-close": "Close"
             },
             jp: {
                 "nav-services": "サービス", "nav-cta": "今すぐ相談",
@@ -470,7 +482,19 @@
                 "faq-q1": "支払い方法は何がありますか？", "faq-a1": "PayPal（クレジットカード）または現金（ウォン）で支払いが可能です。注文確認後に決済します。",
                 "faq-q2": "ホテルへの配達は可能ですか？", "faq-a2": "はい！ただし、多くのホテルは部屋の前までの配達を禁止しています。ロビーで受け取ってください。",
                 "faq-q3": "営業時間はいつですか？", "faq-a3": "毎日午前11時から深夜2時まで営業しています。メッセージはいつでも残せます。",
-                "faq-q4": "手数料はいくらですか？", "faq-a4": "基本手数料は3,000ウォンからです。距離やサービス内容によって異なります。"
+                "faq-q4": "手数料はいくらですか？", "faq-a4": "基本手数料は3,000ウォンからです。距離やサービス内容によって異なります。",
+                "recent-q-title": "最近の質問", "btn-ask": "質問する",
+                "btn-write-review": "レビューを書く",
+                "rv-modal-title": "レビューを書く", "rv-order-label": "注文番号（必須）", "rv-name-label": "お名前",
+                "rv-rating-label": "評価：", "rv-review-label": "レビュー", "rv-submit": "レビューを送信",
+                "rv-order-ph": "例：ORD-12345", "rv-name-ph": "お名前", "rv-review-ph": "サービスはいかがでしたか？",
+                "iq-modal-title": "質問する", "iq-name-label": "お名前", "iq-contact-label": "連絡先",
+                "iq-message-label": "メッセージ", "iq-secret-label": "🔒 秘密の質問（管理者のみ閲覧可能）", "iq-submit": "メッセージを送信",
+                "iq-name-ph": "お名前", "iq-contact-ph": "WhatsApp ID / LINE ID / メール", "iq-message-ph": "どのようなご用件ですか？",
+                "wc-title": "WeChat", "wc-desc": "QRコードをスキャン<br>または画像を保存して友達追加！", "wc-close": "閉じる",
+                "footer-tagline": "Haedurio by <strong>Whaleland</strong>.<br>あなたの旅をサポートする韓国の友達。<br>あなたの韓国旅行を完璧にします。",
+                "footer-contact": "お問い合わせ", "footer-biz": "事業者情報", "footer-tos": "利用規約", "footer-pp": "プライバシーポリシー",
+                "modal-fee-label": "手数料", "modal-how-label": "ご利用の流れ：", "legal-close": "閉じる"
             },
             cn: {
                 "nav-services": "服务项目", "nav-cta": "立即咨询",
@@ -478,7 +502,7 @@
                 "hero-desc": "外卖、预约、代购以及紧急情况支援。<br>随时联系我们，我们是您的韩国朋友。",
                 "service-title": "我们可以做什么？", "service-desc": "为您提供韩国旅行所需的一切。",
                 "srv-1-title": "外卖配送", "srv-1-desc": "汉江炸鸡？酒店夜宵？我们帮您点单。",
-                "srv-2-title": "预约服务", "srv-2-desc": "网红餐厅、美容室、皮肤科。我们需要电话预约。",
+                "srv-2-title": "预约服务", "srv-2-desc": "网红餐厅、美容室、皮肤科。我们帮您电话预约。",
                 "srv-3-title": "代购服务", "srv-3-desc": "K-POP周边、演唱会门票、便利店跑腿。",
                 "srv-4-title": "紧急支援", "srv-4-desc": "物品遗失、医院翻译。遇到困难请找我们。",
                 "srv-5-title": "许愿服务 (Genie Service)", "srv-5-desc": "“从寻找丢失的袜子到排队买贝果。”<br><span class='font-bold text-white underline decoration-wavy decoration-yellow-400'>除了犯罪，我们什么都做。</span> 尽管吩咐！ 🧞‍♂️",
@@ -487,7 +511,19 @@
                 "faq-q1": "如何付款？", "faq-a1": "我们支持PayPal（信用卡）和韩币现金。订单确认后付款。",
                 "faq-q2": "可以送到酒店吗？", "faq-a2": "可以！但大多数酒店不允许送到房门口，请在酒店大堂取餐。",
                 "faq-q3": "营业时间是？", "faq-a3": "每天上午11点到凌晨2点。您可以随时留言。",
-                "faq-q4": "费用是多少？", "faq-a4": "基本服务费3,000韩元起。根据距离和内容有所不同。"
+                "faq-q4": "费用是多少？", "faq-a4": "基本服务费3,000韩元起。根据距离和内容有所不同。",
+                "recent-q-title": "最近的提问", "btn-ask": "我要提问",
+                "btn-write-review": "撰写评价",
+                "rv-modal-title": "撰写评价", "rv-order-label": "订单号（必填）", "rv-name-label": "姓名",
+                "rv-rating-label": "评分：", "rv-review-label": "评价", "rv-submit": "提交评价",
+                "rv-order-ph": "例如 ORD-12345", "rv-name-ph": "您的姓名", "rv-review-ph": "我们的服务怎么样？",
+                "iq-modal-title": "我要提问", "iq-name-label": "姓名", "iq-contact-label": "联系方式",
+                "iq-message-label": "留言", "iq-secret-label": "🔒 私密提问（仅管理员可见）", "iq-submit": "发送留言",
+                "iq-name-ph": "您的姓名", "iq-contact-ph": "WhatsApp ID / Line ID / 邮箱", "iq-message-ph": "有什么可以帮您的？",
+                "wc-title": "微信", "wc-desc": "扫描二维码<br>或保存图片添加我们！", "wc-close": "关闭",
+                "footer-tagline": "Haedurio by <strong>Whaleland</strong>.<br>您旅途中最好的韩国朋友。<br>让您的韩国之旅更完美。",
+                "footer-contact": "联系我们", "footer-biz": "商家信息", "footer-tos": "服务条款", "footer-pp": "隐私政策",
+                "modal-fee-label": "服务费", "modal-how-label": "服务流程：", "legal-close": "关闭"
             },
             tw: {
                 "nav-services": "服務項目", "nav-cta": "立即諮詢",
@@ -504,7 +540,19 @@
                 "faq-q1": "如何付款？", "faq-a1": "我們支援PayPal（信用卡）和韓幣現金。訂單確認後付款。",
                 "faq-q2": "可以送到飯店嗎？", "faq-a2": "可以！但大多數飯店不允許送到房門口，請在飯店大廳取餐。",
                 "faq-q3": "營業時間是？", "faq-a3": "每天上午11點到凌晨2點。您可以隨時留言。",
-                "faq-q4": "費用是多少？", "faq-a4": "基本服務費3,000韓元起。根據距離和內容有所不同。"
+                "faq-q4": "費用是多少？", "faq-a4": "基本服務費3,000韓元起。根據距離和內容有所不同。",
+                "recent-q-title": "最近的提問", "btn-ask": "我要提問",
+                "btn-write-review": "撰寫評價",
+                "rv-modal-title": "撰寫評價", "rv-order-label": "訂單號（必填）", "rv-name-label": "姓名",
+                "rv-rating-label": "評分：", "rv-review-label": "評價", "rv-submit": "提交評價",
+                "rv-order-ph": "例如 ORD-12345", "rv-name-ph": "您的姓名", "rv-review-ph": "我們的服務怎麼樣？",
+                "iq-modal-title": "我要提問", "iq-name-label": "姓名", "iq-contact-label": "聯絡方式",
+                "iq-message-label": "留言", "iq-secret-label": "🔒 私密提問（僅管理員可見）", "iq-submit": "發送留言",
+                "iq-name-ph": "您的姓名", "iq-contact-ph": "WhatsApp ID / Line ID / 信箱", "iq-message-ph": "有什麼可以幫您的？",
+                "wc-title": "微信", "wc-desc": "掃描QR碼<br>或儲存圖片加我們好友！", "wc-close": "關閉",
+                "footer-tagline": "Haedurio by <strong>Whaleland</strong>.<br>您旅途中最好的韓國朋友。<br>讓您的韓國之旅更完美。",
+                "footer-contact": "聯絡我們", "footer-biz": "商家資訊", "footer-tos": "服務條款", "footer-pp": "隱私政策",
+                "modal-fee-label": "服務費", "modal-how-label": "服務流程：", "legal-close": "關閉"
             },
             vn: {
                 "nav-services": "Dịch vụ", "nav-cta": "Hỗ trợ ngay",
@@ -521,7 +569,19 @@
                 "faq-q1": "Thanh toán thế nào?", "faq-a1": "Chúng tôi nhận PayPal (Thẻ quốc tế) và Tiền mặt. Thanh toán sau khi chốt đơn.",
                 "faq-q2": "Có giao đến khách sạn không?", "faq-a2": "Có! Nhưng hầu hết khách sạn không cho lên phòng. Vui lòng nhận đồ tại sảnh.",
                 "faq-q3": "Giờ làm việc?", "faq-a3": "Từ 11:00 sáng đến 02:00 sáng hàng ngày. Bạn có thể nhắn tin bất cứ lúc nào.",
-                "faq-q4": "Phí dịch vụ bao nhiêu?", "faq-a4": "Phí cơ bản từ 3,000 KRW. Tùy thuộc vào khoảng cách và loại dịch vụ."
+                "faq-q4": "Phí dịch vụ bao nhiêu?", "faq-a4": "Phí cơ bản từ 3,000 KRW. Tùy thuộc vào khoảng cách và loại dịch vụ.",
+                "recent-q-title": "Câu hỏi gần đây", "btn-ask": "Đặt câu hỏi",
+                "btn-write-review": "Viết đánh giá",
+                "rv-modal-title": "Viết đánh giá", "rv-order-label": "Số đơn hàng (Bắt buộc)", "rv-name-label": "Tên",
+                "rv-rating-label": "Đánh giá:", "rv-review-label": "Nhận xét", "rv-submit": "Gửi đánh giá",
+                "rv-order-ph": "VD: ORD-12345", "rv-name-ph": "Tên của bạn", "rv-review-ph": "Dịch vụ của chúng tôi thế nào?",
+                "iq-modal-title": "Đặt câu hỏi", "iq-name-label": "Tên", "iq-contact-label": "Thông tin liên hệ",
+                "iq-message-label": "Nội dung", "iq-secret-label": "🔒 Câu hỏi riêng tư (Chỉ Admin xem được)", "iq-submit": "Gửi tin nhắn",
+                "iq-name-ph": "Tên của bạn", "iq-contact-ph": "WhatsApp ID / Line ID / Email", "iq-message-ph": "Chúng tôi có thể giúp gì cho bạn?",
+                "wc-title": "WeChat", "wc-desc": "Quét mã QR<br>hoặc lưu ảnh để thêm chúng tôi!", "wc-close": "Đóng",
+                "footer-tagline": "Haedurio by <strong>Whaleland</strong>.<br>Người bạn Hàn Quốc tốt nhất cho chuyến đi của bạn.<br>Chúng tôi làm cho chuyến đi Hàn Quốc của bạn hoàn hảo.",
+                "footer-contact": "Liên hệ", "footer-biz": "Thông tin doanh nghiệp", "footer-tos": "Điều khoản dịch vụ", "footer-pp": "Chính sách bảo mật",
+                "modal-fee-label": "Phí dịch vụ", "modal-how-label": "Cách thức hoạt động:", "legal-close": "Đóng"
             },
             th: {
                 "nav-services": "บริการของเรา", "nav-cta": "ช่วยเหลือทันที",
@@ -538,7 +598,19 @@
                 "faq-q1": "ชำระเงินอย่างไร?", "faq-a1": "เรารับ PayPal (บัตรเครดิต) และเงินสด ชำระเงินหลังจากคอนเฟิร์มออเดอร์",
                 "faq-q2": "ส่งที่โรงแรมได้ไหม?", "faq-a2": "ได้! แต่โรงแรมส่วนใหญ่ไม่ให้ขึ้นห้อง รบกวนรับอาหารที่ล็อบบี้",
                 "faq-q3": "เวลาทำการ?", "faq-a3": "เราเปิด 11:00 น. ถึง 02:00 น. ทุกวัน ทิ้งข้อความไว้ได้ตลอดเวลา",
-                "faq-q4": "ค่าบริการเท่าไหร่?", "faq-a4": "ค่าบริการเริ่มต้น 3,000 วอน ขึ้นอยู่กับระยะทางและบริการ"
+                "faq-q4": "ค่าบริการเท่าไหร่?", "faq-a4": "ค่าบริการเริ่มต้น 3,000 วอน ขึ้นอยู่กับระยะทางและบริการ",
+                "recent-q-title": "คำถามล่าสุด", "btn-ask": "ส่งคำถาม",
+                "btn-write-review": "เขียนรีวิว",
+                "rv-modal-title": "เขียนรีวิว", "rv-order-label": "หมายเลขออเดอร์ (จำเป็น)", "rv-name-label": "ชื่อ",
+                "rv-rating-label": "คะแนน:", "rv-review-label": "รีวิว", "rv-submit": "ส่งรีวิว",
+                "rv-order-ph": "เช่น ORD-12345", "rv-name-ph": "ชื่อของคุณ", "rv-review-ph": "บริการของเราเป็นอย่างไรบ้าง?",
+                "iq-modal-title": "ส่งคำถาม", "iq-name-label": "ชื่อ", "iq-contact-label": "ข้อมูลติดต่อ",
+                "iq-message-label": "ข้อความ", "iq-secret-label": "🔒 คำถามส่วนตัว (เฉพาะแอดมินเห็น)", "iq-submit": "ส่งข้อความ",
+                "iq-name-ph": "ชื่อของคุณ", "iq-contact-ph": "WhatsApp ID / Line ID / อีเมล", "iq-message-ph": "เราช่วยอะไรคุณได้บ้าง?",
+                "wc-title": "WeChat", "wc-desc": "สแกน QR code<br>หรือบันทึกรูปเพื่อเพิ่มเรา!", "wc-close": "ปิด",
+                "footer-tagline": "Haedurio by <strong>Whaleland</strong>.<br>เพื่อนชาวเกาหลีที่ดีที่สุดสำหรับการเดินทางของคุณ<br>เราทำให้ทริปเกาหลีของคุณสมบูรณ์แบบ",
+                "footer-contact": "ติดต่อเรา", "footer-biz": "ข้อมูลธุรกิจ", "footer-tos": "ข้อกำหนดการให้บริการ", "footer-pp": "นโยบายความเป็นส่วนตัว",
+                "modal-fee-label": "ค่าบริการ", "modal-how-label": "ขั้นตอนการใช้บริการ:", "legal-close": "ปิด"
             }
         };
 
@@ -679,6 +751,11 @@
                     const element = document.getElementById(key);
                     if (element) element.innerHTML = data[key];
                 }
+                // placeholder 번역 (data-ph 속성을 가진 input/textarea)
+                document.querySelectorAll('[data-ph]').forEach(el => {
+                    const phKey = el.getAttribute('data-ph');
+                    if (data[phKey]) el.setAttribute('placeholder', data[phKey]);
+                });
             }
         }
 
@@ -732,14 +809,15 @@
         // NEW: 약관 모달 열기 함수
         function openLegalModal(type) {
             const data = legalData[currentLang] || legalData['en'];
+            const t = translations[currentLang] || translations['en'];
             const titleElement = document.getElementById('legal-title');
             const contentElement = document.getElementById('legal-content');
 
             if (type === 'tos') {
-                titleElement.innerText = "Terms of Service";
+                titleElement.innerText = t['footer-tos'] || "Terms of Service";
                 contentElement.innerHTML = data.tos;
             } else if (type === 'pp') {
-                titleElement.innerText = "Privacy Policy";
+                titleElement.innerText = t['footer-pp'] || "Privacy Policy";
                 contentElement.innerHTML = data.pp;
             }
             
