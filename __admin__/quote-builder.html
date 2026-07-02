@@ -1,0 +1,1152 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>해드리오 관리자 견적 빌더 프로토타입 v7</title>
+  <style>
+    :root {
+      --bg: #f6f4ef;
+      --paper: #fffdf8;
+      --ink: #22201d;
+      --muted: #706a61;
+      --line: #ded8cb;
+      --soft: #f0ebe2;
+      --strong: #111111;
+      --accent: #2f5f4f;
+      --accent-2: #e7f0ec;
+      --warn-bg: #fff3dc;
+      --warn: #8a4b19;
+      --danger: #9e2b25;
+      --shadow: 0 14px 40px rgba(24, 21, 16, 0.08);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    button, input, select, textarea { font: inherit; }
+    button { border: 0; cursor: pointer; }
+    .app-shell { width: min(1500px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 56px; }
+    .topbar { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 22px; }
+    .brand-kicker { margin: 0 0 6px; color: var(--accent); font-size: 13px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(24px, 3vw, 38px); line-height: 1.16; letter-spacing: -0.04em; }
+    .lead { margin: 12px 0 0; color: var(--muted); max-width: 900px; }
+    .top-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; min-width: 370px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 14px; border-radius: 999px; background: var(--ink); color: #fff; font-weight: 850; white-space: nowrap; box-shadow: 0 8px 18px rgba(0,0,0,0.08); transition: transform 0.12s ease, opacity 0.12s ease; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); opacity: 0.86; }
+    .btn.secondary { background: var(--paper); color: var(--ink); border: 1px solid var(--line); box-shadow: none; }
+    .btn.accent { background: var(--accent); }
+    .btn.danger { background: #fff0ec; color: var(--danger); border: 1px solid #f1c7bd; box-shadow: none; }
+    .layout { display: grid; grid-template-columns: minmax(0, 1.14fr) minmax(430px, 0.86fr); gap: 18px; align-items: start; }
+    .panel { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .panel-header { padding: 18px 20px; border-bottom: 1px solid var(--line); background: linear-gradient(180deg, #fffdf8 0%, #fbf7ee 100%); }
+    .panel-header h2 { margin: 0; font-size: 18px; letter-spacing: -0.02em; }
+    .panel-header p { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+    .panel-body { padding: 18px 20px 20px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label { font-size: 12px; font-weight: 900; color: var(--muted); }
+    input, select, textarea { width: 100%; border: 1px solid var(--line); border-radius: 12px; background: #fff; color: var(--ink); padding: 10px 11px; outline: none; }
+    input[type="range"] { padding: 0; border: 0; accent-color: var(--accent); background: transparent; }
+    textarea { resize: vertical; min-height: 84px; }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-2); }
+    .hint { color: var(--muted); font-size: 12px; }
+    .warn-note { margin-top: 12px; padding: 12px 14px; border-radius: 14px; background: var(--warn-bg); color: var(--warn); font-size: 13px; }
+    .item-card { border: 1px solid var(--line); border-radius: 18px; background: #fff; margin-top: 14px; overflow: hidden; }
+    .item-head { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 14px 16px; background: #faf6ee; border-bottom: 1px solid var(--line); }
+    .item-head-title { display: flex; flex-direction: column; gap: 2px; }
+    .item-no { display: inline-flex; align-items: center; justify-content: center; width: fit-content; padding: 3px 9px; border-radius: 999px; background: var(--accent-2); color: var(--accent); font-size: 12px; font-weight: 900; }
+    .item-head strong { font-size: 16px; letter-spacing: -0.02em; }
+    .item-body { padding: 16px; }
+    .section-title { margin: 18px 0 10px; font-size: 14px; font-weight: 950; color: var(--strong); }
+    .section-title:first-child { margin-top: 0; }
+    .checkbox-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .check-pill { display: flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 12px; padding: 9px 10px; background: #fff; min-height: 42px; }
+    .check-pill input { width: 16px; height: 16px; accent-color: var(--accent); flex: 0 0 auto; }
+    .check-pill span { font-size: 13px; line-height: 1.35; }
+    .money-chip { margin-left: auto; color: var(--accent); font-weight: 900; font-size: 12px; white-space: nowrap; }
+    .zero-chip { color: var(--muted); }
+    .inline-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; align-items: end; }
+    .discount-wrap { display: grid; grid-template-columns: 95px 1fr; gap: 10px; align-items: center; }
+    .calc-box { margin-top: 14px; border-radius: 16px; border: 1px dashed #c9c1b3; background: #fbf8f1; padding: 14px; }
+    .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .calc-metric { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 11px; }
+    .calc-metric span { display: block; color: var(--muted); font-size: 11px; font-weight: 850; }
+    .calc-metric strong { display: block; margin-top: 2px; font-size: 18px; letter-spacing: -0.02em; }
+    .preview-card { position: sticky; top: 18px; }
+    .quote-paper { background: #f2eee6; border: 1px solid var(--line); border-radius: 18px; padding: 16px; box-shadow: 0 12px 28px rgba(0,0,0,0.06); }
+    .quote-page { position: relative; min-height: 282mm; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 18mm 18mm 22mm; overflow: visible; }
+    .quote-page + .quote-page { margin-top: 16px; }
+    .quote-page h2 { margin: 0; font-size: 28px; letter-spacing: -0.04em; }
+    .quote-subtitle { margin: 5px 0 0; color: var(--muted); font-size: 12px; }
+    .quote-meta { margin: 18px 0 16px; padding: 12px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); color: var(--muted); font-size: 12px; display: flex; flex-direction: column; gap: 8px; }
+    .meta-row { display: grid; gap: 10px 18px; align-items: start; }
+    .meta-row.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .meta-row.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .meta-row.single { grid-template-columns: 1fr; }
+    .quote-meta b { color: var(--ink); }
+    .quote-summary { margin: 0 0 16px; }
+    .quote-summary strong { font-size: 13px; }
+    .quote-summary p { margin: 6px 0 0; color: var(--muted); white-space: pre-line; font-size: 12px; }
+    .quote-list { display: flex; flex-direction: column; gap: 10px; margin: 14px 0; }
+    .quote-line { display: grid; grid-template-columns: 1fr auto; gap: 12px; border: 1px solid var(--line); border-radius: 14px; padding: 12px; background: #fffdf8; break-inside: avoid; margin-top: 10px; }
+    .quote-line h3 { margin: 0; font-size: 14px; }
+    .quote-line p { margin: 5px 0 0; color: var(--muted); font-size: 12px; white-space: pre-line; }
+    .quote-amount { text-align: right; font-size: 16px; font-weight: 950; white-space: nowrap; }
+    .summary-table { margin-top: 14px; border-top: 1px solid var(--line); padding-top: 12px; }
+    .summary-row { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; color: var(--muted); font-size: 13px; }
+    .summary-row strong { color: var(--ink); }
+    .summary-row.total { margin-top: 7px; padding-top: 10px; border-top: 2px solid var(--ink); font-size: 18px; color: var(--ink); font-weight: 950; }
+    .policy-note { margin-top: 14px; color: var(--muted); font-size: 11px; white-space: pre-line; border-top: 1px solid var(--line); padding-top: 12px; }
+    .refund-box { margin-top: 12px; border: 1px solid #d7c8a8; background: #fff8e8; border-radius: 12px; padding: 12px; font-size: 12px; }
+    .refund-box b { color: var(--ink); }
+    .page-number { position: absolute; right: 18mm; bottom: 9mm; color: var(--muted); font-size: 11px; font-weight: 850; }
+    .continuation-note { margin: 5px 0 14px; color: var(--muted); font-size: 12px; }
+    .pagination-measure { position: absolute; left: -10000px; top: 0; width: 210mm; visibility: hidden; pointer-events: none; z-index: -1; }
+    .pagination-measure .quote-page { width: 210mm; min-height: 287mm; height: 287mm; border: 0; border-radius: 0; box-shadow: none; overflow: hidden; }
+    .empty-state { padding: 24px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 18px; background: #fffdf8; }
+    .footer-note { margin-top: 18px; padding: 16px; border-radius: 16px; background: #f6efe1; color: #5b4a30; font-size: 13px; }
+    .small-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .mini-btn { padding: 7px 10px; border-radius: 999px; background: #f3f0ea; color: var(--ink); border: 1px solid var(--line); font-size: 12px; font-weight: 850; }
+    .hidden { display: none !important; }
+    @media (max-width: 1120px) {
+      .layout { grid-template-columns: 1fr; }
+      .preview-card { position: static; }
+      .topbar { flex-direction: column; }
+      .top-actions { min-width: 0; justify-content: flex-start; }
+    }
+    @media (max-width: 760px) {
+      .app-shell { width: min(100% - 20px, 1500px); padding-top: 16px; }
+      .grid-2, .grid-3, .grid-4, .inline-row, .calc-grid, .meta-row.two, .meta-row.three { grid-template-columns: 1fr; }
+      .checkbox-grid { grid-template-columns: 1fr; }
+      .quote-paper { padding: 8px; }
+      .quote-page { padding: 16px 16px 44px; min-height: auto; }
+      .quote-line { grid-template-columns: 1fr; }
+      .quote-amount { text-align: left; }
+      .discount-wrap { grid-template-columns: 1fr; }
+    }
+    @media print {
+      body { background: #fff; }
+      .no-print, .topbar, .panel:not(.print-panel), .footer-note { display: none !important; }
+      .app-shell { width: 100%; padding: 0; }
+      .layout { display: block; }
+      .preview-card { position: static; box-shadow: none; border: 0; }
+      .print-panel { border: 0; box-shadow: none; }
+      .print-panel .panel-header { display: none; }
+      .print-panel .panel-body { padding: 0; }
+      .quote-paper { border: 0; box-shadow: none; border-radius: 0; padding: 0; background: #fff; }
+      .quote-page { border: 0; border-radius: 0; width: 210mm; min-height: 297mm; height: 297mm; padding: 18mm 18mm 24mm; page-break-after: always; break-after: page; overflow: hidden; }
+      .quote-page + .quote-page { margin-top: 0; }
+      .quote-page:last-child { page-break-after: auto; break-after: auto; }
+      @page { size: A4; margin: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <div class="topbar no-print">
+      <div>
+        <p class="brand-kicker">HAEDURIO ADMIN PROTOTYPE v6</p>
+        <h1>해드리오 관리자 견적 빌더</h1>
+        <p class="lead">관리자는 메인 분류, 실제 작업시간, 수행 수단, 현장/온라인 성격, 처리 기한, 실비 예치금을 조합해 견적서를 만들고, PDF 인쇄 시 한국어 견적서와 영어 견적서가 각각 필요한 만큼 여러 페이지로 나뉘어 출력된다.</p>
+      </div>
+      <div class="top-actions">
+        <button class="btn secondary" id="loadSampleBtn">오픈런 예시 불러오기</button>
+        <button class="btn secondary" id="saveBtn">임시 저장</button>
+        <button class="btn secondary" id="loadBtn">저장 불러오기</button>
+        <button class="btn secondary" id="exportJsonBtn">JSON 내보내기</button>
+        <button class="btn accent" id="printBtn">PDF 저장/인쇄</button>
+        <button class="btn danger" id="resetBtn">초기화</button>
+      </div>
+    </div>
+
+    <div class="layout">
+      <section class="panel no-print">
+        <div class="panel-header">
+          <h2>견적 입력</h2>
+          <p>상담은 0달러로 고정한다. 온라인/현장 성격에 따라 작업시간 단가와 실패 시 환불 기준이 달라진다.</p>
+        </div>
+        <div class="panel-body">
+          <div class="grid-3">
+            <div class="field">
+              <label for="quoteNo">견적번호</label>
+              <input id="quoteNo" type="text" />
+            </div>
+            <div class="field">
+              <label for="quoteDate">작성일</label>
+              <input id="quoteDate" type="date" />
+            </div>
+            <div class="field">
+              <label for="validUntil">유효기한</label>
+              <input id="validUntil" type="date" />
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top:12px;">
+            <div class="field">
+              <label for="customerName">고객명 / 닉네임</label>
+              <input id="customerName" type="text" placeholder="예: Anna / @anna_travel" />
+            </div>
+            <div class="field">
+              <label for="contactChannel">연락 채널</label>
+              <input id="contactChannel" type="text" placeholder="예: Instagram DM, WhatsApp, Email" />
+            </div>
+          </div>
+
+          <div class="field" style="margin-top:12px;">
+            <label for="requestSummary">요청 요약</label>
+            <textarea id="requestSummary" placeholder="내용이 없으면 PDF에서 요청 요약란은 표시하지 않습니다."></textarea>
+          </div>
+          <div class="field" style="margin-top:12px;">
+            <label for="requestSummaryEn">요청 요약 영문 선택 입력</label>
+            <textarea id="requestSummaryEn" placeholder="영어 페이지에 따로 표시할 요청 요약. 비워두면 한국어 요약을 그대로 사용합니다."></textarea>
+          </div>
+
+          <div class="section-title">운영 태그 / KPI 기록</div>
+          <div class="grid-3">
+            <div class="field">
+              <label for="acquisitionChannel">유입 채널</label>
+              <input id="acquisitionChannel" type="text" placeholder="예: Instagram, Google, Hotel partner" />
+              <span class="hint">주문번호 기준으로 문의→결제 전환을 보기 위한 내부 기록. PDF에는 표시하지 않는다.</span>
+            </div>
+            <div class="field">
+              <label for="quoteStatus">견적 상태</label>
+              <select id="quoteStatus">
+                <option value="draft">작성 중</option>
+                <option value="sent">견적 발송</option>
+                <option value="paid">결제 완료</option>
+                <option value="declined">고객 이탈</option>
+                <option value="refunded">환불/정산 완료</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="inquiryTags">문의 태그</label>
+              <input id="inquiryTags" type="text" placeholder="예: 무료원격, 현장, 긴급, 구매, 배송, 가격이탈" />
+              <span class="hint">쉼표로 구분해 기록하면 추후 문의당 기여이익과 전환율 분석에 쓸 수 있다.</span>
+            </div>
+          </div>
+
+          <div class="section-title">환율 / 예치금 설정</div>
+          <div class="grid-3">
+            <div class="field">
+              <label for="usdKrwRate">1달러 환율 입력</label>
+              <input id="usdKrwRate" type="number" min="1" step="0.01" />
+              <span class="hint">실비 예치금은 한화로 입력하고, 이 환율로 달러 환산한다.</span>
+            </div>
+            <div class="field">
+              <label for="rateDate">환율 기준일</label>
+              <input id="rateDate" type="date" />
+            </div>
+            <div class="field">
+              <label for="fxBufferPercent">예치금 환산 버퍼(%)</label>
+              <input id="fxBufferPercent" type="number" min="0" max="10" step="0.1" />
+              <span class="hint">환전·PayPal·환불 오차에 대비해 실비 예치금의 달러 환산액에 가산한다. 기본 1.5%.</span>
+            </div>
+            <div class="field">
+              <label for="depositRounding">예치금 달러 반올림</label>
+              <select id="depositRounding">
+                <option value="ceil">올림</option>
+                <option value="round">반올림</option>
+                <option value="none">소수점 표시</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="warn-note">
+            실패 시 환불액은 견적 단계의 <b>예상 환불 가능액</b>이다. 온라인만으로 진행되는 항목은 실패 시 서비스비 100% 환불 기준이고, 현장 이동·픽업·오픈런·대기·동행이 조금이라도 들어가면 현장 착수 비용을 차감하는 기준으로 계산한다.
+          </div>
+
+          <div class="section-title">기본 상담 항목</div>
+          <div class="item-card">
+            <div class="item-head">
+              <div class="item-head-title">
+                <span class="item-no">0번 항목</span>
+                <strong>무료 상담</strong>
+              </div>
+              <strong>$0</strong>
+            </div>
+            <div class="item-body">
+              <p class="hint" style="margin:0;">가능 여부 확인, 요청 범위 정리, 견적서 작성 전 상담은 무료로 표시한다.</p>
+            </div>
+          </div>
+
+          <div class="section-title">견적 항목</div>
+          <div id="itemsContainer"></div>
+          <button class="btn accent" id="addItemBtn" style="margin-top:14px; width:100%;">견적 항목 추가</button>
+        </div>
+      </section>
+
+      <section class="panel preview-card print-panel">
+        <div class="panel-header no-print">
+          <h2>고객용 견적서 미리보기</h2>
+          <p>PDF 저장/인쇄 시 한국어 견적서와 영어 견적서가 각각 필요한 만큼 여러 페이지로 나뉘어 출력된다. v7은 견적서 undefined 제거, 환율 정보 비노출, 유효기한 행 분리, 긴 문서 페이지 분할을 보강했다.</p>
+        </div>
+        <div class="panel-body">
+          <div class="quote-paper" id="quotePreview"></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const usdCurrency = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+    const usdCurrencyDecimal = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 });
+    const krwCurrency = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW', maximumFractionDigits: 0 });
+
+    const workTimeLabels = {
+      '0.25': '15분 이내',
+      '0.5': '30분 이내',
+      '1': '1시간 이내',
+      '2': '2시간 이내',
+      '3': '3시간 이내',
+      '4': '4시간 이내',
+      'custom': '직접 입력'
+    };
+
+    const categoryConfig = {
+      remote: {
+        label: '디지털 / 원격',
+        labelEn: 'Digital / Remote',
+        base: 0,
+        subtasks: ['간단 확인', '예약 / 문의', '전화 / 메시지 문의', '리서치 / 비교', '여행 계획 작성', '짧은 번역 / 답장 작성', '기타 직접 입력'],
+        subtaskEn: {
+          '간단 확인': 'Simple check', '예약 / 문의': 'Reservation / inquiry', '전화 / 메시지 문의': 'Phone / message inquiry', '리서치 / 비교': 'Research / comparison', '여행 계획 작성': 'Travel planning', '짧은 번역 / 답장 작성': 'Short translation / reply writing', '기타 직접 입력': 'Custom task'
+        },
+        workFees: { '0.25': 0, '0.5': 6, '1': 14, '2': 34, '3': 54, '4': 74, customHourly: 20 },
+        methods: ['onlineSearch', 'onlineBooking', 'chatMessage', 'phoneCall', 'email', 'koreanForm', 'repeatContact'],
+        conditions: ['multiCompareSmall', 'reservationChangeSmall']
+      },
+      buying: {
+        label: '구매 / 소싱',
+        labelEn: 'Buying / Sourcing',
+        base: 8,
+        subtasks: ['온라인 구매', '현장 구매', '특정 상품 찾기', '한정판 상품 구매', '중고거래 확인', '기타 직접 입력'],
+        subtaskEn: {
+          '온라인 구매': 'Online purchase', '현장 구매': 'In-person purchase', '특정 상품 찾기': 'Specific item sourcing', '한정판 상품 구매': 'Limited item purchase', '중고거래 확인': 'Second-hand item check', '기타 직접 입력': 'Custom task'
+        },
+        workFees: { '0.25': 0, '0.5': 6, '1': 14, '2': 34, '3': 54, '4': 74, customHourly: 20 },
+        fieldWorkFees: { '0.25': 18, '0.5': 18, '1': 36, '2': 72, '3': 108, '4': 144, customHourly: 36 },
+        methods: ['onlineSearch', 'onlineBooking', 'chatMessage', 'phoneCall', 'fieldVisitPaid', 'photoCheckFree'],
+        conditions: ['limitedStockNoFee', 'multiCompareSmall', 'productCheck']
+      },
+      shipping: {
+        label: '배송 / 보관',
+        labelEn: 'Package / Shipping',
+        base: 8,
+        subtasks: ['택배 수령', '국내 재발송', '해외 배송', '재포장', '단기 보관', '기타 직접 입력'],
+        subtaskEn: {
+          '택배 수령': 'Package receiving', '국내 재발송': 'Domestic re-shipping', '해외 배송': 'International shipping', '재포장': 'Repacking', '단기 보관': 'Short-term storage', '기타 직접 입력': 'Custom task'
+        },
+        workFees: { '0.25': 5, '0.5': 5, '1': 10, '2': 22, '3': 36, '4': 50, customHourly: 14 },
+        methods: ['parcelSend', 'internationalSend', 'chatMessage'],
+        conditions: ['repacking', 'storage', 'productCheck', 'handoff']
+      },
+      onsite: {
+        label: '서울 현장',
+        labelEn: 'Seoul On-site',
+        base: 25,
+        subtasks: ['현장 픽업', '현장 방문', '현장 전달', '현장 확인', '현장 구매', '공항 / 역 관련 업무', '기타 직접 입력'],
+        subtaskEn: {
+          '현장 픽업': 'On-site pickup', '현장 방문': 'On-site visit', '현장 전달': 'On-site delivery', '현장 확인': 'On-site check', '현장 구매': 'In-person purchase', '공항 / 역 관련 업무': 'Airport / station task', '기타 직접 입력': 'Custom task'
+        },
+        workFees: { '0.25': 18, '0.5': 18, '1': 36, '2': 72, '3': 108, '4': 144, customHourly: 36 },
+        methods: ['quickConnect', 'chatMessage'],
+        conditions: ['openRun', 'queue', 'extraPlace', 'handoff', 'limitedStockNoFee', 'productCheck', 'casualLanguage']
+      },
+      urgent: {
+        label: '긴급 / 분실물',
+        labelEn: 'Urgent / Lost Item',
+        base: 0,
+        subtasks: [
+          { label: '분실물 확인', labelEn: 'Lost item check', group: '온라인', groupEn: 'Online', fee: 15 },
+          { label: '긴급 전화 문의', labelEn: 'Urgent phone inquiry', group: '온라인', groupEn: 'Online', fee: 15 },
+          { label: '분실물 회수', labelEn: 'Lost item pickup', group: '현장', groupEn: 'On-site', fee: 55 },
+          { label: '당일 긴급 전달', labelEn: 'Same-day urgent delivery', group: '현장', groupEn: 'On-site', fee: 65 },
+          { label: '긴급 현장 방문', labelEn: 'Urgent on-site visit', group: '현장', groupEn: 'On-site', fee: 65 },
+          { label: '기타 직접 입력', labelEn: 'Custom task', group: '직접 입력', groupEn: 'Custom', fee: 0 }
+        ],
+        workFees: { online: { '0.25': 10, '0.5': 18, '1': 34, '2': 68, '3': 102, '4': 136, customHourly: 34 }, field: { '0.25': 30, '0.5': 30, '1': 60, '2': 110, '3': 160, '4': 210, customHourly: 50 } },
+        methods: ['phoneCall', 'quickConnectUrgent', 'chatMessage', 'photoCheckFree'],
+        conditions: ['extraPlace', 'casualLanguage']
+      },
+      companion: {
+        label: '동행 / 복잡한 업무',
+        labelEn: 'Companion / Complex Help',
+        base: 25,
+        subtasks: ['병원 동행', '행정 동행', '쇼핑 동행', '복잡한 현장 업무', '기타 직접 입력'],
+        subtaskEn: {
+          '병원 동행': 'Hospital companion', '행정 동행': 'Administrative companion', '쇼핑 동행': 'Shopping companion', '복잡한 현장 업무': 'Complex on-site task', '기타 직접 입력': 'Custom task'
+        },
+        workFees: { '0.25': 18, '0.5': 18, '1': 36, '2': 72, '3': 108, '4': 144, customHourly: 36 },
+        methods: ['phoneCall', 'koreanForm', 'chatMessage'],
+        conditions: ['extraPlace', 'casualLanguage']
+      },
+      language: {
+        label: '번역 / 통역 전문',
+        labelEn: 'Translation / Interpretation',
+        base: 0,
+        subtasks: ['일반 문서 번역', '전문 문서 번역', '원격 실시간 통역', '현장 통역', '기타 직접 입력'],
+        subtaskEn: {
+          '일반 문서 번역': 'General document translation', '전문 문서 번역': 'Professional document translation', '원격 실시간 통역': 'Remote live interpretation', '현장 통역': 'On-site interpretation', '기타 직접 입력': 'Custom language task'
+        },
+        workFees: { document: { '0.25': 0, '0.5': 0, '1': 0, '2': 0, '3': 0, '4': 0, customHourly: 0 }, remoteLive: { '0.25': 20, '0.5': 20, '1': 40, '2': 80, '3': 120, '4': 160, customHourly: 40 }, fieldLive: { '0.25': 60, '0.5': 60, '1': 60, '2': 120, '3': 180, '4': 240, customHourly: 60 } },
+        methods: ['phoneCall', 'chatMessage', 'koreanForm'],
+        conditions: ['extraPlace']
+      }
+    };
+
+    const methodOptions = {
+      onlineSearch: { label: '온라인 검색', labelEn: 'Online search', fee: 0 },
+      onlineBooking: { label: '온라인 예약 / 앱 사용', labelEn: 'Online booking / app use', fee: 0 },
+      chatMessage: { label: '채팅 / 메시지 문의', labelEn: 'Chat / message inquiry', fee: 0 },
+      phoneCall: { label: '전화 문의', labelEn: 'Phone inquiry', fee: 0 },
+      email: { label: '이메일 문의', labelEn: 'Email inquiry', fee: 0 },
+      koreanForm: { label: '한국어 양식 작성', labelEn: 'Korean form entry', fee: 0 },
+      repeatContact: { label: '반복 연락 필요', labelEn: 'Repeated follow-up', fee: 3 },
+      fieldVisitPaid: { label: '현장 방문 필요', labelEn: 'Field visit required', fee: 10 },
+      quickConnect: { label: '퀵서비스 연결', labelEn: 'Quick-service arrangement', fee: 5 },
+      quickConnectUrgent: { label: '퀵서비스 연결', labelEn: 'Quick-service arrangement', fee: 10 },
+      parcelSend: { label: '국내 택배 접수', labelEn: 'Domestic parcel drop-off', fee: 5 },
+      internationalSend: { label: '해외배송 접수', labelEn: 'International shipping drop-off', fee: 10 },
+      photoCheckFree: { label: '사진 확인 / 공유', labelEn: 'Photo check / sharing', fee: 0 }
+    };
+
+    const conditionOptions = {
+      multiCompareSmall: { label: '여러 곳 비교', labelEn: 'Multiple options comparison', fee: 3 },
+      reservationChangeSmall: { label: '예약 변경 / 취소 포함', labelEn: 'Reservation change / cancellation included', fee: 3 },
+      limitedStockNoFee: { label: '한정판 / 재고 불확실', labelEn: 'Limited stock / uncertain availability', fee: 0 },
+      productCheck: { label: '상품 검수', labelEn: 'Item inspection', fee: 5 },
+      repacking: { label: '재포장', labelEn: 'Repacking', fee: 8 },
+      storage: { label: '7일 초과 보관', labelEn: 'Storage over 7 days', fee: 0 },
+      openRun: { label: '오픈런', labelEn: 'Open-run early arrival', fee: 100 },
+      queue: { label: '줄서기 / 현장 대기', labelEn: 'Queueing / on-site waiting', fee: 0 },
+      extraPlace: { label: '추가 장소 / 경유지', labelEn: 'Additional stop / location', fee: 0 },
+      handoff: { label: '호텔 / 로비 핸드오프', labelEn: 'Hotel / lobby handoff', fee: 5 },
+      casualLanguage: { label: '일반 언어 보조', labelEn: 'Casual language support', fee: 20 }
+    };
+
+    const zoneOptions = {
+      core: { label: '서울 중심/기본권', labelEn: 'Central Seoul / base zone', fee: 0 },
+      generalSeoul: { label: '서울 일반권', labelEn: 'General Seoul zone', fee: 10 },
+      outerSeoul: { label: '서울 외곽 / 이동 긴 지역', labelEn: 'Outer Seoul / long travel zone', fee: 20 },
+      airportMetro: { label: '공항 / 수도권 일부', labelEn: 'Airport / nearby metro area', fee: 35 },
+      outsideManual: { label: '서울 외 장거리 즉시출동: 수동 승인', labelEn: 'Long-distance outside Seoul: manual approval', fee: 0 }
+    };
+
+    const bulkyOptions = {
+      none: { label: '해당 없음', labelEn: 'None', fee: 0 },
+      bulky10: { label: '10~20kg 또는 부피 큰 물품', labelEn: '10–20kg or bulky item', fee: 10 },
+      heavy20: { label: '20kg 초과 또는 2인 필요', labelEn: 'Over 20kg or two-person handling', fee: 25 },
+      manual: { label: '중량/파손위험/차량 필요: 수동 견적', labelEn: 'Heavy/fragile/vehicle required: manual quote', fee: 0 }
+    };
+
+    const riskOptions = {
+      stockUncertain: '재고, 예약 가능 여부, 현장 입장 가능 여부가 불확실함',
+      thirdParty: '업체, 기관, 배송사, 현장 운영 정책에 따라 결과가 달라질 수 있음',
+      customerCancel: '고객 변심, 노쇼, 예약처 취소 수수료가 발생할 수 있음',
+      identityRequired: '본인 인증, 신분증, 계정 로그인 등으로 진행이 제한될 수 있음',
+      attemptWork: '구매/예약 실패 시에도 이미 수행한 연락, 이동, 대기, 조사 비용은 정산될 수 있음',
+      manualApproval: '본 항목은 자동 견적이 아니라 수동 승인 후 진행해야 함',
+      identitySensitive: '본인 인증, 신분증, 명의 확인, 계정 로그인 등 민감 절차가 있을 수 있음',
+      namedTicket: '명의 일치가 엄격한 티켓/입장권/재판매 관련 업무는 제한될 수 있음',
+      regulatedItem: '통신, 금융, 처방약, 약품, 정부 민원, 법률·의료 고위험 설명은 진행 제한 또는 전문 서비스가 필요할 수 있음',
+      heavyRisk: '중량물, 파손위험 물품, 차량 또는 2인 이상이 필요한 업무는 수동 견적 또는 진행 제한 대상임',
+      outsideSeoulRisk: '서울 외 장거리 또는 즉시출동은 가능 여부와 비용을 별도 승인해야 함'
+    };
+    const riskOptionsEn = {
+      stockUncertain: 'Stock, booking availability, or entry availability may be uncertain.',
+      thirdParty: 'The result may depend on the policy of stores, venues, institutions, shipping companies, or on-site operators.',
+      customerCancel: 'Customer cancellation, no-show fees, or cancellation fees from third parties may apply.',
+      identityRequired: 'Identity verification, ID, account login, or customer-only authentication may restrict the process.',
+      attemptWork: 'Even if purchase/booking fails, already performed contact, travel, waiting, or research work may be settled.',
+      manualApproval: 'This item requires manual approval instead of automatic quoting.',
+      identitySensitive: 'Identity verification, ID, name matching, or account login may be required and may restrict the process.',
+      namedTicket: 'Name-matched tickets, admission passes, or resale-related tasks may be restricted.',
+      regulatedItem: 'Telecom, finance, prescription/medicine, government, legal, or high-risk medical explanation tasks may be restricted or require a professional service.',
+      heavyRisk: 'Heavy, bulky, fragile, vehicle-required, or two-person tasks may require a manual quote or may be restricted.',
+      outsideSeoulRisk: 'Long-distance or urgent support outside Seoul requires separate approval and pricing.'
+    };
+
+    const deadlineOptions = {
+      relaxed: { label: '시간 제한 없음', labelEn: 'No strict deadline', factor: 1 },
+      within48: { label: '48시간 이내', labelEn: 'Within 48 hours', factor: 1.1 },
+      within24: { label: '24시간 이내', labelEn: 'Within 24 hours', factor: 1.20 },
+      sameday: { label: '당일 처리', labelEn: 'Same-day handling', factor: 1.35 },
+      within3: { label: '3시간 이내', labelEn: 'Within 3 hours', factor: 1.60 }
+    };
+
+    const timeModeOptions = {
+      charge: '작업시간 공임 청구',
+      noChargeParallel: '동시 작업이라 작업시간 공임 제외',
+      queueIncluded: '줄서기/대기 안에 포함되어 작업시간 공임 제외'
+    };
+    const timeModeOptionsEn = {
+      charge: 'Work-time labor fee charged',
+      noChargeParallel: 'Work-time labor excluded because it overlaps with another task',
+      queueIncluded: 'Work-time labor excluded because it is included in queueing/waiting'
+    };
+
+    const settlementOptions = {
+      normal: '일반 정산: 미사용 실비 환불, 착수 서비스비 환불 제한',
+      resultBased: '결과 달성형: 결과 미달성 시 해당 항목 서비스비 정산 검토',
+      attemptBased: '수행 시도형: 결과와 별개로 실제 수행분은 정산'
+    };
+    const settlementOptionsEn = {
+      normal: 'General settlement: unused actual-cost deposit may be refunded; started service fees may be limited.',
+      resultBased: 'Result-based: if the result is not achieved, the service fee for the item may be reviewed.',
+      attemptBased: 'Attempt-based: actual work performed may be settled regardless of the final result.'
+    };
+
+    const state = {
+      quoteNo: '', quoteDate: '', validUntil: '', customerName: '', contactChannel: '', requestSummary: '', requestSummaryEn: '',
+      acquisitionChannel: '', quoteStatus: 'draft', inquiryTags: '',
+      usdKrwRate: 1553, rateDate: '', fxBufferPercent: 1.5, depositRounding: 'ceil', items: []
+    };
+
+    const $ = (selector) => document.querySelector(selector);
+    const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+
+    function todayISO(offsetDays = 0) {
+      const d = new Date();
+      d.setDate(d.getDate() + offsetDays);
+      return d.toISOString().slice(0, 10);
+    }
+    function generateQuoteNo() {
+      const d = new Date();
+      const y = d.getFullYear(); const m = String(d.getMonth() + 1).padStart(2, '0'); const day = String(d.getDate()).padStart(2, '0');
+      const hh = String(d.getHours()).padStart(2, '0'); const mm = String(d.getMinutes()).padStart(2, '0');
+      return `HDR-${y}${m}${day}-${hh}${mm}`;
+    }
+    function uid() { return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`; }
+
+    function getSubtaskLabels(category) {
+      const raw = categoryConfig[category]?.subtasks || categoryConfig.remote.subtasks;
+      return raw.map(item => typeof item === 'string' ? item : item.label);
+    }
+    function getSubtaskObject(item) {
+      const cfg = categoryConfig[item.category] || categoryConfig.remote;
+      return (cfg.subtasks || []).find(s => typeof s !== 'string' && s.label === item.subtask);
+    }
+    function getSubtaskFee(item) { return getSubtaskObject(item)?.fee || 0; }
+    function getSubtaskGroup(item) { return getSubtaskObject(item)?.group || ''; }
+    function getSubtaskGroupEn(item) { return getSubtaskObject(item)?.groupEn || ''; }
+    function subtaskLabelEn(item) {
+      const cfg = categoryConfig[item.category] || categoryConfig.remote;
+      const obj = getSubtaskObject(item);
+      if (obj?.labelEn) return obj.labelEn;
+      const subtask = item.subtask === '기타 직접 입력' && item.customSubtask ? item.customSubtask : item.subtask;
+      return cfg.subtaskEn?.[subtask] || subtask;
+    }
+
+    function defaultFreeRemoteChecks() {
+      return {
+        singleTarget: false,
+        oneContact: false,
+        noRepeat: false,
+        noPayment: false,
+        noProfessionalLanguage: false,
+        noIdentitySensitive: false
+      };
+    }
+
+    function defaultItem(category = 'remote') {
+      const firstSubtask = getSubtaskLabels(category)[0];
+      const item = {
+        id: uid(), titleAuto: true, customerTitle: '', customerTitleEn: '', customerDescription: '', customerDescriptionEn: '',
+        category, subtask: firstSubtask, customSubtask: '', workTime: category === 'remote' ? '0.25' : '0.5', customHours: 1, wordCount: 400, timeMode: 'charge', parallelGroup: '',
+        selectedMethods: [], selectedConditions: [], selectedRisks: [], settlementType: 'normal', deadline: 'relaxed', night: false, fixedTime: false, fixedTimeKst: '',
+        queueHours: 0, extraPlaceCount: 0, storageDays: 0, zoneLevel: 'core', bulkyLevel: 'none', freeRemoteChecks: defaultFreeRemoteChecks(),
+        productDepositKrw: 0, reservationDepositKrw: 0, shippingDepositKrw: 0, quickTaxiDepositKrw: 0, otherDepositKrw: 0,
+        discountPercent: 0, manualAdjustUsd: 0, internalMemo: ''
+      };
+      item.customerTitle = makeAutoTitle(item);
+      item.customerTitleEn = makeAutoTitleEn(item);
+      return item;
+    }
+    function normalizeItem(item) {
+      const merged = { ...defaultItem(item?.category || 'remote'), ...(item || {}) };
+      if (!merged.id) merged.id = uid();
+      if (!Array.isArray(merged.selectedMethods)) merged.selectedMethods = [];
+      if (!Array.isArray(merged.selectedConditions)) merged.selectedConditions = [];
+      if (!Array.isArray(merged.selectedRisks)) merged.selectedRisks = [];
+      merged.freeRemoteChecks = { ...defaultFreeRemoteChecks(), ...(item?.freeRemoteChecks || {}) };
+      if (!merged.zoneLevel) merged.zoneLevel = 'core';
+      if (!merged.bulkyLevel) merged.bulkyLevel = 'none';
+      if (merged.titleAuto && !merged.customerTitle) merged.customerTitle = makeAutoTitle(merged);
+      if (!merged.customerTitleEn) merged.customerTitleEn = makeAutoTitleEn(merged);
+      return merged;
+    }
+
+    function init() {
+      state.quoteNo = generateQuoteNo(); state.quoteDate = todayISO(); state.validUntil = todayISO(7); state.rateDate = todayISO();
+      bindGlobalInputs(); addItem(defaultItem('remote')); renderAll();
+    }
+
+    function bindGlobalInputs() {
+      ['quoteNo','quoteDate','validUntil','customerName','contactChannel','requestSummary','requestSummaryEn','acquisitionChannel','quoteStatus','inquiryTags','usdKrwRate','rateDate','fxBufferPercent','depositRounding'].forEach(key => {
+        const el = $('#' + key); if (!el) return;
+        const handler = () => { state[key] = el.type === 'number' ? Number(el.value || 0) : el.value; renderPreview(); };
+        el.addEventListener('input', handler); el.addEventListener('change', handler);
+      });
+      $('#addItemBtn').addEventListener('click', () => { addItem(defaultItem('remote')); renderAll(); });
+      $('#printBtn').addEventListener('click', () => window.print());
+      $('#loadSampleBtn').addEventListener('click', loadOpenRunSample);
+      $('#resetBtn').addEventListener('click', () => {
+        if (!confirm('입력 내용을 초기화할까요?')) return;
+        state.quoteNo = generateQuoteNo(); state.quoteDate = todayISO(); state.validUntil = todayISO(7); state.customerName = ''; state.contactChannel = ''; state.requestSummary = ''; state.requestSummaryEn = ''; state.acquisitionChannel = ''; state.quoteStatus = 'draft'; state.inquiryTags = ''; state.usdKrwRate = 1553; state.rateDate = todayISO(); state.fxBufferPercent = 1.5; state.depositRounding = 'ceil'; state.items = [defaultItem('remote')]; renderAll();
+      });
+      $('#saveBtn').addEventListener('click', () => { syncHeaderFromInputs(); localStorage.setItem('haedurioQuoteBuilderV6', JSON.stringify(state)); alert('브라우저에 임시 저장했습니다.'); });
+      $('#loadBtn').addEventListener('click', () => {
+        const saved = localStorage.getItem('haedurioQuoteBuilderV6'); if (!saved) return alert('저장된 내용이 없습니다.');
+        const parsed = JSON.parse(saved); Object.assign(state, parsed); state.items = (state.items || []).map(normalizeItem); renderAll();
+      });
+      $('#exportJsonBtn').addEventListener('click', () => {
+        syncHeaderFromInputs();
+        const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `${state.quoteNo || 'haedurio-quote'}.json`; a.click(); URL.revokeObjectURL(url);
+      });
+    }
+    function syncHeaderFromInputs() {
+      ['quoteNo','quoteDate','validUntil','customerName','contactChannel','requestSummary','requestSummaryEn','acquisitionChannel','quoteStatus','inquiryTags','usdKrwRate','rateDate','fxBufferPercent','depositRounding'].forEach(key => {
+        const el = $('#' + key); if (el) state[key] = el.type === 'number' ? Number(el.value || 0) : el.value;
+      });
+    }
+    function renderHeaderInputs() {
+      ['quoteNo','quoteDate','validUntil','customerName','contactChannel','requestSummary','requestSummaryEn','acquisitionChannel','quoteStatus','inquiryTags','usdKrwRate','rateDate','fxBufferPercent','depositRounding'].forEach(key => {
+        const el = $('#' + key); if (el && el.value !== String(state[key] ?? '')) el.value = state[key] ?? '';
+      });
+    }
+    function addItem(item) { state.items.push(normalizeItem(item)); }
+    function removeItem(id) { state.items = state.items.filter(item => item.id !== id); renderAll(); }
+    function duplicateItem(id) {
+      const found = state.items.find(item => item.id === id); if (!found) return;
+      const copy = JSON.parse(JSON.stringify(found)); copy.id = uid(); copy.customerTitle = `${copy.customerTitle} 복사`; copy.customerTitleEn = `${copy.customerTitleEn || makeAutoTitleEn(copy)} copy`; copy.titleAuto = false; state.items.push(normalizeItem(copy)); renderAll();
+    }
+    function renderAll() { renderHeaderInputs(); renderItems(); renderPreview(); }
+    function renderItems() {
+      const container = $('#itemsContainer');
+      if (!state.items.length) { container.innerHTML = '<div class="empty-state">아직 추가된 견적 항목이 없습니다.</div>'; return; }
+      container.innerHTML = state.items.map((item, index) => renderItemCard(item, index)).join(''); bindItemEvents();
+    }
+
+    function renderItemCard(item, index) {
+      const calc = calculateItem(item); const config = categoryConfig[item.category] || categoryConfig.remote; const subtaskLabels = getSubtaskLabels(item.category);
+      if (!subtaskLabels.includes(item.subtask)) item.subtask = subtaskLabels[0];
+      const subtaskOptions = subtaskLabels.map(s => `<option value="${escapeAttr(s)}" ${item.subtask === s ? 'selected' : ''}>${escapeHtml(s)}${getSubtaskOptionSuffix(item.category, s)}</option>`).join('');
+      const categoryOptions = Object.entries(categoryConfig).map(([key, cfg]) => `<option value="${key}" ${item.category === key ? 'selected' : ''}>${cfg.label}</option>`).join('');
+      const workOptions = Object.entries(workTimeLabels).map(([key, label]) => {
+        const fee = getWorkTimeFee(item.category, key, item.customHours, true, item); const suffix = key === 'custom' ? '' : ` / ${usdCurrency.format(fee)}`;
+        return `<option value="${key}" ${item.workTime === key ? 'selected' : ''}>${label}${suffix}</option>`;
+      }).join('');
+      const deadlineSelect = Object.entries(deadlineOptions).map(([key, opt]) => `<option value="${key}" ${item.deadline === key ? 'selected' : ''}>${opt.label} / ×${opt.factor}</option>`).join('');
+      const timeModeSelect = Object.entries(timeModeOptions).map(([key, label]) => `<option value="${key}" ${item.timeMode === key ? 'selected' : ''}>${label}</option>`).join('');
+      const zoneSelect = Object.entries(zoneOptions).map(([key, opt]) => `<option value="${key}" ${item.zoneLevel === key ? 'selected' : ''}>${opt.label}${opt.fee ? ` / +${usdCurrency.format(opt.fee)}` : ''}</option>`).join('');
+      const bulkySelect = Object.entries(bulkyOptions).map(([key, opt]) => `<option value="${key}" ${item.bulkyLevel === key ? 'selected' : ''}>${opt.label}${opt.fee ? ` / +${usdCurrency.format(opt.fee)}` : ''}</option>`).join('');
+      const settlementSelect = Object.entries(settlementOptions).map(([key, label]) => `<option value="${key}" ${item.settlementType === key ? 'selected' : ''}>${label}</option>`).join('');
+      const methodKeys = config.methods || []; const conditionKeys = config.conditions || []; const subtaskGroup = getSubtaskGroup(item); const fieldItem = isFieldItem(item);
+      return `
+        <div class="item-card" data-id="${item.id}">
+          <div class="item-head">
+            <div class="item-head-title"><span class="item-no">${index + 1}번 항목</span><strong>${escapeHtml(item.customerTitle || makeAutoTitle(item))}</strong><span class="hint">실패 환불 기준: ${fieldItem ? '현장 착수형 일부 차감' : '온라인/원격 100% 환불'}</span></div>
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; justify-content:flex-end;"><strong class="item-total">${usdCurrency.format(calc.serviceFee)}</strong><button class="mini-btn duplicate-item" type="button">복제</button><button class="mini-btn remove-item" type="button">삭제</button></div>
+          </div>
+          <div class="item-body">
+            <div class="grid-2">
+              <div class="field"><label>고객용 표시명</label><input data-field="customerTitle" type="text" value="${escapeAttr(item.customerTitle)}" /></div>
+              <div class="field"><label>메인 분류</label><select data-field="category">${categoryOptions}</select></div>
+            </div>
+            <div class="grid-2" style="margin-top:12px;">
+              <div class="field"><label>고객용 영어 표시명</label><input data-field="customerTitleEn" type="text" value="${escapeAttr(item.customerTitleEn)}" placeholder="비워두면 자동 영문 제목 사용" /></div>
+              <div class="field"><label>세부 업무</label><select data-field="subtask">${subtaskOptions}</select>${subtaskGroup ? `<span class="hint">성격: ${escapeHtml(subtaskGroup)}${getSubtaskFee(item) ? ` / 기본 가산 ${usdCurrency.format(getSubtaskFee(item))}` : ''}</span>` : ''}</div>
+            </div>
+            <div class="field ${item.subtask === '기타 직접 입력' ? '' : 'hidden'}" style="margin-top:12px;"><label>기타 세부 업무 직접 입력</label><input data-field="customSubtask" type="text" value="${escapeAttr(item.customSubtask)}" placeholder="예: 고객 요청에 맞게 직접 입력" /></div>
+
+            <div class="section-title">작업시간 / 중복 공임</div>
+            <div class="grid-3">
+              <div class="field"><label>예상 작업시간</label><select data-field="workTime">${workOptions}</select><span class="hint">고객 대기 시간이 아니라 해드리오가 실제 처리하는 공임 시간이다.</span></div>
+              <div class="field ${item.workTime === 'custom' ? '' : 'hidden'}"><label>직접 입력 시간</label><input data-field="customHours" type="number" min="0" step="0.25" value="${numberValue(item.customHours)}" /></div>
+              <div class="field"><label>작업시간 과금 방식</label><select data-field="timeMode">${timeModeSelect}</select><span class="hint">동시 작업이나 줄서기와 겹치면 공임 제외를 선택한다.</span></div>
+            </div>
+            ${renderFreeRemoteChecklist(item)}
+            <div class="field ${item.timeMode === 'noChargeParallel' ? '' : 'hidden'}" style="margin-top:12px;"><label>동시 작업 그룹 / 중복 제외 메모</label><input data-field="parallelGroup" type="text" value="${escapeAttr(item.parallelGroup)}" placeholder="예: 오픈런 현장 대기 중 함께 처리" /></div>
+            <div class="grid-2 ${item.category === 'language' && item.subtask.includes('문서') ? '' : 'hidden'}" style="margin-top:12px;">
+              <div class="field"><label>번역 단어 수</label><input data-field="wordCount" type="number" min="0" step="1" value="${numberValue(item.wordCount)}" /><span class="hint">일반 문서 $0.10/단어, 전문 문서 $0.18/단어, 최소 $15.</span></div>
+              <div class="field"><label>번역 산정 방식</label><input type="text" value="문서 번역은 시간제가 아니라 단어 수 기준" readonly /></div>
+            </div>
+
+            <div class="section-title">수행 수단</div><div class="checkbox-grid">${methodKeys.map(key => renderCheck('method', key, methodOptions[key], item.selectedMethods.includes(key))).join('')}</div>
+            <div class="section-title">추가 조건</div><div class="checkbox-grid">${conditionKeys.map(key => renderCheck('condition', key, conditionOptions[key], item.selectedConditions.includes(key))).join('')}</div>
+
+            <div class="inline-row" style="margin-top:12px;">
+              <div class="field ${item.selectedConditions.includes('queue') ? '' : 'hidden'}"><label>줄서기 / 대기 시간</label><input data-field="queueHours" type="number" min="0" step="0.5" value="${numberValue(item.queueHours)}" /><span class="hint">1시간당 $24. 공임 시간과 겹치면 위에서 공임 제외 선택.</span></div>
+              <div class="field ${item.selectedConditions.includes('extraPlace') ? '' : 'hidden'}"><label>추가 장소 / 경유지 수</label><input data-field="extraPlaceCount" type="number" min="0" step="1" value="${numberValue(item.extraPlaceCount)}" /><span class="hint">장소당 $10</span></div>
+              <div class="field ${item.selectedConditions.includes('storage') ? '' : 'hidden'}"><label>총 보관일수</label><input data-field="storageDays" type="number" min="0" step="1" value="${numberValue(item.storageDays)}" /><span class="hint">기본 7일 포함, 8일차부터 1일당 $1</span></div>
+              <div class="field ${fieldItem ? '' : 'hidden'}"><label>이동 구역 / 장거리</label><select data-field="zoneLevel">${zoneSelect}</select><span class="hint">실제 교통비, 통행료, 주차비는 실비 예치금으로 별도 입력한다.</span></div>
+              <div class="field"><label>무게 / 부피 조건</label><select data-field="bulkyLevel">${bulkySelect}</select><span class="hint">20kg 초과·파손위험·차량 필요 업무는 수동 승인 권장.</span></div>
+              <div class="field"><label>할인율(%)</label><input data-field="discountPercent" class="discount-number" type="number" min="0" max="100" step="1" value="${numberValue(item.discountPercent)}" placeholder="예: 10" /><span class="hint">서비스비에만 적용. 숫자만 직접 입력한다.</span></div>
+            </div>
+            <div class="field" style="margin-top:12px;"><label>수동 추가/차감액($)</label><input data-field="manualAdjustUsd" type="number" step="1" value="${numberValue(item.manualAdjustUsd)}" /><span class="hint">추가금은 양수, 차감은 음수. 할인율 적용 후 마지막에 반영한다.</span></div>
+
+            <div class="section-title">처리 조건</div>
+            <div class="grid-3">
+              <div class="field"><label>처리 기한</label><select data-field="deadline">${deadlineSelect}</select></div>
+              <label class="check-pill" style="margin-top:22px;"><input data-check="night" type="checkbox" ${item.night ? 'checked' : ''} /><span>야간 / 새벽</span><span class="money-chip">×1.30</span></label>
+              <label class="check-pill" style="margin-top:22px;"><input data-check="fixedTime" type="checkbox" ${item.fixedTime ? 'checked' : ''} /><span>정확한 시간 고정</span><span class="money-chip">×1.20</span></label>
+            </div>
+            <div class="field ${item.fixedTime ? '' : 'hidden'}" style="margin-top:12px;"><label>정확한 시간 고정 내용(KST)</label><input data-field="fixedTimeKst" type="text" value="${escapeAttr(item.fixedTimeKst)}" placeholder="예: 2026-07-05 오전 9:30 KST 도착 / 10:00 구매 시도" /><span class="hint">이 내용은 고객용 견적서 설명에도 포함된다.</span></div>
+
+            <div class="section-title">실비 예치금 입력(KRW)</div>
+            <div class="grid-3">
+              <div class="field"><label>상품값</label><input data-field="productDepositKrw" type="number" min="0" step="100" value="${numberValue(item.productDepositKrw)}" /></div>
+              <div class="field"><label>예약금 / 보증금</label><input data-field="reservationDepositKrw" type="number" min="0" step="100" value="${numberValue(item.reservationDepositKrw)}" /></div>
+              <div class="field"><label>배송비 / 해외배송비</label><input data-field="shippingDepositKrw" type="number" min="0" step="100" value="${numberValue(item.shippingDepositKrw)}" /></div>
+              <div class="field"><label>퀵 / 택시 / 교통비</label><input data-field="quickTaxiDepositKrw" type="number" min="0" step="100" value="${numberValue(item.quickTaxiDepositKrw)}" /></div>
+              <div class="field"><label>기타 실비</label><input data-field="otherDepositKrw" type="number" min="0" step="100" value="${numberValue(item.otherDepositKrw)}" /></div>
+              <div class="field"><label>환산 예치금</label><input class="deposit-converted" type="text" value="${formatUsd(calc.depositUsd)} / ${krwCurrency.format(calc.depositKrw)}" readonly /></div>
+            </div>
+
+            <div class="section-title">면책 / 정산 조건</div>
+            <div class="field"><label>정산 기준</label><select data-field="settlementType">${settlementSelect}</select></div>
+            <div class="checkbox-grid" style="margin-top:10px;">${Object.entries(riskOptions).map(([key, label]) => renderRiskCheck(key, label, item.selectedRisks.includes(key))).join('')}</div>
+
+            <div class="section-title">고객용 설명 / 내부 메모</div>
+            <div class="grid-2">
+              <div class="field"><label>고객용 설명(한국어)</label><textarea data-field="customerDescription" placeholder="고객 견적서 한국어 페이지에 표시될 설명">${escapeHtml(item.customerDescription)}</textarea><div class="small-actions"><button class="mini-btn auto-title" type="button">표시명 자동 생성</button><button class="mini-btn auto-desc" type="button">설명 자동 생성</button></div></div>
+              <div class="field"><label>고객용 설명(영어)</label><textarea data-field="customerDescriptionEn" placeholder="고객 견적서 영어 페이지에 표시될 설명. 비워두면 자동 영문 설명 사용">${escapeHtml(item.customerDescriptionEn)}</textarea><div class="small-actions"><button class="mini-btn auto-title-en" type="button">영문 표시명 자동 생성</button><button class="mini-btn auto-desc-en" type="button">영문 설명 자동 생성</button></div></div>
+            </div>
+            <div class="field" style="margin-top:12px;"><label>내부 메모</label><textarea data-field="internalMemo" placeholder="고객에게 보이지 않는 메모">${escapeHtml(item.internalMemo)}</textarea></div>
+
+            <div class="calc-box"><div class="calc-grid"><div class="calc-metric"><span>서비스비 소계</span><strong class="metric-subtotal">${usdCurrency.format(calc.beforeFactor)}</strong></div><div class="calc-metric"><span>가중치</span><strong class="metric-factor">×${calc.factor.toFixed(2)}</strong></div><div class="calc-metric"><span>할인/조정 후 서비스비</span><strong class="metric-service">${usdCurrency.format(calc.serviceFee)}</strong></div><div class="calc-metric"><span>실패 시 환불 가능액</span><strong class="metric-refund">${formatUsd(calc.failureRefundTotal)}</strong></div></div><p class="hint calc-hint" style="margin:10px 0 0;">${escapeHtml(calc.failureRefundNote)} 무료 원격은 체크리스트를 모두 만족할 때만 $0이다. 오픈런은 고정 추가금, 줄서기/현장 대기는 시간당 추가금이다. 장거리/중량물/캐주얼 언어지원과 결제대행 수수료가 필요한 경우 자동 반영된다.</p></div>
+          </div>
+        </div>`;
+    }
+
+    function getSubtaskOptionSuffix(category, label) {
+      const cfg = categoryConfig[category] || categoryConfig.remote; const found = (cfg.subtasks || []).find(s => typeof s !== 'string' && s.label === label);
+      if (!found) return ''; const group = found.group ? ` / ${found.group}` : ''; const fee = found.fee ? ` / +${usdCurrency.format(found.fee)}` : ''; return `${group}${fee}`;
+    }
+    function renderCheck(type, key, option, checked) {
+      if (!option) return ''; const chipClass = option.fee ? 'money-chip' : 'money-chip zero-chip'; const chipText = option.fee ? '+' + usdCurrency.format(option.fee) : '$0';
+      return `<label class="check-pill"><input data-${type}="${key}" type="checkbox" ${checked ? 'checked' : ''} /><span>${escapeHtml(option.label)}</span><span class="${chipClass}">${chipText}</span></label>`;
+    }
+    function renderRiskCheck(key, label, checked) {
+      return `<label class="check-pill"><input data-risk="${key}" type="checkbox" ${checked ? 'checked' : ''} /><span>${escapeHtml(label)}</span><span class="money-chip zero-chip">정책</span></label>`;
+    }
+
+    function renderFreeRemoteChecklist(item) {
+      if (item.category !== 'remote' || item.workTime !== '0.25') return '';
+      const checks = item.freeRemoteChecks || defaultFreeRemoteChecks();
+      const rows = [
+        ['singleTarget', '단일 업체/기관 1곳에 대한 문의'],
+        ['oneContact', '1회 전화 또는 하나의 메시지 스레드로 끝날 가능성이 높음'],
+        ['noRepeat', '예약 변경/취소, 반복 연락, 재시도 필요 없음'],
+        ['noPayment', '결제대행, 선결제, 환불 책임 없음'],
+        ['noProfessionalLanguage', '문서 작성, 전문 번역/통역, 실시간 동행 통역이 아님'],
+        ['noIdentitySensitive', '본인 인증, 티켓 명의, 금융/통신/약품 등 고위험 업무가 아님']
+      ];
+      const eligible = isFreeRemoteEligible(item);
+      return `<div class="warn-note" style="margin-top:12px;"><b>무료 Quick Remote 체크리스트</b><br>아래 조건을 모두 만족해야 15분 이내 원격 작업을 $0으로 둘 수 있습니다. 하나라도 빠지면 유료 원격 $6 기준으로 계산됩니다.<div class="checkbox-grid" style="margin-top:10px;">${rows.map(([key, label]) => `<label class="check-pill"><input data-free-check="${key}" type="checkbox" ${checks[key] ? 'checked' : ''} /><span>${escapeHtml(label)}</span><span class="money-chip ${eligible ? 'zero-chip' : ''}">${checks[key] ? '확인' : '미확인'}</span></label>`).join('')}</div></div>`;
+    }
+
+    const numberFields = new Set(['customHours','wordCount','queueHours','extraPlaceCount','storageDays','productDepositKrw','reservationDepositKrw','shippingDepositKrw','quickTaxiDepositKrw','otherDepositKrw','discountPercent','manualAdjustUsd']);
+    const liveCalcFields = new Set(['customHours','wordCount','queueHours','extraPlaceCount','storageDays','productDepositKrw','reservationDepositKrw','shippingDepositKrw','quickTaxiDepositKrw','otherDepositKrw','discountPercent','manualAdjustUsd']);
+    function bindItemEvents() {
+      $$('.item-card[data-id]').forEach((card, index) => {
+        const id = card.dataset.id; const item = state.items.find(x => x.id === id); if (!item) return;
+        const removeBtn = card.querySelector('.remove-item'); const duplicateBtn = card.querySelector('.duplicate-item');
+        if (removeBtn) removeBtn.addEventListener('click', () => removeItem(id)); if (duplicateBtn) duplicateBtn.addEventListener('click', () => duplicateItem(id));
+        card.querySelectorAll('[data-field]').forEach(el => {
+          const handler = (event) => {
+            const field = el.dataset.field; const prevAutoTitle = item.titleAuto;
+            item[field] = numberFields.has(field) ? Number(el.value || 0) : el.value;
+            if (field === 'customerTitle') item.titleAuto = false;
+            if (field === 'customerTitleEn') item.customerTitleEnAuto = false;
+            if (field === 'category') {
+              item.subtask = getSubtaskLabels(item.category)[0]; item.selectedMethods = []; item.selectedConditions = []; item.selectedRisks = []; item.queueHours = 0; item.extraPlaceCount = 0; item.storageDays = 0; item.zoneLevel = 'core'; item.bulkyLevel = 'none'; item.freeRemoteChecks = defaultFreeRemoteChecks();
+              if (prevAutoTitle) { item.titleAuto = true; item.customerTitle = makeAutoTitle(item); }
+              item.customerTitleEn = makeAutoTitleEn(item);
+            }
+            if (field === 'subtask') { if (item.titleAuto) item.customerTitle = makeAutoTitle(item); item.customerTitleEn = makeAutoTitleEn(item); }
+            const fullRenderFields = new Set(['category','subtask','workTime','timeMode','deadline','settlementType','zoneLevel','bulkyLevel']);
+            const softRenderFields = new Set(['customerTitle','customerTitleEn','customerDescription','customerDescriptionEn','internalMemo','customSubtask','fixedTimeKst','parallelGroup']);
+            if (liveCalcFields.has(field)) { syncDiscountControls(card, item); updateCardCalculatedTexts(card, item); renderPreview(); return; }
+            if (softRenderFields.has(field) && event.type === 'input') { renderPreview(); return; }
+            if (fullRenderFields.has(field) || event.type === 'change') renderAll(); else renderPreview();
+          };
+          el.addEventListener('input', handler); el.addEventListener('change', handler);
+        });
+        card.querySelectorAll('[data-method]').forEach(el => el.addEventListener('change', () => { toggleArray(item.selectedMethods, el.dataset.method, el.checked); renderAll(); }));
+        card.querySelectorAll('[data-condition]').forEach(el => el.addEventListener('change', () => { toggleArray(item.selectedConditions, el.dataset.condition, el.checked); renderAll(); }));
+        card.querySelectorAll('[data-risk]').forEach(el => el.addEventListener('change', () => { toggleArray(item.selectedRisks, el.dataset.risk, el.checked); renderAll(); }));
+        card.querySelectorAll('[data-free-check]').forEach(el => el.addEventListener('change', () => { item.freeRemoteChecks = { ...defaultFreeRemoteChecks(), ...(item.freeRemoteChecks || {}) }; item.freeRemoteChecks[el.dataset.freeCheck] = el.checked; renderAll(); }));
+        card.querySelectorAll('[data-check]').forEach(el => el.addEventListener('change', () => { item[el.dataset.check] = el.checked; renderAll(); }));
+        const autoTitleBtn = card.querySelector('.auto-title'); if (autoTitleBtn) autoTitleBtn.addEventListener('click', () => { item.titleAuto = true; item.customerTitle = makeAutoTitle(item); renderAll(); });
+        const autoDescBtn = card.querySelector('.auto-desc'); if (autoDescBtn) autoDescBtn.addEventListener('click', () => { item.customerDescription = makeAutoDescription(item); renderAll(); });
+        const autoTitleEnBtn = card.querySelector('.auto-title-en'); if (autoTitleEnBtn) autoTitleEnBtn.addEventListener('click', () => { item.customerTitleEn = makeAutoTitleEn(item); renderAll(); });
+        const autoDescEnBtn = card.querySelector('.auto-desc-en'); if (autoDescEnBtn) autoDescEnBtn.addEventListener('click', () => { item.customerDescriptionEn = makeAutoDescriptionEn(item); renderAll(); });
+      });
+    }
+    function syncDiscountControls(card, item) { card.querySelectorAll('[data-field="discountPercent"]').forEach(el => { if (document.activeElement !== el) el.value = Math.min(Number(el.max || 100), Math.max(Number(el.min || 0), Number(item.discountPercent || 0))); }); }
+    function updateCardCalculatedTexts(card, item) {
+      const calc = calculateItem(item);
+      const setText = (selector, text) => { const el = card.querySelector(selector); if (el) el.textContent = text; };
+      setText('.item-total', usdCurrency.format(calc.serviceFee)); setText('.metric-subtotal', usdCurrency.format(calc.beforeFactor)); setText('.metric-factor', `×${calc.factor.toFixed(2)}`); setText('.metric-service', usdCurrency.format(calc.serviceFee)); setText('.metric-refund', formatUsd(calc.failureRefundTotal));
+      const dep = card.querySelector('.deposit-converted'); if (dep) dep.value = `${formatUsd(calc.depositUsd)} / ${krwCurrency.format(calc.depositKrw)}`;
+      const hint = card.querySelector('.calc-hint'); if (hint) hint.textContent = `${calc.failureRefundNote} 무료 원격은 체크리스트를 모두 만족할 때만 $0이다. 오픈런은 고정 추가금, 줄서기/현장 대기는 시간당 추가금이다. 장거리/중량물/캐주얼 언어지원과 결제대행 수수료가 필요한 경우 자동 반영된다.`;
+    }
+    function toggleArray(arr, key, checked) { const idx = arr.indexOf(key); if (checked && idx === -1) arr.push(key); if (!checked && idx !== -1) arr.splice(idx, 1); }
+
+    function isFreeRemoteEligible(item) {
+      if (!item || item.category !== 'remote' || item.workTime !== '0.25') return false;
+      const checks = { ...defaultFreeRemoteChecks(), ...(item.freeRemoteChecks || {}) };
+      return Object.values(checks).every(Boolean);
+    }
+
+    function getZoneFee(item) {
+      if (!isFieldItem(item)) return 0;
+      const opt = zoneOptions[item.zoneLevel || 'core'];
+      return Number(opt?.fee || 0);
+    }
+
+    function getBulkyFee(item) {
+      const opt = bulkyOptions[item.bulkyLevel || 'none'];
+      return Number(opt?.fee || 0);
+    }
+
+    function getWorkFeeTable(category, item) {
+      const cfg = categoryConfig[category] || categoryConfig.remote;
+      if (category === 'urgent') {
+        const group = getSubtaskGroup(item);
+        return group === '현장' ? cfg.workFees.field : cfg.workFees.online;
+      }
+      if (category === 'buying') {
+        const fieldBuying = item && (item.subtask === '현장 구매' || item.selectedMethods?.includes('fieldVisitPaid'));
+        return fieldBuying ? (cfg.fieldWorkFees || categoryConfig.onsite.workFees) : cfg.workFees;
+      }
+      if (category === 'language') {
+        if (item?.subtask === '현장 통역') return cfg.workFees.fieldLive;
+        if (item?.subtask === '원격 실시간 통역') return cfg.workFees.remoteLive;
+        return cfg.workFees.document;
+      }
+      return cfg.workFees;
+    }
+    function getWorkTimeFee(category, workTime, customHours = 0, forceIgnoreMode = false, item = null) {
+      if (!forceIgnoreMode && item && item.timeMode !== 'charge') return 0;
+      const fees = getWorkFeeTable(category, item || { category, subtask: '' });
+      if (category === 'remote' && workTime === '0.25') return isFreeRemoteEligible(item) ? 0 : 6;
+      if (workTime === 'custom') return Math.max(0, Number(customHours || 0)) * Number(fees.customHourly || 0);
+      return Number(fees[workTime] || 0);
+    }
+    function isFieldItem(item) {
+      if (['onsite','companion'].includes(item.category)) return true;
+      if (item.category === 'language' && item.subtask === '현장 통역') return true;
+      if (item.category === 'urgent' && getSubtaskGroup(item) === '현장') return true;
+      if (item.category === 'buying' && (item.subtask === '현장 구매' || item.selectedMethods?.includes('fieldVisitPaid'))) return true;
+      if (item.selectedConditions?.some(key => ['openRun','queue','extraPlace','handoff'].includes(key))) return true;
+      return false;
+    }
+    function calculateFailureRefund(item, serviceFee, depositUsd) {
+      const field = isFieldItem(item);
+      if (!field) return { nonRefundable: 0, serviceRefund: serviceFee, totalRefund: serviceFee + depositUsd, note: '온라인/원격만으로 진행되는 항목이라 실패 시 서비스비 100% 환불 기준입니다. 미사용 실비 예치금도 환불 대상입니다.' };
+      let rate = 0.35, min = 20, reason = '현장 이동 또는 현장 착수 비용';
+      if (item.selectedConditions?.includes('openRun') || item.selectedConditions?.includes('queue')) { rate = 0.50; min = 45; reason = '오픈런/줄서기/현장 대기 착수 비용'; }
+      if (item.category === 'companion') { rate = 0.50; min = 45; reason = '동행 시간 확보 및 현장 착수 비용'; }
+      const nonRefundable = Math.min(serviceFee, Math.max(min, Math.ceil(serviceFee * rate)));
+      const serviceRefund = Math.max(0, serviceFee - nonRefundable);
+      return { nonRefundable, serviceRefund, totalRefund: serviceRefund + depositUsd, note: `${reason}으로 ${usdCurrency.format(nonRefundable)} 차감 기준입니다. 실제 사용된 교통비, 예약금, 배송비 등 실비는 별도 차감될 수 있습니다.` };
+    }
+    function calculateLanguageFee(item) {
+      if (item.category !== 'language') return 0;
+      if (item.subtask === '일반 문서 번역' || item.subtask === '전문 문서 번역') {
+        const rate = item.subtask === '전문 문서 번역' ? 0.18 : 0.10;
+        return Math.ceil(Math.max(15, Number(item.wordCount || 0) * rate));
+      }
+      return 0;
+    }
+    function calculatePaymentHandlingFee(item) {
+      const needsHandling = item.category === 'buying' || (item.category === 'onsite' && item.subtask === '현장 구매');
+      if (!needsHandling || Number(item.productDepositKrw || 0) <= 0) return 0;
+      const productUsd = convertKrwToRawUsd(Number(item.productDepositKrw || 0));
+      return Math.ceil(Math.max(5, productUsd * 0.03));
+    }
+    function calculateItem(item) {
+      const config = categoryConfig[item.category] || categoryConfig.remote;
+      const base = Number(config.base || 0); const subtaskFee = getSubtaskFee(item); const workFee = getWorkTimeFee(item.category, item.workTime, item.customHours, false, item);
+      const methodFee = (item.selectedMethods || []).reduce((sum, key) => sum + (methodOptions[key]?.fee || 0), 0);
+      const conditionFlatFee = (item.selectedConditions || []).reduce((sum, key) => sum + (conditionOptions[key]?.fee || 0), 0);
+      const queueFee = item.selectedConditions.includes('queue') ? Number(item.queueHours || 0) * 24 : 0;
+      const extraPlaceFee = item.selectedConditions.includes('extraPlace') ? Number(item.extraPlaceCount || 0) * 10 : 0;
+      const storageFee = item.selectedConditions.includes('storage') ? Math.max(0, Number(item.storageDays || 0) - 7) * 1 : 0;
+      const languageFee = calculateLanguageFee(item);
+      const paymentHandlingFee = calculatePaymentHandlingFee(item);
+      const zoneFee = getZoneFee(item);
+      const bulkyFee = getBulkyFee(item);
+      const beforeFactor = Math.max(0, base + subtaskFee + workFee + methodFee + conditionFlatFee + queueFee + extraPlaceFee + storageFee + languageFee + paymentHandlingFee + zoneFee + bulkyFee);
+      const deadlineFactor = deadlineOptions[item.deadline]?.factor || 1; const nightFactor = item.night ? 1.3 : 1; const fixedTimeFactor = item.fixedTime ? 1.2 : 1; const factor = deadlineFactor * nightFactor * fixedTimeFactor;
+      const rawService = Math.ceil(beforeFactor * factor); const discount = Math.max(0, Math.min(100, Number(item.discountPercent || 0))); const afterDiscount = rawService * (1 - discount / 100);
+      const serviceFee = Math.max(0, Math.ceil(afterDiscount + Number(item.manualAdjustUsd || 0)));
+      const depositKrw = ['productDepositKrw','reservationDepositKrw','shippingDepositKrw','quickTaxiDepositKrw','otherDepositKrw'].reduce((sum, key) => sum + Number(item[key] || 0), 0);
+      const depositUsd = convertKrwToUsd(depositKrw); const refund = calculateFailureRefund(item, serviceFee, depositUsd);
+      return { base, subtaskFee, workFee, methodFee, conditionFlatFee, queueFee, extraPlaceFee, storageFee, languageFee, paymentHandlingFee, zoneFee, bulkyFee, beforeFactor, factor, rawService, discount, serviceFee, depositKrw, depositUsd, total: serviceFee + depositUsd, field: isFieldItem(item), failureNonRefundable: refund.nonRefundable, failureServiceRefund: refund.serviceRefund, failureRefundTotal: refund.totalRefund, failureRefundNote: refund.note };
+    }
+    function convertKrwToRawUsd(krw) { const rate = Math.max(1, Number(state.usdKrwRate || 1)); const buffer = Math.max(0, Number(state.fxBufferPercent || 0)) / 100; return (Number(krw || 0) / rate) * (1 + buffer); }
+    function convertKrwToUsd(krw) { const raw = convertKrwToRawUsd(krw); if (state.depositRounding === 'ceil') return Math.ceil(raw); if (state.depositRounding === 'round') return Math.round(raw); return Math.round(raw * 100) / 100; }
+    function calculateTotal() {
+      return state.items.reduce((acc, item) => { const calc = calculateItem(item); acc.serviceFee += calc.serviceFee; acc.depositKrw += calc.depositKrw; acc.depositUsd += calc.depositUsd; acc.total += calc.total; acc.failureRefundTotal += calc.failureRefundTotal; acc.failureNonRefundable += calc.failureNonRefundable; return acc; }, { serviceFee: 0, depositKrw: 0, depositUsd: 0, total: 0, failureRefundTotal: 0, failureNonRefundable: 0 });
+    }
+
+    function renderPreview() {
+      const total = calculateTotal();
+      $('#quotePreview').innerHTML = paginateQuoteLanguage('ko', total) + paginateQuoteLanguage('en', total);
+    }
+
+    function buildQuoteLines(lang, total) {
+      const isKo = lang === 'ko';
+      const free = isKo
+        ? { no: 0, title: '무료 상담', description: '요청 범위 확인, 가능 여부 검토, 견적서 작성 전 상담', amount: 0 }
+        : { no: 0, title: 'Free consultation', description: 'Request scope check, feasibility review, and quote preparation consultation', amount: 0 };
+      const serviceLines = state.items.map((item, index) => {
+        const calc = calculateItem(item);
+        return {
+          no: index + 1,
+          title: isKo ? (item.customerTitle || makeAutoTitle(item)) : (item.customerTitleEn || makeAutoTitleEn(item)),
+          description: isKo ? (item.customerDescription || makeAutoDescription(item)) : (item.customerDescriptionEn || makeAutoDescriptionEn(item)),
+          amount: calc.serviceFee,
+          depositUsd: calc.depositUsd,
+          depositKrw: calc.depositKrw,
+          refund: calc.failureRefundTotal
+        };
+      });
+      const lines = [free, ...serviceLines];
+      if (total.depositKrw > 0) {
+        const meta = getQuoteTextMeta(lang);
+        const depositText = meta.depositLine.replace('{krw}', krwCurrency.format(total.depositKrw));
+        lines.push({
+          no: lines.length,
+          title: isKo ? '실비 예치금' : 'Actual-cost deposit',
+          description: depositText,
+          amount: total.depositUsd,
+          isDeposit: true
+        });
+      }
+      return lines;
+    }
+
+    function getQuoteTextMeta(lang) {
+      const isKo = lang === 'ko';
+      return isKo ? {
+        quoteNo: '견적번호', date: '작성일', valid: '유효기한', customer: '고객', channel: '연락 채널', currency: '통화', summary: '요청 요약', service: '서비스비 합계', deposit: '실비 예치금 합계', total: '선결제 총액', refund: '서비스 실패 시 예상 환불 가능액', depositLine: '상품값, 예약금, 배송비, 퀵/택시비 등 실제 사용 비용입니다. 한화 입력액 {krw}은 내부 환산 기준에 따라 USD 예치금으로 반영했습니다. 미사용분은 정책에 따라 정산됩니다.', caution: '정산 / 유의 조건', policy: '상담비는 무료입니다. 견적 확정 후 선결제 기준으로 업무가 시작됩니다. 상품값, 예약금, 배송비, 교통비, 퀵비 등 실비는 예치금으로 받고 실제 사용 후 정산합니다. 미사용 실비는 환불될 수 있으나, 이미 착수한 서비스비, 예약처 취소/노쇼 수수료, 배송사 수수료, 결제/환전 관련 비환불 비용은 환불액에서 제외될 수 있습니다. 본 견적은 유효기한 내 결제 기준이며, 현장 상황·재고·예약 가능 여부에 따라 조정될 수 있습니다.', refundNote: '온라인/원격으로만 진행되는 항목은 실패 시 서비스비 100% 환불 기준입니다. 현장 이동, 픽업, 오픈런, 줄서기, 동행 등 현장 착수가 있는 항목은 견적상 현장 착수 비용을 제외한 금액을 환불 가능액으로 표시합니다. 실제 환불액은 이미 사용된 실비, 예약처/배송사/결제사 수수료, 노쇼/취소 수수료에 따라 달라질 수 있습니다.', continuation: '계속 페이지', continued: '계속'
+      } : {
+        quoteNo: 'Quote No.', date: 'Issue date', valid: 'Valid until', customer: 'Customer', channel: 'Contact channel', currency: 'Currency', summary: 'Request summary', service: 'Service fee subtotal', deposit: 'Actual-cost deposit subtotal', total: 'Total prepayment', refund: 'Estimated refundable amount if service fails', depositLine: 'This covers actual costs such as item price, booking deposit, shipping, quick service, taxi, or transportation. The KRW input amount {krw} was converted into a USD actual-cost deposit according to the internal conversion rule. Unused amounts may be settled according to the policy.', caution: 'Settlement / important conditions', policy: 'The consultation fee is free. Work begins after the quote is confirmed and prepaid. Item prices, booking deposits, shipping, transportation, quick-service fees, and other actual costs are received as deposits and settled after use. Unused actual-cost deposits may be refunded, but already started service fees, cancellation/no-show fees, shipping company fees, and non-refundable payment or FX-related costs may be deducted from the refund. This quote is valid only if paid within the validity period and may change depending on on-site conditions, stock, or booking availability.', refundNote: 'For online/remote-only items, the service fee is treated as 100% refundable if the service fails. If any on-site action such as travel, pickup, open-run, queueing, or accompaniment is started, the estimated refundable amount deducts the on-site starting cost. The actual refund may vary depending on used actual costs, store/venue/shipping/payment fees, no-show fees, or cancellation fees.', continuation: 'Continued page', continued: 'Continued'
+      };
+    }
+
+    function renderQuoteHeader(lang, total, meta, isFirstPage) {
+      const isKo = lang === 'ko';
+      const title = isKo ? 'HAEDURIO 견적서' : 'HAEDURIO Quote';
+      const subtitle = isKo ? '상담 후 확정된 선결제 기준 견적입니다.' : 'This quote is based on the prepayment amount confirmed after consultation.';
+      const summary = isKo ? state.requestSummary : (state.requestSummaryEn || state.requestSummary);
+      const showSummary = String(summary || '').trim().length > 0;
+      if (!isFirstPage) {
+        return `<h2>${title}</h2><p class="continuation-note">${meta.continuation} · ${meta.quoteNo}: <b>${escapeHtml(state.quoteNo || '-')}</b></p>`;
+      }
+      return `<h2>${title}</h2><p class="quote-subtitle">${subtitle}</p>
+        <div class="quote-meta">
+          <div class="meta-row single"><div>${meta.quoteNo}: <b>${escapeHtml(state.quoteNo || '-')}</b></div></div>
+          <div class="meta-row single"><div>${meta.date}: <b>${escapeHtml(state.quoteDate || '-')}</b></div></div>
+          <div class="meta-row single"><div>${meta.valid}: <b>${escapeHtml(state.validUntil || '-')}</b></div></div>
+          <div class="meta-row two"><div>${meta.customer}: <b>${escapeHtml(state.customerName || '-')}</b></div><div>${meta.channel}: <b>${escapeHtml(state.contactChannel || '-')}</b></div></div>
+          <div class="meta-row single"><div>${meta.currency}: <b>USD</b></div></div>
+        </div>
+        ${showSummary ? `<div class="quote-summary"><strong>${meta.summary}</strong><p>${escapeHtml(summary)}</p></div>` : ''}`;
+    }
+
+    function renderQuoteBlock(block, lang, total) {
+      const meta = getQuoteTextMeta(lang);
+      if (block.type === 'line') {
+        const amountHtml = block.hideAmount ? '' : (block.isDeposit ? formatUsd(block.amount) : usdCurrency.format(block.amount));
+        return `<div class="quote-line"><div><h3>${block.no}. ${escapeHtml(block.title)}</h3><p>${escapeHtml(block.description || '')}</p></div><div class="quote-amount">${amountHtml}</div></div>`;
+      }
+      if (block.type === 'summary') {
+        return `<div class="summary-table"><div class="summary-row"><span>${meta.service}</span><strong>${usdCurrency.format(total.serviceFee)}</strong></div><div class="summary-row"><span>${meta.deposit}</span><strong>${formatUsd(total.depositUsd)} / ${krwCurrency.format(total.depositKrw)}</strong></div><div class="summary-row total"><span>${meta.total}</span><strong>${formatUsd(total.total)}</strong></div></div>`;
+      }
+      if (block.type === 'refund') {
+        return `<div class="refund-box"><b>${meta.refund}: ${formatUsd(total.failureRefundTotal)}</b><br>${escapeHtml(meta.refundNote)}</div>`;
+      }
+      if (block.type === 'policy') {
+        const title = block.title ? `<b>${escapeHtml(block.title)}</b>\n` : '';
+        return `<div class="policy-note">${title}${escapeHtml(block.text || '')}</div>`;
+      }
+      return '';
+    }
+
+    function buildQuoteBlocks(lang, total) {
+      const meta = getQuoteTextMeta(lang);
+      const blocks = buildQuoteLines(lang, total).map(line => ({ type: 'line', ...line }));
+      blocks.push({ type: 'summary' });
+      blocks.push({ type: 'refund' });
+      const riskLines = collectRiskLines(lang);
+      if (riskLines.length) blocks.push({ type: 'policy', title: meta.caution, text: riskLines.join('\n') });
+      blocks.push({ type: 'policy', text: meta.policy });
+      return blocks;
+    }
+
+    function renderQuotePageSegment(lang, total, pageNo, totalPages, blocks, options = {}) {
+      const isKo = lang === 'ko';
+      const meta = getQuoteTextMeta(lang);
+      const isFirstPage = Boolean(options.isFirst);
+      const sectionLabel = isKo ? '한국어' : 'English';
+      const pageNumber = `${sectionLabel} ${pageNo} / ${totalPages}`;
+      return `<div class="quote-page ${isKo ? 'quote-page-ko' : 'quote-page-en'}">
+        ${renderQuoteHeader(lang, total, meta, isFirstPage)}
+        ${blocks.map(block => renderQuoteBlock(block, lang, total)).join('')}
+        <div class="page-number">${pageNumber}</div>
+      </div>`;
+    }
+
+    function pageHtmlFits(html, measureRoot) {
+      measureRoot.innerHTML = html;
+      const page = measureRoot.querySelector('.quote-page');
+      if (!page) return true;
+      return page.scrollHeight <= page.clientHeight + 2;
+    }
+
+    function splitTextIntoChunks(text, maxChars = 420) {
+      const clean = String(text || '').trim();
+      if (!clean) return [''];
+      const roughParts = clean.split(/(?<=[.!?。！？])\s+|\n+/g).map(part => part.trim()).filter(Boolean);
+      const parts = roughParts.length ? roughParts : [clean];
+      const chunks = [];
+      let current = '';
+      parts.forEach(part => {
+        if (part.length > maxChars) {
+          if (current) { chunks.push(current.trim()); current = ''; }
+          for (let i = 0; i < part.length; i += maxChars) chunks.push(part.slice(i, i + maxChars).trim());
+          return;
+        }
+        const next = current ? `${current} ${part}` : part;
+        if (next.length > maxChars && current) { chunks.push(current.trim()); current = part; }
+        else { current = next; }
+      });
+      if (current) chunks.push(current.trim());
+      return chunks.length ? chunks : [clean];
+    }
+
+    function splitOversizedBlock(block, lang) {
+      const meta = getQuoteTextMeta(lang);
+      if (block.type === 'policy') {
+        return splitTextIntoChunks(block.text, 360).map((text, index) => ({ type: 'policy', title: index === 0 ? block.title : (block.title ? `${block.title} (${meta.continued})` : meta.continued), text }));
+      }
+      if (block.type === 'line') {
+        return splitTextIntoChunks(block.description, 320).map((text, index) => ({ ...block, title: index === 0 ? block.title : `${block.title} (${meta.continued})`, description: text, hideAmount: index > 0 }));
+      }
+      return [block];
+    }
+
+    function tryAddBlockToPages({ lang, total, pages, current, block, measureRoot }) {
+      const candidate = current.concat(block);
+      const candidateHtml = renderQuotePageSegment(lang, total, pages.length + 1, 99, candidate, { isFirst: pages.length === 0 });
+      if (pageHtmlFits(candidateHtml, measureRoot)) return { current: candidate };
+      if (current.length) {
+        pages.push({ blocks: current });
+        return tryAddBlockToPages({ lang, total, pages, current: [], block, measureRoot });
+      }
+      const singleHtml = renderQuotePageSegment(lang, total, pages.length + 1, 99, [block], { isFirst: pages.length === 0 });
+      if (pageHtmlFits(singleHtml, measureRoot)) return { current: [block] };
+      const pieces = splitOversizedBlock(block, lang);
+      if (pieces.length <= 1) return { current: [block] };
+      let nextCurrent = [];
+      pieces.forEach(piece => {
+        const result = tryAddBlockToPages({ lang, total, pages, current: nextCurrent, block: piece, measureRoot });
+        nextCurrent = result.current;
+      });
+      return { current: nextCurrent };
+    }
+
+    function paginateQuoteLanguage(lang, total) {
+      const allBlocks = buildQuoteBlocks(lang, total);
+      const pages = [];
+      const measureRoot = document.createElement('div');
+      measureRoot.className = 'pagination-measure';
+      document.body.appendChild(measureRoot);
+      let current = [];
+      allBlocks.forEach(block => {
+        const result = tryAddBlockToPages({ lang, total, pages, current, block, measureRoot });
+        current = result.current;
+      });
+      if (current.length || !pages.length) pages.push({ blocks: current });
+      document.body.removeChild(measureRoot);
+      const totalPages = pages.length;
+      return pages.map((page, index) => renderQuotePageSegment(lang, total, index + 1, totalPages, page.blocks, { isFirst: index === 0 })).join('');
+    }
+
+    function collectRiskLines(lang = 'ko') {
+      const lines = [];
+      state.items.forEach((item, index) => {
+        const selected = (item.selectedRisks || []).map(key => lang === 'ko' ? riskOptions[key] : riskOptionsEn[key]).filter(Boolean);
+        if (selected.length) lines.push(`${index + 1}${lang === 'ko' ? '번 항목' : '. Item'}: ${selected.join(lang === 'ko' ? ' / ' : ' / ')}`);
+        if (item.settlementType && item.settlementType !== 'normal') lines.push(`${index + 1}${lang === 'ko' ? '번 항목 정산 기준' : '. Settlement standard'}: ${lang === 'ko' ? settlementOptions[item.settlementType] : settlementOptionsEn[item.settlementType]}`);
+      });
+      return lines;
+    }
+    function makeAutoTitle(item) { const cfg = categoryConfig[item.category] || categoryConfig.remote; const subtask = item.subtask === '기타 직접 입력' && item.customSubtask ? item.customSubtask : item.subtask; if (item.selectedConditions?.includes('openRun')) return `${subtask} / 오픈런 대응`; if (item.selectedConditions?.includes('queue')) return `${subtask} / 줄서기·대기 포함`; return `${cfg.label} - ${subtask}`; }
+    function makeAutoTitleEn(item) { const cfg = categoryConfig[item.category] || categoryConfig.remote; const subtask = subtaskLabelEn(item); if (item.selectedConditions?.includes('openRun')) return `${subtask} / Open-run support`; if (item.selectedConditions?.includes('queue')) return `${subtask} / Queueing included`; return `${cfg.labelEn || cfg.label} - ${subtask}`; }
+    function makeAutoDescription(item) {
+      const parts = []; const cfg = categoryConfig[item.category] || categoryConfig.remote; const subtask = item.subtask === '기타 직접 입력' && item.customSubtask ? item.customSubtask : item.subtask; const subtaskGroup = getSubtaskGroup(item);
+      parts.push(`${cfg.label} 범위의 ${subtask} 업무를 포함합니다.${subtaskGroup ? ` (${subtaskGroup} 성격)` : ''}`);
+      const methods = (item.selectedMethods || []).map(key => methodOptions[key]?.label).filter(Boolean); if (methods.length) parts.push(`수행 수단: ${methods.join(', ')}`);
+      const conditions = (item.selectedConditions || []).map(key => conditionOptions[key]?.label).filter(Boolean); if (conditions.length) parts.push(`추가 조건: ${conditions.join(', ')}`);
+      if (item.selectedConditions?.includes('queue') && Number(item.queueHours || 0) > 0) parts.push(`예상 줄서기/대기: ${item.queueHours}시간`);
+      if (item.selectedConditions?.includes('extraPlace') && Number(item.extraPlaceCount || 0) > 0) parts.push(`추가 장소/경유지: ${item.extraPlaceCount}곳`);
+      if (item.selectedConditions?.includes('storage') && Number(item.storageDays || 0) > 7) parts.push(`보관 기간: ${item.storageDays}일`);
+      if (item.category === 'language' && item.subtask.includes('문서')) parts.push(`번역 단어 수: ${Number(item.wordCount || 0).toLocaleString('ko-KR')}단어`);
+      if (isFreeRemoteEligible(item)) parts.push('무료 Quick Remote 기준을 모두 충족합니다.');
+      if (isFieldItem(item) && item.zoneLevel && item.zoneLevel !== 'core') parts.push(`이동 구역: ${zoneOptions[item.zoneLevel]?.label || item.zoneLevel}`);
+      if (item.bulkyLevel && item.bulkyLevel !== 'none') parts.push(`무게/부피 조건: ${bulkyOptions[item.bulkyLevel]?.label || item.bulkyLevel}`);
+      if ((item.category === 'buying' || (item.category === 'onsite' && item.subtask === '현장 구매')) && Number(item.productDepositKrw || 0) > 0) parts.push('상품 결제대행 수수료를 포함합니다.');
+      if (item.deadline !== 'relaxed') parts.push(`처리 기한: ${deadlineOptions[item.deadline].label}`);
+      if (item.fixedTime && item.fixedTimeKst) parts.push(`고정 시간(KST): ${item.fixedTimeKst}`); else if (item.fixedTime) parts.push('정확한 시간 고정 조건을 반영했습니다.');
+      if (item.night) parts.push('야간/새벽 처리 가능성을 반영했습니다.'); if (item.timeMode !== 'charge') parts.push(`작업시간 과금: ${timeModeOptions[item.timeMode]}`);
+      return parts.join('\n');
+    }
+    function makeAutoDescriptionEn(item) {
+      const parts = []; const cfg = categoryConfig[item.category] || categoryConfig.remote; const subtask = subtaskLabelEn(item); const subtaskGroup = getSubtaskGroupEn(item);
+      parts.push(`Includes ${subtask} within the ${cfg.labelEn || cfg.label} category.${subtaskGroup ? ` (${subtaskGroup})` : ''}`);
+      const methods = (item.selectedMethods || []).map(key => methodOptions[key]?.labelEn).filter(Boolean); if (methods.length) parts.push(`Method: ${methods.join(', ')}`);
+      const conditions = (item.selectedConditions || []).map(key => conditionOptions[key]?.labelEn).filter(Boolean); if (conditions.length) parts.push(`Additional conditions: ${conditions.join(', ')}`);
+      if (item.selectedConditions?.includes('queue') && Number(item.queueHours || 0) > 0) parts.push(`Estimated queueing/waiting: ${item.queueHours} hour(s)`);
+      if (item.selectedConditions?.includes('extraPlace') && Number(item.extraPlaceCount || 0) > 0) parts.push(`Additional stops/locations: ${item.extraPlaceCount}`);
+      if (item.selectedConditions?.includes('storage') && Number(item.storageDays || 0) > 7) parts.push(`Storage period: ${item.storageDays} days`);
+      if (item.category === 'language' && item.subtask.includes('문서')) parts.push(`Word count for translation: ${Number(item.wordCount || 0).toLocaleString('en-US')} words`);
+      if (isFreeRemoteEligible(item)) parts.push('All Free Quick Remote criteria are satisfied.');
+      if (isFieldItem(item) && item.zoneLevel && item.zoneLevel !== 'core') parts.push(`Travel zone: ${zoneOptions[item.zoneLevel]?.labelEn || item.zoneLevel}`);
+      if (item.bulkyLevel && item.bulkyLevel !== 'none') parts.push(`Weight/size condition: ${bulkyOptions[item.bulkyLevel]?.labelEn || item.bulkyLevel}`);
+      if ((item.category === 'buying' || (item.category === 'onsite' && item.subtask === '현장 구매')) && Number(item.productDepositKrw || 0) > 0) parts.push('Payment-handling fee for item purchase is included.');
+      if (item.deadline !== 'relaxed') parts.push(`Deadline: ${deadlineOptions[item.deadline].labelEn}`);
+      if (item.fixedTime && item.fixedTimeKst) parts.push(`Fixed time (KST): ${item.fixedTimeKst}`); else if (item.fixedTime) parts.push('A fixed-time condition is reflected.');
+      if (item.night) parts.push('Night/early-morning handling possibility is reflected.'); if (item.timeMode !== 'charge') parts.push(`Work-time billing: ${timeModeOptionsEn[item.timeMode]}`);
+      return parts.join('\n');
+    }
+    function loadOpenRunSample() {
+      state.quoteNo = generateQuoteNo(); state.quoteDate = todayISO(); state.validUntil = todayISO(5); state.customerName = '예시 고객'; state.contactChannel = 'Instagram DM'; state.requestSummary = '성수 팝업스토어 한정판 상품을 오픈런으로 구매한 뒤 재포장하여 해외로 배송하는 요청'; state.requestSummaryEn = 'Request to buy a limited item from a Seongsu pop-up store through open-run support, then repack and ship it internationally.'; state.acquisitionChannel = 'Sample'; state.quoteStatus = 'draft'; state.inquiryTags = '현장, 오픈런, 구매, 배송'; state.usdKrwRate = 1553; state.rateDate = todayISO(); state.fxBufferPercent = 1.5; state.depositRounding = 'ceil';
+      const item1 = { ...defaultItem('remote'), customerTitle: '팝업스토어 사전 확인', customerTitleEn: 'Pop-up store pre-check', titleAuto: false, customerDescription: '팝업 운영시간, 입장 방식, 구매 제한, 재고 가능성, 결제 가능 여부를 사전에 확인합니다.', customerDescriptionEn: 'We will pre-check the pop-up operating hours, entry method, purchase limits, stock possibility, and payment availability.', category: 'remote', subtask: '리서치 / 비교', workTime: '1', selectedMethods: ['onlineSearch', 'phoneCall', 'chatMessage'], selectedConditions: ['multiCompareSmall'], selectedRisks: ['stockUncertain'], deadline: 'within48' };
+      const item2 = { ...defaultItem('onsite'), customerTitle: '팝업스토어 오픈런 구매 대행', customerTitleEn: 'Pop-up store open-run purchase support', titleAuto: false, customerDescription: '현장 방문, 오픈런, 줄서기, 구매 시도, 상품 검수를 포함합니다. 오픈런과 줄서기는 별도 조건으로 계산했습니다.', customerDescriptionEn: 'Includes on-site visit, open-run early arrival, queueing, purchase attempt, and item inspection. Open-run and queueing are calculated as separate conditions.', category: 'onsite', subtask: '현장 구매', workTime: '1', timeMode: 'queueIncluded', selectedMethods: ['chatMessage'], selectedConditions: ['openRun', 'queue', 'limitedStockNoFee', 'productCheck'], selectedRisks: ['stockUncertain', 'attemptWork'], settlementType: 'attemptBased', queueHours: 4, deadline: 'sameday', fixedTime: true, fixedTimeKst: '오픈 당일 오전 9:30 KST 현장 도착 기준', productDepositKrw: 230000, quickTaxiDepositKrw: 30000 };
+      const item3 = { ...defaultItem('shipping'), customerTitle: '재포장 및 해외 배송', customerTitleEn: 'Repacking and international shipping', titleAuto: false, customerDescription: '상품 확인 후 재포장하고 해외 배송 접수를 진행합니다. 실제 해외배송비는 실비 예치금으로 정산합니다.', customerDescriptionEn: 'After checking the item, we will repack it and arrange international shipping. Actual international shipping costs will be settled from the deposit.', category: 'shipping', subtask: '해외 배송', workTime: '0.5', selectedMethods: ['internationalSend'], selectedConditions: ['repacking'], shippingDepositKrw: 55000, otherDepositKrw: 10000 };
+      state.items = [item1, item2, item3].map(normalizeItem); renderAll();
+    }
+    function formatUsd(value) { return state.depositRounding === 'none' ? usdCurrencyDecimal.format(value || 0) : usdCurrency.format(value || 0); }
+    function numberValue(v) { return Number.isFinite(Number(v)) ? Number(v) : 0; }
+    function escapeHtml(value) { return String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;'); }
+    function escapeAttr(value) { return escapeHtml(value).replaceAll('\n', ' '); }
+    init();
+  </script>
+</body>
+</html>
