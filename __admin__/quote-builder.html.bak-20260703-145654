@@ -3,8 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>해드리오 관리자 견적 빌더 v8</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <title>해드리오 관리자 견적 빌더 프로토타입 v7</title>
   <style>
     :root {
       --bg: #f6f4ef;
@@ -117,15 +116,6 @@
     .footer-note { margin-top: 18px; padding: 16px; border-radius: 16px; background: #f6efe1; color: #5b4a30; font-size: 13px; }
     .small-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
     .mini-btn { padding: 7px 10px; border-radius: 999px; background: #f3f0ea; color: var(--ink); border: 1px solid var(--line); font-size: 12px; font-weight: 850; }
-    .auth-shell { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; background: var(--bg); }
-    .auth-card { width: min(100%, 460px); background: var(--paper); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); padding: 28px; }
-    .auth-card .brand-kicker { margin: 0 0 8px; color: var(--accent); font-size: 12px; font-weight: 950; letter-spacing: 0.12em; }
-    .auth-card h1 { margin: 0 0 8px; font-size: 24px; letter-spacing: -0.04em; }
-    .auth-card p { margin: 0 0 18px; color: var(--muted); font-size: 13px; line-height: 1.6; }
-    .auth-card label { display: block; margin: 12px 0 6px; font-size: 12px; font-weight: 900; color: var(--muted); }
-    .auth-card input { width: 100%; border: 1px solid var(--line); border-radius: 12px; padding: 12px 13px; background: #fff; font-size: 14px; outline: none; }
-    .auth-actions { display: flex; gap: 10px; align-items: center; margin-top: 18px; }
-    .auth-msg { margin-top: 12px !important; min-height: 20px; color: var(--muted); font-size: 12px !important; }
     .hidden { display: none !important; }
     @media (max-width: 1120px) {
       .layout { grid-template-columns: 1fr; }
@@ -161,24 +151,7 @@
   </style>
 </head>
 <body>
-  <div id="admin-auth-gate" class="auth-shell no-print">
-    <div class="auth-card">
-      <p class="brand-kicker">HAEDURIO ADMIN</p>
-      <h1>관리자 로그인 필요</h1>
-      <p>견적 빌더는 관리자 로그인 후에만 이용할 수 있습니다. 기존 관리자 계정으로 로그인한 뒤 견적서를 작성하세요.</p>
-      <label for="admin-auth-email">Email</label>
-      <input id="admin-auth-email" type="email" autocomplete="username" placeholder="admin@email.com" />
-      <label for="admin-auth-password">Password</label>
-      <input id="admin-auth-password" type="password" autocomplete="current-password" placeholder="password" />
-      <div class="auth-actions">
-        <button class="btn accent" id="admin-auth-login-btn" type="button">로그인</button>
-        <a class="btn secondary" href="./index.html">관리자 메인으로</a>
-      </div>
-      <p class="auth-msg" id="admin-auth-msg"></p>
-    </div>
-  </div>
-
-  <main id="quote-app" class="app-shell hidden">
+  <main class="app-shell">
     <div class="topbar no-print">
       <div>
         <p class="brand-kicker">HAEDURIO ADMIN PROTOTYPE v6</p>
@@ -1173,62 +1146,6 @@
     function numberValue(v) { return Number.isFinite(Number(v)) ? Number(v) : 0; }
     function escapeHtml(value) { return String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;'); }
     function escapeAttr(value) { return escapeHtml(value).replaceAll('\n', ' '); }
-
-    const QUOTE_ADMIN_SUPABASE_URL = "https://sutvnkiroquezjaendkr.supabase.co";
-    const QUOTE_ADMIN_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1dHZua2lyb3F1ZXpqYWVuZGtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3ODU3OTEsImV4cCI6MjA5ODM2MTc5MX0.cnxKEJPVWzpiWNhhkQ800cacxp6lGLbiNzGNDSCHcaE";
-    const quoteAuthClient = window.supabase ? window.supabase.createClient(QUOTE_ADMIN_SUPABASE_URL, QUOTE_ADMIN_SUPABASE_ANON_KEY) : null;
-
-    function setQuoteBuilderAuthState(isLoggedIn) {
-      const gate = document.getElementById('admin-auth-gate');
-      const app = document.getElementById('quote-app');
-      if (!gate || !app) return;
-      gate.classList.toggle('hidden', Boolean(isLoggedIn));
-      app.classList.toggle('hidden', !isLoggedIn);
-    }
-
-    async function refreshQuoteBuilderAuthState() {
-      const msg = document.getElementById('admin-auth-msg');
-      if (!quoteAuthClient) {
-        setQuoteBuilderAuthState(false);
-        if (msg) msg.textContent = 'Supabase 라이브러리를 불러오지 못했습니다. 네트워크 상태를 확인하세요.';
-        return;
-      }
-      const { data } = await quoteAuthClient.auth.getSession();
-      setQuoteBuilderAuthState(Boolean(data?.session));
-    }
-
-    async function loginQuoteBuilderAdmin() {
-      const emailEl = document.getElementById('admin-auth-email');
-      const passwordEl = document.getElementById('admin-auth-password');
-      const msg = document.getElementById('admin-auth-msg');
-      const email = String(emailEl?.value || '').trim();
-      const password = String(passwordEl?.value || '');
-      if (!quoteAuthClient) {
-        if (msg) msg.textContent = 'Supabase 라이브러리를 불러오지 못했습니다.';
-        return;
-      }
-      if (!email || !password) {
-        if (msg) msg.textContent = '이메일과 비밀번호를 입력하세요.';
-        return;
-      }
-      if (msg) msg.textContent = '로그인 중...';
-      const { error } = await quoteAuthClient.auth.signInWithPassword({ email, password });
-      if (error) {
-        if (msg) msg.textContent = '로그인 실패: ' + error.message;
-        setQuoteBuilderAuthState(false);
-        return;
-      }
-      if (msg) msg.textContent = '';
-      setQuoteBuilderAuthState(true);
-    }
-
-    document.getElementById('admin-auth-login-btn')?.addEventListener('click', loginQuoteBuilderAdmin);
-    document.getElementById('admin-auth-password')?.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') loginQuoteBuilderAdmin();
-    });
-    quoteAuthClient?.auth.onAuthStateChange((_event, session) => setQuoteBuilderAuthState(Boolean(session)));
-    refreshQuoteBuilderAuthState();
-
     init();
   </script>
 </body>
