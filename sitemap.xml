@@ -1,8 +1,465 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://haedurio.com/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/ja/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/zh-cn/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/zh-tw/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/vi/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/th/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/services/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/services/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/services/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/services/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/services/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/services/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/services/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/services/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/ja/services/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/services/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/services/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/services/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/services/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/services/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/services/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/services/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/zh-cn/services/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/services/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/services/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/services/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/services/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/services/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/services/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/services/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/zh-tw/services/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/services/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/services/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/services/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/services/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/services/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/services/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/services/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/vi/services/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/services/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/services/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/services/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/services/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/services/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/services/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/services/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/th/services/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/services/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/services/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/services/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/services/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/services/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/services/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/services/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/prices/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/prices/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/prices/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/prices/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/prices/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/prices/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/prices/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/prices/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/ja/prices/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/prices/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/prices/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/prices/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/prices/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/prices/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/prices/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/prices/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/zh-cn/prices/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/prices/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/prices/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/prices/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/prices/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/prices/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/prices/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/prices/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/zh-tw/prices/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/prices/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/prices/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/prices/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/prices/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/prices/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/prices/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/prices/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/vi/prices/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/prices/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/prices/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/prices/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/prices/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/prices/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/prices/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/prices/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/th/prices/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/prices/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/prices/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/prices/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/prices/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/prices/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/prices/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/prices/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/request/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/request/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/request/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/request/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/request/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/request/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/request/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/request/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/ja/request/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/request/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/request/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/request/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/request/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/request/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/request/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/request/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/zh-cn/request/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/request/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/request/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/request/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/request/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/request/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/request/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/request/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/zh-tw/request/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/request/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/request/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/request/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/request/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/request/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/request/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/request/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/vi/request/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/request/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/request/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/request/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/request/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/request/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/request/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/request/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/th/request/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/request/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/request/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/request/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/request/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/request/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/request/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/request/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/help/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/help/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/help/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/help/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/help/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/help/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/help/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/help/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/ja/help/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/help/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/help/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/help/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/help/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/help/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/help/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/help/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/zh-cn/help/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/help/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/help/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/help/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/help/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/help/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/help/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/help/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/zh-tw/help/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/help/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/help/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/help/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/help/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/help/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/help/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/help/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/vi/help/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/help/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/help/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/help/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/help/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/help/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/help/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/help/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/th/help/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/help/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/help/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/help/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/help/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/help/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/help/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/help/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/terms/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/terms/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/terms/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/terms/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/terms/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/terms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/terms/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/ja/terms/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/terms/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/terms/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/terms/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/terms/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/terms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/terms/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/zh-cn/terms/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/terms/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/terms/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/terms/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/terms/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/terms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/terms/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/zh-tw/terms/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/terms/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/terms/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/terms/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/terms/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/terms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/terms/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/vi/terms/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/terms/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/terms/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/terms/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/terms/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/terms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/terms/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/th/terms/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/terms/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/terms/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/terms/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/terms/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/terms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/terms/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/privacy/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/privacy/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/ja/privacy/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/privacy/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/zh-cn/privacy/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/privacy/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/zh-tw/privacy/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/privacy/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/vi/privacy/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/privacy/"/>
+  </url>
+  <url>
+    <loc>https://haedurio.com/th/privacy/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://haedurio.com/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://haedurio.com/ja/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://haedurio.com/zh-cn/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://haedurio.com/zh-tw/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://haedurio.com/vi/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://haedurio.com/th/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://haedurio.com/privacy/"/>
   </url>
 </urlset>

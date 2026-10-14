@@ -1,0 +1,996 @@
+{
+  "meta": {
+    "suggest": "This page is also in English.",
+    "suggestCta": "View in English",
+    "close": "Close"
+  },
+  "common": {
+    "skip": "Skip to content",
+    "homeLabel": "Haedurio home",
+    "nav": {
+      "services": "Services",
+      "prices": "Prices",
+      "help": "Help"
+    },
+    "cta": "Start a request",
+    "menu": "Menu",
+    "languageButton": "Language: {lang}. Change language",
+    "languageMenu": "Choose a language",
+    "orMessage": "Or message us on",
+    "money": {
+      "from": "from {price}",
+      "hour": "{price} an hour",
+      "usd": "About US${usd}",
+      "usd2": "About US${a} or US${b}",
+      "quote": "Quote",
+      "quoted": "Quoted"
+    },
+    "footer": {
+      "tagline": "Help for visitors in Korea, from people who live in Seoul.",
+      "site": "Haedurio",
+      "policies": "Policies",
+      "contact": "Contact",
+      "services": "Services",
+      "pricesRefunds": "Prices and refunds",
+      "help": "Help",
+      "request": "Start a request",
+      "terms": "Terms of service",
+      "privacy": "Privacy policy",
+      "dont": "What we don’t do",
+      "hours": "Every day, 11:00 to 02:00 KST",
+      "legal": "{company}, {address}. CEO {ceo}. Business registration no. {brn}. E-commerce registration no. {ecl}. Hosting: {host}",
+      "verify": "Check our business registration",
+      "copyright": "© {year} {company}"
+    }
+  },
+  "home": {
+    "title": "Haedurio | Seoul concierge for bookings, shopping and errands",
+    "description": "Bookings, shopping, errands and interpretation in Seoul for visitors. Message us in your language and get a fixed price before you pay.",
+    "h1a": "Consider",
+    "h1b": "it done.",
+    "footnoteLabel": "Footnote: what the name means",
+    "lead": "Bookings, shopping, errands and interpretation in Seoul. Message us in your language, and you’ll see a fixed price before you pay.",
+    "ctaSecondary": "See services and prices",
+    "footnote": "Haedurio ({name}) comes from {phrase}, Korean for “We’ll do it for you.”",
+    "exampleTitle": "Your list in Seoul",
+    "exampleTag": "Example",
+    "examples": [
+      {
+        "title": "BBQ in Hongdae, table for 4",
+        "status": "Done",
+        "note": "Friday at 7 pm. Confirmation photo sent."
+      },
+      {
+        "title": "Pop-up tote bag in Seongsu",
+        "status": "In progress",
+        "note": "In the queue since 9:40 am."
+      },
+      {
+        "title": "Phone left in a taxi",
+        "status": "Quote sent",
+        "note": "Lost item check, quoted {won:39000}."
+      }
+    ],
+    "trustLabel": "Why you can trust us",
+    "trust": [
+      {
+        "title": "Price before you pay",
+        "text": "Every request gets a fixed quote first."
+      },
+      {
+        "title": "Proof for every task",
+        "text": "Photos, receipts or booking confirmations, sent to your chat."
+      },
+      {
+        "title": "In your language",
+        "text": "English, 日本語, 简体中文, 繁體中文, Tiếng Việt and ไทย."
+      },
+      {
+        "title": "A registered Seoul business",
+        "text": "Whaleland, Gangnam. Business no. {brn}."
+      }
+    ],
+    "whatTitle": "What we do",
+    "whatLead": "Fifteen services with fixed prices. Open one to see what’s included and what we’ll need from you.",
+    "whatAll": "All services and prices",
+    "otherLine": "Something else in mind? {ask}. If it fits our services, we’ll quote it first.",
+    "otherAsk": "Ask us",
+    "howTitle": "From message to done",
+    "howLead": "Three steps, in the chat app you already use.",
+    "howLink": "How prices and refunds work",
+    "steps": [
+      {
+        "title": "Tell us what you need",
+        "text": "Message us on WhatsApp, LINE, WeChat or KakaoTalk, in your language. Asking is free."
+      },
+      {
+        "title": "Get a fixed quote",
+        "text": "We reply with the price before anything starts. You pay only when you’re happy with it."
+      },
+      {
+        "title": "Done, with proof",
+        "text": "We take care of it and send photos, receipts or confirmations. Money left over from items or taxis comes back to you."
+      }
+    ],
+    "startTitle": "What do you need done?",
+    "startLabel": "Describe what you need",
+    "startPlaceholder": "Book a table for 4 in Hongdae this Friday…",
+    "hours": "We reply every day from 11:00 to 02:00, Korea time."
+  },
+  "services": {
+    "title": "Services and prices | Haedurio",
+    "description": "Fifteen fixed-price services in Seoul: restaurant and salon bookings, shopping, pop-up open-runs, errands, interpretation, translation, parcels and lost items.",
+    "h1": "Services and prices",
+    "lead": "Every price is fixed before you pay. Items, food and taxi fares are charged at cost, plus a 4.5% handling fee.",
+    "filterLabel": "Show services by category",
+    "all": "All",
+    "listLabel": "Services",
+    "backToList": "All services",
+    "cats": {
+      "book": {
+        "name": "Reservations and info",
+        "short": "Bookings",
+        "home": "Restaurants, hair salons and shops, booked in Korean"
+      },
+      "shop": {
+        "name": "Shopping",
+        "short": "Shopping",
+        "home": "In-store buys, pop-up open-runs and Korea-only online shops"
+      },
+      "errand": {
+        "name": "Errands",
+        "short": "Errands",
+        "home": "Pickups, hotel deliveries and queueing around Seoul"
+      },
+      "lang": {
+        "name": "Interpretation and translation",
+        "short": "Language help",
+        "home": "On a call, by your side, or in writing"
+      },
+      "parcel": {
+        "name": "Parcels and shipping",
+        "short": "Parcels",
+        "home": "We receive, store and ship abroad for you"
+      },
+      "lost": {
+        "name": "Lost items and urgent help",
+        "short": "Lost and urgent",
+        "home": "Lost-and-found searches and same-day delivery"
+      },
+      "other": {
+        "name": "Something else",
+        "short": "Other",
+        "home": "Anything else within our services"
+      }
+    },
+    "leads": {
+      "fixed": "Fixed price",
+      "from": "From",
+      "quote": "Quoted before you pay"
+    },
+    "request": "Request this service",
+    "ask": "Ask a question",
+    "askMessage": "Hi Haedurio, I have a question about: {service}",
+    "included": "What’s included",
+    "need": "What we’ll need from you",
+    "addons": "Add-ons",
+    "goodToKnow": "Good to know",
+    "ifNot": "If we can’t finish it",
+    "refunds": {
+      "A": "If we can’t get it done, the service fee is refunded in full.",
+      "B": "Once we’ve set off, 35% of the service fee (at least {won:31000}) is kept and the rest is refunded.",
+      "C": "Once queueing or the visit has started, 50% of the service fee (at least {won:70000}) is kept and the rest is refunded.",
+      "Q": "The refund rule is written on your quote before you pay."
+    },
+    "refundTail": "Money left over from items, food or taxis always comes back to you.",
+    "refundLink": "Read the refund rules"
+  },
+  "catalog": {
+    "reservation": {
+      "name": "Reservation",
+      "unit": "per place",
+      "blurb": "We call or message a restaurant, hair salon or shop in Korean and confirm your booking.",
+      "included": [
+        "One booking, made by phone or message",
+        "A screenshot of the confirmation"
+      ],
+      "need": [
+        "The place’s name or a map link",
+        "Date, time and number of people",
+        "The name for the booking"
+      ],
+      "addons": [
+        {
+          "label": "Compare a few places first",
+          "price": "+{won:5000}"
+        },
+        {
+          "label": "Change or cancel the booking later",
+          "price": "+{won:5000}"
+        },
+        {
+          "label": "Places that need repeated follow-ups",
+          "price": "+{won:5000}"
+        }
+      ],
+      "notes": [
+        "We don’t book clinics, hospitals, hotels, flights, trains or tours."
+      ]
+    },
+    "info": {
+      "name": "Info check",
+      "unit": "per 30 minutes",
+      "blurb": "We check opening hours, stock, prices or whether something is possible, and sum it up for you.",
+      "included": [
+        "Calls and messages in Korean",
+        "A short written answer in your chat"
+      ],
+      "need": [
+        "What you want to know, and where"
+      ],
+      "addons": [
+        {
+          "label": "One hour of research",
+          "price": "{won:22000}"
+        }
+      ],
+      "notes": [
+        "Quick checks under 15 minutes can be free.",
+        "We don’t plan itineraries or recommend clinics."
+      ]
+    },
+    "instore": {
+      "name": "In-store purchase",
+      "unit": "for the first hour, plus the item",
+      "blurb": "We go to the store, buy the item for you and send photos before we pay.",
+      "included": [
+        "Store visit and purchase",
+        "Photos of the item before buying",
+        "Item handling fee of 4.5% (the {won:8000} minimum is included)"
+      ],
+      "need": [
+        "A photo or link of the item",
+        "How many, and your maximum budget"
+      ],
+      "addons": [
+        {
+          "label": "Each extra hour",
+          "price": "+{won:56000}"
+        },
+        {
+          "label": "Ship it abroad",
+          "price": "+{won:48000}"
+        }
+      ],
+      "notes": [
+        "We don’t buy tickets, medicine, alcohol or tobacco."
+      ]
+    },
+    "online": {
+      "name": "Korea-only online shop",
+      "unit": "per order, plus the item",
+      "blurb": "We order from Korean online shops that only accept Korean accounts, then receive the parcel for you.",
+      "included": [
+        "Ordering and paying from our business account",
+        "Receiving and checking the parcel",
+        "Item handling fee of 4.5% (the {won:8000} minimum is included)"
+      ],
+      "need": [
+        "Product link, options and quantity",
+        "Where you want it delivered"
+      ],
+      "addons": [
+        {
+          "label": "Ship it abroad",
+          "price": "+{won:48000}"
+        }
+      ],
+      "notes": [
+        "Once ordered, the shop’s own return policy applies.",
+        "We don’t lend phone numbers or accounts for identity checks."
+      ]
+    },
+    "openrun": {
+      "name": "Pop-up open-run",
+      "unit": "for up to 2 hours in the queue, plus items",
+      "blurb": "We arrive before opening, queue for you and try to buy limited items.",
+      "included": [
+        "Arrival before opening, at a set time",
+        "Up to 2 hours of queueing",
+        "Photos of items before we buy"
+      ],
+      "need": [
+        "Store, date and opening time",
+        "Your item list, in order of priority",
+        "Your maximum budget"
+      ],
+      "addons": [
+        {
+          "label": "Each extra hour in the queue",
+          "price": "+{won:37000}"
+        },
+        {
+          "label": "Ship it abroad",
+          "price": "+{won:48000}"
+        }
+      ],
+      "notes": [
+        "Limited items can sell out. Time in the queue is still charged."
+      ]
+    },
+    "errand": {
+      "name": "On-site errand",
+      "unit": "for the first hour",
+      "blurb": "Pickups, deliveries, queueing and on-site checks in central Seoul.",
+      "included": [
+        "Travel on foot, by subway, or by car for items",
+        "Photo proof at each handover"
+      ],
+      "need": [
+        "Pickup and drop-off places and times",
+        "What the item is",
+        "Who will receive it"
+      ],
+      "addons": [
+        {
+          "label": "Each extra hour",
+          "price": "+{won:56000}"
+        },
+        {
+          "label": "Handoff at a hotel lobby",
+          "price": "+{won:8000}"
+        },
+        {
+          "label": "Outside central Seoul",
+          "price": "from +{won:16000}"
+        },
+        {
+          "label": "Bulky or heavy items",
+          "price": "from +{won:16000}"
+        }
+      ],
+      "notes": [
+        "We can’t drive you anywhere. We’ll call a taxi and ride along."
+      ]
+    },
+    "remote": {
+      "name": "Remote interpretation",
+      "unit": "per 30 minutes",
+      "blurb": "Live interpretation between Korean and your language, on a voice or video call.",
+      "included": [
+        "Interpretation on a three-way or video call"
+      ],
+      "need": [
+        "What the call is about",
+        "Who we’ll be talking to"
+      ],
+      "addons": [
+        {
+          "label": "One hour",
+          "price": "{won:62000}"
+        }
+      ],
+      "notes": []
+    },
+    "companion": {
+      "name": "Companion interpretation",
+      "unit": "for the first hour",
+      "blurb": "We meet you at a hospital, pharmacy, office, store or police station and interpret for you there.",
+      "included": [
+        "Meeting you on site",
+        "Interpreting what is said, as it is said"
+      ],
+      "need": [
+        "Place and time",
+        "Your own booking, if the place needs one"
+      ],
+      "addons": [
+        {
+          "label": "Two hours",
+          "price": "{won:182000}"
+        },
+        {
+          "label": "Each extra hour",
+          "price": "+{won:56000}"
+        }
+      ],
+      "notes": [
+        "You book and pay the clinic or office yourself.",
+        "We interpret only. We don’t give medical or legal advice."
+      ]
+    },
+    "pro": {
+      "name": "Professional interpretation",
+      "unit": "per hour",
+      "blurb": "On-site interpretation for consultations, meetings and viewings.",
+      "included": [
+        "A prepared interpreter on site"
+      ],
+      "need": [
+        "Date, place and topic",
+        "Documents to read in advance, if any"
+      ],
+      "addons": [
+        {
+          "label": "Two hours",
+          "price": "{won:186000}"
+        }
+      ],
+      "notes": [
+        "We interpret only. We don’t give medical or legal opinions."
+      ]
+    },
+    "translation": {
+      "name": "Translation",
+      "unit": "minimum",
+      "blurb": "Messages, notices and everyday documents, translated to or from Korean.",
+      "included": [
+        "General text at {won:155} a word",
+        "Specialist text at {won:280} a word"
+      ],
+      "need": [
+        "The text, and what it’s for"
+      ],
+      "addons": [],
+      "notes": [
+        "We don’t translate documents for government offices, contracts or certificates."
+      ]
+    },
+    "shipping": {
+      "name": "International shipping",
+      "unit": "plus postage",
+      "blurb": "We repack your items and send them abroad with tracking.",
+      "included": [
+        "Careful repacking",
+        "Drop-off and a tracking number"
+      ],
+      "need": [
+        "The recipient’s address and phone number, in English",
+        "What’s inside"
+      ],
+      "addons": [],
+      "notes": [
+        "We can’t ship medicine or anything banned in Korea or the destination country."
+      ]
+    },
+    "parcel": {
+      "name": "Parcel receiving",
+      "unit": "plus courier fees",
+      "blurb": "We receive your parcel, keep it safe and send it on within Korea.",
+      "included": [
+        "A photo when it arrives",
+        "Up to 7 days of storage",
+        "Sending it on within Korea"
+      ],
+      "need": [
+        "The tracking number",
+        "Where it should go next"
+      ],
+      "addons": [
+        {
+          "label": "Storage after 7 days",
+          "price": "{won:1500} a day"
+        }
+      ],
+      "notes": []
+    },
+    "lostcheck": {
+      "name": "Lost item check",
+      "unit": "per item",
+      "blurb": "We search the Korean police lost-and-found system and call taxi companies, stations and venues for you.",
+      "included": [
+        "A search of the police lost-and-found system",
+        "Calls to the taxi company, station or venue",
+        "A summary of what we found"
+      ],
+      "need": [
+        "Where and when you lost it",
+        "What it looks like"
+      ],
+      "addons": [],
+      "notes": []
+    },
+    "pickup": {
+      "name": "Pickup and same-day delivery",
+      "unit": "per trip",
+      "blurb": "We collect a found item for you, or rush something you need today to where you are.",
+      "included": [
+        "Lost item pickup with your signed authorization, {won:132000}",
+        "Same-day urgent delivery in central Seoul, {won:148000}",
+        "Photo proof at handover"
+      ],
+      "need": [
+        "Pickup and drop-off places",
+        "For lost items: a signed authorization letter",
+        "A copy of your passport, kept encrypted with your consent"
+      ],
+      "addons": [
+        {
+          "label": "Outside central Seoul",
+          "price": "from +{won:16000}"
+        }
+      ],
+      "notes": []
+    },
+    "genie": {
+      "name": "Something else",
+      "unit": "an hour remote, or {won:56000} an hour on site",
+      "blurb": "Anything else within our services. Tell us what you need and we’ll quote it first.",
+      "included": [
+        "A fixed quote before anything starts"
+      ],
+      "need": [
+        "What you need, where and when"
+      ],
+      "addons": [],
+      "notes": [
+        "We don’t take requests from our list of things we don’t do."
+      ]
+    }
+  },
+  "prices": {
+    "title": "Prices and refunds | Haedurio",
+    "description": "How Haedurio quotes work: a fixed service fee, actual costs at cost plus 4.5% handling, and extras only when needed. Refund rules if we can’t finish.",
+    "h1": "What you pay",
+    "lead": "A fixed fee for the task, real costs passed on at cost, and extras only when a task needs them. You see the total before you pay.",
+    "equationLabel": "Service fee, plus actual costs, plus extras, equals your quote",
+    "eq": [
+      {
+        "title": "Service fee",
+        "text": "The menu price for the task, from {won:9000}."
+      },
+      {
+        "title": "Actual costs",
+        "text": "Items, food, taxis, deposits and postage, at cost plus 4.5% handling."
+      },
+      {
+        "title": "Extras",
+        "text": "Night work, rush jobs, longer trips or heavy items."
+      },
+      {
+        "title": "Your quote",
+        "text": "Sent to your chat before anything starts. Nothing is charged until you accept it."
+      }
+    ],
+    "exampleTitle": "How a quote adds up",
+    "exampleLead": "A shopping bag left at a store in Myeongdong, picked up and handed to you at your hotel lobby on a weekday afternoon.",
+    "exampleNote": "We take a taxi deposit up front. If the fare comes in lower, the difference is refunded.",
+    "quoteTitle": "Quote",
+    "quoteTag": "Example",
+    "lines": [
+      "On-site errand, first hour",
+      "Handoff at the hotel lobby",
+      "Taxi fare, at cost",
+      "Handling, 4.5% of the taxi fare"
+    ],
+    "total": "Total",
+    "paidNote": "Paid before we start. Photos at pickup and at the lobby are sent to your chat.",
+    "extrasTitle": "Extras, only when needed",
+    "extrasLead": "Your quote lists every extra by name. When two timing extras apply, they multiply: same day at night is ×1.35, then ×1.3.",
+    "timingTitle": "Timing",
+    "timing": [
+      "Night work, 22:00 to 02:00",
+      "Within 48 hours",
+      "Within 24 hours",
+      "Same day",
+      "Within 3 hours",
+      "A fixed arrival time"
+    ],
+    "distanceTitle": "Distance and size, for on-site tasks",
+    "distance": [
+      "Central Seoul",
+      "Rest of Seoul",
+      "Outer Seoul and longer trips",
+      "Airports and nearby cities",
+      "10 to 20 kg, or bulky",
+      "Over 20 kg, or needs two people"
+    ],
+    "included": "Included",
+    "outside": "Outside Seoul, we quote each trip separately.",
+    "refundsTitle": "If we can’t finish",
+    "refundsLead": "How much of the service fee comes back depends on whether we had already set off.",
+    "refunds": [
+      {
+        "title": "Online and remote tasks",
+        "text": "Bookings, info checks, remote interpretation, translation, online orders before they’re placed.",
+        "bar": "Full fee back"
+      },
+      {
+        "title": "On-site tasks, once we’ve set off",
+        "text": "Errands, in-store purchases, pickups and professional interpretation. We keep 35% of the fee, at least {won:31000}.",
+        "bar": "Up to 65% back"
+      },
+      {
+        "title": "Queueing and companion tasks, once started",
+        "text": "Pop-up open-runs and companion interpretation. We keep 50% of the fee, at least {won:70000}.",
+        "bar": "Up to 50% back"
+      }
+    ],
+    "refundsNote": "Money you haven’t used for items, food or taxis always comes back. Cancellation fees charged by shops, venues or couriers can’t be refunded.",
+    "payTitle": "Paying",
+    "payText": "You pay once you accept the quote, with the payment link or details we send with it. Prices are in Korean won, and dollar amounts are a guide. For on-site tasks you can also pay in won, in cash.",
+    "payCta": "Get a quote"
+  },
+  "request": {
+    "title": "Start a request | Haedurio",
+    "description": "Tell us what you need in Seoul. We reply in your chat app with a fixed quote, and nothing is charged until you accept it.",
+    "close": "Close",
+    "h1": "Start a request",
+    "lead": "Tell us what you need. We’ll reply in your chat app with a fixed quote, and nothing is charged until you accept it.",
+    "formLabel": "Request",
+    "step1": "What do you need?",
+    "chips": {
+      "book": "A booking",
+      "info": "Info check",
+      "shop": "Shopping",
+      "errand": "An errand",
+      "interp": "Interpretation",
+      "trans": "Translation",
+      "parcel": "Parcels",
+      "lost": "Lost item",
+      "other": "Something else"
+    },
+    "errService": "Choose what you need help with.",
+    "step2": "Tell us the details",
+    "detailsLabel": "What should we do?",
+    "detailsPlaceholder": "Book a table for 4 at a BBQ place in Hongdae, around {won:30000} each.",
+    "errDetails": "Tell us a little about what you need.",
+    "whenLabel": "When",
+    "whenPlaceholder": "Friday, 7 pm",
+    "whereLabel": "Where",
+    "wherePlaceholder": "Hongdae, Seoul",
+    "step3": "Where should we reply?",
+    "channelLabel": "Reply on",
+    "channels": {
+      "whatsapp": {
+        "name": "WhatsApp",
+        "label": "Your WhatsApp number",
+        "placeholder": "+1 415 555 0134"
+      },
+      "line": {
+        "name": "LINE",
+        "label": "Your LINE ID",
+        "placeholder": "your-line-id"
+      },
+      "wechat": {
+        "name": "WeChat",
+        "label": "Your WeChat ID",
+        "placeholder": "your-wechat-id"
+      },
+      "kakao": {
+        "name": "KakaoTalk",
+        "label": "Your KakaoTalk ID",
+        "placeholder": "your-kakao-id"
+      },
+      "email": {
+        "name": "Email",
+        "label": "Your email",
+        "placeholder": "you@example.com"
+      }
+    },
+    "errContact": "Add this so we can reply to you.",
+    "errPhone": "Enter the number with its country code, like +1 415 555 0134.",
+    "errEmail": "Check the email address.",
+    "nameLabel": "Your name",
+    "namePlaceholder": "Alex Kim",
+    "errName": "Tell us what to call you.",
+    "replyIn": "Reply in",
+    "consent": "I agree to the {privacy}. Haedurio uses these details only to handle this request.",
+    "consentLink": "privacy policy",
+    "errConsent": "Tick the box to agree to the privacy policy.",
+    "submit": "Send request",
+    "sending": "Sending…",
+    "note": "No payment now. You’ll get a fixed quote first.",
+    "errVerify": "We couldn’t confirm you’re not a robot. Wait a moment and try again, or message us instead.",
+    "errSend": "Your request didn’t go through. Try again, or send it to us on WhatsApp.",
+    "sendWhatsApp": "Send on WhatsApp",
+    "sentTitle": "Request sent",
+    "sentText": "We’ll message you on {channel} with a fixed quote. We reply every day from 11:00 to 02:00, Korea time. Nothing is charged until you accept it.",
+    "backHome": "Back to home",
+    "browse": "Browse services",
+    "summaryTitle": "Your request",
+    "summaryService": "Service",
+    "summaryFrom": "Starts from",
+    "summaryReply": "Reply on",
+    "notChosen": "Not chosen yet",
+    "summaryNote": "Your final price comes in the quote, with every extra listed by name.",
+    "chatTitle": "Rather just chat?",
+    "chatText": "Message us directly. Same people, same prices."
+  },
+  "help": {
+    "title": "Help | Haedurio",
+    "description": "Answers about paying, reply hours, hotel deliveries, refunds and your details, plus how to reach a person at Haedurio.",
+    "h1": "Help",
+    "lead": "Quick answers to common questions. For anything else, message a person.",
+    "faqTitle": "Common questions",
+    "faq": [
+      {
+        "q": "How do I pay?",
+        "a": "You pay once you accept your quote, with the payment link or details we send with it. Prices are in Korean won. For on-site tasks you can also pay in won, in cash."
+      },
+      {
+        "q": "When do you reply?",
+        "a": "Every day from 11:00 to 02:00, Korea time. You can message us any time, and we’ll reply when we’re open."
+      },
+      {
+        "q": "Can you bring things to my hotel?",
+        "a": "Yes. Most hotels ask for a lobby handoff, which is {won:8000}. Tell us the hotel’s name and the name your room is booked under."
+      },
+      {
+        "q": "Can you book a clinic or buy concert tickets for me?",
+        "a": "No. Korean law doesn’t allow us to book or recommend clinics, or to buy tickets for other people. We can go with you and interpret at a clinic you booked yourself, and point you to the official ticket seller."
+      },
+      {
+        "q": "Can you drive me somewhere?",
+        "a": "No. We can’t carry passengers in our own cars. We’ll call a taxi for you, and ride along if you’d like help on arrival."
+      },
+      {
+        "q": "What if you can’t finish my task?",
+        "a": "Online-only tasks are refunded in full. If we’ve already set off, part of the fee is kept. Money you haven’t used for items, food or taxis always comes back.",
+        "link": "Read the refund rules"
+      },
+      {
+        "q": "What do you do with my details?",
+        "a": "We use them only to handle your request. We keep them for one year for support and disputes, then delete them. If a task needs a copy of your passport, we ask first, store it encrypted and delete it when the task is done.",
+        "link": "Read the privacy policy"
+      },
+      {
+        "q": "Which languages do you speak?",
+        "a": "English, Japanese, Chinese (simplified and traditional), Vietnamese and Thai. We handle the Korean side for you."
+      }
+    ],
+    "talkTitle": "Talk to a person",
+    "talkHours": "Every day, 11:00 to 02:00 Korea time.",
+    "talk": {
+      "whatsapp": "WhatsApp",
+      "line": "LINE",
+      "kakao": "KakaoTalk",
+      "kakaoValue": "Haedurio channel",
+      "email": "Email",
+      "phone": "Phone",
+      "wechat": "WeChat",
+      "wechatAlt": "WeChat QR code for Haedurio",
+      "wechatNote": "Scan with WeChat to add us."
+    },
+    "dontTitle": "What we don’t do",
+    "dontLead": "To keep every task legal in Korea, we turn down these requests.",
+    "dont": [
+      "Clinic or hospital bookings and referrals",
+      "Buying or reselling concert and event tickets",
+      "Buying or sending medicine",
+      "Buying alcohol or tobacco",
+      "Lending phone numbers or accounts for ID checks",
+      "Rides in our own cars",
+      "Government paperwork or legal advice",
+      "Hotel, flight, train or tour bookings",
+      "Currency exchange or money transfers"
+    ],
+    "policiesLabel": "Policies",
+    "terms": "Terms of service",
+    "privacy": "Privacy policy",
+    "refunds": "Refund rules"
+  },
+  "legal": {
+    "updated": "Last updated {date}",
+    "date": "14 October 2026",
+    "translationNote": "Translations are provided for convenience. If a translation differs from the English version, the English version applies.",
+    "contents": "Contents"
+  },
+  "terms": {
+    "title": "Terms of service | Haedurio",
+    "description": "The terms for using Haedurio, the Seoul concierge service run by Whaleland: quotes, payment, refunds, what we don’t do, and responsibilities.",
+    "h1": "Terms of service",
+    "intro": "These terms apply when you use haedurio.com or ask Haedurio to do a task for you. Please read them before you accept a quote.",
+    "sections": [
+      {
+        "h": "Who we are",
+        "p": [
+          "Haedurio is a concierge service for visitors in Korea, run by {company} ({address}, business registration no. {brn}, e-commerce registration no. {ecl}). In these terms, “we” and “us” mean Haedurio and {company}, and “you” means the person who asks us for help."
+        ]
+      },
+      {
+        "h": "What we do",
+        "p": [
+          "We carry out the tasks listed on our services page on your behalf and following your instructions: bookings, information checks, shopping, errands, interpretation, translation, parcels and lost-item help. We only take on tasks that are legal in Korea."
+        ]
+      },
+      {
+        "h": "Quotes",
+        "p": [
+          "Before any task starts, we send you a quote in Korean won. A quote shows the service fee, the actual costs we expect, any extras, and the refund rule for that task. A task starts only after you accept the quote. If the work changes, we send a new quote before going further."
+        ]
+      },
+      {
+        "h": "Payment",
+        "p": [
+          "You pay once you accept the quote, using the payment link or details we send with it. For on-site tasks, you can also pay in Korean won, in cash, when we agree this in advance. Dollar amounts on our site are a guide only."
+        ]
+      },
+      {
+        "h": "Actual costs",
+        "p": [
+          "Items, food, taxi fares, deposits and postage are charged at the price we actually pay, plus a 4.5% handling fee. We send receipts or photos as proof. Money that isn’t used comes back to you."
+        ]
+      },
+      {
+        "h": "Cancellations and refunds",
+        "p": [
+          "You can cancel at any time before a task starts, and get back everything you paid.",
+          "If we can’t finish a task, or you cancel after it starts, the refund rule written on your quote applies:"
+        ],
+        "list": [
+          "Online and remote tasks: the service fee is refunded in full.",
+          "On-site tasks, once we’ve set off: 35% of the service fee (at least {won:31000}) is kept and the rest is refunded.",
+          "Queueing and companion tasks, once queueing or the visit has started: 50% of the service fee (at least {won:70000}) is kept and the rest is refunded."
+        ],
+        "after": [
+          "Unused money for items, food or taxis is always refunded. Cancellation fees charged by shops, venues or couriers can’t be refunded. We send refunds to the original payment method within 3 business days of confirming them."
+        ]
+      },
+      {
+        "h": "What we don’t do",
+        "p": [
+          "We don’t book or recommend clinics or hospitals, buy or resell event tickets, buy or deliver medicine, alcohol or tobacco, lend phone numbers or accounts for identity checks, give rides in our own cars, prepare or submit government documents, give legal advice, book hotels, flights, trains or tours, or exchange or transfer money. We also don’t handle anything banned by Korean law. We can still go with you and interpret, for example at a clinic you booked yourself."
+        ]
+      },
+      {
+        "h": "Your part",
+        "p": [
+          "Please give us accurate details and tell us about anything that could affect the task. Only ask for things that are legal for you to buy, carry or ship. When we ship abroad, you are responsible for the import rules and duties of the destination country."
+        ]
+      },
+      {
+        "h": "Our responsibility",
+        "p": [
+          "We take reasonable care with every task. Shops, restaurants, couriers and other businesses are responsible for their own goods and services, including quality, delays and sold-out items, but we’ll help you sort out problems with them. If something goes wrong because of our mistake, we’ll make it right, up to the amount you paid us for that task. This limit doesn’t apply where Korean law says otherwise, including when we act intentionally or with gross negligence."
+        ]
+      },
+      {
+        "h": "Your details",
+        "p": [
+          "We handle personal information as described in our {privacy}."
+        ]
+      },
+      {
+        "h": "Changes to these terms",
+        "p": [
+          "We may update these terms. The version on this page when you accept a quote applies to that task."
+        ]
+      },
+      {
+        "h": "Law and disputes",
+        "p": [
+          "These terms are governed by the laws of the Republic of Korea. Any dispute will be handled by the Seoul Central District Court, unless Korean law gives you the right to use another court."
+        ]
+      },
+      {
+        "h": "Contact",
+        "p": [
+          "Questions about these terms: {email}."
+        ]
+      }
+    ]
+  },
+  "privacy": {
+    "title": "Privacy policy | Haedurio",
+    "description": "What personal information Haedurio collects, why, how long we keep it, who we share it with, and how to exercise your rights.",
+    "h1": "Privacy policy",
+    "intro": "This policy explains how {company} handles your personal information when you use Haedurio, in line with Korea’s Personal Information Protection Act.",
+    "sections": [
+      {
+        "h": "What we collect",
+        "p": [
+          "When you send a request: your name, the chat app ID, phone number or email you want us to reply on, your reply language, and the details you write about the task.",
+          "When a task needs it: delivery addresses, hotel names and the name a room is booked under, recipient details for shipping, and booking names.",
+          "Only for tasks that legally require it, such as collecting a lost item on your behalf, and only with your consent: a copy of your passport.",
+          "To keep the site safe: technical data such as your IP address and browser type, processed by our hosting and spam-protection providers."
+        ]
+      },
+      {
+        "h": "Why we use it",
+        "list": [
+          "To reply to you, quote and carry out your request",
+          "To take payments and send refunds",
+          "To give support and handle disputes",
+          "To keep the site and our services safe from abuse"
+        ],
+        "after": [
+          "We don’t use your information for advertising, and we don’t sell it."
+        ]
+      },
+      {
+        "h": "How long we keep it",
+        "list": [
+          "Request and support details: 1 year after your task ends, then deleted.",
+          "Passport copies: deleted as soon as the task is done, and no later than 30 days after.",
+          "Records that Korean law requires us to keep, such as payment and contract records under the Act on Consumer Protection in Electronic Commerce (5 years) and complaint records (3 years): only for the period that law requires."
+        ],
+        "after": [
+          "When the time is up, we delete digital files permanently and shred paper copies."
+        ]
+      },
+      {
+        "h": "Who we share it with",
+        "p": [
+          "We share only what a task needs with the business involved, for example the name for a restaurant booking or a delivery address for a courier. We also share information when the law requires it."
+        ]
+      },
+      {
+        "h": "Service providers and transfers outside Korea",
+        "p": [
+          "We use these providers to run the site and handle requests. They may store or process data on servers outside Korea. Data is sent over encrypted connections when you submit a form or message us, and kept for the periods above."
+        ],
+        "table": {
+          "head": [
+            "Provider",
+            "Country",
+            "What it does"
+          ],
+          "rows": [
+            [
+              "Supabase Inc.",
+              "United States",
+              "Stores the requests you send through this site"
+            ],
+            [
+              "Vercel Inc.",
+              "United States",
+              "Hosts this website"
+            ],
+            [
+              "Cloudflare, Inc.",
+              "United States",
+              "Checks that form submissions aren’t spam (Turnstile)"
+            ]
+          ]
+        },
+        "after": [
+          "If you message us on WhatsApp, LINE, WeChat or KakaoTalk, that app’s own privacy policy also applies. You can refuse these transfers by not using the form and emailing us instead, but we may then be unable to reply as quickly."
+        ]
+      },
+      {
+        "h": "How we protect it",
+        "p": [
+          "Only staff who need your information for a task can see it. Passport copies are stored encrypted. The site uses encrypted HTTPS connections."
+        ]
+      },
+      {
+        "h": "Cookies",
+        "p": [
+          "We don’t use advertising or tracking cookies. Your browser keeps your language choice, and a draft of a request you haven’t sent yet, on your device. Our spam-protection provider may process technical data to tell people from bots."
+        ]
+      },
+      {
+        "h": "Children",
+        "p": [
+          "Our services are for adults. We don’t knowingly collect personal information from children under 14."
+        ]
+      },
+      {
+        "h": "Your rights",
+        "p": [
+          "You can ask to see, correct or delete your information, or ask us to stop using it, by emailing {email}. We reply within 10 days. If you’re not satisfied, you can contact the Personal Information Infringement Report Center (privacy.kisa.or.kr, +82 118) or the Personal Information Dispute Mediation Committee (kopico.go.kr)."
+        ]
+      },
+      {
+        "h": "Privacy officer",
+        "p": [
+          "{officer}, CEO of {company}. Email: {email}. Phone: {phone}."
+        ]
+      },
+      {
+        "h": "Changes",
+        "p": [
+          "If we change this policy, we’ll post the new version here with a new date."
+        ]
+      }
+    ]
+  },
+  "notFound": {
+    "title": "Page not found | Haedurio",
+    "h1": "We couldn’t find that page.",
+    "lead": "The link may be old, or the page has moved.",
+    "home": "Go to the home page",
+    "services": "See services and prices"
+  }
+}

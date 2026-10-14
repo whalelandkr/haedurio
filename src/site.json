@@ -1,0 +1,300 @@
+{
+  "origin": "https://haedurio.com",
+  "updated": "2026-10-14",
+  "year": 2026,
+  "usdRate": 1553,
+  "langs": [
+    {
+      "code": "en",
+      "path": "",
+      "htmlLang": "en",
+      "hreflang": "en",
+      "ogLocale": "en_US",
+      "name": "English",
+      "turnstile": "en"
+    },
+    {
+      "code": "ja",
+      "path": "ja",
+      "htmlLang": "ja",
+      "hreflang": "ja",
+      "ogLocale": "ja_JP",
+      "name": "日本語",
+      "turnstile": "ja"
+    },
+    {
+      "code": "zh-cn",
+      "path": "zh-cn",
+      "htmlLang": "zh-CN",
+      "hreflang": "zh-Hans",
+      "ogLocale": "zh_CN",
+      "name": "简体中文",
+      "turnstile": "zh-cn"
+    },
+    {
+      "code": "zh-tw",
+      "path": "zh-tw",
+      "htmlLang": "zh-TW",
+      "hreflang": "zh-Hant",
+      "ogLocale": "zh_TW",
+      "name": "繁體中文",
+      "turnstile": "zh-tw"
+    },
+    {
+      "code": "vi",
+      "path": "vi",
+      "htmlLang": "vi",
+      "hreflang": "vi",
+      "ogLocale": "vi_VN",
+      "name": "Tiếng Việt",
+      "turnstile": "vi"
+    },
+    {
+      "code": "th",
+      "path": "th",
+      "htmlLang": "th",
+      "hreflang": "th",
+      "ogLocale": "th_TH",
+      "name": "ไทย",
+      "turnstile": "th"
+    }
+  ],
+  "contact": {
+    "whatsapp": "821049824357",
+    "whatsappDisplay": "+82 10-4982-4357",
+    "lineId": "@408jxmfm",
+    "lineUrl": "https://line.me/R/ti/p/@408jxmfm",
+    "kakaoUrl": "https://pf.kakao.com/_siihX/chat",
+    "wechatUrl": "https://u.wechat.com/kKEB-WqxgEDDCuQ63QJC1sA?s=2",
+    "email": "contact@whalelandkr.com",
+    "phone": "+827080283008",
+    "phoneDisplay": "+82 70-8028-3008",
+    "instagram": "https://www.instagram.com/haedurio",
+    "facebook": "https://www.facebook.com/profile.php?id=61586777851772"
+  },
+  "business": {
+    "company": "Whaleland",
+    "ceo": "Jeonghu Kim",
+    "address": "Eonju-ro 425, Gangnam-gu, Seoul, Republic of Korea",
+    "brn": "428-04-03222",
+    "ecl": "2025-Seoul Gangnam-04140",
+    "host": "Vercel Inc.",
+    "verifyUrl": "https://www.ftc.go.kr/bizCommPop.do?wrkr_no=4280403222",
+    "privacyOfficer": "Jeonghu Kim"
+  },
+  "supabase": {
+    "url": "https://sutvnkiroquezjaendkr.supabase.co",
+    "anonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1dHZua2lyb3F1ZXpqYWVuZGtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3ODU3OTEsImV4cCI6MjA5ODM2MTc5MX0.cnxKEJPVWzpiWNhhkQ800cacxp6lGLbiNzGNDSCHcaE",
+    "function": "submit-inquiry"
+  },
+  "turnstileSitekey": "0x4AAAAAACOamwget1BYd5tR",
+  "categories": [
+    "book",
+    "shop",
+    "errand",
+    "lang",
+    "parcel",
+    "lost",
+    "other"
+  ],
+  "homeRows": [
+    {
+      "cat": "book",
+      "won": 9000,
+      "kind": "from"
+    },
+    {
+      "cat": "shop",
+      "won": 30000,
+      "kind": "from"
+    },
+    {
+      "cat": "errand",
+      "won": 95000,
+      "kind": "hour"
+    },
+    {
+      "cat": "lang",
+      "won": 23000,
+      "kind": "from"
+    },
+    {
+      "cat": "parcel",
+      "won": 28000,
+      "kind": "from"
+    },
+    {
+      "cat": "lost",
+      "won": 39000,
+      "kind": "from"
+    }
+  ],
+  "services": [
+    {
+      "id": "reservation",
+      "cat": "book",
+      "lead": "fixed",
+      "won": 9000,
+      "refund": "A",
+      "chip": "book"
+    },
+    {
+      "id": "info",
+      "cat": "book",
+      "lead": "fixed",
+      "won": 9000,
+      "refund": "A",
+      "chip": "info"
+    },
+    {
+      "id": "instore",
+      "cat": "shop",
+      "lead": "from",
+      "won": 102000,
+      "refund": "B",
+      "chip": "shop"
+    },
+    {
+      "id": "online",
+      "cat": "shop",
+      "lead": "from",
+      "won": 30000,
+      "refund": "A",
+      "chip": "shop"
+    },
+    {
+      "id": "openrun",
+      "cat": "shop",
+      "lead": "from",
+      "won": 342000,
+      "refund": "C",
+      "chip": "shop"
+    },
+    {
+      "id": "errand",
+      "cat": "errand",
+      "lead": "from",
+      "won": 95000,
+      "refund": "B",
+      "chip": "errand"
+    },
+    {
+      "id": "remote",
+      "cat": "lang",
+      "lead": "fixed",
+      "won": 31000,
+      "refund": "A",
+      "chip": "interp"
+    },
+    {
+      "id": "companion",
+      "cat": "lang",
+      "lead": "from",
+      "won": 126000,
+      "refund": "C",
+      "chip": "interp"
+    },
+    {
+      "id": "pro",
+      "cat": "lang",
+      "lead": "fixed",
+      "won": 93000,
+      "refund": "B",
+      "chip": "interp"
+    },
+    {
+      "id": "translation",
+      "cat": "lang",
+      "lead": "from",
+      "won": 23000,
+      "refund": "A",
+      "chip": "trans"
+    },
+    {
+      "id": "shipping",
+      "cat": "parcel",
+      "lead": "from",
+      "won": 48000,
+      "refund": "A",
+      "chip": "parcel"
+    },
+    {
+      "id": "parcel",
+      "cat": "parcel",
+      "lead": "from",
+      "won": 28000,
+      "refund": "A",
+      "chip": "parcel"
+    },
+    {
+      "id": "lostcheck",
+      "cat": "lost",
+      "lead": "fixed",
+      "won": 39000,
+      "refund": "A",
+      "chip": "lost"
+    },
+    {
+      "id": "pickup",
+      "cat": "lost",
+      "lead": "from",
+      "won": 132000,
+      "refund": "B",
+      "chip": "lost"
+    },
+    {
+      "id": "genie",
+      "cat": "other",
+      "lead": "quote",
+      "won": 31000,
+      "won2": 56000,
+      "refund": "Q",
+      "chip": "other"
+    }
+  ],
+  "chips": [
+    {
+      "id": "book",
+      "won": 9000
+    },
+    {
+      "id": "info",
+      "won": 9000
+    },
+    {
+      "id": "shop",
+      "won": 30000
+    },
+    {
+      "id": "errand",
+      "won": 95000
+    },
+    {
+      "id": "interp",
+      "won": 31000
+    },
+    {
+      "id": "trans",
+      "won": 23000
+    },
+    {
+      "id": "parcel",
+      "won": 28000
+    },
+    {
+      "id": "lost",
+      "won": 39000
+    },
+    {
+      "id": "other",
+      "won": null
+    }
+  ],
+  "channels": [
+    "whatsapp",
+    "line",
+    "wechat",
+    "kakao",
+    "email"
+  ]
+}
