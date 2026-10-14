@@ -1,0 +1,979 @@
+{
+  "meta": {
+    "suggest": "Trang này có bản tiếng Việt.",
+    "suggestCta": "Xem bằng tiếng Việt",
+    "close": "Đóng"
+  },
+  "common": {
+    "skip": "Chuyển đến nội dung chính",
+    "homeLabel": "Trang chủ Haedurio",
+    "nav": {
+      "services": "Dịch vụ",
+      "prices": "Bảng giá",
+      "help": "Trợ giúp"
+    },
+    "cta": "Tạo yêu cầu",
+    "menu": "Menu",
+    "languageButton": "Ngôn ngữ: {lang}. Đổi ngôn ngữ",
+    "languageMenu": "Chọn ngôn ngữ",
+    "orMessage": "Hoặc nhắn tin cho chúng tôi qua",
+    "money": {
+      "from": "từ {price}",
+      "hour": "{price}/giờ",
+      "usd": "Khoảng {usd} USD",
+      "usd2": "Khoảng {a} USD hoặc {b} USD",
+      "quote": "Báo giá",
+      "quoted": "Theo báo giá"
+    },
+    "footer": {
+      "tagline": "Hỗ trợ khách đến Hàn Quốc, bởi chính những người sống tại Seoul.",
+      "site": "Haedurio",
+      "policies": "Chính sách",
+      "contact": "Liên hệ",
+      "services": "Dịch vụ",
+      "pricesRefunds": "Bảng giá và hoàn tiền",
+      "help": "Trợ giúp",
+      "request": "Gửi yêu cầu",
+      "terms": "Điều khoản dịch vụ",
+      "privacy": "Chính sách quyền riêng tư",
+      "dont": "Việc chúng tôi không làm",
+      "hours": "Hằng ngày, từ 11:00 đến 02:00 KST",
+      "legal": "{company}, {address}. Giám đốc điều hành: {ceo}. Số đăng ký kinh doanh: {brn}. Số đăng ký thương mại điện tử: {ecl}. Hosting: {host}",
+      "verify": "Tra cứu thông tin doanh nghiệp",
+      "copyright": "© {year} {company}"
+    }
+  },
+  "home": {
+    "title": "Haedurio | Dịch vụ hỗ trợ tại Seoul: đặt chỗ hộ, mua hộ, chạy việc vặt",
+    "description": "Đặt chỗ hộ, mua hộ, chạy việc vặt và phiên dịch tại Seoul dành cho khách đến Hàn Quốc. Nhắn tin bằng tiếng Việt và nhận giá cố định trước khi thanh toán.",
+    "h1a": "Cứ để đó,",
+    "h1b": "chúng tôi lo.",
+    "footnoteLabel": "Chú thích: ý nghĩa của tên gọi",
+    "lead": "Đặt chỗ hộ, mua hộ, chạy việc vặt và phiên dịch tại Seoul. Nhắn tin cho chúng tôi bằng tiếng Việt, bạn sẽ biết giá cố định trước khi thanh toán.",
+    "ctaSecondary": "Xem dịch vụ và giá",
+    "footnote": "Tên Haedurio ({name}) bắt nguồn từ {phrase}, trong tiếng Hàn nghĩa là “Chúng tôi sẽ làm giúp bạn.”",
+    "exampleTitle": "Việc của bạn ở Seoul",
+    "exampleTag": "Ví dụ",
+    "examples": [
+      {
+        "title": "Quán thịt nướng ở Hongdae, bàn 4 người",
+        "status": "Hoàn tất",
+        "note": "Thứ Sáu, 7 giờ tối. Đã gửi ảnh xác nhận."
+      },
+      {
+        "title": "Túi tote pop-up ở Seongsu",
+        "status": "Đang xử lý",
+        "note": "Đang xếp hàng từ 9:40 sáng."
+      },
+      {
+        "title": "Quên điện thoại trên taxi",
+        "status": "Đã báo giá",
+        "note": "Tìm đồ thất lạc, báo giá {won:39000}."
+      }
+    ],
+    "trustLabel": "Vì sao bạn có thể tin tưởng chúng tôi",
+    "trust": [
+      {
+        "title": "Biết giá trước khi trả tiền",
+        "text": "Mọi yêu cầu đều được báo giá cố định trước."
+      },
+      {
+        "title": "Minh chứng cho mọi việc",
+        "text": "Ảnh, hóa đơn hoặc xác nhận đặt chỗ được gửi qua tin nhắn cho bạn."
+      },
+      {
+        "title": "Bằng ngôn ngữ của bạn",
+        "text": "English, 日本語, 简体中文, 繁體中文, Tiếng Việt và ไทย."
+      },
+      {
+        "title": "Doanh nghiệp đăng ký tại Seoul",
+        "text": "Whaleland, Gangnam. Số đăng ký kinh doanh {brn}."
+      }
+    ],
+    "whatTitle": "Chúng tôi làm gì",
+    "whatLead": "Mọi dịch vụ đều có giá cố định. Chọn một dịch vụ để xem giá đã bao gồm những gì và chúng tôi cần gì từ bạn.",
+    "whatAll": "Tất cả dịch vụ và giá",
+    "otherLine": "Bạn cần việc gì khác? {ask}. Nếu việc đó nằm trong phạm vi dịch vụ, chúng tôi sẽ báo giá trước.",
+    "otherAsk": "Hỏi chúng tôi",
+    "howTitle": "Từ tin nhắn đến hoàn tất",
+    "howLead": "Ba bước, ngay trên ứng dụng nhắn tin bạn đang dùng.",
+    "howLink": "Cách tính giá và hoàn tiền",
+    "steps": [
+      {
+        "title": "Cho chúng tôi biết bạn cần gì",
+        "text": "Nhắn tin qua WhatsApp, LINE, WeChat hoặc KakaoTalk bằng tiếng Việt. Hỏi hoàn toàn miễn phí."
+      },
+      {
+        "title": "Nhận báo giá cố định",
+        "text": "Chúng tôi báo giá trước khi bắt đầu bất cứ việc gì. Bạn chỉ thanh toán khi đã hài lòng với mức giá."
+      },
+      {
+        "title": "Hoàn tất, có minh chứng",
+        "text": "Chúng tôi lo liệu mọi việc và gửi ảnh, hóa đơn hoặc xác nhận. Tiền mua hàng hoặc tiền taxi còn dư sẽ được hoàn lại cho bạn."
+      }
+    ],
+    "startTitle": "Bạn cần chúng tôi làm gì?",
+    "startLabel": "Mô tả việc bạn cần",
+    "startPlaceholder": "Đặt bàn 4 người ở Hongdae vào thứ Sáu này…",
+    "hours": "Chúng tôi trả lời hằng ngày từ 11:00 đến 02:00, giờ Hàn Quốc."
+  },
+  "services": {
+    "title": "Dịch vụ và bảng giá | Haedurio",
+    "description": "Các dịch vụ giá cố định tại Seoul: đặt chỗ nhà hàng và salon tóc, mua hộ, xếp hàng mua hàng pop-up, chạy việc vặt, phiên dịch, bưu kiện và tìm đồ thất lạc.",
+    "h1": "Dịch vụ và bảng giá",
+    "lead": "Mọi mức giá đều cố định trước khi bạn thanh toán. Tiền hàng, đồ ăn và cước taxi được tính theo giá thực tế, cộng phí xử lý 4,5%.",
+    "filterLabel": "Lọc dịch vụ theo danh mục",
+    "all": "Tất cả",
+    "listLabel": "Dịch vụ",
+    "backToList": "Tất cả dịch vụ",
+    "cats": {
+      "book": {
+        "name": "Đặt chỗ và hỏi thông tin",
+        "short": "Đặt chỗ",
+        "home": "Đặt chỗ nhà hàng, salon tóc và cửa hàng bằng tiếng Hàn"
+      },
+      "shop": {
+        "name": "Mua hộ",
+        "short": "Mua hộ",
+        "home": "Mua tại cửa hàng, xếp hàng mua hàng pop-up và mua online nội địa Hàn"
+      },
+      "errand": {
+        "name": "Chạy việc vặt",
+        "short": "Việc vặt",
+        "home": "Nhận đồ, giao đồ đến khách sạn và xếp hàng hộ khắp Seoul"
+      },
+      "lang": {
+        "name": "Phiên dịch",
+        "short": "Phiên dịch",
+        "home": "Qua cuộc gọi hoặc đi cùng bạn"
+      },
+      "parcel": {
+        "name": "Bưu kiện và gửi hàng",
+        "short": "Bưu kiện",
+        "home": "Nhận hàng, lưu giữ và gửi ra nước ngoài giúp bạn"
+      },
+      "lost": {
+        "name": "Đồ thất lạc và hỗ trợ gấp",
+        "short": "Thất lạc và gấp",
+        "home": "Tìm đồ thất lạc và giao trong ngày"
+      },
+      "other": {
+        "name": "Việc khác",
+        "short": "Khác",
+        "home": "Mọi việc khác trong phạm vi dịch vụ của chúng tôi"
+      }
+    },
+    "leads": {
+      "fixed": "Giá cố định",
+      "from": "Giá từ",
+      "quote": "Báo giá trước khi thanh toán"
+    },
+    "request": "Yêu cầu dịch vụ này",
+    "ask": "Đặt câu hỏi",
+    "askMessage": "Chào Haedurio, tôi muốn hỏi về dịch vụ: {service}",
+    "included": "Đã bao gồm",
+    "need": "Bạn cần cung cấp",
+    "addons": "Tùy chọn thêm",
+    "goodToKnow": "Lưu ý",
+    "ifNot": "Nếu chúng tôi không hoàn thành được",
+    "refunds": {
+      "A": "Nếu chúng tôi không làm được, phí dịch vụ sẽ được hoàn lại toàn bộ.",
+      "B": "Khi chúng tôi đã xuất phát, 35% phí dịch vụ (tối thiểu {won:31000}) sẽ được giữ lại, phần còn lại được hoàn trả.",
+      "C": "Khi đã bắt đầu xếp hàng hoặc bắt đầu buổi đi cùng, 50% phí dịch vụ (tối thiểu {won:70000}) sẽ được giữ lại, phần còn lại được hoàn trả.",
+      "Q": "Quy định hoàn tiền được ghi trong báo giá trước khi bạn thanh toán."
+    },
+    "refundTail": "Tiền mua hàng, đồ ăn hoặc taxi còn dư luôn được hoàn lại cho bạn.",
+    "refundLink": "Xem quy định hoàn tiền"
+  },
+  "catalog": {
+    "reservation": {
+      "name": "Đặt chỗ hộ",
+      "unit": "mỗi địa điểm",
+      "blurb": "Chúng tôi gọi điện hoặc nhắn tin bằng tiếng Hàn cho nhà hàng, salon tóc hoặc cửa hàng và xác nhận đặt chỗ cho bạn.",
+      "included": [
+        "Một lượt đặt chỗ qua điện thoại hoặc tin nhắn",
+        "Ảnh chụp màn hình xác nhận"
+      ],
+      "need": [
+        "Tên địa điểm hoặc link bản đồ",
+        "Ngày, giờ và số người",
+        "Tên người đặt chỗ"
+      ],
+      "addons": [
+        {
+          "label": "So sánh vài địa điểm trước",
+          "price": "+{won:5000}"
+        },
+        {
+          "label": "Đổi hoặc hủy đặt chỗ sau đó",
+          "price": "+{won:5000}"
+        },
+        {
+          "label": "Nơi cần liên hệ lại nhiều lần",
+          "price": "+{won:5000}"
+        }
+      ],
+      "notes": [
+        "Chúng tôi không đặt lịch phòng khám, bệnh viện, cũng không đặt khách sạn, vé máy bay, vé tàu hoặc tour."
+      ]
+    },
+    "info": {
+      "name": "Hỏi thông tin hộ",
+      "unit": "mỗi 30 phút",
+      "blurb": "Chúng tôi kiểm tra giờ mở cửa, hàng còn hay hết, giá cả hoặc việc gì đó có làm được không, rồi tóm tắt lại cho bạn.",
+      "included": [
+        "Gọi điện và nhắn tin bằng tiếng Hàn",
+        "Câu trả lời ngắn gọn bằng văn bản qua tin nhắn"
+      ],
+      "need": [
+        "Bạn muốn biết điều gì, ở đâu"
+      ],
+      "addons": [
+        {
+          "label": "Một giờ tìm hiểu thông tin",
+          "price": "{won:22000}"
+        }
+      ],
+      "notes": [
+        "Các yêu cầu kiểm tra nhanh dưới 15 phút có thể được miễn phí.",
+        "Chúng tôi không lên lịch trình du lịch hay giới thiệu phòng khám."
+      ]
+    },
+    "instore": {
+      "name": "Mua hộ tại cửa hàng",
+      "unit": "cho giờ đầu tiên, cộng tiền hàng",
+      "blurb": "Chúng tôi đến cửa hàng, mua hàng giúp bạn và gửi ảnh cho bạn xem trước khi thanh toán.",
+      "included": [
+        "Đến cửa hàng và mua hàng",
+        "Ảnh chụp sản phẩm trước khi mua",
+        "Phí xử lý 4,5% trên tiền hàng (đã bao gồm mức tối thiểu {won:8000})"
+      ],
+      "need": [
+        "Ảnh hoặc link sản phẩm",
+        "Số lượng và ngân sách tối đa của bạn"
+      ],
+      "addons": [
+        {
+          "label": "Mỗi giờ thêm",
+          "price": "+{won:56000}"
+        },
+        {
+          "label": "Gửi ra nước ngoài",
+          "price": "+{won:48000}"
+        }
+      ],
+      "notes": [
+        "Chúng tôi không mua vé, thuốc, rượu bia hoặc thuốc lá."
+      ]
+    },
+    "online": {
+      "name": "Mua hộ online nội địa Hàn",
+      "unit": "mỗi đơn hàng, cộng tiền hàng",
+      "blurb": "Chúng tôi đặt mua từ các trang mua sắm Hàn Quốc chỉ chấp nhận tài khoản Hàn Quốc, rồi nhận hàng giúp bạn.",
+      "included": [
+        "Đặt hàng và thanh toán bằng tài khoản doanh nghiệp của chúng tôi",
+        "Nhận và kiểm tra kiện hàng",
+        "Phí xử lý 4,5% trên tiền hàng (đã bao gồm mức tối thiểu {won:8000})"
+      ],
+      "need": [
+        "Link sản phẩm, phân loại và số lượng",
+        "Nơi bạn muốn nhận hàng"
+      ],
+      "addons": [
+        {
+          "label": "Gửi ra nước ngoài",
+          "price": "+{won:48000}"
+        }
+      ],
+      "notes": [
+        "Sau khi đặt hàng, chính sách đổi trả của cửa hàng sẽ được áp dụng.",
+        "Chúng tôi không cho mượn số điện thoại hoặc tài khoản để xác minh danh tính."
+      ]
+    },
+    "openrun": {
+      "name": "Xếp hàng mua hàng pop-up",
+      "unit": "cho tối đa 2 giờ xếp hàng, cộng tiền hàng",
+      "blurb": "Chúng tôi đến trước giờ mở cửa, xếp hàng thay bạn và cố gắng mua các món hàng giới hạn.",
+      "included": [
+        "Có mặt trước giờ mở cửa, vào giờ đã thống nhất",
+        "Xếp hàng tối đa 2 giờ",
+        "Ảnh chụp sản phẩm trước khi mua"
+      ],
+      "need": [
+        "Cửa hàng, ngày và giờ mở cửa",
+        "Danh sách món cần mua, theo thứ tự ưu tiên",
+        "Ngân sách tối đa của bạn"
+      ],
+      "addons": [
+        {
+          "label": "Mỗi giờ xếp hàng thêm",
+          "price": "+{won:37000}"
+        },
+        {
+          "label": "Gửi ra nước ngoài",
+          "price": "+{won:48000}"
+        }
+      ],
+      "notes": [
+        "Hàng giới hạn có thể hết. Thời gian xếp hàng vẫn được tính phí."
+      ]
+    },
+    "errand": {
+      "name": "Chạy việc vặt tận nơi",
+      "unit": "cho giờ đầu tiên",
+      "blurb": "Nhận đồ, giao đồ, xếp hàng hộ và kiểm tra tại chỗ ở khu trung tâm Seoul.",
+      "included": [
+        "Di chuyển đi bộ, bằng tàu điện ngầm, hoặc bằng ô tô khi cần chở đồ",
+        "Ảnh xác nhận mỗi lần giao nhận"
+      ],
+      "need": [
+        "Địa điểm và thời gian nhận, giao đồ",
+        "Thông tin món đồ",
+        "Ai sẽ nhận đồ"
+      ],
+      "addons": [
+        {
+          "label": "Mỗi giờ thêm",
+          "price": "+{won:56000}"
+        },
+        {
+          "label": "Giao nhận tại sảnh khách sạn",
+          "price": "+{won:8000}"
+        },
+        {
+          "label": "Ngoài khu trung tâm Seoul",
+          "price": "từ +{won:16000}"
+        },
+        {
+          "label": "Đồ cồng kềnh hoặc nặng",
+          "price": "từ +{won:16000}"
+        }
+      ],
+      "notes": [
+        "Chúng tôi không thể lái xe chở bạn. Chúng tôi sẽ gọi taxi và đi cùng bạn."
+      ]
+    },
+    "remote": {
+      "name": "Phiên dịch từ xa",
+      "unit": "mỗi 30 phút",
+      "blurb": "Phiên dịch trực tiếp giữa tiếng Hàn và ngôn ngữ của bạn qua cuộc gọi thoại hoặc video.",
+      "included": [
+        "Phiên dịch qua cuộc gọi ba bên hoặc gọi video"
+      ],
+      "need": [
+        "Cuộc gọi về việc gì",
+        "Chúng tôi sẽ nói chuyện với ai"
+      ],
+      "addons": [
+        {
+          "label": "Một giờ",
+          "price": "{won:62000}"
+        }
+      ],
+      "notes": []
+    },
+    "companion": {
+      "name": "Phiên dịch đi kèm",
+      "unit": "cho giờ đầu tiên",
+      "blurb": "Chúng tôi gặp bạn tại bệnh viện, nhà thuốc, văn phòng, cửa hàng hoặc đồn cảnh sát và phiên dịch cho bạn ngay tại đó.",
+      "included": [
+        "Gặp bạn tại nơi hẹn",
+        "Phiên dịch đúng nguyên văn những gì được nói"
+      ],
+      "need": [
+        "Địa điểm và thời gian",
+        "Lịch hẹn bạn tự đặt, nếu nơi đó yêu cầu"
+      ],
+      "addons": [
+        {
+          "label": "Hai giờ",
+          "price": "{won:182000}"
+        },
+        {
+          "label": "Mỗi giờ thêm",
+          "price": "+{won:56000}"
+        }
+      ],
+      "notes": [
+        "Bạn tự đặt lịch và tự thanh toán với phòng khám hoặc văn phòng.",
+        "Chúng tôi chỉ phiên dịch, không đưa ra tư vấn y tế hay pháp lý."
+      ]
+    },
+    "pro": {
+      "name": "Phiên dịch chuyên nghiệp",
+      "unit": "mỗi giờ",
+      "blurb": "Phiên dịch tại chỗ cho các buổi tư vấn, cuộc họp và buổi đi xem nhà.",
+      "included": [
+        "Phiên dịch viên đã chuẩn bị trước, có mặt tại chỗ"
+      ],
+      "need": [
+        "Ngày, địa điểm và chủ đề",
+        "Tài liệu cần đọc trước, nếu có"
+      ],
+      "addons": [
+        {
+          "label": "Hai giờ",
+          "price": "{won:186000}"
+        }
+      ],
+      "notes": [
+        "Chúng tôi chỉ phiên dịch, không đưa ra ý kiến y tế hay pháp lý."
+      ]
+    },
+    "shipping": {
+      "name": "Gửi hàng quốc tế",
+      "unit": "cộng cước gửi hàng",
+      "blurb": "Chúng tôi đóng gói lại đồ của bạn và gửi ra nước ngoài, có mã vận đơn để theo dõi.",
+      "included": [
+        "Đóng gói lại cẩn thận",
+        "Mang hàng đi gửi và cung cấp mã vận đơn"
+      ],
+      "need": [
+        "Địa chỉ và số điện thoại người nhận, viết bằng tiếng Anh",
+        "Bên trong có những gì"
+      ],
+      "addons": [],
+      "notes": [
+        "Chúng tôi không thể gửi thuốc hoặc bất cứ thứ gì bị cấm tại Hàn Quốc hay nước nhận."
+      ]
+    },
+    "parcel": {
+      "name": "Nhận hàng hộ",
+      "unit": "cộng phí chuyển phát",
+      "blurb": "Chúng tôi nhận bưu kiện giúp bạn, giữ cẩn thận và chuyển tiếp trong Hàn Quốc.",
+      "included": [
+        "Ảnh chụp khi hàng đến",
+        "Lưu giữ tối đa 7 ngày",
+        "Chuyển tiếp trong Hàn Quốc"
+      ],
+      "need": [
+        "Mã vận đơn",
+        "Nơi cần chuyển hàng đến tiếp theo"
+      ],
+      "addons": [
+        {
+          "label": "Lưu giữ sau 7 ngày",
+          "price": "{won:1500} mỗi ngày"
+        }
+      ],
+      "notes": []
+    },
+    "lostcheck": {
+      "name": "Tìm đồ thất lạc",
+      "unit": "mỗi món đồ",
+      "blurb": "Chúng tôi tra cứu hệ thống đồ thất lạc của cảnh sát Hàn Quốc và gọi điện cho hãng taxi, nhà ga, địa điểm liên quan giúp bạn.",
+      "included": [
+        "Tra cứu hệ thống đồ thất lạc của cảnh sát",
+        "Gọi điện cho hãng taxi, nhà ga hoặc địa điểm",
+        "Bản tóm tắt kết quả tìm kiếm"
+      ],
+      "need": [
+        "Bạn làm mất ở đâu và khi nào",
+        "Đặc điểm của món đồ"
+      ],
+      "addons": [],
+      "notes": []
+    },
+    "pickup": {
+      "name": "Lấy đồ và giao trong ngày",
+      "unit": "mỗi chuyến",
+      "blurb": "Chúng tôi đi nhận món đồ đã được tìm thấy giúp bạn, hoặc giao gấp thứ bạn cần ngay trong hôm nay đến chỗ bạn.",
+      "included": [
+        "Nhận lại đồ thất lạc theo giấy ủy quyền có chữ ký của bạn: {won:132000}",
+        "Giao gấp trong ngày ở khu trung tâm Seoul: {won:148000}",
+        "Ảnh xác nhận khi bàn giao"
+      ],
+      "need": [
+        "Địa điểm nhận và giao",
+        "Với đồ thất lạc: giấy ủy quyền có chữ ký",
+        "Bản sao hộ chiếu, được lưu mã hóa khi có sự đồng ý của bạn"
+      ],
+      "addons": [
+        {
+          "label": "Ngoài khu trung tâm Seoul",
+          "price": "từ +{won:16000}"
+        }
+      ],
+      "notes": []
+    },
+    "genie": {
+      "name": "Yêu cầu khác",
+      "unit": "mỗi giờ làm từ xa, hoặc {won:56000} mỗi giờ làm tại chỗ",
+      "blurb": "Mọi việc khác trong phạm vi dịch vụ của chúng tôi. Hãy cho chúng tôi biết bạn cần gì, chúng tôi sẽ báo giá trước.",
+      "included": [
+        "Báo giá cố định trước khi bắt đầu"
+      ],
+      "need": [
+        "Bạn cần gì, ở đâu và khi nào"
+      ],
+      "addons": [],
+      "notes": [
+        "Chúng tôi không nhận các yêu cầu thuộc danh sách những việc chúng tôi không làm."
+      ]
+    }
+  },
+  "prices": {
+    "title": "Bảng giá và hoàn tiền | Haedurio",
+    "description": "Cách Haedurio báo giá: phí dịch vụ cố định, chi phí thực tế tính theo giá gốc cộng phí xử lý 4,5%, và phụ phí chỉ khi cần. Kèm quy định hoàn tiền nếu chúng tôi không hoàn thành được.",
+    "h1": "Bạn sẽ trả những gì",
+    "lead": "Phí cố định cho từng việc, chi phí thực tế tính đúng giá gốc, và phụ phí chỉ khi công việc cần đến. Bạn biết tổng số tiền trước khi thanh toán.",
+    "equationLabel": "Phí dịch vụ cộng chi phí thực tế cộng phụ phí bằng báo giá của bạn",
+    "eq": [
+      {
+        "title": "Phí dịch vụ",
+        "text": "Giá niêm yết cho từng việc, từ {won:9000}."
+      },
+      {
+        "title": "Chi phí thực tế",
+        "text": "Tiền hàng, đồ ăn, taxi, tiền đặt cọc và cước gửi hàng, tính theo giá gốc cộng phí xử lý 4,5%."
+      },
+      {
+        "title": "Phụ phí",
+        "text": "Làm đêm, việc gấp, quãng đường xa hơn hoặc đồ nặng."
+      },
+      {
+        "title": "Báo giá của bạn",
+        "text": "Gửi qua tin nhắn trước khi bắt đầu. Không thu bất kỳ khoản nào cho đến khi bạn đồng ý."
+      }
+    ],
+    "exampleTitle": "Cách tính một báo giá",
+    "exampleLead": "Một túi đồ để quên ở cửa hàng tại Myeongdong, được lấy về và giao cho bạn tại sảnh khách sạn vào một buổi chiều ngày thường.",
+    "exampleNote": "Chúng tôi thu trước tiền cọc taxi. Nếu cước thực tế thấp hơn, phần chênh lệch sẽ được hoàn lại.",
+    "quoteTitle": "Báo giá",
+    "quoteTag": "Ví dụ",
+    "lines": [
+      "Chạy việc vặt tận nơi, giờ đầu tiên",
+      "Giao nhận tại sảnh khách sạn",
+      "Cước taxi, theo giá thực tế",
+      "Phí xử lý, 4,5% cước taxi"
+    ],
+    "total": "Tổng cộng",
+    "paidNote": "Thanh toán trước khi bắt đầu. Ảnh lúc lấy đồ và lúc giao tại sảnh được gửi qua tin nhắn cho bạn.",
+    "extrasTitle": "Phụ phí, chỉ khi cần",
+    "extrasLead": "Báo giá ghi rõ tên từng khoản phụ phí. Khi áp dụng hai phụ phí về thời gian, chúng được nhân với nhau: việc trong ngày làm vào ban đêm là ×1,35 rồi ×1,3.",
+    "timingTitle": "Thời gian",
+    "timing": [
+      "Làm đêm, từ 22:00 đến 02:00",
+      "Trong vòng 48 giờ",
+      "Trong vòng 24 giờ",
+      "Trong ngày",
+      "Trong vòng 3 giờ",
+      "Hẹn giờ đến cố định"
+    ],
+    "distanceTitle": "Quãng đường và kích thước, cho việc tại chỗ",
+    "distance": [
+      "Trung tâm Seoul",
+      "Các khu vực khác của Seoul",
+      "Vùng ven Seoul và quãng đường xa hơn",
+      "Sân bay và các thành phố lân cận",
+      "10 đến 20 kg, hoặc cồng kềnh",
+      "Trên 20 kg, hoặc cần hai người"
+    ],
+    "included": "Đã bao gồm",
+    "outside": "Ngoài Seoul, chúng tôi báo giá riêng cho từng chuyến.",
+    "refundsTitle": "Nếu chúng tôi không hoàn thành được",
+    "refundsLead": "Số phí dịch vụ được hoàn lại tùy thuộc vào việc chúng tôi đã xuất phát hay chưa.",
+    "refunds": [
+      {
+        "title": "Việc online và từ xa",
+        "text": "Đặt chỗ, hỏi thông tin, phiên dịch từ xa, mua hộ online trước khi đặt đơn.",
+        "bar": "Hoàn lại toàn bộ phí"
+      },
+      {
+        "title": "Việc tại chỗ, khi chúng tôi đã xuất phát",
+        "text": "Chạy việc vặt, mua hộ tại cửa hàng, lấy đồ và phiên dịch chuyên nghiệp. Chúng tôi giữ lại 35% phí, tối thiểu {won:31000}.",
+        "bar": "Hoàn lại tối đa 65%"
+      },
+      {
+        "title": "Xếp hàng và phiên dịch đi kèm, khi đã bắt đầu",
+        "text": "Xếp hàng mua hàng pop-up và phiên dịch đi kèm. Chúng tôi giữ lại 50% phí, tối thiểu {won:70000}.",
+        "bar": "Hoàn lại tối đa 50%"
+      }
+    ],
+    "refundsNote": "Khoản tiền chưa dùng cho tiền hàng, đồ ăn hoặc taxi luôn được hoàn lại. Phí hủy do cửa hàng, địa điểm hoặc đơn vị chuyển phát thu sẽ không được hoàn.",
+    "payTitle": "Thanh toán",
+    "payText": "Bạn thanh toán sau khi đồng ý báo giá, qua link thanh toán hoặc thông tin thanh toán chúng tôi gửi kèm. Giá tính bằng won Hàn Quốc, số tiền quy đổi sang USD chỉ để tham khảo. Với việc tại chỗ, bạn cũng có thể trả bằng tiền mặt (won).",
+    "payCta": "Nhận báo giá"
+  },
+  "request": {
+    "title": "Gửi yêu cầu | Haedurio",
+    "description": "Cho chúng tôi biết bạn cần gì ở Seoul. Chúng tôi trả lời qua ứng dụng nhắn tin của bạn kèm báo giá cố định, và không thu phí cho đến khi bạn đồng ý.",
+    "close": "Đóng",
+    "h1": "Tạo yêu cầu",
+    "lead": "Cho chúng tôi biết bạn cần gì. Chúng tôi sẽ trả lời qua ứng dụng nhắn tin của bạn kèm báo giá cố định, và không thu phí cho đến khi bạn đồng ý.",
+    "formLabel": "Yêu cầu",
+    "step1": "Bạn cần gì?",
+    "chips": {
+      "book": "Đặt chỗ",
+      "info": "Hỏi thông tin",
+      "shop": "Mua hộ",
+      "errand": "Việc vặt",
+      "interp": "Phiên dịch",
+      "parcel": "Bưu kiện",
+      "lost": "Đồ thất lạc",
+      "other": "Việc khác"
+    },
+    "errService": "Vui lòng chọn việc bạn cần hỗ trợ.",
+    "step2": "Cho chúng tôi biết chi tiết",
+    "detailsLabel": "Chúng tôi cần làm gì?",
+    "detailsPlaceholder": "Đặt bàn 4 người ở một quán thịt nướng tại Hongdae, khoảng {won:30000} mỗi người.",
+    "errDetails": "Vui lòng mô tả ngắn gọn việc bạn cần.",
+    "whenLabel": "Khi nào",
+    "whenPlaceholder": "Thứ Sáu, 7 giờ tối",
+    "whereLabel": "Ở đâu",
+    "wherePlaceholder": "Khu Hongdae, Seoul",
+    "step3": "Chúng tôi nên trả lời bạn qua đâu?",
+    "channelLabel": "Trả lời qua",
+    "channels": {
+      "whatsapp": {
+        "name": "WhatsApp",
+        "label": "Số WhatsApp của bạn",
+        "placeholder": "+84 912 345 678"
+      },
+      "line": {
+        "name": "LINE",
+        "label": "ID LINE của bạn",
+        "placeholder": "minhanh92"
+      },
+      "wechat": {
+        "name": "WeChat",
+        "label": "ID WeChat của bạn",
+        "placeholder": "minhanh92"
+      },
+      "kakao": {
+        "name": "KakaoTalk",
+        "label": "ID KakaoTalk của bạn",
+        "placeholder": "minhanh92"
+      },
+      "email": {
+        "name": "Email",
+        "label": "Email của bạn",
+        "placeholder": "minhanh@example.com"
+      }
+    },
+    "errContact": "Vui lòng điền thông tin này để chúng tôi có thể trả lời bạn.",
+    "errPhone": "Vui lòng nhập số kèm mã quốc gia, ví dụ +84 912 345 678.",
+    "errEmail": "Vui lòng kiểm tra lại địa chỉ email.",
+    "nameLabel": "Tên của bạn",
+    "namePlaceholder": "Nguyễn Minh Anh",
+    "errName": "Vui lòng cho biết chúng tôi nên gọi bạn là gì.",
+    "replyIn": "Ngôn ngữ trả lời",
+    "consent": "Tôi đồng ý với {privacy}. Haedurio chỉ dùng các thông tin này để xử lý yêu cầu lần này.",
+    "consentLink": "chính sách quyền riêng tư",
+    "errConsent": "Vui lòng đánh dấu vào ô để đồng ý với chính sách quyền riêng tư.",
+    "submit": "Gửi yêu cầu",
+    "sending": "Đang gửi…",
+    "note": "Chưa cần thanh toán. Bạn sẽ nhận báo giá cố định trước.",
+    "errVerify": "Chúng tôi chưa xác minh được bạn không phải là robot. Vui lòng đợi một lát rồi thử lại, hoặc nhắn tin trực tiếp cho chúng tôi.",
+    "errSend": "Yêu cầu của bạn chưa được gửi đi. Vui lòng thử lại hoặc gửi cho chúng tôi qua WhatsApp.",
+    "sendWhatsApp": "Gửi qua WhatsApp",
+    "sentTitle": "Đã gửi yêu cầu",
+    "sentText": "Chúng tôi sẽ nhắn tin cho bạn qua {channel} kèm báo giá cố định. Chúng tôi trả lời hằng ngày từ 11:00 đến 02:00, giờ Hàn Quốc. Không thu phí cho đến khi bạn đồng ý báo giá.",
+    "backHome": "Về trang chủ",
+    "browse": "Xem các dịch vụ",
+    "summaryTitle": "Yêu cầu của bạn",
+    "summaryService": "Dịch vụ",
+    "summaryFrom": "Giá từ",
+    "summaryReply": "Trả lời qua",
+    "notChosen": "Chưa chọn",
+    "summaryNote": "Giá cuối cùng sẽ có trong báo giá, ghi rõ tên từng khoản phụ phí.",
+    "chatTitle": "Muốn nhắn tin trực tiếp?",
+    "chatText": "Nhắn tin thẳng cho chúng tôi. Cùng đội ngũ, cùng mức giá."
+  },
+  "help": {
+    "title": "Trợ giúp | Haedurio",
+    "description": "Giải đáp về thanh toán, giờ trả lời, giao đồ đến khách sạn, hoàn tiền và thông tin cá nhân, cùng cách liên hệ với nhân viên Haedurio.",
+    "h1": "Trợ giúp",
+    "lead": "Giải đáp nhanh các câu hỏi thường gặp. Với những vấn đề khác, hãy nhắn tin cho nhân viên của chúng tôi.",
+    "faqTitle": "Câu hỏi thường gặp",
+    "faq": [
+      {
+        "q": "Tôi thanh toán bằng cách nào?",
+        "a": "Bạn thanh toán sau khi đồng ý báo giá, qua link thanh toán hoặc thông tin thanh toán chúng tôi gửi kèm. Giá tính bằng won Hàn Quốc. Với việc tại chỗ, bạn cũng có thể trả bằng tiền mặt (won)."
+      },
+      {
+        "q": "Khi nào Haedurio trả lời?",
+        "a": "Hằng ngày từ 11:00 đến 02:00, giờ Hàn Quốc. Bạn có thể nhắn tin bất cứ lúc nào, chúng tôi sẽ trả lời khi đến giờ làm việc."
+      },
+      {
+        "q": "Haedurio có thể mang đồ đến khách sạn của tôi không?",
+        "a": "Có. Hầu hết khách sạn yêu cầu giao nhận tại sảnh, phí là {won:8000}. Hãy cho chúng tôi biết tên khách sạn và tên người đặt phòng."
+      },
+      {
+        "q": "Haedurio có thể đặt lịch phòng khám hoặc mua vé concert giúp tôi không?",
+        "a": "Không. Luật Hàn Quốc không cho phép chúng tôi đặt lịch hoặc giới thiệu phòng khám, hay mua vé cho người khác. Chúng tôi có thể đi cùng và phiên dịch cho bạn tại phòng khám bạn tự đặt lịch, và chỉ cho bạn nơi bán vé chính thức."
+      },
+      {
+        "q": "Haedurio có thể lái xe đưa tôi đi đâu đó không?",
+        "a": "Không. Chúng tôi không thể chở khách bằng xe của mình. Chúng tôi sẽ gọi taxi cho bạn và đi cùng nếu bạn cần hỗ trợ khi đến nơi."
+      },
+      {
+        "q": "Nếu Haedurio không hoàn thành được việc của tôi thì sao?",
+        "a": "Việc chỉ làm online được hoàn lại toàn bộ phí. Nếu chúng tôi đã xuất phát, một phần phí sẽ được giữ lại. Khoản tiền chưa dùng cho tiền hàng, đồ ăn hoặc taxi luôn được hoàn lại.",
+        "link": "Xem quy định hoàn tiền"
+      },
+      {
+        "q": "Thông tin của tôi được sử dụng thế nào?",
+        "a": "Chúng tôi chỉ dùng thông tin để xử lý yêu cầu của bạn. Thông tin được lưu trong một năm để hỗ trợ và giải quyết tranh chấp, sau đó sẽ bị xóa. Nếu công việc cần bản sao hộ chiếu, chúng tôi sẽ hỏi bạn trước, lưu dưới dạng mã hóa và xóa khi công việc hoàn tất.",
+        "link": "Xem chính sách quyền riêng tư"
+      },
+      {
+        "q": "Haedurio hỗ trợ những ngôn ngữ nào?",
+        "a": "Tiếng Anh, tiếng Nhật, tiếng Trung (giản thể và phồn thể), tiếng Việt và tiếng Thái. Phần tiếng Hàn để chúng tôi lo."
+      }
+    ],
+    "talkTitle": "Trò chuyện với nhân viên",
+    "talkHours": "Hằng ngày, từ 11:00 đến 02:00 giờ Hàn Quốc.",
+    "talk": {
+      "whatsapp": "WhatsApp",
+      "line": "LINE",
+      "kakao": "KakaoTalk",
+      "kakaoValue": "Kênh Haedurio",
+      "email": "Email",
+      "phone": "Điện thoại",
+      "wechat": "WeChat",
+      "wechatAlt": "Mã QR WeChat của Haedurio",
+      "wechatNote": "Quét bằng WeChat để kết bạn với chúng tôi."
+    },
+    "dontTitle": "Những việc chúng tôi không làm",
+    "dontLead": "Để mọi công việc đều hợp pháp tại Hàn Quốc, chúng tôi từ chối các yêu cầu sau.",
+    "dont": [
+      "Đặt lịch hoặc giới thiệu phòng khám, bệnh viện",
+      "Mua hoặc bán lại vé concert và vé sự kiện",
+      "Mua hoặc gửi thuốc",
+      "Mua rượu bia hoặc thuốc lá",
+      "Cho mượn số điện thoại hoặc tài khoản để xác minh danh tính",
+      "Chở khách bằng xe của chúng tôi",
+      "Giấy tờ hành chính hoặc tư vấn pháp lý",
+      "Đặt khách sạn, vé máy bay, vé tàu hoặc tour",
+      "Đổi tiền hoặc chuyển tiền"
+    ],
+    "policiesLabel": "Chính sách",
+    "terms": "Điều khoản dịch vụ",
+    "privacy": "Chính sách quyền riêng tư",
+    "refunds": "Quy định hoàn tiền"
+  },
+  "legal": {
+    "updated": "Cập nhật lần cuối: {date}",
+    "date": "14 tháng 10 năm 2026",
+    "translationNote": "Bản dịch được cung cấp để thuận tiện cho bạn. Nếu bản dịch có điểm khác với bản tiếng Anh, bản tiếng Anh sẽ được áp dụng.",
+    "contents": "Mục lục"
+  },
+  "terms": {
+    "title": "Điều khoản dịch vụ | Haedurio",
+    "description": "Điều khoản sử dụng Haedurio, dịch vụ hỗ trợ tại Seoul do Whaleland vận hành: báo giá, thanh toán, hoàn tiền, những việc chúng tôi không làm và trách nhiệm.",
+    "h1": "Điều khoản dịch vụ",
+    "intro": "Các điều khoản này áp dụng khi bạn sử dụng haedurio.com hoặc nhờ Haedurio thực hiện một công việc cho bạn. Vui lòng đọc kỹ trước khi đồng ý báo giá.",
+    "sections": [
+      {
+        "h": "Về chúng tôi",
+        "p": [
+          "Haedurio là dịch vụ hỗ trợ dành cho khách đến Hàn Quốc, do {company} vận hành ({address}, số đăng ký kinh doanh {brn}, số đăng ký thương mại điện tử {ecl}). Trong các điều khoản này, “chúng tôi” là Haedurio và {company}, còn “bạn” là người nhờ chúng tôi hỗ trợ."
+        ]
+      },
+      {
+        "h": "Dịch vụ chúng tôi cung cấp",
+        "p": [
+          "Chúng tôi thay mặt bạn và theo hướng dẫn của bạn thực hiện các công việc được liệt kê trên trang dịch vụ: đặt chỗ, hỏi thông tin, mua hộ, chạy việc vặt, phiên dịch, bưu kiện và hỗ trợ tìm đồ thất lạc. Chúng tôi chỉ nhận những công việc hợp pháp tại Hàn Quốc."
+        ]
+      },
+      {
+        "h": "Báo giá",
+        "p": [
+          "Trước khi bắt đầu bất kỳ công việc nào, chúng tôi gửi cho bạn báo giá bằng won Hàn Quốc. Báo giá ghi rõ phí dịch vụ, chi phí thực tế dự kiến, các khoản phụ phí (nếu có) và quy định hoàn tiền áp dụng cho công việc đó. Công việc chỉ bắt đầu sau khi bạn đồng ý báo giá. Nếu công việc thay đổi, chúng tôi sẽ gửi báo giá mới trước khi tiếp tục."
+        ]
+      },
+      {
+        "h": "Thanh toán",
+        "p": [
+          "Bạn thanh toán sau khi đồng ý báo giá, qua link thanh toán hoặc thông tin thanh toán chúng tôi gửi kèm. Với việc tại chỗ, bạn cũng có thể trả bằng tiền mặt (won Hàn Quốc) nếu hai bên đã thỏa thuận trước. Số tiền quy đổi sang đô la Mỹ trên trang web chỉ mang tính tham khảo."
+        ]
+      },
+      {
+        "h": "Chi phí thực tế",
+        "p": [
+          "Tiền hàng, đồ ăn, cước taxi, tiền đặt cọc và cước gửi hàng được tính đúng bằng số tiền chúng tôi thực trả, cộng phí xử lý 4,5%. Chúng tôi gửi hóa đơn hoặc ảnh chụp làm bằng chứng. Khoản tiền không dùng đến sẽ được hoàn lại cho bạn."
+        ]
+      },
+      {
+        "h": "Hủy và hoàn tiền",
+        "p": [
+          "Bạn có thể hủy bất cứ lúc nào trước khi công việc bắt đầu và được hoàn lại toàn bộ số tiền đã trả.",
+          "Nếu chúng tôi không hoàn thành được công việc, hoặc bạn hủy sau khi công việc đã bắt đầu, quy định hoàn tiền ghi trong báo giá của bạn sẽ được áp dụng:"
+        ],
+        "list": [
+          "Việc online và từ xa: hoàn lại toàn bộ phí dịch vụ.",
+          "Việc tại chỗ, khi chúng tôi đã xuất phát: giữ lại 35% phí dịch vụ (tối thiểu {won:31000}) và hoàn trả phần còn lại.",
+          "Việc xếp hàng và phiên dịch đi kèm, khi đã bắt đầu xếp hàng hoặc bắt đầu buổi đi cùng: giữ lại 50% phí dịch vụ (tối thiểu {won:70000}) và hoàn trả phần còn lại."
+        ],
+        "after": [
+          "Khoản tiền chưa dùng cho tiền hàng, đồ ăn hoặc taxi luôn được hoàn lại. Phí hủy do cửa hàng, địa điểm hoặc đơn vị chuyển phát thu sẽ không được hoàn. Chúng tôi hoàn tiền về phương thức thanh toán ban đầu trong vòng 3 ngày làm việc kể từ khi xác nhận hoàn tiền."
+        ]
+      },
+      {
+        "h": "Những việc chúng tôi không làm",
+        "p": [
+          "Chúng tôi không đặt lịch hoặc giới thiệu phòng khám, bệnh viện; không mua hoặc bán lại vé sự kiện; không mua hoặc giao thuốc, rượu bia hay thuốc lá; không cho mượn số điện thoại hoặc tài khoản để xác minh danh tính; không chở khách bằng xe của chúng tôi; không soạn hoặc nộp giấy tờ cho cơ quan nhà nước; không tư vấn pháp lý; không đặt khách sạn, vé máy bay, vé tàu hoặc tour; và không đổi tiền hay chuyển tiền. Chúng tôi cũng không xử lý bất cứ thứ gì bị pháp luật Hàn Quốc cấm. Tuy vậy, chúng tôi vẫn có thể đi cùng và phiên dịch cho bạn, chẳng hạn tại phòng khám do bạn tự đặt lịch."
+        ]
+      },
+      {
+        "h": "Trách nhiệm của bạn",
+        "p": [
+          "Vui lòng cung cấp thông tin chính xác và cho chúng tôi biết mọi điều có thể ảnh hưởng đến công việc. Chỉ yêu cầu những thứ mà bạn được phép mua, mang theo hoặc gửi đi một cách hợp pháp. Khi chúng tôi gửi hàng ra nước ngoài, bạn chịu trách nhiệm về các quy định nhập khẩu và thuế nhập khẩu của nước nhận hàng."
+        ]
+      },
+      {
+        "h": "Trách nhiệm của chúng tôi",
+        "p": [
+          "Chúng tôi thực hiện mọi công việc với sự cẩn trọng hợp lý. Cửa hàng, nhà hàng, đơn vị chuyển phát và các doanh nghiệp khác chịu trách nhiệm về hàng hóa và dịch vụ của chính họ, bao gồm chất lượng, sự chậm trễ và tình trạng hết hàng, nhưng chúng tôi sẽ giúp bạn giải quyết vấn đề với họ. Nếu có sự cố do lỗi của chúng tôi, chúng tôi sẽ khắc phục, trong giới hạn tối đa bằng số tiền bạn đã trả cho chúng tôi cho công việc đó. Giới hạn này không áp dụng khi pháp luật Hàn Quốc quy định khác, bao gồm trường hợp chúng tôi cố ý hoặc có sơ suất nghiêm trọng."
+        ]
+      },
+      {
+        "h": "Thông tin của bạn",
+        "p": [
+          "Chúng tôi xử lý thông tin cá nhân theo {privacy} của chúng tôi."
+        ]
+      },
+      {
+        "h": "Thay đổi điều khoản",
+        "p": [
+          "Chúng tôi có thể cập nhật các điều khoản này. Phiên bản hiển thị trên trang này tại thời điểm bạn đồng ý báo giá sẽ được áp dụng cho công việc đó."
+        ]
+      },
+      {
+        "h": "Luật áp dụng và giải quyết tranh chấp",
+        "p": [
+          "Các điều khoản này được điều chỉnh bởi pháp luật Đại Hàn Dân Quốc. Mọi tranh chấp sẽ do Tòa án Quận Trung tâm Seoul giải quyết, trừ khi pháp luật Hàn Quốc cho bạn quyền khởi kiện tại tòa án khác."
+        ]
+      },
+      {
+        "h": "Liên hệ",
+        "p": [
+          "Câu hỏi về các điều khoản này: {email}."
+        ]
+      }
+    ]
+  },
+  "privacy": {
+    "title": "Chính sách quyền riêng tư | Haedurio",
+    "description": "Haedurio thu thập thông tin cá nhân nào, vì sao, lưu giữ trong bao lâu, chia sẻ với ai và cách bạn thực hiện quyền của mình.",
+    "h1": "Chính sách quyền riêng tư",
+    "intro": "Chính sách này giải thích cách {company} xử lý thông tin cá nhân của bạn khi bạn sử dụng Haedurio, theo Luật Bảo vệ Thông tin Cá nhân của Hàn Quốc.",
+    "sections": [
+      {
+        "h": "Thông tin chúng tôi thu thập",
+        "p": [
+          "Khi bạn gửi yêu cầu: tên của bạn, ID ứng dụng nhắn tin, số điện thoại hoặc email bạn muốn chúng tôi dùng để trả lời, ngôn ngữ trả lời, và các chi tiết bạn viết về công việc.",
+          "Khi công việc cần đến: địa chỉ giao hàng, tên khách sạn và tên người đặt phòng, thông tin người nhận khi gửi hàng, và tên dùng để đặt chỗ.",
+          "Chỉ với những công việc mà pháp luật yêu cầu, chẳng hạn thay mặt bạn nhận lại đồ thất lạc, và chỉ khi có sự đồng ý của bạn: bản sao hộ chiếu.",
+          "Để giữ an toàn cho trang web: dữ liệu kỹ thuật như địa chỉ IP và loại trình duyệt của bạn, do các nhà cung cấp hosting và dịch vụ chống spam của chúng tôi xử lý."
+        ]
+      },
+      {
+        "h": "Mục đích sử dụng",
+        "list": [
+          "Để trả lời bạn, báo giá và thực hiện yêu cầu của bạn",
+          "Để nhận thanh toán và hoàn tiền",
+          "Để hỗ trợ và giải quyết tranh chấp",
+          "Để bảo vệ trang web và dịch vụ của chúng tôi khỏi bị lạm dụng"
+        ],
+        "after": [
+          "Chúng tôi không sử dụng thông tin của bạn cho mục đích quảng cáo và không bán thông tin đó."
+        ]
+      },
+      {
+        "h": "Thời gian lưu giữ",
+        "list": [
+          "Thông tin yêu cầu và hỗ trợ: lưu 1 năm sau khi công việc kết thúc, sau đó xóa.",
+          "Bản sao hộ chiếu: xóa ngay khi công việc hoàn tất, và chậm nhất 30 ngày sau đó.",
+          "Các hồ sơ mà pháp luật Hàn Quốc yêu cầu lưu giữ, chẳng hạn hồ sơ thanh toán và hợp đồng theo Luật Bảo vệ Người tiêu dùng trong Thương mại Điện tử của Hàn Quốc (5 năm) và hồ sơ khiếu nại (3 năm): chỉ lưu trong thời hạn luật đó yêu cầu."
+        ],
+        "after": [
+          "Khi hết thời hạn, chúng tôi xóa vĩnh viễn các tệp điện tử và hủy bản giấy bằng máy hủy tài liệu."
+        ]
+      },
+      {
+        "h": "Chúng tôi chia sẻ thông tin với ai",
+        "p": [
+          "Chúng tôi chỉ chia sẻ những thông tin cần thiết cho công việc với doanh nghiệp liên quan, ví dụ tên đặt bàn cho nhà hàng hoặc địa chỉ giao hàng cho đơn vị chuyển phát. Chúng tôi cũng chia sẻ thông tin khi pháp luật yêu cầu."
+        ]
+      },
+      {
+        "h": "Nhà cung cấp dịch vụ và chuyển dữ liệu ra ngoài Hàn Quốc",
+        "p": [
+          "Chúng tôi sử dụng các nhà cung cấp sau để vận hành trang web và xử lý yêu cầu. Họ có thể lưu trữ hoặc xử lý dữ liệu trên máy chủ đặt ngoài Hàn Quốc. Dữ liệu được truyền qua kết nối mã hóa khi bạn gửi biểu mẫu hoặc nhắn tin cho chúng tôi, và được lưu giữ trong các thời hạn nêu trên."
+        ],
+        "table": {
+          "head": [
+            "Nhà cung cấp",
+            "Quốc gia",
+            "Vai trò"
+          ],
+          "rows": [
+            [
+              "Supabase Inc.",
+              "Hoa Kỳ",
+              "Lưu trữ các yêu cầu bạn gửi qua trang web này"
+            ],
+            [
+              "Vercel Inc.",
+              "Hoa Kỳ",
+              "Cung cấp hosting cho trang web này"
+            ],
+            [
+              "Cloudflare, Inc.",
+              "Hoa Kỳ",
+              "Kiểm tra để biểu mẫu gửi đến không phải spam (Turnstile)"
+            ]
+          ]
+        },
+        "after": [
+          "Nếu bạn nhắn tin cho chúng tôi qua WhatsApp, LINE, WeChat hoặc KakaoTalk, chính sách quyền riêng tư của ứng dụng đó cũng được áp dụng. Bạn có thể từ chối việc chuyển dữ liệu này bằng cách không dùng biểu mẫu mà gửi email cho chúng tôi, nhưng khi đó chúng tôi có thể không trả lời nhanh như bình thường."
+        ]
+      },
+      {
+        "h": "Cách chúng tôi bảo vệ thông tin",
+        "p": [
+          "Chỉ những nhân viên cần thông tin của bạn để thực hiện công việc mới được xem. Bản sao hộ chiếu được lưu trữ dưới dạng mã hóa. Trang web sử dụng kết nối HTTPS được mã hóa."
+        ]
+      },
+      {
+        "h": "Cookie",
+        "p": [
+          "Chúng tôi không sử dụng cookie quảng cáo hoặc cookie theo dõi. Trình duyệt lưu lựa chọn ngôn ngữ của bạn và bản nháp yêu cầu chưa gửi ngay trên thiết bị của bạn. Nhà cung cấp dịch vụ chống spam của chúng tôi có thể xử lý dữ liệu kỹ thuật để phân biệt người thật với bot."
+        ]
+      },
+      {
+        "h": "Trẻ em",
+        "p": [
+          "Dịch vụ của chúng tôi dành cho người đã thành niên. Chúng tôi không cố ý thu thập thông tin cá nhân của trẻ em dưới 14 tuổi."
+        ]
+      },
+      {
+        "h": "Quyền của bạn",
+        "p": [
+          "Bạn có thể yêu cầu xem, sửa hoặc xóa thông tin của mình, hoặc yêu cầu chúng tôi ngừng sử dụng thông tin đó, bằng cách gửi email đến {email}. Chúng tôi sẽ trả lời trong vòng 10 ngày. Nếu không hài lòng, bạn có thể liên hệ Trung tâm Tiếp nhận Báo cáo Xâm phạm Thông tin Cá nhân (privacy.kisa.or.kr, +82 118) hoặc Ủy ban Hòa giải Tranh chấp Thông tin Cá nhân (kopico.go.kr)."
+        ]
+      },
+      {
+        "h": "Người chịu trách nhiệm bảo vệ thông tin cá nhân",
+        "p": [
+          "{officer}, Giám đốc điều hành {company}. Email: {email}. Điện thoại: {phone}."
+        ]
+      },
+      {
+        "h": "Thay đổi chính sách",
+        "p": [
+          "Nếu thay đổi chính sách này, chúng tôi sẽ đăng phiên bản mới tại đây kèm ngày cập nhật mới."
+        ]
+      }
+    ]
+  },
+  "notFound": {
+    "title": "Không tìm thấy trang | Haedurio",
+    "h1": "Chúng tôi không tìm thấy trang này.",
+    "lead": "Có thể đường link đã cũ hoặc trang đã được chuyển đi.",
+    "home": "Về trang chủ",
+    "services": "Xem dịch vụ và giá"
+  }
+}
