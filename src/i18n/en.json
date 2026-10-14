@@ -433,7 +433,8 @@
       ],
       "addons": [],
       "notes": [
-        "We don’t translate documents for government offices, contracts or certificates."
+        "We don’t translate documents for government offices, contracts or certificates.",
+        "Japanese, Chinese and Thai texts aren’t counted by the word. We quote them before you pay."
       ]
     },
     "shipping": {
