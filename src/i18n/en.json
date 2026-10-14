@@ -91,7 +91,7 @@
       }
     ],
     "whatTitle": "What we do",
-    "whatLead": "Fifteen services with fixed prices. Open one to see what’s included and what we’ll need from you.",
+    "whatLead": "Every service has a fixed price. Open one to see what’s included and what we’ll need from you.",
     "whatAll": "All services and prices",
     "otherLine": "Something else in mind? {ask}. If it fits our services, we’ll quote it first.",
     "otherAsk": "Ask us",
@@ -119,7 +119,7 @@
   },
   "services": {
     "title": "Services and prices | Haedurio",
-    "description": "Fifteen fixed-price services in Seoul: restaurant and salon bookings, shopping, pop-up open-runs, errands, interpretation, translation, parcels and lost items.",
+    "description": "Fixed-price services in Seoul: restaurant and salon bookings, shopping, pop-up open-runs, errands, interpretation, parcels and lost items.",
     "h1": "Services and prices",
     "lead": "Every price is fixed before you pay. Items, food and taxi fares are charged at cost, plus a 4.5% handling fee.",
     "filterLabel": "Show services by category",
@@ -143,9 +143,9 @@
         "home": "Pickups, hotel deliveries and queueing around Seoul"
       },
       "lang": {
-        "name": "Interpretation and translation",
-        "short": "Language help",
-        "home": "On a call, by your side, or in writing"
+        "name": "Interpretation",
+        "short": "Interpretation",
+        "home": "On a call or by your side"
       },
       "parcel": {
         "name": "Parcels and shipping",
@@ -420,23 +420,6 @@
         "We interpret only. We don’t give medical or legal opinions."
       ]
     },
-    "translation": {
-      "name": "Translation",
-      "unit": "minimum",
-      "blurb": "Messages, notices and everyday documents, translated to or from Korean.",
-      "included": [
-        "General text at {won:155} a word",
-        "Specialist text at {won:280} a word"
-      ],
-      "need": [
-        "The text, and what it’s for"
-      ],
-      "addons": [],
-      "notes": [
-        "We don’t translate documents for government offices, contracts or certificates.",
-        "Japanese, Chinese and Thai texts aren’t counted by the word. We quote them before you pay."
-      ]
-    },
     "shipping": {
       "name": "International shipping",
       "unit": "plus postage",
@@ -593,7 +576,7 @@
     "refunds": [
       {
         "title": "Online and remote tasks",
-        "text": "Bookings, info checks, remote interpretation, translation, online orders before they’re placed.",
+        "text": "Bookings, info checks, remote interpretation, online orders before they’re placed.",
         "bar": "Full fee back"
       },
       {
@@ -626,7 +609,6 @@
       "shop": "Shopping",
       "errand": "An errand",
       "interp": "Interpretation",
-      "trans": "Translation",
       "parcel": "Parcels",
       "lost": "Lost item",
       "other": "Something else"
@@ -792,7 +774,7 @@
       {
         "h": "What we do",
         "p": [
-          "We carry out the tasks listed on our services page on your behalf and following your instructions: bookings, information checks, shopping, errands, interpretation, translation, parcels and lost-item help. We only take on tasks that are legal in Korea."
+          "We carry out the tasks listed on our services page on your behalf and following your instructions: bookings, information checks, shopping, errands, interpretation, parcels and lost-item help. We only take on tasks that are legal in Korea."
         ]
       },
       {

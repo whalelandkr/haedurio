@@ -91,7 +91,7 @@
       }
     ],
     "whatTitle": "Chúng tôi làm gì",
-    "whatLead": "15 dịch vụ với giá cố định. Chọn một dịch vụ để xem giá đã bao gồm những gì và chúng tôi cần gì từ bạn.",
+    "whatLead": "Mọi dịch vụ đều có giá cố định. Chọn một dịch vụ để xem giá đã bao gồm những gì và chúng tôi cần gì từ bạn.",
     "whatAll": "Tất cả dịch vụ và giá",
     "otherLine": "Bạn cần việc gì khác? {ask}. Nếu việc đó nằm trong phạm vi dịch vụ, chúng tôi sẽ báo giá trước.",
     "otherAsk": "Hỏi chúng tôi",
@@ -119,7 +119,7 @@
   },
   "services": {
     "title": "Dịch vụ và bảng giá | Haedurio",
-    "description": "15 dịch vụ giá cố định tại Seoul: đặt chỗ nhà hàng và salon tóc, mua hộ, xếp hàng mua hàng pop-up, chạy việc vặt, phiên dịch, dịch thuật, bưu kiện và tìm đồ thất lạc.",
+    "description": "Các dịch vụ giá cố định tại Seoul: đặt chỗ nhà hàng và salon tóc, mua hộ, xếp hàng mua hàng pop-up, chạy việc vặt, phiên dịch, bưu kiện và tìm đồ thất lạc.",
     "h1": "Dịch vụ và bảng giá",
     "lead": "Mọi mức giá đều cố định trước khi bạn thanh toán. Tiền hàng, đồ ăn và cước taxi được tính theo giá thực tế, cộng phí xử lý 4,5%.",
     "filterLabel": "Lọc dịch vụ theo danh mục",
@@ -143,9 +143,9 @@
         "home": "Nhận đồ, giao đồ đến khách sạn và xếp hàng hộ khắp Seoul"
       },
       "lang": {
-        "name": "Phiên dịch và dịch thuật",
+        "name": "Phiên dịch",
         "short": "Phiên dịch",
-        "home": "Qua cuộc gọi, đi cùng bạn hoặc bằng văn bản"
+        "home": "Qua cuộc gọi hoặc đi cùng bạn"
       },
       "parcel": {
         "name": "Bưu kiện và gửi hàng",
@@ -420,23 +420,6 @@
         "Chúng tôi chỉ phiên dịch, không đưa ra ý kiến y tế hay pháp lý."
       ]
     },
-    "translation": {
-      "name": "Dịch thuật",
-      "unit": "tối thiểu",
-      "blurb": "Dịch tin nhắn, thông báo và giấy tờ thông thường sang tiếng Hàn hoặc từ tiếng Hàn.",
-      "included": [
-        "Văn bản thông thường: {won:155} mỗi từ",
-        "Văn bản chuyên ngành: {won:280} mỗi từ"
-      ],
-      "need": [
-        "Văn bản cần dịch và mục đích sử dụng"
-      ],
-      "addons": [],
-      "notes": [
-        "Chúng tôi không dịch giấy tờ nộp cho cơ quan nhà nước, hợp đồng hoặc giấy chứng nhận.",
-        "Văn bản tiếng Nhật, tiếng Trung và tiếng Thái không tính theo từ, nên chúng tôi báo giá trước khi bạn thanh toán."
-      ]
-    },
     "shipping": {
       "name": "Gửi hàng quốc tế",
       "unit": "cộng cước gửi hàng",
@@ -593,7 +576,7 @@
     "refunds": [
       {
         "title": "Việc online và từ xa",
-        "text": "Đặt chỗ, hỏi thông tin, phiên dịch từ xa, dịch thuật, mua hộ online trước khi đặt đơn.",
+        "text": "Đặt chỗ, hỏi thông tin, phiên dịch từ xa, mua hộ online trước khi đặt đơn.",
         "bar": "Hoàn lại toàn bộ phí"
       },
       {
@@ -626,7 +609,6 @@
       "shop": "Mua hộ",
       "errand": "Việc vặt",
       "interp": "Phiên dịch",
-      "trans": "Dịch thuật",
       "parcel": "Bưu kiện",
       "lost": "Đồ thất lạc",
       "other": "Việc khác"
@@ -792,7 +774,7 @@
       {
         "h": "Dịch vụ chúng tôi cung cấp",
         "p": [
-          "Chúng tôi thay mặt bạn và theo hướng dẫn của bạn thực hiện các công việc được liệt kê trên trang dịch vụ: đặt chỗ, hỏi thông tin, mua hộ, chạy việc vặt, phiên dịch, dịch thuật, bưu kiện và hỗ trợ tìm đồ thất lạc. Chúng tôi chỉ nhận những công việc hợp pháp tại Hàn Quốc."
+          "Chúng tôi thay mặt bạn và theo hướng dẫn của bạn thực hiện các công việc được liệt kê trên trang dịch vụ: đặt chỗ, hỏi thông tin, mua hộ, chạy việc vặt, phiên dịch, bưu kiện và hỗ trợ tìm đồ thất lạc. Chúng tôi chỉ nhận những công việc hợp pháp tại Hàn Quốc."
         ]
       },
       {

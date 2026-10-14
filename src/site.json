@@ -115,7 +115,7 @@
     },
     {
       "cat": "lang",
-      "won": 23000,
+      "won": 31000,
       "kind": "from"
     },
     {
@@ -203,14 +203,6 @@
       "chip": "interp"
     },
     {
-      "id": "translation",
-      "cat": "lang",
-      "lead": "from",
-      "won": 23000,
-      "refund": "A",
-      "chip": "trans"
-    },
-    {
       "id": "shipping",
       "cat": "parcel",
       "lead": "from",
@@ -272,10 +264,6 @@
     {
       "id": "interp",
       "won": 31000
-    },
-    {
-      "id": "trans",
-      "won": 23000
     },
     {
       "id": "parcel",
