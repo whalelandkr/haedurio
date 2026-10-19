@@ -104,7 +104,8 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
   'use strict';
   var SUPABASE_URL = 'https://sutvnkiroquezjaendkr.supabase.co';
   var ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1dHZua2lyb3F1ZXpqYWVuZGtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3ODU3OTEsImV4cCI6MjA5ODM2MTc5MX0.cnxKEJPVWzpiWNhhkQ800cacxp6lGLbiNzGNDSCHcaE';
-  var SITE = 'https://www.haedurio.com';
+  // Links point at the live site, or at this preview while testing a branch.
+  var SITE = /(^|\.)haedurio\.com$/.test(location.hostname) ? 'https://www.haedurio.com' : location.origin;
   var FN = SUPABASE_URL + '/functions/v1/pay-order';
   var sb = supabase.createClient(SUPABASE_URL, ANON_KEY);
   var $ = function (id) { return document.getElementById(id); };
