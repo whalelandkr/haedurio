@@ -409,6 +409,84 @@ ${sec}
   return { title: d.title, description: d.description, main };
 }
 
+/* ------------------------------------------------------------ Payment */
+// Customers arrive from a link we send them (/pay/?o=CODE). The order and its
+// amount come from the server; nothing on this page sets the price.
+const PAY_CHAT = { en: 'whatsapp', vi: 'whatsapp', ja: 'line', 'zh-tw': 'line', th: 'line', 'zh-cn': 'wechat' };
+
+export function pay(c) {
+  const p = c.s.pay;
+  const site = c.site;
+  const k = site.contact;
+  const chat = PAY_CHAT[c.code] || 'whatsapp';
+  const chatUrl = { whatsapp: `https://wa.me/${k.whatsapp}`, line: k.lineUrl, wechat: k.wechatUrl }[chat];
+  const err = (id, text) => `<p class="err" id="${id}" hidden>${icon.alert}<span>${esc(text)}</span></p>`;
+  const cfg = {
+    endpoint: `${site.supabase.url}/functions/v1/${site.payment.function}`,
+    key: site.supabase.anonKey,
+    storeId: site.payment.storeId,
+    channels: site.payment.channels,
+    lang: c.code,
+    t: Object.fromEntries(['loading', 'payButton', 'opening', 'checking', 'paidText', 'failTitle', 'failText', 'errName', 'errEmail', 'errPhone', 'errConsent', 'invalidTitle', 'invalidText', 'expiredTitle', 'expiredText', 'cancelledTitle', 'cancelledText', 'loadError'].map((key) => [key, p[key]])),
+  };
+  const chatBtn = `<a class="btn btn--soft btn--md" href="${attr(chatUrl)}" rel="noopener" target="_blank">${esc(p.contactUs)}</a>`;
+  const homeBtn = `<a class="btn btn--dark btn--md" href="${c.href('home')}">${esc(p.backHome)}</a>`;
+
+  const main = `<main id="main" class="req pay">
+<div class="wrap pay__wrap">
+<div data-pay="loading"><p class="pay__loading" role="status" data-loading-text>${esc(p.loading)}</p></div>
+<div data-pay="form" hidden>
+<h1 class="req__h1">${c.t(p.h1)}</h1>
+<p class="req__lead">${c.t(p.lead)}</p>
+<p class="pay__test" data-pay-test hidden>${esc(p.testNote)}</p>
+<div class="summary pay__summary">
+<h2 class="summary__h">${c.t(p.summaryTitle)}</h2>
+<dl>
+<div><dt>${c.t(p.item)}</dt><dd data-o="title"></dd></div>
+<div><dt>${c.t(p.ref)}</dt><dd data-o="code"></dd></div>
+<div class="pay__total"><dt>${c.t(p.amount)}</dt><dd data-o="amount"></dd></div>
+</dl>
+</div>
+<form class="form" id="payform" novalidate aria-label="${attr(p.h1)}">
+<fieldset class="fset"><legend>${c.t(p.detailsTitle)}</legend>
+<p class="pay__note">${c.t(p.detailsNote)}</p>
+<div class="fields">
+<div class="field"><label for="pname">${c.t(p.nameLabel)}</label><input class="input" id="pname" name="name" type="text" maxlength="60" autocomplete="name" aria-describedby="err-pname">${err('err-pname', p.errName)}</div>
+<div class="fgrid">
+<div class="field"><label for="pemail">${c.t(p.emailLabel)}</label><input class="input" id="pemail" name="email" type="email" maxlength="120" autocomplete="email" inputmode="email" aria-describedby="err-pemail">${err('err-pemail', p.errEmail)}</div>
+<div class="field"><label for="pphone">${c.t(p.phoneLabel)}</label><input class="input" id="pphone" name="phone" type="tel" maxlength="30" autocomplete="tel" inputmode="tel" placeholder="${attr(p.phonePlaceholder)}" aria-describedby="err-pphone">${err('err-pphone', p.errPhone)}</div>
+</div>
+</div>
+</fieldset>
+<div class="form__foot">
+<label class="consent"><input type="checkbox" id="pconsent" name="consent" aria-describedby="err-pconsent"><span>${c.t(p.consent, { terms: `<a href="${c.href('terms')}" target="_blank">${esc(p.termsLink)}</a>`, refunds: `<a href="${c.href('prices', '#refunds')}" target="_blank">${esc(p.refundsLink)}</a>` })}</span></label>
+${err('err-pconsent', p.errConsent)}
+<div class="sendfail" id="payfail" role="alert" hidden><strong data-fail-title></strong><br><span data-fail-text></span><br><a href="${attr(chatUrl)}" rel="noopener" target="_blank">${esc(p.contactUs)}</a></div>
+<div class="form__send"><button class="btn btn--primary btn--lg" type="submit" id="paybtn">${esc(p.h1)}</button></div>
+<p class="pay__secure">${icon.shield}<span>${c.t(p.secure)}</span></p>
+</div>
+</form>
+</div>
+<div class="sent" data-pay="paid" hidden>
+<img class="stamp" src="/assets/stamp.svg" width="120" height="120" alt="">
+<h1 class="req__h1" tabindex="-1">${c.t(p.paidTitle)}</h1>
+<p data-paid-text></p>
+<div class="sent__ctas">${homeBtn}</div>
+</div>
+<div class="sent" data-pay="closed" hidden>
+<h1 class="req__h1" tabindex="-1" data-closed-title></h1>
+<p data-closed-text></p>
+<div class="sent__ctas">${chatBtn}${homeBtn}</div>
+</div>
+</div>
+</main>`;
+  const head = `<script type="application/json" id="pay-config">${JSON.stringify(cfg).replace(/</g, '\\u003c')}</script>
+<link rel="preconnect" href="${site.supabase.url}" crossorigin>
+<link rel="preconnect" href="https://cdn.portone.io">
+`;
+  return { title: p.title, description: p.description, main, head };
+}
+
 /* -------------------------------------------------------------- 404 page */
 export function notFound(c, langs) {
   const n = c.s.notFound;

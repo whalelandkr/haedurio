@@ -431,6 +431,19 @@ select.input{padding:0 40px 0 14px;appearance:none;-webkit-appearance:none;backg
 .chat p{margin-top:6px;font-size:15px;line-height:1.5;color:var(--graphite)}
 .chat .channels{margin-top:6px;column-gap:16px}
 
+/* ---------- Payment ---------- */
+.pay__wrap{max-width:680px}
+.pay__loading{padding:48px 0;font-size:18px;color:var(--graphite)}
+.pay__test{display:inline-block;margin-top:16px;padding:6px 12px;border-radius:999px;background:#FFF4D6;color:#6B4A00;font-size:14px;font-weight:600}
+.pay__summary{margin-top:32px}
+.pay__summary dd{overflow-wrap:anywhere}
+.pay__total{padding-top:14px;border-top:1px solid var(--line-4)}
+.pay__total dt{color:var(--ink);font-weight:600}
+.pay__total dd{font-size:22px;letter-spacing:-0.01em}
+.pay__note{margin-top:8px;font-size:15px;line-height:1.5;color:var(--graphite)}
+.pay__secure{display:flex;align-items:flex-start;gap:8px;font-size:14px;line-height:1.5;color:var(--graphite)}
+.pay__secure svg{flex:0 0 auto;margin-top:1px}
+
 /* ---------- Help ---------- */
 .helppage{padding:clamp(24px,3.6vw,52px) 0 clamp(88px,10vw,136px)}
 .help__grid{margin-top:clamp(36px,4.5vw,56px);display:flex;flex-wrap:wrap;align-items:flex-start;gap:48px clamp(40px,6vw,88px)}

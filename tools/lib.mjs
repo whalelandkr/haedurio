@@ -29,7 +29,7 @@ export function hashFile(p) {
 }
 
 // Page slugs, shared by every language.
-export const SLUG = { home: '', services: 'services/', prices: 'prices/', request: 'request/', help: 'help/', terms: 'terms/', privacy: 'privacy/' };
+export const SLUG = { home: '', services: 'services/', prices: 'prices/', request: 'request/', pay: 'pay/', help: 'help/', terms: 'terms/', privacy: 'privacy/' };
 
 export function makeCtx(site, lang, strings) {
   const code = lang.code;

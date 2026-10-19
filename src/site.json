@@ -87,6 +87,14 @@
     "anonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1dHZua2lyb3F1ZXpqYWVuZGtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3ODU3OTEsImV4cCI6MjA5ODM2MTc5MX0.cnxKEJPVWzpiWNhhkQ800cacxp6lGLbiNzGNDSCHcaE",
     "function": "submit-inquiry"
   },
+  "payment": {
+    "function": "pay-order",
+    "storeId": "store-ad018163-85b1-44bf-8aa1-8b38c4efc77a",
+    "channels": {
+      "live": "channel-key-5bf61384-0525-401f-a610-59e1a80b5e47",
+      "test": "channel-key-96af7bb1-8555-40b2-a043-c0c2ba0fe724"
+    }
+  },
   "turnstileSitekey": "0x4AAAAAACOamwget1BYd5tR",
   "categories": [
     "book",

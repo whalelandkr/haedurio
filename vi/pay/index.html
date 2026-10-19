@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Thanh toán | Haedurio</title>
+<meta name="description" content="Thanh toán an toàn cho yêu cầu của bạn tại Haedurio.">
+<meta name="robots" content="noindex">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Haedurio">
+<meta property="og:title" content="Thanh toán | Haedurio">
+<meta property="og:description" content="Thanh toán an toàn cho yêu cầu của bạn tại Haedurio.">
+<meta property="og:url" content="https://haedurio.com/vi/pay/">
+<meta property="og:image" content="https://haedurio.com/assets/og/og-vi.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:locale:alternate" content="ja_JP">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta property="og:locale:alternate" content="zh_TW">
+<meta property="og:locale:alternate" content="th_TH">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/assets/fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css?v=a66f355413">
+<script>document.documentElement.classList.add('js')</script>
+<script src="/assets/site.js?v=6a41ffbd5c" defer></script>
+<script type="application/json" id="pay-config">{"endpoint":"https://sutvnkiroquezjaendkr.supabase.co/functions/v1/pay-order","key":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1dHZua2lyb3F1ZXpqYWVuZGtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3ODU3OTEsImV4cCI6MjA5ODM2MTc5MX0.cnxKEJPVWzpiWNhhkQ800cacxp6lGLbiNzGNDSCHcaE","storeId":"store-ad018163-85b1-44bf-8aa1-8b38c4efc77a","channels":{"live":"channel-key-5bf61384-0525-401f-a610-59e1a80b5e47","test":"channel-key-96af7bb1-8555-40b2-a043-c0c2ba0fe724"},"lang":"vi","t":{"loading":"Đang tải đơn hàng…","payButton":"Thanh toán {amount}","opening":"Đang mở cửa sổ thanh toán…","checking":"Đang xác nhận thanh toán…","paidText":"Cảm ơn bạn. Chúng tôi đã nhận {amount} cho {item}. Chúng tôi sẽ nhắn cho bạn các bước tiếp theo.","failTitle":"Thanh toán chưa thành công","failText":"Vui lòng thử lại. Nếu vẫn không được, hãy nhắn cho chúng tôi.","errName":"Nhập họ và tên của bạn.","errEmail":"Nhập địa chỉ email hợp lệ.","errPhone":"Nhập số điện thoại kèm mã quốc gia.","errConsent":"Đánh dấu vào ô để tiếp tục.","invalidTitle":"Liên kết thanh toán này không dùng được","invalidText":"Hãy kiểm tra liên kết chúng tôi đã gửi, hoặc nhắn để nhận liên kết mới.","expiredTitle":"Liên kết thanh toán này đã hết hạn","expiredText":"Hãy nhắn cho chúng tôi để nhận liên kết mới.","cancelledTitle":"Khoản thanh toán này đã bị hủy","cancelledText":"Nếu bạn nghĩ đây là nhầm lẫn, hãy nhắn cho chúng tôi.","loadError":"Không tải được đơn hàng. Hãy kiểm tra kết nối và thử lại."}}</script>
+<link rel="preconnect" href="https://sutvnkiroquezjaendkr.supabase.co" crossorigin>
+<link rel="preconnect" href="https://cdn.portone.io">
+<script src="/assets/pay.js?v=ba178dbad1" defer></script>
+
+
+</head>
+<body>
+<a class="skip" href="#main">Chuyển đến nội dung chính</a>
+<header class="hdr hdr--task">
+<div class="wrap hdr__bar">
+<a class="brand" href="/vi/" aria-label="Trang chủ Haedurio"><img class="brand__seal" src="/assets/seal.svg" width="36" height="36" alt=""><span class="brand__word">haedurio</span></a>
+<a class="hdr__close" href="/vi/" data-close><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Đóng</a>
+</div>
+</header>
+<main id="main" class="req pay">
+<div class="wrap pay__wrap">
+<div data-pay="loading"><p class="pay__loading" role="status" data-loading-text>Đang tải đơn hàng…</p></div>
+<div data-pay="form" hidden>
+<h1 class="req__h1">Thanh toán</h1>
+<p class="req__lead">Kiểm tra đơn hàng rồi thanh toán bằng thẻ.</p>
+<p class="pay__test" data-pay-test hidden>Thanh toán thử. Giao dịch sẽ tự động hủy trong ngày.</p>
+<div class="summary pay__summary">
+<h2 class="summary__h">Đơn hàng của bạn</h2>
+<dl>
+<div><dt>Dịch vụ</dt><dd data-o="title"></dd></div>
+<div><dt>Mã đơn</dt><dd data-o="code"></dd></div>
+<div class="pay__total"><dt>Tổng cộng</dt><dd data-o="amount"></dd></div>
+</dl>
+</div>
+<form class="form" id="payform" novalidate aria-label="Thanh toán">
+<fieldset class="fset"><legend>Thông tin của bạn</legend>
+<p class="pay__note">Công ty thẻ cần các thông tin này để xử lý thanh toán.</p>
+<div class="fields">
+<div class="field"><label for="pname">Họ và tên</label><input class="input" id="pname" name="name" type="text" maxlength="60" autocomplete="name" aria-describedby="err-pname"><p class="err" id="err-pname" hidden><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.4v.1"/></g></svg><span>Nhập họ và tên của bạn.</span></p></div>
+<div class="fgrid">
+<div class="field"><label for="pemail">Email</label><input class="input" id="pemail" name="email" type="email" maxlength="120" autocomplete="email" inputmode="email" aria-describedby="err-pemail"><p class="err" id="err-pemail" hidden><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.4v.1"/></g></svg><span>Nhập địa chỉ email hợp lệ.</span></p></div>
+<div class="field"><label for="pphone">Số điện thoại</label><input class="input" id="pphone" name="phone" type="tel" maxlength="30" autocomplete="tel" inputmode="tel" placeholder="+84 912 345 678" aria-describedby="err-pphone"><p class="err" id="err-pphone" hidden><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.4v.1"/></g></svg><span>Nhập số điện thoại kèm mã quốc gia.</span></p></div>
+</div>
+</div>
+</fieldset>
+<div class="form__foot">
+<label class="consent"><input type="checkbox" id="pconsent" name="consent" aria-describedby="err-pconsent"><span>Tôi đồng ý với <a href="/vi/terms/" target="_blank">Điều khoản dịch vụ</a> và <a href="/vi/prices/#refunds" target="_blank">quy định hoàn tiền</a>.</span></label>
+<p class="err" id="err-pconsent" hidden><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.4v.1"/></g></svg><span>Đánh dấu vào ô để tiếp tục.</span></p>
+<div class="sendfail" id="payfail" role="alert" hidden><strong data-fail-title></strong><br><span data-fail-text></span><br><a href="https://wa.me/821049824357" rel="noopener" target="_blank">Nhắn cho chúng tôi</a></div>
+<div class="form__send"><button class="btn btn--primary btn--lg" type="submit" id="paybtn">Thanh toán</button></div>
+<p class="pay__secure"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l7.5 3v5.5c0 4.4-3.1 8.1-7.5 9.5-4.4-1.4-7.5-5.1-7.5-9.5V6L12 3z" fill="none" stroke="#121826" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Thanh toán do KG Inicis xử lý. Chúng tôi không thấy số thẻ của bạn.</span></p>
+</div>
+</form>
+</div>
+<div class="sent" data-pay="paid" hidden>
+<img class="stamp" src="/assets/stamp.svg" width="120" height="120" alt="">
+<h1 class="req__h1" tabindex="-1">Đã nhận thanh toán</h1>
+<p data-paid-text></p>
+<div class="sent__ctas"><a class="btn btn--dark btn--md" href="/vi/">Về trang chủ</a></div>
+</div>
+<div class="sent" data-pay="closed" hidden>
+<h1 class="req__h1" tabindex="-1" data-closed-title></h1>
+<p data-closed-text></p>
+<div class="sent__ctas"><a class="btn btn--soft btn--md" href="https://wa.me/821049824357" rel="noopener" target="_blank">Nhắn cho chúng tôi</a><a class="btn btn--dark btn--md" href="/vi/">Về trang chủ</a></div>
+</div>
+</div>
+</main>
+<footer class="ftr ftr--compact">
+<div class="wrap ftr__inner">
+<div class="ftr__row">
+<a class="ftr__mark" href="/vi/" aria-label="Trang chủ Haedurio"><img src="/assets/seal.svg" width="26" height="26" alt=""><span>haedurio</span></a>
+<nav class="ftr__links" aria-label="Chính sách"><a href="/vi/terms/">Điều khoản dịch vụ</a><a href="/vi/privacy/">Chính sách quyền riêng tư</a><a href="/vi/help/">Trợ giúp</a><a href="mailto:contact@whalelandkr.com">contact@whalelandkr.com</a></nav>
+</div>
+<p class="ftr__legal">Whaleland, Eonju-ro 425, Gangnam-gu, Seoul, Republic of Korea. Giám đốc điều hành: Jeonghu Kim. Số đăng ký kinh doanh: 428-04-03222. Số đăng ký thương mại điện tử: 2025-Seoul Gangnam-04140. Hosting: Vercel Inc. <a href="https://www.ftc.go.kr/bizCommPop.do?wrkr_no=4280403222" rel="noopener" target="_blank">Tra cứu thông tin doanh nghiệp</a><br>© 2026 Whaleland</p>
+</div>
+</footer>
+</body>
+</html>

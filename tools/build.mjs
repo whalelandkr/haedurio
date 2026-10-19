@@ -130,6 +130,20 @@ for (const lang of langs) {
   }
 }
 
+/* ---------- Payment pages (reached only from links we send; not indexed) ---------- */
+{
+  const payJs = hashFile('assets/pay.js');
+  for (const lang of langs) {
+    const c = makeCtx(site, lang, strings[lang.code]);
+    const body = P.pay(c);
+    write(outPath(lang, 'pay'), document(c, {
+      page: 'pay', langs, v, title: body.title, description: body.description, noindex: true, noAlternates: true,
+      head: body.head + `<script src="/assets/pay.js?v=${payJs}" defer></script>\n`,
+      header: taskHeader(c), main: body.main, footer: footerCompact(c),
+    }));
+  }
+}
+
 /* ---------- 404 ---------- */
 {
   const c = makeCtx(site, langs[0], en);
