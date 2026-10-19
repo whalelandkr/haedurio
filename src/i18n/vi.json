@@ -703,7 +703,7 @@
     "opening": "Đang mở cửa sổ thanh toán…",
     "checking": "Đang xác nhận thanh toán…",
     "secure": "Thanh toán do KG Inicis xử lý. Chúng tôi không thấy số thẻ của bạn.",
-    "testNote": "Thanh toán thử. Thẻ của bạn sẽ không bị trừ tiền.",
+    "testNote": "Thanh toán thử. Giao dịch sẽ tự động hủy trong ngày.",
     "paidTitle": "Đã nhận thanh toán",
     "paidText": "Cảm ơn bạn. Chúng tôi đã nhận {amount} cho {item}. Chúng tôi sẽ nhắn cho bạn các bước tiếp theo.",
     "failTitle": "Thanh toán chưa thành công",

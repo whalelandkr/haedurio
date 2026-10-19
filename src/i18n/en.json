@@ -703,7 +703,7 @@
     "opening": "Opening the payment window…",
     "checking": "Confirming your payment…",
     "secure": "Payments are processed by KG Inicis. We never see your card number.",
-    "testNote": "Test payment. Your card won’t be charged.",
+    "testNote": "Test payment. It’s cancelled automatically the same day.",
     "paidTitle": "Payment received",
     "paidText": "Thank you. We received {amount} for {item}. We’ll message you about the next steps.",
     "failTitle": "The payment didn’t go through",

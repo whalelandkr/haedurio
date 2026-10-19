@@ -703,7 +703,7 @@
     "opening": "正在開啟付款視窗…",
     "checking": "正在確認付款…",
     "secure": "付款由 KG Inicis 處理，我們不會看到您的卡號。",
-    "testNote": "測試付款，不會實際扣款。",
+    "testNote": "測試付款，當天會自動取消。",
     "paidTitle": "付款完成",
     "paidText": "謝謝！我們已收到{item}的款項 {amount}。我們會傳訊息告訴您下一步。",
     "failTitle": "付款未完成",
