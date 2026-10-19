@@ -1,5 +1,5 @@
 -- Payment links for Haedurio. Run once in the Supabase SQL editor.
--- Admins (signed-in users) manage orders from /__admin__/payments.html.
+-- Admins (users in admin_users) manage orders from /__admin__/payments.html.
 -- Customers never read this table directly; the pay-order edge function does.
 
 create table if not exists public.pay_orders (
@@ -32,10 +32,21 @@ create index if not exists pay_orders_created_at_idx on public.pay_orders (creat
 
 alter table public.pay_orders enable row level security;
 
-drop policy if exists "Signed-in admins manage pay orders" on public.pay_orders;
-create policy "Signed-in admins manage pay orders"
+-- Same admin check as the inquiries table: only users listed in admin_users.
+drop policy if exists "Admins manage pay orders" on public.pay_orders;
+create policy "Admins manage pay orders"
   on public.pay_orders
   for all
   to authenticated
-  using (true)
-  with check (true);
+  using (public.is_admin(auth.uid()))
+  with check (public.is_admin(auth.uid()));
+
+revoke all on public.pay_orders from anon;
+grant select, insert, update on public.pay_orders to authenticated;
+grant all on public.pay_orders to service_role;
+do $$
+begin
+  execute format('grant usage, select on sequence %s to authenticated, service_role',
+                 pg_get_serial_sequence('public.pay_orders', 'id'));
+end
+$$;

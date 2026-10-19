@@ -7,7 +7,7 @@ const STORE_ID = 'store-ad018163-85b1-44bf-8aa1-8b38c4efc77a';
 const API_SECRET = Deno.env.get('PORTONE_API_SECRET') ?? '';
 const WEBHOOK_SECRET = Deno.env.get('PORTONE_WEBHOOK_SECRET') ?? '';
 
-const sb = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, {
+const sb = createClient(Deno.env.get('SUPABASE_URL') ?? '', Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '', {
   auth: { persistSession: false },
 });
 
