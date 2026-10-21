@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>방문 통계 | 해드리오</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--ink:#121826;--gray:#5B6474;--muted:#8A93A3;--line:#E3E7EE;--bg:#F5F7FA;--surface:#fff;--blue:#1F4FE0;--blue-wash:#E8EEFD;--red:#C2362B}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--ink);background:var(--bg)}
+header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;background:#fff;border-bottom:1px solid var(--line)}
+header h1{margin:0;font-size:18px}
+header nav{display:flex;flex-wrap:wrap;align-items:center;gap:14px;font-size:14px}
+header nav a{color:var(--gray);text-decoration:none}
+header nav a:hover{color:var(--ink);text-decoration:underline}
+main{max-width:1100px;margin:0 auto;padding:20px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:20px}
+.card h2{margin:0 0 4px;font-size:16px}
+.card .sub{margin:0 0 14px;color:var(--gray);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600}
+input,select{font:inherit;padding:9px 11px;border:1px solid #CBD2DC;border-radius:9px;background:#fff;color:var(--ink)}
+button{font:inherit;font-weight:600;padding:9px 14px;border-radius:9px;border:1px solid #CBD2DC;background:#fff;color:var(--ink);cursor:pointer}
+button.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.msg{font-size:14px;color:var(--gray)}
+.msg.err{color:var(--red)}
+.check{flex-direction:row;align-items:center;gap:8px;font-weight:400;font-size:14px}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+.toolbar select{padding:7px 10px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:20px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.tile .k{font-size:13px;color:var(--gray)}
+.tile .v{font-size:28px;font-weight:650;letter-spacing:-.01em;margin-top:2px;font-variant-numeric:proportional-nums}
+.tile .n{font-size:12px;color:var(--muted);margin-top:2px}
+.chart{position:relative}
+.chart svg{display:block;width:100%;height:220px;overflow:visible}
+.chart .grid line{stroke:var(--line);stroke-width:1}
+.chart .axis text{fill:var(--muted);font-size:11px}
+.chart .bar{fill:var(--blue);pointer-events:none}
+.chart .hit{fill:transparent;cursor:default}
+.chart .hit:hover+.bar,.chart .bar.on{fill:#1840B8}
+.tip{position:absolute;pointer-events:none;background:#121826;color:#fff;border-radius:8px;padding:8px 10px;font-size:12px;line-height:1.5;white-space:nowrap;transform:translate(-50%,-100%);margin-top:-8px}
+.tip b{font-weight:600}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{font-size:12px;color:var(--gray);font-weight:600}
+td.num,th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+td.label{min-width:110px;max-width:260px;overflow-wrap:anywhere}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.meter{display:block;height:6px;border-radius:0 3px 3px 0;background:var(--blue);margin-top:4px;min-width:2px}
+.empty{color:var(--muted);font-size:14px;padding:8px 0}
+details.table{margin-top:12px}
+details.table summary{cursor:pointer;color:var(--gray);font-size:13px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header>
+<h1>방문 통계</h1>
+<nav><a href="/__admin__/">문의</a><a href="/__admin__/payments.html">결제 링크</a><span class="msg" id="who"></span><button id="logout" hidden>로그아웃</button></nav>
+</header>
+<main>
+<section class="card" id="login">
+<h2>관리자 로그인</h2>
+<p class="sub">문의·결제 관리 화면과 같은 계정으로 로그인해요.</p>
+<form id="loginform" class="grid">
+<label>이메일<input id="email" type="email" autocomplete="username" required></label>
+<label>비밀번호<input id="password" type="password" autocomplete="current-password" required></label>
+</form>
+<div class="row" style="margin-top:14px"><button class="primary" type="submit" form="loginform">로그인</button><span class="msg" id="loginmsg"></span></div>
+</section>
+
+<div id="app" hidden>
+<div class="toolbar">
+<div class="row">
+<select id="range" aria-label="기간">
+<option value="1">오늘</option>
+<option value="7">최근 7일</option>
+<option value="30" selected>최근 30일</option>
+<option value="90">최근 90일</option>
+</select>
+<button type="button" id="refresh">새로고침</button>
+<span class="msg" id="status"></span>
+</div>
+<label class="check"><input type="checkbox" id="optout">이 브라우저의 방문은 통계에서 빼기</label>
+</div>
+
+<div class="tiles" id="tiles"></div>
+
+<section class="card">
+<h2>날짜별 방문</h2>
+<p class="sub">방문 = 브라우저 탭 하나에서 이어진 방문 한 번. 막대에 마우스를 올리면 자세히 보여요.</p>
+<div class="chart" id="chart"></div>
+<details class="table"><summary>표로 보기</summary><table><thead><tr><th>날짜</th><th class="num">방문</th><th class="num">페이지뷰</th><th class="num">연락 버튼</th><th class="num">문의 접수</th></tr></thead><tbody id="daytable"></tbody></table></details>
+</section>
+
+<section class="card">
+<h2>어디서 왔나</h2>
+<p class="sub">방문을 시작한 곳 기준이에요. SNS 링크에 ?utm_source=… 를 붙이면 그 이름으로 묶여요.</p>
+<div class="scroll"><table><thead><tr><th>유입 경로</th><th class="num">방문</th><th class="num">연락 버튼</th><th class="num">문의 접수</th><th class="num">연락까지 간 비율</th></tr></thead><tbody id="sources"></tbody></table></div>
+</section>
+
+<div class="two">
+<section class="card">
+<h2>누른 연락 버튼</h2>
+<p class="sub">사이트에서 누른 버튼 수예요.</p>
+<table><thead><tr><th>버튼</th><th class="num">탭</th></tr></thead><tbody id="targets"></tbody></table>
+</section>
+<section class="card">
+<h2>언어</h2>
+<p class="sub">방문한 페이지의 언어 기준이에요.</p>
+<table><thead><tr><th>언어</th><th class="num">방문</th></tr></thead><tbody id="langs"></tbody></table>
+</section>
+<section class="card">
+<h2>많이 본 페이지</h2>
+<p class="sub">페이지뷰 상위 15개예요.</p>
+<table><thead><tr><th>페이지</th><th class="num">페이지뷰</th></tr></thead><tbody id="pages"></tbody></table>
+</section>
+<section class="card">
+<h2>기기</h2>
+<p class="sub">방문 기준이에요.</p>
+<table><thead><tr><th>기기</th><th class="num">방문</th></tr></thead><tbody id="devices"></tbody></table>
+</section>
+</div>
+</div>
+</main>
+<script>
+(function () {
+  'use strict';
+  var SUPABASE_URL = 'https://sutvnkiroquezjaendkr.supabase.co';
+  var ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1dHZua2lyb3F1ZXpqYWVuZGtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3ODU3OTEsImV4cCI6MjA5ODM2MTc5MX0.cnxKEJPVWzpiWNhhkQ800cacxp6lGLbiNzGNDSCHcaE';
+  var sb = supabase.createClient(SUPABASE_URL, ANON_KEY);
+  var $ = function (id) { return document.getElementById(id); };
+  var CONTACT = ['whatsapp', 'line', 'kakao', 'wechat', 'email', 'phone'];
+  var TARGET = { whatsapp: 'WhatsApp', line: 'LINE', kakao: '카카오톡', wechat: 'WeChat', email: '이메일', phone: '전화', instagram: 'Instagram', facebook: 'Facebook', x: 'X', threads: 'Threads', request: '문의 시작 버튼' };
+  var LANG = { en: 'English', ja: '日本語', 'zh-cn': '简体中文', 'zh-tw': '繁體中文', vi: 'Tiếng Việt', th: 'ไทย' };
+  var DEVICE = { mobile: '휴대폰', desktop: '컴퓨터', tablet: '태블릿' };
+  var SOURCES = [
+    [/instagram/, 'Instagram'], [/facebook|^fb$|^m\.me$/, 'Facebook'], [/threads/, 'Threads'], [/^t\.co$|twitter|^x\.com$|^x$/, 'X'],
+    [/xiaohongshu|xhslink|rednote/, '샤오홍슈'], [/google\./, 'Google'], [/bing\./, 'Bing'], [/naver/, '네이버'], [/yahoo/, 'Yahoo'],
+    [/reddit/, 'Reddit'], [/line\.me|^line$/, 'LINE'], [/kakao/, '카카오'], [/whatsapp/, 'WhatsApp'], [/wechat|weixin/, 'WeChat'],
+    [/chatgpt|openai/, 'ChatGPT'], [/perplexity/, 'Perplexity'], [/haedurio/, '해드리오 사이트']
+  ];
+  function sourceName(s) {
+    if (!s) return '직접 방문·알 수 없음';
+    var v = String(s).toLowerCase();
+    for (var i = 0; i < SOURCES.length; i++) if (SOURCES[i][0].test(v)) return SOURCES[i][1];
+    return s;
+  }
+  var fmt = function (n) { return Number(n).toLocaleString('ko-KR'); };
+  var pct = function (a, b) { return b ? Math.round((a / b) * 1000) / 10 + '%' : '–'; };
+  var dayKey = (function () {
+    var f = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit' });
+    return function (d) { return f.format(new Date(d)); };
+  })();
+  function el(tag, text, cls) { var e = document.createElement(tag); if (text != null) e.textContent = text; if (cls) e.className = cls; return e; }
+
+  /* ---------- Opt-out for our own visits (stored for this site in this browser) ---------- */
+  function readOpt() { try { return localStorage.getItem('hd-no-stats') === '1'; } catch (e) { return false; } }
+  $('optout').checked = readOpt();
+  $('optout').addEventListener('change', function () {
+    try { if (this.checked) localStorage.setItem('hd-no-stats', '1'); else localStorage.removeItem('hd-no-stats'); } catch (e) { /* storage blocked */ }
+  });
+
+  /* ---------- Auth ---------- */
+  function setAuthed(session) {
+    var on = !!session;
+    $('login').hidden = on;
+    $('app').hidden = !on;
+    $('logout').hidden = !on;
+    $('who').textContent = on ? session.user.email : '';
+    if (on) load();
+  }
+  $('loginform').addEventListener('submit', function (e) {
+    e.preventDefault();
+    $('loginmsg').textContent = '로그인 중…';
+    $('loginmsg').className = 'msg';
+    sb.auth.signInWithPassword({ email: $('email').value.trim(), password: $('password').value }).then(function (r) {
+      if (r.error) { $('loginmsg').textContent = '로그인하지 못했어요. 이메일과 비밀번호를 확인해 주세요.'; $('loginmsg').className = 'msg err'; return; }
+      $('loginmsg').textContent = '';
+    });
+  });
+  $('logout').addEventListener('click', function () { sb.auth.signOut(); });
+  $('refresh').addEventListener('click', function () { load(); });
+  $('range').addEventListener('change', function () { load(); });
+  sb.auth.getSession().then(function (r) { setAuthed(r.data.session); });
+  sb.auth.onAuthStateChange(function (_e, session) { if (!session) setAuthed(null); });
+
+  /* ---------- Data ---------- */
+  var loading = false;
+  function fetchAll(since) {
+    var out = [];
+    var step = 1000;
+    function page(from) {
+      return sb.from('site_events').select('created_at,type,path,lang,source,medium,campaign,target,device,sid')
+        .gte('created_at', since.toISOString()).order('created_at', { ascending: true }).range(from, from + step - 1)
+        .then(function (r) {
+          if (r.error) throw r.error;
+          out = out.concat(r.data);
+          if (r.data.length === step && out.length < 100000) return page(from + step);
+          return out;
+        });
+    }
+    return page(0);
+  }
+  function load() {
+    if (loading) return;
+    loading = true;
+    var days = Number($('range').value);
+    var today = dayKey(Date.now());
+    // Start of the first day in Korea time.
+    var start = new Date(today + 'T00:00:00+09:00');
+    start.setUTCDate(start.getUTCDate() - (days - 1));
+    $('status').textContent = '불러오는 중…';
+    fetchAll(start).then(function (rows) {
+      render(rows, start, days);
+      $('status').textContent = rows.length ? fmt(rows.length) + '건 기준' : '';
+    }).catch(function (err) {
+      $('status').textContent = '불러오지 못했어요: ' + (err.message || err);
+    }).then(function () { loading = false; });
+  }
+
+  function render(rows, start, days) {
+    var sessions = {};
+    var byDay = {};
+    for (var i = 0; i < days; i++) {
+      var d = new Date(start.getTime() + i * 86400000);
+      byDay[dayKey(d)] = { s: {}, views: 0, contact: 0, submit: 0 };
+    }
+    var targets = {};
+    var pages = {};
+    rows.forEach(function (e) {
+      var s = sessions[e.sid] || (sessions[e.sid] = { source: e.source, lang: e.lang, device: e.device, contact: 0, submit: 0, views: 0, day: dayKey(e.created_at) });
+      var day = byDay[dayKey(e.created_at)];
+      if (day) day.s[e.sid] = 1;
+      if (e.type === 'view') {
+        s.views++;
+        if (day) day.views++;
+        pages[e.path] = (pages[e.path] || 0) + 1;
+      } else if (e.type === 'click') {
+        targets[e.target] = (targets[e.target] || 0) + 1;
+        if (CONTACT.indexOf(e.target) > -1) { s.contact++; if (day) day.contact++; }
+      } else if (e.type === 'submit') {
+        s.submit++;
+        if (day) day.submit++;
+      }
+    });
+    var list = Object.keys(sessions).map(function (k) { return sessions[k]; });
+    var totalViews = list.reduce(function (a, s) { return a + s.views; }, 0);
+    var contactTaps = list.reduce(function (a, s) { return a + s.contact; }, 0);
+    var submits = list.reduce(function (a, s) { return a + s.submit; }, 0);
+    var reached = list.filter(function (s) { return s.contact > 0 || s.submit > 0; }).length;
+
+    /* Tiles */
+    var tiles = $('tiles');
+    tiles.textContent = '';
+    [['방문', fmt(list.length), '브라우저 탭 기준'], ['페이지뷰', fmt(totalViews), ''], ['연락 버튼 탭', fmt(contactTaps), 'WhatsApp·LINE·카카오·WeChat·이메일·전화'],
+     ['문의 접수', fmt(submits), '사이트 문의 폼'], ['연락까지 간 방문', pct(reached, list.length), fmt(reached) + '회 방문']].forEach(function (t) {
+      var b = el('div', null, 'tile');
+      b.appendChild(el('div', t[0], 'k'));
+      b.appendChild(el('div', t[1], 'v'));
+      if (t[2]) b.appendChild(el('div', t[2], 'n'));
+      tiles.appendChild(b);
+    });
+
+    /* Daily chart + table */
+    var dayRows = Object.keys(byDay).sort().map(function (k) {
+      var x = byDay[k];
+      return { day: k, sessions: Object.keys(x.s).length, views: x.views, contact: x.contact, submit: x.submit };
+    });
+    drawChart(dayRows);
+    var tb = $('daytable');
+    tb.textContent = '';
+    dayRows.slice().reverse().forEach(function (r) {
+      var tr = el('tr');
+      tr.appendChild(el('td', r.day));
+      [r.sessions, r.views, r.contact, r.submit].forEach(function (n) { tr.appendChild(el('td', fmt(n), 'num')); });
+      tb.appendChild(tr);
+    });
+
+    /* Sources */
+    var src = {};
+    list.forEach(function (s) {
+      var name = sourceName(s.source);
+      var x = src[name] || (src[name] = { n: 0, contact: 0, submit: 0, reached: 0 });
+      x.n++; x.contact += s.contact; x.submit += s.submit; if (s.contact || s.submit) x.reached++;
+    });
+    fillTable('sources', Object.keys(src).map(function (k) { return [k, src[k]]; }).sort(function (a, b) { return b[1].n - a[1].n; }), function (r, max) {
+      return [labelCell(r[0], r[1].n, max), num(r[1].n), num(r[1].contact), num(r[1].submit), el('td', pct(r[1].reached, r[1].n), 'num')];
+    }, function (r) { return r[1].n; });
+
+    /* Targets, languages, pages, devices */
+    var simple = function (id, obj, names, limit) {
+      var arr = Object.keys(obj).map(function (k) { return [k, obj[k]]; }).sort(function (a, b) { return b[1] - a[1]; });
+      if (limit) arr = arr.slice(0, limit);
+      fillTable(id, arr, function (r, max) { return [labelCell(names ? (names[r[0]] || r[0] || '알 수 없음') : r[0], r[1], max), num(r[1])]; }, function (r) { return r[1]; });
+    };
+    simple('targets', targets, TARGET);
+    var langs = {}; var devices = {};
+    list.forEach(function (s) { langs[s.lang || '?'] = (langs[s.lang || '?'] || 0) + 1; devices[s.device || '?'] = (devices[s.device || '?'] || 0) + 1; });
+    simple('langs', langs, LANG);
+    simple('pages', pages, null, 15);
+    simple('devices', devices, DEVICE);
+  }
+
+  function num(n) { return el('td', fmt(n), 'num'); }
+  function labelCell(text, value, max) {
+    var td = el('td', null, 'label');
+    td.appendChild(el('span', text));
+    var m = el('span', null, 'meter');
+    m.style.width = Math.max(1, Math.round((value / (max || 1)) * 100)) + '%';
+    td.appendChild(m);
+    return td;
+  }
+  function fillTable(id, rows, cells, value) {
+    var tb = $(id);
+    tb.textContent = '';
+    if (!rows.length) {
+      var tr = el('tr'); var td = el('td', '아직 데이터가 없어요.', 'empty'); td.colSpan = 5; tr.appendChild(td); tb.appendChild(tr);
+      return;
+    }
+    var max = Math.max.apply(null, rows.map(value));
+    rows.forEach(function (r) {
+      var tr = el('tr');
+      cells(r, max).forEach(function (c) { tr.appendChild(c); });
+      tb.appendChild(tr);
+    });
+  }
+
+  /* Single-series column chart: visits per day, hover for the day's numbers. */
+  function drawChart(rows) {
+    var box = $('chart');
+    box.textContent = '';
+    var W = Math.max(320, box.clientWidth || 800), H = 220, L = 34, R = 8, T = 10, B = 26;
+    var max = Math.max(1, Math.max.apply(null, rows.map(function (r) { return r.sessions; })));
+    var nice = (function (m) { var p = Math.pow(10, Math.floor(Math.log10(m))); var f = m / p; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p; })(max);
+    var ns = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', '날짜별 방문 수 막대 차트');
+    var mk = function (tag, a, parent) { var n = document.createElementNS(ns, tag); for (var k in a) n.setAttribute(k, a[k]); (parent || svg).appendChild(n); return n; };
+    var gridG = mk('g', { class: 'grid' });
+    var axisG = mk('g', { class: 'axis' });
+    var ph = H - T - B;
+    [0, 0.5, 1].forEach(function (f) {
+      var y = T + ph - f * ph;
+      mk('line', { x1: L, x2: W - R, y1: y, y2: y }, gridG);
+      var t = mk('text', { x: L - 6, y: y + 4, 'text-anchor': 'end' }, axisG);
+      t.textContent = fmt(Math.round(nice * f));
+    });
+    var band = (W - L - R) / rows.length;
+    var bw = Math.min(24, Math.max(3, band * 0.6));
+    var tip = el('div', null, 'tip'); tip.hidden = true;
+    // About one date label per 64px, so labels never collide on a phone.
+    var labelEvery = Math.max(1, Math.ceil(rows.length / Math.max(2, Math.floor((W - L - R) / 64))));
+    rows.forEach(function (r, i) {
+      var cx = L + band * i + band / 2;
+      var h = (r.sessions / nice) * ph;
+      var y = T + ph - h;
+      var hit = mk('rect', { class: 'hit', x: L + band * i, y: T, width: band, height: ph });
+      if (h > 0) {
+        var rr = Math.min(4, bw / 2, h);
+        // Rounded data end, square at the baseline.
+        mk('path', { class: 'bar', d: 'M' + (cx - bw / 2) + ',' + (T + ph) + 'V' + (y + rr) + 'Q' + (cx - bw / 2) + ',' + y + ' ' + (cx - bw / 2 + rr) + ',' + y + 'H' + (cx + bw / 2 - rr) + 'Q' + (cx + bw / 2) + ',' + y + ' ' + (cx + bw / 2) + ',' + (y + rr) + 'V' + (T + ph) + 'Z' });
+      } else {
+        mk('rect', { class: 'bar', x: cx - bw / 2, y: T + ph - 1, width: bw, height: 1 });
+      }
+      if ((rows.length - 1 - i) % labelEvery === 0) {
+        var t = mk('text', { x: cx, y: H - 8, 'text-anchor': 'middle' }, axisG);
+        t.textContent = r.day.slice(5).replace('-', '/');
+      }
+      hit.addEventListener('mouseenter', function () {
+        tip.innerHTML = '';
+        tip.appendChild(el('b', r.day));
+        tip.appendChild(document.createElement('br'));
+        tip.appendChild(document.createTextNode('방문 ' + fmt(r.sessions) + ' · 페이지뷰 ' + fmt(r.views) + ' · 연락 버튼 ' + fmt(r.contact) + ' · 문의 ' + fmt(r.submit)));
+        tip.style.left = (cx / W * 100) + '%';
+        // Keep the tooltip inside the card near either edge.
+        tip.style.transform = cx / W > 0.75 ? 'translate(-100%,-100%)' : cx / W < 0.25 ? 'translate(0,-100%)' : 'translate(-50%,-100%)';
+        tip.style.top = (y / H * box.clientHeight) + 'px';
+        tip.hidden = false;
+      });
+      hit.addEventListener('mouseleave', function () { tip.hidden = true; });
+    });
+    box.appendChild(svg);
+    box.appendChild(tip);
+  }
+  var resizeT;
+  window.addEventListener('resize', function () { clearTimeout(resizeT); resizeT = setTimeout(function () { if (!$('app').hidden && !loading) load(); }, 300); });
+})();
+</script>
+</body>
+</html>

@@ -47,7 +47,15 @@ ${brand(c)}
 function legalLine(c) {
   const b = c.site.business;
   const f = c.s.common.footer;
-  return `${c.t(f.legal, { company: esc(b.company), address: esc(b.address), ceo: esc(b.ceo), brn: esc(b.brn), ecl: esc(b.ecl), host: esc(b.host) })} <a href="${attr(b.verifyUrl)}" rel="noopener" target="_blank">${esc(f.verify)}</a><br>${c.t(f.copyright, { year: String(c.site.year), company: esc(b.company) })}`;
+  const phone = `<a class="nowrap" href="tel:${attr(b.phone)}">${esc(b.phoneDisplay)}</a>`;
+  return `${c.t(f.legal, { company: esc(b.company), address: esc(b.address), ceo: esc(b.ceo), phone, brn: esc(b.brn), ecl: esc(b.ecl), host: esc(b.host) })} <a href="${attr(b.verifyUrl)}" rel="noopener" target="_blank">${esc(f.verify)}</a><br>${c.t(f.copyright, { year: String(c.site.year), company: esc(b.company) })}`;
+}
+
+// Our social accounts, in the order visitors are most likely to use them.
+function socialLinks(c) {
+  const k = c.site.contact;
+  return [['Instagram', k.instagram], ['Facebook', k.facebook], ['X', k.x], ['Threads', k.threads]]
+    .map(([name, url]) => `<a href="${attr(url)}" rel="noopener" target="_blank">${name}</a>`).join('');
 }
 
 export function footerFull(c) {
@@ -62,7 +70,7 @@ export function footerFull(c) {
 <nav class="ftr__col" aria-labelledby="ftr-pol"><h2 class="ftr__h" id="ftr-pol">${esc(f.policies)}</h2>
 <a href="${c.href('terms')}">${esc(f.terms)}</a><a href="${c.href('privacy')}">${esc(f.privacy)}</a><a href="${c.href('help', '#dont')}">${esc(f.dont)}</a></nav>
 <div class="ftr__col ftr__col--wide"><h2 class="ftr__h">${esc(f.contact)}</h2>
-<a href="mailto:${attr(k.email)}">${esc(k.email)}</a><a class="nowrap" href="tel:${attr(k.phone)}">${esc(k.phoneDisplay)}</a><span>${esc(f.hours)}</span><a href="${attr(k.instagram)}" rel="noopener" target="_blank">Instagram</a></div>
+<a href="mailto:${attr(k.email)}">${esc(k.email)}</a><a class="nowrap" href="tel:${attr(c.site.business.phone)}">${esc(c.site.business.phoneDisplay)}</a><span>${esc(f.hours)}</span><span class="ftr__social">${socialLinks(c)}</span></div>
 </div>
 <p class="ftr__legal">${legalLine(c)}</p>
 </div>
@@ -75,7 +83,7 @@ export function footerCompact(c) {
 <div class="wrap ftr__inner">
 <div class="ftr__row">
 <a class="ftr__mark" href="${c.href('home')}" aria-label="${attr(c.s.common.homeLabel)}"><img src="/assets/seal.svg" width="26" height="26" alt=""><span>haedurio</span></a>
-<nav class="ftr__links" aria-label="${attr(f.policies)}"><a href="${c.href('terms')}">${esc(f.terms)}</a><a href="${c.href('privacy')}">${esc(f.privacy)}</a><a href="${c.href('help')}">${esc(f.help)}</a><a href="mailto:${attr(c.site.contact.email)}">${esc(c.site.contact.email)}</a></nav>
+<nav class="ftr__links" aria-label="${attr(f.policies)}"><a href="${c.href('terms')}">${esc(f.terms)}</a><a href="${c.href('privacy')}">${esc(f.privacy)}</a><a href="${c.href('help')}">${esc(f.help)}</a><a href="mailto:${attr(c.site.contact.email)}">${esc(c.site.contact.email)}</a>${socialLinks(c)}</nav>
 </div>
 <p class="ftr__legal">${legalLine(c)}</p>
 </div>
@@ -120,6 +128,7 @@ ${ogLocales}
 <link rel="preload" href="/assets/fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/site.css?v=${o.v.css}">
 <script>document.documentElement.classList.add('js')</script>
+<script type="application/json" id="hd-stats">${JSON.stringify({ url: site.supabase.url, key: site.supabase.anonKey, table: site.analytics.table, lang: lang.code })}</script>
 <script src="/assets/site.js?v=${o.v.js}" defer></script>
 ${o.head || ''}${suggest}
 ${jsonld}

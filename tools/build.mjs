@@ -62,7 +62,7 @@ function business(c, extra = {}) {
     availableLanguage: ['en', 'ja', 'zh-Hans', 'zh-Hant', 'vi', 'th', 'ko'],
     founder: { '@type': 'Person', name: b.ceo },
     parentOrganization: { '@type': 'Organization', name: b.company },
-    sameAs: [k.instagram, k.facebook],
+    sameAs: [k.instagram, k.facebook, k.x, k.threads],
     ...extra,
   };
 }

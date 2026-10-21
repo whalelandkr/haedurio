@@ -38,7 +38,7 @@
       "privacy": "Privacy policy",
       "dont": "What we don’t do",
       "hours": "Every day, 11:00 to 02:00 KST",
-      "legal": "{company}, {address}. CEO {ceo}. Business registration no. {brn}. E-commerce registration no. {ecl}. Hosting: {host}",
+      "legal": "{company}, {address}. CEO {ceo}. Tel. {phone}. Business registration no. {brn}. E-commerce registration no. {ecl}. Hosting: {host}",
       "verify": "Check our business registration",
       "copyright": "© {year} {company}"
     }
@@ -798,7 +798,7 @@
   },
   "legal": {
     "updated": "Last updated {date}",
-    "date": "14 October 2026",
+    "date": "21 October 2026",
     "translationNote": "Translations are provided for convenience. If a translation differs from the English version, the English version applies.",
     "contents": "Contents"
   },
@@ -909,6 +909,7 @@
           "When you send a request: your name, the chat app ID, phone number or email you want us to reply on, your reply language, and the details you write about the task.",
           "When a task needs it: delivery addresses, hotel names and the name a room is booked under, recipient details for shipping, and booking names.",
           "Only for tasks that legally require it, such as collecting a lost item on your behalf, and only with your consent: a copy of your passport.",
+          "When you pay: your name, email and phone number (the card company needs them), the order and amount, and the payment result. You enter your card details in KG Inicis’s payment window, so we never see your card number.",
           "To keep the site safe: technical data such as your IP address and browser type, processed by our hosting and spam-protection providers."
         ]
       },
@@ -967,6 +968,16 @@
               "Cloudflare, Inc.",
               "United States",
               "Checks that form submissions aren’t spam (Turnstile)"
+            ],
+            [
+              "Korea PortOne Co., Ltd.",
+              "Republic of Korea",
+              "Connects our payment page to the card payment provider and records the payment result"
+            ],
+            [
+              "KG Inicis Co., Ltd.",
+              "Republic of Korea",
+              "Processes card payments and refunds"
             ]
           ]
         },
@@ -983,7 +994,8 @@
       {
         "h": "Cookies",
         "p": [
-          "We don’t use advertising or tracking cookies. Your browser keeps your language choice, and a draft of a request you haven’t sent yet, on your device. Our spam-protection provider may process technical data to tell people from bots."
+          "We don’t use advertising or tracking cookies. Your browser keeps your language choice, and a draft of a request you haven’t sent yet, on your device. Our spam-protection provider may process technical data to tell people from bots.",
+          "To understand how the site is used, we record anonymous visit statistics: the page, the site you came from, your language and device type, and which contact buttons are tapped. A random code kept only in your current browser tab lets us count visits. These statistics aren’t linked to your name or contact details, are stored with Supabase, and are deleted within 2 years."
         ]
       },
       {
