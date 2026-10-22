@@ -159,6 +159,7 @@ html:lang(vi) .h1{font-size:clamp(40px,4.8vw,68px)}
 .ftr__h{margin:0 0 6px;font-size:15px;font-weight:600;color:var(--ink)}
 .ftr__col a,.ftr__col span{display:flex;align-items:center;min-height:36px;color:var(--graphite);text-decoration:none;overflow-wrap:anywhere}
 .ftr__col a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:4px}
+.ftr__col .ftr__social{flex-wrap:wrap;gap:0 16px}
 .ftr__legal{font-size:13px;line-height:1.7}
 .ftr__legal a{color:var(--graphite);text-underline-offset:3px}
 .ftr__legal a:hover{color:var(--ink)}

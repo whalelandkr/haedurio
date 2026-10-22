@@ -11,9 +11,17 @@
   <div class="max-w-5xl mx-auto p-6">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
       <h1 class="text-2xl font-black">Haedurio Admin</h1>
-      <a id="quote-builder-link" href="/__admin__/quote-builder.html" class="hidden inline-flex items-center justify-center bg-gray-900 text-white px-4 py-2 rounded-lg font-bold hover:bg-gray-700 transition">
-        Quote Builder
-      </a>
+      <div class="flex flex-wrap gap-2">
+        <a id="analytics-link" href="/__admin__/analytics.html" class="hidden inline-flex items-center justify-center bg-white border border-gray-300 text-gray-900 px-4 py-2 rounded-lg font-bold hover:bg-gray-100 transition">
+          방문 통계
+        </a>
+        <a id="payments-link" href="/__admin__/payments.html" class="hidden inline-flex items-center justify-center bg-white border border-gray-300 text-gray-900 px-4 py-2 rounded-lg font-bold hover:bg-gray-100 transition">
+          결제 링크
+        </a>
+        <a id="quote-builder-link" href="/__admin__/quote-builder.html" class="hidden inline-flex items-center justify-center bg-gray-900 text-white px-4 py-2 rounded-lg font-bold hover:bg-gray-700 transition">
+          Quote Builder
+        </a>
+      </div>
     </div>
 
     <div id="login-box" class="bg-white rounded-xl shadow p-5 mb-6">
@@ -55,6 +63,8 @@
     function setAdminAuthUi(isLoggedIn) {
       $("btn-logout").classList.toggle("hidden", !isLoggedIn);
       $("quote-builder-link").classList.toggle("hidden", !isLoggedIn);
+      $("analytics-link").classList.toggle("hidden", !isLoggedIn);
+      $("payments-link").classList.toggle("hidden", !isLoggedIn);
       if (!isLoggedIn) {
         $("list").innerHTML = `<div class="text-gray-400">Please login.</div>`;
       }

@@ -22,6 +22,65 @@
     if (old[location.hash]) { location.replace(old[location.hash]); return; }
   }
 
+  /* Anonymous visit statistics: page views and taps on contact links.
+     No cookies. A random code in sessionStorage groups the views of one browser tab,
+     and the first source of that tab (utm_source or the referring site) is kept with each event. */
+  var stats = (function () {
+    var off = function () {};
+    var cfg = null;
+    try { cfg = JSON.parse($('#hd-stats').textContent); } catch (e) { return off; }
+    if (!cfg || !w.fetch || local.get('hd-no-stats') === '1') return off;
+    var ua = navigator.userAgent || '';
+    if (/bot|crawl|spider|slurp|preview|lighthouse|headless/i.test(ua)) return off;
+    var sid = session.get('hd-sid');
+    if (!sid) {
+      sid = (Math.random().toString(36).slice(2, 10) + Date.now().toString(36)).slice(0, 16);
+      session.set('hd-sid', sid);
+    }
+    var src = null;
+    try { src = JSON.parse(session.get('hd-src') || 'null'); } catch (e) { src = null; }
+    if (!src) {
+      var q = {};
+      location.search.replace(/^\?/, '').split('&').forEach(function (p) {
+        var i = p.indexOf('=');
+        if (i > 0) { try { q[p.slice(0, i)] = decodeURIComponent(p.slice(i + 1).replace(/\+/g, ' ')); } catch (e) { /* bad escape */ } }
+      });
+      var host = '';
+      try { host = d.referrer ? new URL(d.referrer).hostname.replace(/^www\./, '') : ''; } catch (e) { host = ''; }
+      if (host === location.hostname.replace(/^www\./, '')) host = '';
+      src = { s: q.utm_source || host, m: q.utm_medium || '', c: q.utm_campaign || '' };
+      session.set('hd-src', JSON.stringify(src));
+    }
+    var device = /iPad|Tablet/i.test(ua) ? 'tablet' : /Mobi|Android|iPhone|iPod/i.test(ua) ? 'mobile' : 'desktop';
+    var cut = function (v, n) { return v ? String(v).slice(0, n) : null; };
+    return function (type, target) {
+      try {
+        w.fetch(cfg.url + '/rest/v1/' + cfg.table, {
+          method: 'POST',
+          keepalive: true,
+          headers: { 'Content-Type': 'application/json', apikey: cfg.key, Authorization: 'Bearer ' + cfg.key, Prefer: 'return=minimal' },
+          body: JSON.stringify({
+            type: type, path: cut(location.pathname, 200) || '/', lang: cfg.lang,
+            source: cut(src.s, 100), medium: cut(src.m, 60), campaign: cut(src.c, 80),
+            target: cut(target, 40), device: device, sid: sid
+          })
+        }).catch(function () { /* statistics are best-effort */ });
+      } catch (e) { /* ignore */ }
+    };
+  })();
+  stats('view');
+  var TAP = [
+    [/wa\.me|whatsapp\.com/, 'whatsapp'], [/line\.me/, 'line'], [/kakao\.com/, 'kakao'], [/wechat\.com|weixin/, 'wechat'],
+    [/^mailto:/, 'email'], [/^tel:/, 'phone'], [/instagram\.com/, 'instagram'], [/facebook\.com/, 'facebook'],
+    [/\/\/(www\.)?(x|twitter)\.com/, 'x'], [/threads\.(com|net)/, 'threads'], [/\/request\/(\?|$)/, 'request']
+  ];
+  d.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a) return;
+    var h = a.getAttribute('href') || '';
+    for (var i = 0; i < TAP.length; i++) { if (TAP[i][0].test(h)) { stats('click', TAP[i][1]); return; } }
+  }, true);
+
   /* Header shadow once the page scrolls */
   var hdr = $('[data-hdr]');
   if (hdr) {
@@ -366,6 +425,7 @@
     });
 
     function done(ch) {
+      stats('submit', ch);
       session.del(DRAFT);
       $('[data-sent-text]').textContent = T.sentText.replace('{channel}', cfg.channels[ch].name);
       $('[data-req-form]').hidden = true;
