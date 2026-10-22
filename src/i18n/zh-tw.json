@@ -112,6 +112,24 @@
         "text": "我們會處理妥當，並傳送照片、收據或確認資訊。商品或計程車費用若有剩餘，會退還給您。"
       }
     ],
+    "team": {
+      "title": "經營 Haedurio 的兩個人",
+      "lead": "Haedurio 由張旭和金正厚兩人經營。他們是高中同學，2025 年在首爾創立了 Whaleland。",
+      "link": "認識 Whaleland",
+      "alt": "Whaleland 共同創辦人張旭（左）和金正厚（右）",
+      "people": [
+        {
+          "name": "張旭",
+          "role": "共同創辦人",
+          "area": "設計與營運"
+        },
+        {
+          "name": "金正厚",
+          "role": "共同創辦人",
+          "area": "商務與產品"
+        }
+      ]
+    },
     "startTitle": "需要我們幫您辦什麼？",
     "startLabel": "描述您的需求",
     "startPlaceholder": "幫我訂這週五弘大的餐廳，4 個人…",

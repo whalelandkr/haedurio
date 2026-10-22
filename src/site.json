@@ -84,7 +84,8 @@
     "verifyUrl": "https://www.ftc.go.kr/bizCommPop.do?wrkr_no=4280403222",
     "privacyOfficer": "Jeonghu Kim",
     "phone": "+821049824357",
-    "phoneDisplay": "+82 10-4982-4357"
+    "phoneDisplay": "+82 10-4982-4357",
+    "aboutUrl": "https://whalelandkr.com/?lang=en#team"
   },
   "supabase": {
     "url": "https://sutvnkiroquezjaendkr.supabase.co",
