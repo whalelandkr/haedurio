@@ -1,6 +1,6 @@
 {
   "origin": "https://www.haedurio.com",
-  "updated": "2026-10-14",
+  "updated": "2026-10-22",
   "year": 2026,
   "usdRate": 1553,
   "langs": [
@@ -70,7 +70,9 @@
     "phone": "+827080283008",
     "phoneDisplay": "+82 70-8028-3008",
     "instagram": "https://www.instagram.com/haedurio",
-    "facebook": "https://www.facebook.com/profile.php?id=61586777851772"
+    "facebook": "https://www.facebook.com/haedurio",
+    "x": "https://x.com/haedurio",
+    "threads": "https://www.threads.com/@luke._.jang"
   },
   "business": {
     "company": "Whaleland",
@@ -80,7 +82,9 @@
     "ecl": "2025-Seoul Gangnam-04140",
     "host": "Vercel Inc.",
     "verifyUrl": "https://www.ftc.go.kr/bizCommPop.do?wrkr_no=4280403222",
-    "privacyOfficer": "Jeonghu Kim"
+    "privacyOfficer": "Jeonghu Kim",
+    "phone": "+821049824357",
+    "phoneDisplay": "+82 10-4982-4357"
   },
   "supabase": {
     "url": "https://sutvnkiroquezjaendkr.supabase.co",
@@ -292,5 +296,8 @@
     "wechat",
     "kakao",
     "email"
-  ]
+  ],
+  "analytics": {
+    "table": "site_events"
+  }
 }

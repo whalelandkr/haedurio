@@ -38,7 +38,7 @@
       "privacy": "Chính sách quyền riêng tư",
       "dont": "Việc chúng tôi không làm",
       "hours": "Hằng ngày, từ 11:00 đến 02:00 KST",
-      "legal": "{company}, {address}. Giám đốc điều hành: {ceo}. Số đăng ký kinh doanh: {brn}. Số đăng ký thương mại điện tử: {ecl}. Hosting: {host}",
+      "legal": "{company}, {address}. Giám đốc điều hành: {ceo}. Điện thoại: {phone}. Số đăng ký kinh doanh: {brn}. Số đăng ký thương mại điện tử: {ecl}. Hosting: {host}",
       "verify": "Tra cứu thông tin doanh nghiệp",
       "copyright": "© {year} {company}"
     }
@@ -771,7 +771,7 @@
       "whatsapp": "WhatsApp",
       "line": "LINE",
       "kakao": "KakaoTalk",
-      "kakaoValue": "Kênh Haedurio",
+      "kakaoValue": "Kênh 웨일랜드 (Whaleland)",
       "email": "Email",
       "phone": "Điện thoại",
       "wechat": "WeChat",
@@ -798,7 +798,7 @@
   },
   "legal": {
     "updated": "Cập nhật lần cuối: {date}",
-    "date": "14 tháng 10 năm 2026",
+    "date": "21 tháng 10 năm 2026",
     "translationNote": "Bản dịch được cung cấp để thuận tiện cho bạn. Nếu bản dịch có điểm khác với bản tiếng Anh, bản tiếng Anh sẽ được áp dụng.",
     "contents": "Mục lục"
   },
@@ -909,6 +909,7 @@
           "Khi bạn gửi yêu cầu: tên của bạn, ID ứng dụng nhắn tin, số điện thoại hoặc email bạn muốn chúng tôi dùng để trả lời, ngôn ngữ trả lời, và các chi tiết bạn viết về công việc.",
           "Khi công việc cần đến: địa chỉ giao hàng, tên khách sạn và tên người đặt phòng, thông tin người nhận khi gửi hàng, và tên dùng để đặt chỗ.",
           "Chỉ với những công việc mà pháp luật yêu cầu, chẳng hạn thay mặt bạn nhận lại đồ thất lạc, và chỉ khi có sự đồng ý của bạn: bản sao hộ chiếu.",
+          "Khi bạn thanh toán: tên, email và số điện thoại của bạn (công ty thẻ cần các thông tin này), đơn hàng và số tiền, cùng kết quả thanh toán. Bạn nhập thông tin thẻ trong cửa sổ thanh toán của KG Inicis, nên chúng tôi không bao giờ thấy số thẻ của bạn.",
           "Để giữ an toàn cho trang web: dữ liệu kỹ thuật như địa chỉ IP và loại trình duyệt của bạn, do các nhà cung cấp hosting và dịch vụ chống spam của chúng tôi xử lý."
         ]
       },
@@ -967,6 +968,16 @@
               "Cloudflare, Inc.",
               "Hoa Kỳ",
               "Kiểm tra để biểu mẫu gửi đến không phải spam (Turnstile)"
+            ],
+            [
+              "Korea PortOne Co., Ltd.",
+              "Hàn Quốc",
+              "Kết nối trang thanh toán của chúng tôi với nhà cung cấp thanh toán thẻ và ghi nhận kết quả thanh toán"
+            ],
+            [
+              "KG Inicis Co., Ltd.",
+              "Hàn Quốc",
+              "Xử lý thanh toán thẻ và hoàn tiền"
             ]
           ]
         },
@@ -983,7 +994,8 @@
       {
         "h": "Cookie",
         "p": [
-          "Chúng tôi không sử dụng cookie quảng cáo hoặc cookie theo dõi. Trình duyệt lưu lựa chọn ngôn ngữ của bạn và bản nháp yêu cầu chưa gửi ngay trên thiết bị của bạn. Nhà cung cấp dịch vụ chống spam của chúng tôi có thể xử lý dữ liệu kỹ thuật để phân biệt người thật với bot."
+          "Chúng tôi không sử dụng cookie quảng cáo hoặc cookie theo dõi. Trình duyệt lưu lựa chọn ngôn ngữ của bạn và bản nháp yêu cầu chưa gửi ngay trên thiết bị của bạn. Nhà cung cấp dịch vụ chống spam của chúng tôi có thể xử lý dữ liệu kỹ thuật để phân biệt người thật với bot.",
+          "Để hiểu cách trang web được sử dụng, chúng tôi ghi lại số liệu truy cập ẩn danh: trang được xem, trang web bạn đến từ đó, ngôn ngữ và loại thiết bị, và các nút liên hệ được nhấn. Một mã ngẫu nhiên chỉ được lưu trong thẻ trình duyệt hiện tại giúp chúng tôi đếm lượt truy cập. Số liệu này không gắn với tên hay thông tin liên hệ của bạn, được lưu tại Supabase và bị xóa trong vòng 2 năm."
         ]
       },
       {
