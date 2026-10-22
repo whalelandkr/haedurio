@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /__admin__/
 
-Sitemap: https://haedurio.com/sitemap.xml
+Sitemap: https://www.haedurio.com/sitemap.xml
