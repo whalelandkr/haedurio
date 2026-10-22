@@ -243,6 +243,15 @@ html:lang(vi) .h1{font-size:clamp(40px,4.8vw,68px)}
 .step:last-child .step__body{padding-bottom:0}
 .step__title{font-size:24px;font-weight:600;letter-spacing:var(--track-h3);line-height:1.25}
 .step__text{max-width:520px;font-size:17px;line-height:1.55;color:var(--graphite)}
+.team{padding:clamp(80px,10vw,136px) 0 0}
+.team .split{row-gap:40px}
+.team .textlink{margin-top:20px}
+.team__fig{margin:0}
+.team__photo{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:28px;background:var(--mist)}
+.team__names{margin-top:20px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 24px}
+.team__person{display:flex;flex-direction:column;gap:2px;min-width:0}
+.team__name{margin-bottom:2px;font-size:20px;font-weight:600;letter-spacing:var(--track-h3);line-height:1.3}
+.team__role{font-size:15px;line-height:1.45;color:var(--graphite);text-wrap:pretty}
 .start{padding:clamp(88px,11vw,152px) 0}
 .ask{margin-top:40px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 16px;max-width:780px;padding:10px 10px 10px 28px;border-radius:22px;border:1.5px solid var(--line-2);background:#fff;box-shadow:0 1px 2px rgba(18,24,38,.05);transition:border-color .15s,box-shadow .15s}
 .ask:focus-within{border-color:var(--blue);box-shadow:0 0 0 4px var(--blue-ring)}
@@ -540,6 +549,10 @@ select.input{padding:0 40px 0 14px;appearance:none;-webkit-appearance:none;backg
   .receipt__amount{font-size:28px}
   .refunds__label{flex-basis:auto}
   .svc{padding:24px 20px;border-radius:24px}
+  .team__photo{border-radius:22px}
+  .team__names{gap:12px 16px}
+  .team__name{font-size:18px}
+  .team__role{font-size:14px}
   .pricebox{padding:20px}
   .pricebox__ctas,.pricebox__ctas .btn{width:100%}
   .ask{padding:10px;border-radius:20px}

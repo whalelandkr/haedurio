@@ -22,6 +22,8 @@ export function home(c) {
   const rows = c.site.homeRows.map((r) => `<li><a class="row" href="${c.href('services', '#cat-' + r.cat)}"><span class="row__text"><span class="row__title">${c.t(sv.cats[r.cat].name)}</span><span class="row__desc">${c.t(sv.cats[r.cat].home)}</span></span><span class="row__price">${priceSlot(c, r.kind, r.won)}</span><span class="row__chev">${icon.chevRight(20)}</span></a></li>`).join('\n');
   const steps = h.steps.map((s, i) => `<li class="step"><span class="step__rail" aria-hidden="true"><span class="step__n">${i + 1}</span>${i < h.steps.length - 1 ? '<span class="step__line"></span>' : ''}</span><span class="step__body"><span class="step__title">${c.t(s.title)}</span><span class="step__text">${c.t(s.text)}</span></span></li>`).join('\n');
   const ko = (w) => `<span lang="ko" class="ko">${w}</span>`;
+  const tm = h.team;
+  const people = tm.people.map((p) => `<span class="team__person"><span class="team__name">${c.t(p.name)}</span><span class="team__role">${c.t(p.role)}</span><span class="team__role">${c.t(p.area)}</span></span>`).join('\n');
 
   const main = `<main id="main">
 <section class="hero">
@@ -78,6 +80,22 @@ ${rows}
 <ol class="steps split__main">
 ${steps}
 </ol>
+</div>
+</section>
+
+<section class="team" aria-labelledby="team">
+<div class="wrap split">
+<div class="split__aside">
+<h2 class="h2" id="team">${c.t(tm.title)}</h2>
+<p class="sublead">${c.t(tm.lead)}</p>
+<a class="textlink" href="${attr(b.aboutUrl)}" rel="noopener" target="_blank">${c.t(tm.link)}</a>
+</div>
+<figure class="team__fig split__main">
+<img class="team__photo" src="/assets/founders-1600.jpg" srcset="/assets/founders-800.jpg 800w, /assets/founders-1600.jpg 1600w" sizes="(max-width: 1000px) calc(100vw - 40px), 700px" width="1600" height="1067" alt="${attr(c.tp(tm.alt))}" loading="lazy" decoding="async">
+<figcaption class="team__names">
+${people}
+</figcaption>
+</figure>
 </div>
 </section>
 

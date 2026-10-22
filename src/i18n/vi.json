@@ -112,6 +112,24 @@
         "text": "Chúng tôi lo liệu mọi việc và gửi ảnh, hóa đơn hoặc xác nhận. Tiền mua hàng hoặc tiền taxi còn dư sẽ được hoàn lại cho bạn."
       }
     ],
+    "team": {
+      "title": "Những người đứng sau Haedurio",
+      "lead": "Haedurio do Jang Wook và Kim Jeonghu vận hành. Hai người là bạn từ thời trung học và cùng thành lập Whaleland tại Seoul năm 2025.",
+      "link": "Tìm hiểu về Whaleland",
+      "alt": "Jang Wook (bên trái) và Kim Jeonghu (bên phải), đồng sáng lập Whaleland",
+      "people": [
+        {
+          "name": "Jang Wook",
+          "role": "Đồng sáng lập",
+          "area": "Thiết kế và vận hành"
+        },
+        {
+          "name": "Kim Jeonghu",
+          "role": "Đồng sáng lập",
+          "area": "Kinh doanh và sản phẩm"
+        }
+      ]
+    },
     "startTitle": "Bạn cần chúng tôi làm gì?",
     "startLabel": "Mô tả việc bạn cần",
     "startPlaceholder": "Đặt bàn 4 người ở Hongdae vào thứ Sáu này…",

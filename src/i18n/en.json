@@ -112,6 +112,24 @@
         "text": "We take care of it and send photos, receipts or confirmations. Money left over from items or taxis comes back to you."
       }
     ],
+    "team": {
+      "title": "The people behind Haedurio",
+      "lead": "Haedurio is run by Jang Wook and Kim Jeonghu, high-school friends who started Whaleland in Seoul in 2025.",
+      "link": "More about Whaleland",
+      "alt": "Jang Wook (left) and Kim Jeonghu (right), co-founders of Whaleland",
+      "people": [
+        {
+          "name": "Jang Wook",
+          "role": "Co-founder",
+          "area": "Design and operations"
+        },
+        {
+          "name": "Kim Jeonghu",
+          "role": "Co-founder",
+          "area": "Business and product"
+        }
+      ]
+    },
     "startTitle": "What do you need done?",
     "startLabel": "Describe what you need",
     "startPlaceholder": "Book a table for 4 in Hongdae this Friday…",
