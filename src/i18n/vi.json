@@ -37,8 +37,8 @@
       "terms": "Điều khoản dịch vụ",
       "privacy": "Chính sách quyền riêng tư",
       "dont": "Việc chúng tôi không làm",
-      "hours": "Hằng ngày, từ 11:00 đến 02:00 KST",
-      "legal": "{company}, {address}. Giám đốc điều hành: {ceo}. Điện thoại: {phone}. Số đăng ký kinh doanh: {brn}. Số đăng ký thương mại điện tử: {ecl}. Hosting: {host}",
+      "hours": "Hằng ngày, từ 11:00 đến 02:00 sáng hôm sau KST",
+      "legal": "Haedurio do {company} vận hành, {address}. Giám đốc điều hành: {ceo}. Điện thoại: {phone}. Số đăng ký kinh doanh: {brn}. Số đăng ký thương mại điện tử: {ecl}. Hosting: {host}",
       "verify": "Tra cứu thông tin doanh nghiệp",
       "copyright": "© {year} {company}"
     }
@@ -115,7 +115,7 @@
     "startTitle": "Bạn cần chúng tôi làm gì?",
     "startLabel": "Mô tả việc bạn cần",
     "startPlaceholder": "Đặt bàn 4 người ở Hongdae vào thứ Sáu này…",
-    "hours": "Chúng tôi trả lời hằng ngày từ 11:00 đến 02:00, giờ Hàn Quốc."
+    "hours": "Chúng tôi trả lời hằng ngày từ 11:00 đến 02:00 sáng hôm sau, giờ Hàn Quốc."
   },
   "services": {
     "title": "Dịch vụ và bảng giá | Haedurio",
@@ -668,7 +668,7 @@
     "errSend": "Yêu cầu của bạn chưa được gửi đi. Vui lòng thử lại hoặc gửi cho chúng tôi qua WhatsApp.",
     "sendWhatsApp": "Gửi qua WhatsApp",
     "sentTitle": "Đã gửi yêu cầu",
-    "sentText": "Chúng tôi sẽ nhắn tin cho bạn qua {channel} kèm báo giá cố định. Chúng tôi trả lời hằng ngày từ 11:00 đến 02:00, giờ Hàn Quốc. Không thu phí cho đến khi bạn đồng ý báo giá.",
+    "sentText": "Chúng tôi sẽ nhắn tin cho bạn qua {channel} kèm báo giá cố định. Chúng tôi trả lời hằng ngày từ 11:00 đến 02:00 sáng hôm sau, giờ Hàn Quốc. Không thu phí cho đến khi bạn đồng ý báo giá.",
     "backHome": "Về trang chủ",
     "browse": "Xem các dịch vụ",
     "summaryTitle": "Yêu cầu của bạn",
@@ -736,7 +736,7 @@
       },
       {
         "q": "Khi nào Haedurio trả lời?",
-        "a": "Hằng ngày từ 11:00 đến 02:00, giờ Hàn Quốc. Bạn có thể nhắn tin bất cứ lúc nào, chúng tôi sẽ trả lời khi đến giờ làm việc."
+        "a": "Hằng ngày từ 11:00 đến 02:00 sáng hôm sau, giờ Hàn Quốc. Bạn có thể nhắn tin bất cứ lúc nào, chúng tôi sẽ trả lời khi đến giờ làm việc."
       },
       {
         "q": "Haedurio có thể mang đồ đến khách sạn của tôi không?",
@@ -766,7 +766,7 @@
       }
     ],
     "talkTitle": "Trò chuyện với nhân viên",
-    "talkHours": "Hằng ngày, từ 11:00 đến 02:00 giờ Hàn Quốc.",
+    "talkHours": "Hằng ngày, từ 11:00 đến 02:00 sáng hôm sau giờ Hàn Quốc.",
     "talk": {
       "whatsapp": "WhatsApp",
       "line": "LINE",

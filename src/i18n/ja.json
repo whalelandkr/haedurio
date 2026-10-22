@@ -38,7 +38,7 @@
       "privacy": "プライバシーポリシー",
       "dont": "対応できないご依頼",
       "hours": "毎日11:00〜翌02:00（韓国時間）",
-      "legal": "{company}／{address}／代表者：{ceo}／電話：{phone}／事業者登録番号：{brn}／通信販売業申告番号：{ecl}／ホスティング：{host}",
+      "legal": "Haedurio運営：{company}／{address}／代表者：{ceo}／電話：{phone}／事業者登録番号：{brn}／通信販売業申告番号：{ecl}／ホスティング：{host}",
       "verify": "事業者情報を確認",
       "copyright": "© {year} {company}"
     }
