@@ -37,8 +37,8 @@
       "terms": "Terms of service",
       "privacy": "Privacy policy",
       "dont": "What we don’t do",
-      "hours": "Every day, 11:00 to 02:00 KST",
-      "legal": "{company}, {address}. CEO {ceo}. Tel. {phone}. Business registration no. {brn}. E-commerce registration no. {ecl}. Hosting: {host}",
+      "hours": "Every day, 11:00 to 02:00 (next day) KST",
+      "legal": "Haedurio is run by {company}, {address}. CEO {ceo}. Tel. {phone}. Business registration no. {brn}. E-commerce registration no. {ecl}. Hosting: {host}",
       "verify": "Check our business registration",
       "copyright": "© {year} {company}"
     }
@@ -115,7 +115,7 @@
     "startTitle": "What do you need done?",
     "startLabel": "Describe what you need",
     "startPlaceholder": "Book a table for 4 in Hongdae this Friday…",
-    "hours": "We reply every day from 11:00 to 02:00, Korea time."
+    "hours": "We reply every day from 11:00 to 02:00 the next day, Korea time."
   },
   "services": {
     "title": "Services and prices | Haedurio",
@@ -668,7 +668,7 @@
     "errSend": "Your request didn’t go through. Try again, or send it to us on WhatsApp.",
     "sendWhatsApp": "Send on WhatsApp",
     "sentTitle": "Request sent",
-    "sentText": "We’ll message you on {channel} with a fixed quote. We reply every day from 11:00 to 02:00, Korea time. Nothing is charged until you accept it.",
+    "sentText": "We’ll message you on {channel} with a fixed quote. We reply every day from 11:00 to 02:00 the next day, Korea time. Nothing is charged until you accept it.",
     "backHome": "Back to home",
     "browse": "Browse services",
     "summaryTitle": "Your request",
@@ -736,7 +736,7 @@
       },
       {
         "q": "When do you reply?",
-        "a": "Every day from 11:00 to 02:00, Korea time. You can message us any time, and we’ll reply when we’re open."
+        "a": "Every day from 11:00 to 02:00 the next day, Korea time. You can message us any time, and we’ll reply when we’re open."
       },
       {
         "q": "Can you bring things to my hotel?",
@@ -766,7 +766,7 @@
       }
     ],
     "talkTitle": "Talk to a person",
-    "talkHours": "Every day, 11:00 to 02:00 Korea time.",
+    "talkHours": "Every day, 11:00 to 02:00 the next day, Korea time.",
     "talk": {
       "whatsapp": "WhatsApp",
       "line": "LINE",
