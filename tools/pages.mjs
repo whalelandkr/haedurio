@@ -11,6 +11,23 @@ const chatLinks = (c, extraClass = '') => {
 
 const priceSlot = (c, kind, n) => c.t(kind === 'hour' ? c.s.common.money.hour : c.s.common.money.from, { price: `<b>${esc(c.won(n))}</b>` });
 
+// Reviews are read from and posted to Supabase by assets/site.js, on the home page and /reviews/.
+const STAR = '<svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.8l2.83 5.73 6.32.92-4.57 4.46 1.08 6.3L12 17.24l-5.66 2.97 1.08-6.3L2.85 9.45l6.32-.92z" fill="currentColor"/></svg>';
+const RV_TEXT = ['summaryOne', 'summaryMany', 'ratingOf', 'loading', 'empty', 'loadError', 'errRating', 'errBody', 'errLinks', 'errName', 'errConsent', 'submit', 'sending', 'errSend', 'errDuplicate', 'errBusy', 'thanksTitle'];
+function reviewsHead(c) {
+  const cfg = {
+    url: c.site.supabase.url,
+    key: c.site.supabase.anonKey,
+    lang: c.code,
+    locale: c.lang.htmlLang,
+    services: Object.fromEntries(c.site.categories.map((g) => [g, c.s.services.cats[g].short])),
+    t: Object.fromEntries(RV_TEXT.map((k) => [k, c.s.reviews[k]])),
+  };
+  return `<script type="application/json" id="rv-config">${JSON.stringify(cfg).replace(/</g, '\\u003c')}</script>
+<link rel="preconnect" href="${c.site.supabase.url}" crossorigin>
+`;
+}
+
 /* ------------------------------------------------------------------ Home */
 export function home(c) {
   const h = c.s.home;
@@ -24,6 +41,7 @@ export function home(c) {
   const ko = (w) => `<span lang="ko" class="ko">${w}</span>`;
   const tm = h.team;
   const people = tm.people.map((p) => `<span class="team__person"><span class="team__name">${c.t(p.name)}</span><span class="team__role">${c.t(p.role)}</span><span class="team__role">${c.t(p.area)}</span></span>`).join('\n');
+  const hr = h.reviews;
 
   const main = `<main id="main">
 <section class="hero">
@@ -99,6 +117,17 @@ ${people}
 </div>
 </section>
 
+<section class="hrv" aria-labelledby="hrv" data-rv-home hidden>
+<div class="wrap">
+<div class="hrv__head">
+<h2 class="h2" id="hrv">${c.t(hr.title)}</h2>
+<p class="rvsum" data-rv-summary hidden></p>
+</div>
+<ol class="rvlist rvlist--grid" data-rv-list></ol>
+<div class="hrv__links"><a class="btn btn--outline" href="${c.href('reviews')}">${c.t(hr.all)}</a><a class="textlink" href="${c.href('reviews', '#write')}">${c.t(hr.write)}</a></div>
+</div>
+</section>
+
 <section class="start" aria-labelledby="start">
 <div class="wrap">
 <h2 class="h2 h2--xl" id="start">${c.t(h.startTitle)}</h2>
@@ -111,7 +140,60 @@ ${people}
 </div>
 </section>
 </main>`;
-  return { title: h.title, description: h.description, main };
+  return { title: h.title, description: h.description, main, head: reviewsHead(c) };
+}
+
+/* --------------------------------------------------------------- Reviews */
+export function reviews(c) {
+  const r = c.s.reviews;
+  const err = (id, text) => `<p class="err" id="${id}" hidden>${icon.alert}<span>${esc(text)}</span></p>`;
+  const stars = r.stars.map((label, i) => `<input type="radio" id="rv-r${i + 1}" name="rating" value="${i + 1}"><label for="rv-r${i + 1}">${STAR}<span class="sr-only">${esc(label)}</span></label>`).join('');
+  const svcOpts = c.site.categories.map((g) => `<option value="${g}">${esc(c.s.services.cats[g].short)}</option>`).join('');
+
+  const main = `<main id="main" class="reviews">
+<div class="wrap">
+<h1 class="h1">${c.t(r.h1)}</h1>
+<p class="lead">${c.t(r.lead)}</p>
+<div class="rv__top"><p class="rvsum" data-rv-summary hidden></p><a class="btn btn--primary btn--md" href="#write">${esc(r.writeCta)}</a></div>
+<div class="rv__grid">
+<section class="rv__main" aria-labelledby="rv-list-h">
+<h2 class="sr-only" id="rv-list-h">${c.t(r.listLabel)}</h2>
+<p class="rv__status" data-rv-status role="status">${esc(r.loading)}</p>
+<ol class="rvlist" data-rv-list></ol>
+<button type="button" class="btn btn--soft btn--md rv__more" data-rv-more hidden>${esc(r.more)}</button>
+</section>
+<section class="rv__write" id="write" aria-labelledby="write-h">
+<div data-rv-form>
+<h2 class="card__h" id="write-h">${c.t(r.formTitle)}</h2>
+<p class="card__sub">${c.t(r.formLead)}</p>
+<form class="form" id="rvform" novalidate aria-labelledby="write-h">
+<fieldset class="rate" aria-describedby="err-rating"><legend>${c.t(r.ratingLabel)}</legend>
+<div class="rate__stars" data-rate>${stars}</div>
+${err('err-rating', r.errRating)}
+</fieldset>
+<div class="field"><label for="rv-body">${c.t(r.bodyLabel)}</label><textarea class="input" id="rv-body" name="body" rows="5" maxlength="1500" placeholder="${attr(c.tp(r.bodyPlaceholder))}" aria-describedby="err-body"></textarea>${err('err-body', r.errBody)}</div>
+<div class="field"><label for="rv-name">${c.t(r.nameLabel)}</label><input class="input" id="rv-name" name="name" type="text" maxlength="40" autocomplete="given-name" placeholder="${attr(c.tp(r.namePlaceholder))}" aria-describedby="err-name">${err('err-name', r.errName)}</div>
+<div class="field"><label for="rv-country">${c.t(r.countryLabel)}</label><input class="input" id="rv-country" name="country" type="text" maxlength="40" autocomplete="country-name" placeholder="${attr(c.tp(r.countryPlaceholder))}"></div>
+<div class="field"><label for="rv-service">${c.t(r.serviceLabel)}</label><select class="input" id="rv-service" name="service"><option value="">${esc(r.serviceNone)}</option>${svcOpts}</select></div>
+<div class="field"><label for="rv-order">${c.t(r.orderLabel)}</label><input class="input" id="rv-order" name="order" type="text" maxlength="40" autocomplete="off" aria-describedby="rv-order-note"><p class="field__note" id="rv-order-note">${c.t(r.orderNote)}</p></div>
+<div class="hp" aria-hidden="true"><label for="rv-website">Website</label><input id="rv-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+<div class="form__foot">
+<label class="consent"><input type="checkbox" id="rv-consent" name="consent" aria-describedby="err-consent"><span>${c.t(r.consent, { privacy: `<a href="${c.href('privacy')}" target="_blank">${esc(r.consentLink)}</a>` })}</span></label>
+${err('err-consent', r.errConsent)}
+<div class="sendfail" id="rv-fail" role="alert" hidden><span data-msg></span></div>
+<div class="form__send"><button class="btn btn--primary btn--lg" type="submit" id="rv-submit">${esc(r.submit)}</button></div>
+</div>
+</form>
+</div>
+<div class="rv__thanks" data-rv-thanks hidden>
+<h2 class="card__h" tabindex="-1">${c.t(r.thanksTitle)}</h2>
+<p class="card__sub">${c.t(r.thanksText)}</p>
+</div>
+</section>
+</div>
+</div>
+</main>`;
+  return { title: r.title, description: r.description, main, head: reviewsHead(c) };
 }
 
 /* -------------------------------------------------------------- Services */

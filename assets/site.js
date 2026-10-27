@@ -18,7 +18,7 @@
 
   /* Links from the old single-page site */
   if (location.pathname === '/' && location.hash) {
-    var old = { '#services': '/services/', '#faq': '/help/', '#contact': '/help/#talk', '#reviews': '/' };
+    var old = { '#services': '/services/', '#faq': '/help/', '#contact': '/help/#talk', '#reviews': '/reviews/' };
     if (old[location.hash]) { location.replace(old[location.hash]); return; }
   }
 
@@ -217,6 +217,10 @@
   /* Request form */
   var form = $('#reqform');
   if (form) initRequest(form);
+
+  /* Reviews: the latest ones on the home page, all of them and the form on /reviews/ */
+  var rvConfig = $('#rv-config');
+  if (rvConfig && w.fetch) initReviews(JSON.parse(rvConfig.textContent));
 
   function initRequest(form) {
     var cfg = JSON.parse($('#req-config').textContent);
@@ -441,5 +445,230 @@
     if (close && d.referrer.indexOf(location.origin + '/') === 0 && history.length > 1) {
       close.addEventListener('click', function (e) { e.preventDefault(); history.back(); });
     }
+  }
+
+  function initReviews(cfg) {
+    var T = cfg.t;
+    var home = $('[data-rv-home]');
+    var list = $('[data-rv-list]');
+    var status = $('[data-rv-status]');
+    var more = $('[data-rv-more]');
+    var sums = $$('[data-rv-summary]');
+    var PAGE = home ? 3 : 10;
+    var offset = 0;
+    var STAR = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.8l2.83 5.73 6.32.92-4.57 4.46 1.08 6.3L12 17.24l-5.66 2.97 1.08-6.3L2.85 9.45l6.32-.92z" fill="currentColor"/></svg>';
+
+    var api = function (path, opts) {
+      opts = opts || {};
+      var headers = { apikey: cfg.key, Authorization: 'Bearer ' + cfg.key };
+      if (opts.body) headers['Content-Type'] = 'application/json';
+      if (opts.prefer) headers.Prefer = opts.prefer;
+      return w.fetch(cfg.url + path, { method: opts.method || 'GET', headers: headers, body: opts.body ? JSON.stringify(opts.body) : undefined });
+    };
+    var json = function (res) {
+      return res.text().then(function (txt) {
+        var data = null;
+        try { data = txt ? JSON.parse(txt) : null; } catch (e) { data = null; }
+        if (!res.ok) { var err = new Error('http ' + res.status); err.data = data; throw err; }
+        return data;
+      });
+    };
+    var fill = function (str, vars) { return str.replace(/\{(\w+)\}/g, function (m, k) { return k in vars ? vars[k] : m; }); };
+    var num = function (n, digits) {
+      try { return new Intl.NumberFormat(cfg.locale, digits ? { minimumFractionDigits: digits, maximumFractionDigits: digits } : {}).format(n); } catch (e) { return digits ? Number(n).toFixed(digits) : String(n); }
+    };
+    var day = function (iso) {
+      var dt = new Date(iso);
+      try { return new Intl.DateTimeFormat(cfg.locale, { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'Asia/Seoul' }).format(dt); } catch (e) { return iso.slice(0, 10); }
+    };
+    var starsEl = function (n, label) {
+      var s = d.createElement('span');
+      s.className = 'stars';
+      s.setAttribute('role', 'img');
+      s.setAttribute('aria-label', label);
+      var html = '';
+      for (var i = 1; i <= 5; i++) html += i <= n ? STAR : STAR.replace('<svg ', '<svg class="off" ');
+      s.innerHTML = html;
+      return s;
+    };
+    var card = function (rv) {
+      var li = d.createElement('li');
+      li.className = 'rv';
+      var head = d.createElement('div');
+      head.className = 'rv__head';
+      head.appendChild(starsEl(rv.rating, fill(T.ratingOf, { n: rv.rating })));
+      var when = d.createElement('time');
+      when.className = 'rv__date';
+      when.dateTime = rv.created_at;
+      when.textContent = day(rv.created_at);
+      head.appendChild(when);
+      var body = d.createElement('p');
+      body.className = 'rv__body';
+      body.textContent = rv.body;
+      var meta = d.createElement('p');
+      meta.className = 'rv__meta';
+      var name = d.createElement('span');
+      name.className = 'rv__name';
+      name.textContent = rv.name;
+      meta.appendChild(name);
+      [rv.country, rv.service && cfg.services[rv.service]].forEach(function (x) {
+        if (x) meta.appendChild(d.createTextNode(' · ' + x));
+      });
+      li.appendChild(head);
+      li.appendChild(body);
+      li.appendChild(meta);
+      return li;
+    };
+
+    var showSummary = function (s) {
+      var total = s && s.total ? +s.total : 0;
+      sums.forEach(function (p) {
+        p.textContent = '';
+        if (!total) { p.hidden = true; return; }
+        var avg = +s.average;
+        p.appendChild(starsEl(Math.round(avg), fill(T.ratingOf, { n: num(avg, 1) })));
+        var txt = d.createElement('span');
+        txt.textContent = fill(total === 1 ? T.summaryOne : T.summaryMany, { avg: num(avg, 1), count: num(total) });
+        p.appendChild(txt);
+        p.hidden = false;
+      });
+      return total;
+    };
+    var loadSummary = function () {
+      return api('/rest/v1/rpc/review_summary', { method: 'POST', body: {} }).then(json).then(function (rows) {
+        return showSummary(rows && rows[0]);
+      });
+    };
+    var loadPage = function (reset) {
+      if (reset) offset = 0;
+      var q = '/rest/v1/reviews?select=id,created_at,name,country,service,rating,body&order=created_at.desc,id.desc&limit=' + (PAGE + 1) + '&offset=' + offset;
+      return api(q).then(json).then(function (rows) {
+        rows = rows || [];
+        if (reset) list.textContent = '';
+        rows.slice(0, PAGE).forEach(function (rv) { list.appendChild(card(rv)); });
+        offset += Math.min(rows.length, PAGE);
+        if (more) more.hidden = rows.length <= PAGE;
+        return offset;
+      });
+    };
+    var setStatus = function (text) {
+      if (!status) return;
+      status.textContent = text || '';
+      status.hidden = !text;
+    };
+    var refresh = function () {
+      return Promise.all([loadSummary().catch(function () { return null; }), loadPage(true)]).then(function (r) {
+        var shown = r[1];
+        if (home) home.hidden = !shown;
+        setStatus(shown ? '' : T.empty);
+      }).catch(function () {
+        if (home) home.hidden = true;
+        setStatus(T.loadError);
+      });
+    };
+    refresh();
+    if (more) {
+      more.addEventListener('click', function () {
+        more.disabled = true;
+        loadPage(false).catch(function () { setStatus(T.loadError); }).then(function () { more.disabled = false; });
+      });
+    }
+
+    var form = $('#rvform');
+    if (!form) return;
+    var el = {
+      rate: $('[data-rate]', form), body: $('#rv-body'), name: $('#rv-name'), country: $('#rv-country'),
+      service: $('#rv-service'), order: $('#rv-order'), hp: $('#rv-website'), consent: $('#rv-consent'),
+      submit: $('#rv-submit'), fail: $('#rv-fail')
+    };
+    var busy = false;
+    var LINK = /(https?:\/\/|www\.)/i;
+    var rating = function () { var r = $('input[name="rating"]:checked', form); return r ? +r.value : 0; };
+    var showStars = function (n) { el.rate.setAttribute('data-show', String(n || rating())); };
+    var fieldOf = { rating: null, body: el.body, name: el.name, consent: el.consent };
+    var showErr = function (k, msg) {
+      var p = $('#err-' + k);
+      if (msg) $('span', p).textContent = msg;
+      p.hidden = false;
+      if (fieldOf[k]) fieldOf[k].setAttribute('aria-invalid', 'true');
+    };
+    var clearErr = function (k) {
+      var p = $('#err-' + k);
+      if (p) p.hidden = true;
+      if (fieldOf[k]) fieldOf[k].removeAttribute('aria-invalid');
+    };
+    var chars = function (s) { return Array.from ? Array.from(s).length : s.length; };
+
+    $$('label', el.rate).forEach(function (l, i) {
+      l.addEventListener('mouseenter', function () { showStars(i + 1); });
+    });
+    el.rate.addEventListener('mouseleave', function () { showStars(0); });
+    form.addEventListener('change', function (e) {
+      if (e.target.name === 'rating') { clearErr('rating'); showStars(0); }
+      if (e.target === el.consent && el.consent.checked) clearErr('consent');
+    });
+    el.body.addEventListener('input', function () { clearErr('body'); });
+    el.name.addEventListener('input', function () { clearErr('name'); });
+
+    var validate = function () {
+      var bad = null;
+      var first = function (f) { if (!bad) bad = f; };
+      if (!rating()) { showErr('rating'); first($('input[name="rating"]', form)); }
+      var body = el.body.value.trim();
+      if (chars(body) < 10) { showErr('body', T.errBody); first(el.body); }
+      else if (LINK.test(body)) { showErr('body', T.errLinks); first(el.body); }
+      if (!el.name.value.trim()) { showErr('name'); first(el.name); }
+      if (!el.consent.checked) { showErr('consent'); first(el.consent); }
+      return bad;
+    };
+    var setBusy = function (on) {
+      busy = on;
+      el.submit.disabled = on;
+      el.submit.textContent = on ? T.sending : T.submit;
+    };
+    var fail = function (msg) {
+      $('[data-msg]', el.fail).textContent = msg;
+      el.fail.hidden = false;
+    };
+    var thanks = function () {
+      form.reset();
+      showStars(0);
+      $('[data-rv-form]').hidden = true;
+      var box = $('[data-rv-thanks]');
+      box.hidden = false;
+      $('h2', box).focus();
+    };
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (busy) return;
+      el.fail.hidden = true;
+      var bad = validate();
+      if (bad) { bad.focus(); return; }
+      if (el.hp.value) { thanks(); return; }
+      setBusy(true);
+      api('/rest/v1/reviews', {
+        method: 'POST',
+        prefer: 'return=minimal',
+        body: {
+          name: el.name.value.trim().slice(0, 40),
+          country: el.country.value.trim().slice(0, 40) || null,
+          service: el.service.value || null,
+          rating: rating(),
+          body: el.body.value.trim(),
+          order_ref: el.order.value.trim().slice(0, 40) || null,
+          lang: cfg.lang
+        }
+      }).then(json).then(function () {
+        setBusy(false);
+        thanks();
+        refresh();
+      }).catch(function (err) {
+        setBusy(false);
+        var code = err && err.data && err.data.message;
+        if (code === 'links_not_allowed') { showErr('body', T.errLinks); el.body.focus(); return; }
+        fail(code === 'duplicate_review' ? T.errDuplicate : code === 'too_many_reviews' ? T.errBusy : T.errSend);
+      });
+    });
   }
 })();

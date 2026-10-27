@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>리뷰 관리 | 해드리오</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--ink:#121826;--gray:#5B6474;--line:#E3E7EE;--bg:#F5F7FA;--blue:#1F4FE0;--red:#C2362B;--green:#1E7B47;--star:#E3A008}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--ink);background:var(--bg)}
+header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;background:#fff;border-bottom:1px solid var(--line)}
+header h1{margin:0;font-size:18px}
+header nav{display:flex;flex-wrap:wrap;align-items:center;gap:14px;font-size:14px}
+header nav a{color:var(--gray);text-decoration:none}
+header nav a:hover{color:var(--ink);text-decoration:underline}
+main{max-width:1100px;margin:0 auto;padding:20px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:20px}
+.card h2{margin:0 0 14px;font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600}
+input,select{font:inherit;padding:9px 11px;border:1px solid #CBD2DC;border-radius:9px;background:#fff;color:var(--ink)}
+button{font:inherit;font-weight:600;padding:9px 14px;border-radius:9px;border:1px solid #CBD2DC;background:#fff;color:var(--ink);cursor:pointer}
+button.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+button.danger{color:var(--red)}
+button.sure{background:var(--red);border-color:var(--red);color:#fff}
+button:disabled{opacity:.5;cursor:default}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:14px}
+.msg{font-size:14px;color:var(--gray)}
+.msg.err{color:var(--red)}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.toolbar h2{margin:0}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:20px}
+.tile{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.tile .k{font-size:13px;color:var(--gray)}
+.tile .v{font-size:26px;font-weight:650;margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:12px;color:var(--gray);font-weight:600}
+td.when{white-space:nowrap}
+.stars{color:var(--star);letter-spacing:1px;white-space:nowrap}
+.stars .off{color:#D5DAE1}
+.body{white-space:pre-line;overflow-wrap:anywhere;max-width:560px}
+.sub{color:var(--gray);font-size:12px;margin-top:4px;overflow-wrap:anywhere}
+.order{display:inline-block;margin-top:4px;padding:1px 7px;border-radius:6px;background:#EEF3FF;color:var(--blue);font-size:12px;font-weight:600}
+.badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:12px;font-weight:700;white-space:nowrap}
+.b-published{background:#E5F5EC;color:var(--green)}
+.b-hidden{background:#F0F1F4;color:var(--gray)}
+tr.is-hidden .body{color:var(--gray)}
+.actions{display:flex;flex-wrap:wrap;gap:6px}
+.actions button{padding:5px 9px;font-size:13px}
+[hidden]{display:none!important}
+@media (max-width:700px){thead{display:none}tr{display:block;padding:10px 0;border-bottom:1px solid var(--line)}td{display:block;border:0;padding:3px 0}}
+</style>
+</head>
+<body>
+<header>
+<h1>리뷰 관리</h1>
+<nav><a href="/__admin__/">문의</a><a href="/__admin__/payments.html">결제 링크</a><a href="/__admin__/analytics.html">방문 통계</a><a href="/reviews/" target="_blank" rel="noopener">사이트 리뷰 페이지</a><span class="msg" id="who"></span><button id="logout" hidden>로그아웃</button></nav>
+</header>
+<main>
+<section class="card" id="login">
+<h2>관리자 로그인</h2>
+<form id="loginform" class="grid">
+<label>이메일<input id="email" type="email" autocomplete="username" required></label>
+<label>비밀번호<input id="password" type="password" autocomplete="current-password" required></label>
+</form>
+<div class="row"><button class="primary" type="submit" form="loginform">로그인</button><span class="msg" id="loginmsg"></span></div>
+</section>
+
+<div id="app" hidden>
+<div class="tiles">
+<div class="tile"><div class="k">사이트에 보이는 리뷰</div><div class="v" id="t-published">–</div></div>
+<div class="tile"><div class="k">평균 별점 (보이는 리뷰)</div><div class="v" id="t-avg">–</div></div>
+<div class="tile"><div class="k">숨긴 리뷰</div><div class="v" id="t-hidden">–</div></div>
+</div>
+<section class="card">
+<div class="toolbar">
+<h2>리뷰 목록</h2>
+<div class="row" style="margin-top:0">
+<select id="filter" aria-label="보기"><option value="all">전체</option><option value="published">사이트에 보이는 것</option><option value="hidden">숨긴 것</option></select>
+<button type="button" id="refresh">새로고침</button>
+</div>
+</div>
+<p class="msg">리뷰는 쓰는 즉시 사이트에 보여요. 스팸이나 욕설, 서비스와 상관없는 글은 '숨기기'로 내리고, 작성자가 지워 달라고 하면 '삭제'해요. 주문번호는 관리자만 볼 수 있어요.</p>
+<table>
+<thead><tr><th>날짜</th><th>별점</th><th>리뷰</th><th>상태</th><th>작업</th></tr></thead>
+<tbody id="rows"></tbody>
+</table>
+<p class="msg" id="listmsg"></p>
+</section>
+</div>
+</main>
+<script>
+(function () {
+  'use strict';
+  var SUPABASE_URL = 'https://sutvnkiroquezjaendkr.supabase.co';
+  var ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1dHZua2lyb3F1ZXpqYWVuZGtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3ODU3OTEsImV4cCI6MjA5ODM2MTc5MX0.cnxKEJPVWzpiWNhhkQ800cacxp6lGLbiNzGNDSCHcaE';
+  var sb = supabase.createClient(SUPABASE_URL, ANON_KEY);
+  var $ = function (id) { return document.getElementById(id); };
+
+  var LANG = { en: 'English', ja: '日本語', 'zh-cn': '简体中文', 'zh-tw': '繁體中文', vi: 'Tiếng Việt', th: 'ไทย' };
+  var SERVICE = { book: '예약·정보 확인', shop: '쇼핑', errand: '심부름', lang: '통역', parcel: '택배·배송', lost: '분실물·긴급', other: '기타' };
+  var STATUS = { published: '사이트에 보임', hidden: '숨김' };
+  var all = [];
+
+  function el(tag, text, cls) { var e = document.createElement(tag); if (text != null) e.textContent = text; if (cls) e.className = cls; return e; }
+  function day(d) { return new Date(d).toLocaleString('ko-KR', { year: '2-digit', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }); }
+  function stars(n) {
+    var s = el('span', null, 'stars');
+    s.setAttribute('aria-label', '별 ' + n + '개');
+    for (var i = 1; i <= 5; i++) s.appendChild(el('span', '★', i <= n ? '' : 'off'));
+    return s;
+  }
+  function note(text, isErr) { $('listmsg').textContent = text || ''; $('listmsg').className = isErr ? 'msg err' : 'msg'; }
+
+  /* ---------- Auth ---------- */
+  function setAuthed(session) {
+    var on = !!session;
+    $('login').hidden = on;
+    $('app').hidden = !on;
+    $('logout').hidden = !on;
+    $('who').textContent = on ? session.user.email : '';
+    if (on) load();
+  }
+  sb.auth.getSession().then(function (r) { setAuthed(r.data.session); });
+  sb.auth.onAuthStateChange(function (_e, session) { if (!session) setAuthed(null); });
+  $('loginform').addEventListener('submit', function (e) {
+    e.preventDefault();
+    $('loginmsg').textContent = '로그인 중…';
+    sb.auth.signInWithPassword({ email: $('email').value.trim(), password: $('password').value }).then(function (r) {
+      $('loginmsg').textContent = r.error ? '로그인 실패: ' + r.error.message : '';
+      $('loginmsg').className = r.error ? 'msg err' : 'msg';
+      if (!r.error) setAuthed(r.data.session);
+    });
+  });
+  $('logout').addEventListener('click', function () { sb.auth.signOut(); });
+
+  /* ---------- Actions ---------- */
+  function setStatus(rv, status, btn) {
+    btn.disabled = true;
+    sb.from('reviews').update({ status: status }).eq('id', rv.id).select('id').then(function (r) {
+      if (r.error || !r.data || !r.data.length) { note('바꾸지 못했어요: ' + (r.error ? r.error.message : '관리자 권한을 확인해 주세요.'), true); btn.disabled = false; return; }
+      note(status === 'hidden' ? '리뷰를 숨겼어요. 사이트에서 바로 사라져요.' : '리뷰를 다시 보이게 했어요.');
+      load(true);
+    });
+  }
+  // Deleting cannot be undone, so the button asks once more on the page itself.
+  function remove(rv, btn) {
+    if (btn.getAttribute('data-sure') !== '1') {
+      btn.setAttribute('data-sure', '1');
+      btn.className = 'sure';
+      btn.textContent = '한 번 더 누르면 삭제';
+      setTimeout(function () { if (btn.isConnected) { btn.removeAttribute('data-sure'); btn.className = 'danger'; btn.textContent = '삭제'; } }, 4000);
+      return;
+    }
+    btn.disabled = true;
+    sb.from('reviews').delete().eq('id', rv.id).select('id').then(function (r) {
+      if (r.error || !r.data || !r.data.length) { note('삭제하지 못했어요: ' + (r.error ? r.error.message : '관리자 권한을 확인해 주세요.'), true); btn.disabled = false; return; }
+      note('리뷰를 삭제했어요.');
+      load(true);
+    });
+  }
+
+  /* ---------- List ---------- */
+  function render() {
+    var f = $('filter').value;
+    var tbody = $('rows');
+    tbody.textContent = '';
+    var shown = all.filter(function (rv) { return f === 'all' || rv.status === f; });
+    var pub = all.filter(function (rv) { return rv.status === 'published'; });
+    $('t-published').textContent = String(pub.length);
+    $('t-hidden').textContent = String(all.length - pub.length);
+    $('t-avg').textContent = pub.length ? (pub.reduce(function (a, rv) { return a + rv.rating; }, 0) / pub.length).toFixed(1) : '–';
+    shown.forEach(function (rv) {
+      var tr = document.createElement('tr');
+      if (rv.status === 'hidden') tr.className = 'is-hidden';
+      var c1 = el('td', day(rv.created_at), 'when');
+      if (rv.lang) c1.appendChild(el('div', LANG[rv.lang] || rv.lang, 'sub'));
+      var c2 = el('td'); c2.appendChild(stars(rv.rating));
+      var c3 = el('td');
+      c3.appendChild(el('div', rv.body, 'body'));
+      c3.appendChild(el('div', [rv.name, rv.country, SERVICE[rv.service]].filter(Boolean).join(' · '), 'sub'));
+      if (rv.order_ref) c3.appendChild(el('span', '주문번호 ' + rv.order_ref, 'order'));
+      var c4 = el('td'); c4.appendChild(el('span', STATUS[rv.status] || rv.status, 'badge b-' + rv.status));
+      var c5 = el('td'); var acts = el('div', null, 'actions'); c5.appendChild(acts);
+      var b1 = el('button', rv.status === 'hidden' ? '다시 보이기' : '숨기기'); b1.type = 'button';
+      b1.onclick = function () { setStatus(rv, rv.status === 'hidden' ? 'published' : 'hidden', b1); };
+      var b2 = el('button', '삭제', 'danger'); b2.type = 'button';
+      b2.onclick = function () { remove(rv, b2); };
+      acts.appendChild(b1); acts.appendChild(b2);
+      [c1, c2, c3, c4, c5].forEach(function (c) { tr.appendChild(c); });
+      tbody.appendChild(tr);
+    });
+    if (!all.length) note('아직 리뷰가 없어요.');
+    else if (!shown.length) note('이 보기에 해당하는 리뷰가 없어요.');
+  }
+  function load(keepNote) {
+    if (!keepNote) note('불러오는 중…');
+    sb.from('reviews').select('*').order('created_at', { ascending: false }).limit(500).then(function (r) {
+      if (r.error) { note('불러오기 실패: ' + r.error.message + ' (Supabase에서 reviews.sql을 실행했는지 확인해 주세요.)', true); return; }
+      all = r.data || [];
+      if (!keepNote) note('');
+      render();
+    });
+  }
+  $('filter').addEventListener('change', render);
+  $('refresh').addEventListener('click', function () { load(); });
+})();
+</script>
+</body>
+</html>
