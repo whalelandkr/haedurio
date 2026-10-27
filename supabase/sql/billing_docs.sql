@@ -86,6 +86,19 @@ begin
     raise exception 'Document % has been issued and cannot go back to draft. Mark it void instead.', old.number
       using errcode = 'check_violation';
   end if;
+  -- Once issued, a document keeps what the customer received: only its status, internal memo and payment time can change.
+  -- To correct one, duplicate it as a new draft and mark this one void. A void document stays void.
+  if old.status <> 'draft' then
+    if (new.data, new.client, new.total, new.currency, new.issue_date, new.due_date, new.title, new.source_id)
+       is distinct from (old.data, old.client, old.total, old.currency, old.issue_date, old.due_date, old.title, old.source_id) then
+      raise exception 'Document % has been issued and its content cannot change. Duplicate it as a new draft and mark this one void.', old.number
+        using errcode = 'check_violation';
+    end if;
+    if old.status = 'void' and new.status <> 'void' then
+      raise exception 'Document % is void and stays void.', old.number
+        using errcode = 'check_violation';
+    end if;
+  end if;
   new.updated_at := now();
   new.kind := old.kind;
   -- A draft's number can still be corrected. Once issued, the number never changes.

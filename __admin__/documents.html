@@ -105,6 +105,11 @@ fieldset.radios input{width:auto;margin:0}
 .checks li.ok{color:var(--green)}
 .checks li.ok::before{content:"✓"}
 .review .acts{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 6px}
+.filepick{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;padding:3px 4px 3px 10px;border:1px solid #CBD2DC;border-radius:9px;background:#fff}
+.filepick input{width:auto;border:0;padding:2px 0;font-size:12.5px;background:none}
+.filepick input::file-selector-button{font:inherit;font-weight:600;padding:5px 10px;margin-right:8px;border-radius:7px;border:1px solid #CBD2DC;background:var(--bg);color:var(--ink);cursor:pointer}
+.editor[inert]{opacity:.65}
+.locknote{margin:0 18px 12px;padding:9px 12px;border-radius:9px;background:var(--blue-tint);color:#1A3A9E;font-size:12.5px}
 .confirm{margin:8px 0;padding:10px 12px;border-radius:10px;background:#FFF4D6;color:#5C3D00;font-size:13px}
 .confirm p{margin:0 0 4px}
 .preview{display:flex;justify-content:center}
@@ -132,7 +137,7 @@ table.list{width:100%;border-collapse:collapse;font-size:13.5px}
 @media (max-width:560px){.g2,.g3{grid-template-columns:1fr}.bar{flex-wrap:wrap}}
 
 /* ---------- The document (A4) ---------- */
-/* The preview uses the same margins as the printed page (@page below), so lines break in the same places. */
+/* The padding is the page margin, on screen and on paper (see Printing), so lines break in the same places. */
 .doc{position:relative;width:210mm;min-height:297mm;padding:12mm 14mm 13mm;background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(18,24,38,.08),0 12px 32px rgba(18,24,38,.08);font-family:"Instrument Sans","HD Won",-apple-system,"Segoe UI",Arial,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR","Noto Sans CJK KR",sans-serif;font-size:9.2pt;line-height:1.42;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .doc:lang(ko){word-break:keep-all;line-height:1.48}
 .doc p{margin:0}
@@ -213,14 +218,19 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
 .doc:lang(ko) .d-by{letter-spacing:.05em}
 .doc:lang(ko) .d-stamp{letter-spacing:.06em}
 
-/* ---------- Printing: only the chosen document, on A4 ---------- */
-@page{size:A4;margin:12mm 14mm 13mm;@bottom-right{content:counter(page) " / " counter(pages);font-family:"Instrument Sans",Arial,sans-serif;font-size:7pt;color:#8A93A3}}
+/* A draft that is printed anyway (Ctrl+P) says so on every page. Issued documents never show this. */
+.d-draftmark{display:none}
+
+/* ---------- Printing: only the chosen document, on A4 ----------
+   The page itself has no margin: the document's own padding is the margin, repeated on every page.
+   With no room left in the page margin, Chrome adds no header or footer of its own (date, URL). */
+@page{size:A4;margin:0}
 @media print{
   html,body{background:#fff}
   .bar,#login,.notice,.toolbar,.steps,.editor,.review,dialog{display:none!important}
   main,#app,.workspace,.previewwrap,.preview{display:block!important;padding:0!important;margin:0!important;border:0!important;background:none!important}
-  .doc{zoom:1!important;width:auto;min-height:0;padding:0;box-shadow:none}
-  .d-stamp{top:20mm;right:2mm}
+  .doc{zoom:1!important;width:auto;min-height:0;box-shadow:none;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .d-draftmark{display:block;position:fixed;top:44%;left:0;right:0;text-align:center;transform:rotate(-24deg);font-size:44pt;font-weight:700;letter-spacing:.08em;color:rgba(18,24,38,.12);pointer-events:none}
 }
 </style>
 </head>
@@ -247,8 +257,7 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
 <button type="button" id="newinvoice">새 인보이스</button>
 <button type="button" id="openlist">문서 목록</button>
 <button type="button" id="opensettings">기본정보 설정</button>
-<button type="button" id="importbtn">JSON 가져오기</button>
-<input type="file" id="importfile" accept=".json,application/json" hidden>
+<label class="filepick"><span>JSON 가져오기</span><input type="file" id="importfile" accept=".json,application/json"></label>
 <span class="spacer"></span>
 <span class="msg" id="msg" role="status"></span>
 </div>
@@ -260,6 +269,7 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
 <div><span class="kind-badge" id="kindbadge">견적서</span> <strong id="numlabel"></strong></div>
 <label class="f inline"><span>상태</span><select data-k="status" id="status"></select></label>
 </div>
+<p class="locknote" id="locknote" hidden>발행한 문서라서 내용은 고칠 수 없어요. 상태와 내부 메모만 바꿀 수 있어요. 고쳐야 하면 '복제'로 새 번호의 초안을 만들고, 이 문서는 상태를 '무효'로 바꾸세요.</p>
 <div class="ed-actions">
 <button type="button" class="primary" id="save">저장</button>
 <button type="button" id="toinvoice">인보이스로 만들기</button>
@@ -353,6 +363,11 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
 </div>
 </div>
 </main>
+
+<dialog class="dlg" id="askdlg" aria-labelledby="askmsg">
+<div class="dlg-body"><p id="askmsg"></p></div>
+<div class="dlg-foot"><button type="button" class="primary" id="askyes">계속</button><button type="button" id="askno">취소</button></div>
+</dialog>
 
 <dialog class="dlg wide" id="listdlg">
 <div class="dlg-head"><h2>문서 목록</h2><input id="listq" type="search" placeholder="번호, 고객, 제목 검색" aria-label="문서 검색"><button type="button" data-close>닫기</button></div>
@@ -545,7 +560,8 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
   function num(n, cur) { return (+n || 0).toLocaleString('en-US', { minimumFractionDigits: dec(cur), maximumFractionDigits: dec(cur) }); }
   function money(n, cur) { return cur + ' ' + num(n, cur); }
   function qtyText(q) { q = +q || 0; return Number.isInteger(q) ? String(q) : String(+q.toFixed(2)); }
-  function lineAmount(it, cur) { return round((+it.qty || 0) * (+it.price || 0), cur); }
+  // The unit price counts as printed (whole won for KRW, cents for USD), so the line always adds up on paper.
+  function lineAmount(it, cur) { return round((+it.qty || 0) * round(it.price, cur), cur); }
   function totals(d) {
     var cur = d.currency, sub = 0, opt = 0;
     d.data.items.forEach(function (it) { if (it.optional) opt += lineAmount(it, cur); else sub += lineAmount(it, cur); });
@@ -718,9 +734,9 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
       LANGS.forEach(function (l) { var t = x[l] || {}; it[l] = { name: str(t.name), unit: str(t.unit), details: str(t.details) }; });
       return it;
     }
-    // First version: one English title and description per item.
+    // First version: one English title and description per item. The description goes to the internal memo (see normalize).
     return { id: uid(), type: 'custom', qty: +x.qty || 0, price: +x.price || 0, optional: !!x.optional, unitAuto: { ko: false, en: false },
-      ko: { name: '', unit: '', details: '' }, en: { name: str(x.title), unit: '', details: str(x.detail) } };
+      ko: { name: '', unit: '', details: '' }, en: { name: str(x.title), unit: '', details: '' } };
   }
   function blank(kind) {
     var today = kstToday();
@@ -750,16 +766,26 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
       email: str(c.email), phone: str(c.phone), address: str(c.address)
     };
     var first = data.v !== 2;
-    d.data.title = data.title != null ? bi(data.title) : bi(row.title || '');
-    ['contact', 'included', 'excluded', 'terms', 'cancellation', 'notes'].forEach(function (k) { if (data[k] != null) d.data[k] = bi(data[k]); });
-    // The first version had a long payment paragraph; invoices now show the bank details and payment reference instead.
-    if (first) d.data.terms = kind === 'quote' && data.payment ? bi(data.payment) : bi();
+    if (first) {
+      // A first-version document (English only, with a trip table). Its notes and terms are not carried into the
+      // document, where they could bring back wording that was removed; they go to the internal memo to copy from.
+      var moved = [['제목', row.title || data.title], ['서비스 정보', data.details]]
+        .concat((Array.isArray(data.items) ? data.items : []).map(function (it, i) { return ['품목 ' + (i + 1) + ' 설명', it && it.detail]; }))
+        .concat([['포함 사항', data.included], ['불포함 사항', data.excluded], ['결제 안내', data.payment], ['취소·환불', data.cancellation], ['기타 안내', data.notes]])
+        .filter(function (m) { return lines(m[1]).length; })
+        .map(function (m) { return '[' + m[0] + ']\n' + lines(m[1]).join('\n'); });
+      ['title', 'included', 'excluded', 'terms', 'cancellation', 'notes'].forEach(function (k) { d.data[k] = bi(); });
+      if (data.contact != null) d.data.contact = bi(data.contact);
+      if (moved.length) d.memo = [d.memo, '예전 형식 문서에서 옮긴 안내 문구 (문서에는 나오지 않음):\n\n' + moved.join('\n\n')].filter(Boolean).join('\n\n');
+      d.oldMoved = moved.length > 0;
+    } else {
+      ['title', 'contact', 'included', 'excluded', 'terms', 'cancellation', 'notes'].forEach(function (k) { if (data[k] != null) d.data[k] = bi(data[k]); });
+    }
     d.data.items = (Array.isArray(data.items) ? data.items : []).map(normItem);
     if (kind === 'invoice') d.data.items.forEach(function (it) { it.optional = false; });
     d.data.discount = +data.discount || 0;
     d.data.show_bank = data.show_bank != null ? !!data.show_bank : kind === 'invoice';
     if (data.snapshot) d.data.snapshot = data.snapshot;
-    d.oldDetails = first && lines(data.details).length > 0;  // the first version's trip table is no longer printed
     if (KIND[kind].statuses.indexOf(d.status) < 0) d.status = 'draft';
     if (d.currency !== 'KRW') d.currency = 'USD';
     d.savedStatus = row.id ? d.status : null;
@@ -800,7 +826,6 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     st.textContent = '';
     if (!locked) st.appendChild(h('option', { value: 'draft', text: STATUS.draft }));
     else k.statuses.forEach(function (s) { if (s !== 'draft') st.appendChild(h('option', { value: s, text: STATUS[s] })); });
-    st.disabled = !locked;
     if (!doc.number) doc.number = proposeNumber(doc.kind, doc.issue_date, doc.id);
     $$('#editor [data-k]').forEach(function (el) {
       var v = getPath(doc, el.dataset.k);
@@ -808,7 +833,6 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
       else if (el.type === 'checkbox') el.checked = !!v;
       else el.value = v == null ? '' : v;
     });
-    $('numinput').readOnly = locked;
     updateNumberHint();
     $('toinvoice').hidden = doc.kind !== 'quote';
     $('remove').hidden = !(doc.id && doc.savedStatus === 'draft');
@@ -818,6 +842,15 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     autosizeAll();
   }
 
+  // An issued document keeps its content: only its status and the internal memo can change. A void document stays void.
+  function lockForm() {
+    var locked = isLocked();
+    $$('#editor input, #editor textarea, #editor select, #items button, #additem').forEach(function (el) {
+      el.disabled = locked && el.id !== 'status' && el.dataset.k !== 'memo';
+    });
+    $('status').disabled = !locked || doc.savedStatus === 'void';
+    $('locknote').hidden = !locked;
+  }
   function field(label, input) { return h('label', { class: 'f' }, [h('span', { text: label }), input]); }
   function itemButton(text, act, i, label) { return h('button', { type: 'button', 'data-act': act, 'data-i': i, 'aria-label': label, title: label, text: text }); }
   function itemCalc(it) {
@@ -858,6 +891,7 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
       updateItemCalc(i);
     });
     $$('textarea', box).forEach(autosize);
+    lockForm();
   }
   function updateItemCalc(i) {
     var it = doc.data.items[i], out = $('items').querySelector('[data-amt="' + i + '"]'), calc = $('items').querySelector('[data-calc="' + i + '"]');
@@ -885,7 +919,24 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     if (!dirty) { dirty = true; setMsg('저장하지 않은 변경이 있어요. 미리보기를 다시 확인해 주세요.'); }
   }
   function changed() { markDirty(); updateSum(); schedule(); }
-  function confirmDiscard() { return !dirty || window.confirm('저장하지 않은 변경이 있어요. 버리고 계속할까요?'); }
+  // Questions are asked on the page (no browser pop-up), so a person or an AI working the page can answer them alike.
+  function ask(message, yesLabel) {
+    return new Promise(function (resolve) {
+      var dlg = $('askdlg'), done = function (v) {
+        $('askyes').onclick = $('askno').onclick = dlg.onclose = null;
+        if (dlg.open) dlg.close();
+        resolve(v);
+      };
+      $('askmsg').textContent = message;
+      $('askyes').textContent = yesLabel || '계속';
+      $('askyes').onclick = function () { done(true); };
+      $('askno').onclick = function () { done(false); };
+      dlg.onclose = function () { done(false); };
+      dlg.showModal();
+      $('askno').focus();
+    });
+  }
+  function confirmDiscard() { return dirty ? ask('저장하지 않은 변경이 있어요. 버리고 계속할까요?', '버리고 계속') : Promise.resolve(true); }
 
   function onEdit(e) {
     var el = e.target;
@@ -967,12 +1018,13 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
       if (!it.ko.name.trim() || !it.en.name.trim()) errs.push(n + ': 한국어와 영어 품목명을 모두 넣어 주세요.');
       if (!(+it.qty > 0)) errs.push(n + ': 수량을 넣어 주세요.');
       if (!(+it.price > 0)) warns.push(n + ': 단가가 0이에요.');
-      if (!it.ko.details.trim() !== !it.en.details.trim()) warns.push(n + ': 세부사항이 ' + (it.ko.details.trim() ? '한국어' : '영어') + '에만 있어요.');
+      // The two documents must say the same thing: text in one language only blocks issuing.
+      if (!it.ko.details.trim() !== !it.en.details.trim()) errs.push(n + ': 세부사항이 ' + (it.ko.details.trim() ? '한국어' : '영어') + '에만 있어요. 두 언어 모두 쓰거나 둘 다 비워 주세요.');
     });
     if (d.data.show_bank && !bankComplete(basics(d).bank)) errs.push('입금 계좌가 비어 있어요. 기본정보 설정에서 넣어 주세요.');
     TEXT_FIELDS.forEach(function (f) {
       var t = d.data[f.k];
-      if (!t.ko.trim() !== !t.en.trim()) warns.push('‘' + f.label + '’ 내용이 ' + (t.ko.trim() ? '한국어' : '영어') + ' 문서에만 있어요.');
+      if (!t.ko.trim() !== !t.en.trim()) errs.push('‘' + f.label + '’ 내용이 ' + (t.ko.trim() ? '한국어' : '영어') + ' 문서에만 있어요. 두 언어 모두 쓰거나 둘 다 비워 주세요.');
     });
     return { errs: errs, warns: warns };
   }
@@ -1011,10 +1063,21 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
   });
 
   /* ---------- Actions ---------- */
+  // Another admin may have taken a number since this page opened: look again before proposing one.
+  function refreshNumbers() {
+    return store.numbers().then(function (map) {
+      numbers = map;
+      if (doc && !isLocked() && doc.numberAuto) {
+        var n = proposeNumber(doc.kind, doc.issue_date, doc.id);
+        if (n !== doc.number) { doc.number = n; $('numinput').value = n; updateNumberHint(); resetReview(); updateReview(); render(); }
+      }
+    }).catch(function () { /* keep the list we have */ });
+  }
   function newDoc(kind) {
     doc = blank(kind);
     doc.number = proposeNumber(kind, doc.issue_date, null);
     dirty = false; resetReview(); fillForm(); render();
+    refreshNumbers();
   }
 
   // One save at a time: a double click reuses the save already running.
@@ -1022,26 +1085,43 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     if (!saving) saving = doSave().finally(function () { saving = null; updateReview(); });
     return saving;
   }
-  function busy(on) { ['save', 'issue', 'pdf-ko', 'pdf-en', 'toinvoice', 'duplicate', 'remove'].forEach(function (id) { $(id).disabled = on; }); if (!on) updateReview(); }
+  // While saving, the form can't be typed in: what is on screen is exactly what gets stored.
+  function busy(on) {
+    $('editor').inert = on;
+    ['save', 'issue', 'issueyes', 'issueno', 'pdf-ko', 'pdf-en', 'toinvoice', 'duplicate', 'remove'].forEach(function (id) { $(id).disabled = on; });
+    if (!on) updateReview();
+  }
   async function doSave() {
-    if (!doc.issue_date) { setMsg('발행일을 넣어 주세요.', true); return false; }
-    if (!doc.number) { doc.number = proposeNumber(doc.kind, doc.issue_date, doc.id); doc.numberAuto = true; }
-    if (!isLocked() && numberTaken(doc.number, doc.id)) {
-      if (!doc.numberAuto) { setMsg('다른 문서가 이미 ' + doc.number + ' 번호를 쓰고 있어요. 번호를 바꾸고 다시 저장해 주세요.', true); return false; }
-      doc.number = proposeNumber(doc.kind, doc.issue_date, doc.id);
-    }
-    var t = totals(doc);
-    var row = {
-      kind: doc.kind, number: doc.number, status: doc.status, currency: doc.currency,
-      issue_date: doc.issue_date, due_date: doc.due_date || null,
-      title: (doc.data.title.en || doc.data.title.ko || '').slice(0, 200) || null,
-      client: doc.client, data: doc.data, total: t.total,
-      source_id: doc.source_id || null, memo: doc.memo || null,
-      paid_at: doc.status === 'paid' ? (doc.paid_at || new Date().toISOString()) : null
-    };
     busy(true);
-    setMsg('저장 중…');
     try {
+      if (!doc.issue_date) { setMsg('발행일을 넣어 주세요.', true); return false; }
+      var row, renumbered = false;
+      if (isLocked()) {
+        // Issued: only the status and the internal memo are sent. The content stays as it was issued.
+        row = { status: doc.status, memo: doc.memo || null, paid_at: doc.status === 'paid' ? (doc.paid_at || new Date().toISOString()) : null };
+      } else {
+        try { numbers = await store.numbers(); } catch (e) { /* keep the list we have */ }
+        if (!doc.number || numberTaken(doc.number, doc.id)) {
+          if (doc.number && !doc.numberAuto) { setMsg('다른 문서가 이미 ' + doc.number + ' 번호를 쓰고 있어요. 번호를 바꾸고 다시 저장해 주세요.', true); return false; }
+          var next = proposeNumber(doc.kind, doc.issue_date, doc.id);
+          if (doc.number) {
+            // The number printed on both documents changes, so they have to be looked at again.
+            doc.number = next; doc.numberAuto = true; $('numinput').value = next; updateNumberHint(); resetReview(); render();
+            if (doc.status !== 'draft') { setMsg('다른 관리자가 방금 그 번호를 썼어요. 번호를 ' + next + '로 바꿨으니 미리보기를 다시 확인한 뒤 발행해 주세요.', true); return false; }
+            renumbered = true;
+          } else { doc.number = next; doc.numberAuto = true; }
+        }
+        var t = totals(doc);
+        row = {
+          kind: doc.kind, number: doc.number, status: doc.status, currency: doc.currency,
+          issue_date: doc.issue_date, due_date: doc.due_date || null,
+          title: (doc.data.title.en || doc.data.title.ko || '').slice(0, 200) || null,
+          client: doc.client, data: doc.data, total: t.total,
+          source_id: doc.source_id || null, memo: doc.memo || null,
+          paid_at: doc.status === 'paid' ? (doc.paid_at || new Date().toISOString()) : null
+        };
+      }
+      setMsg('저장 중…');
       var moved = mode === 'db' && isLocalId(doc.id), prevId = doc.id;
       var saved = await store.save(doc.id, row);
       if (prevId) forgetId(prevId);
@@ -1049,11 +1129,11 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
       numbers[doc.number] = String(doc.id);
       dirty = false;
       fillForm(); render();
-      setMsg((moved ? 'DB로 옮겨 저장했어요 · ' : '저장했어요 · ') + doc.number);
+      setMsg((moved ? 'DB로 옮겨 저장했어요 · ' : '저장했어요 · ') + doc.number + (renumbered ? ' (다른 관리자가 앞 번호를 써서 번호가 바뀌었어요. 미리보기를 다시 확인해 주세요.)' : ''));
       return true;
     } catch (e) {
       if ((e && e.code) === '23505') {
-        setMsg('다른 문서가 이미 ' + row.number + ' 번호를 쓰고 있어요. 번호를 바꾸고 다시 저장해 주세요.', true);
+        setMsg('다른 문서가 이미 ' + doc.number + ' 번호를 쓰고 있어요. 번호를 바꾸고 다시 저장해 주세요.', true);
         try { numbers = await store.numbers(); } catch (e2) { /* keep the old list */ }
       } else setMsg('저장하지 못했어요: ' + errText(e), true);
       return false;
@@ -1064,30 +1144,33 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
   // 발행하기: only after both languages were checked, and confirmed on the page (no browser pop-up).
   // Keeps the issuer and bank details of today with the document.
   $('issue').addEventListener('click', function () {
-    if (issuing || isLocked()) return;
+    if (issuing || saving || isLocked()) return;
     var p = problems();
     if (p.errs.length || !(reviewed.ko && reviewed.en)) return;
-    $('issueq').textContent = docNumber() + ' 문서를 발행할까요? 발행하면 번호가 고정되고 초안으로 되돌릴 수 없어요. 고객에게 메일을 보내지는 않아요.';
+    $('issueq').textContent = docNumber() + ' 문서를 발행할까요? 발행하면 번호와 내용이 고정되고 초안으로 되돌릴 수 없어요. 고객에게 메일을 보내지는 않아요.';
     $('issueconfirm').hidden = false;
     $('issueyes').focus();
   });
   $('issueno').addEventListener('click', function () { $('issueconfirm').hidden = true; });
   $('issueyes').addEventListener('click', async function () {
     if (issuing || isLocked()) return;
-    var p = problems();
-    if (p.errs.length || !(reviewed.ko && reviewed.en)) { $('issueconfirm').hidden = true; return; }
     $('issueconfirm').hidden = true;
     issuing = true;
-    var before = { status: doc.status, snapshot: doc.data.snapshot };
-    doc.status = 'issued';
-    doc.data.snapshot = { issuer: clone(settings.issuer), bank: clone(settings.bank), prefs: { charges: settings.prefs.charges } };
+    updateReview();
     try {
+      while (saving) await saving;  // a save that is already running finishes first; issuing is its own save after it
+      var p = problems();
+      if (p.errs.length || !(reviewed.ko && reviewed.en) || isLocked()) return;
+      var before = { status: doc.status, snapshot: doc.data.snapshot };
+      doc.status = 'issued';
+      doc.data.snapshot = { issuer: clone(settings.issuer), bank: clone(settings.bank), prefs: { charges: settings.prefs.charges } };
       var ok = await save();
       if (!ok) {
         doc.status = before.status;
         if (before.snapshot) doc.data.snapshot = before.snapshot; else delete doc.data.snapshot;
         return;
       }
+      if (doc.savedStatus !== 'issued') { setMsg('발행하지 못했어요. 다시 시도해 주세요.', true); return; }
       setMsg(doc.number + ' 발행했어요. 이제 한국어·English PDF를 각각 저장하세요.');
     } finally { issuing = false; updateReview(); }
   });
@@ -1107,7 +1190,7 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
       showLang(lang);
       var before = document.title, name = fileName(lang);
       document.title = name;
-      setMsg('인쇄 창에서 대상을 "PDF로 저장"으로 고르고, 머리글과 바닥글은 끄고 저장하세요. 파일 이름: ' + name + '.pdf');
+      setMsg('인쇄 창에서 대상을 "PDF로 저장"으로 고르고 저장하세요. 여백은 "기본값"으로 두세요. 파일 이름: ' + name + '.pdf');
       window.print();
       setTimeout(function () { document.title = before; }, 1000);
     } finally { printing = false; }
@@ -1131,10 +1214,11 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     inv.number = proposeNumber('invoice', inv.issue_date, null);
     doc = inv; dirty = true; resetReview(); fillForm(); render();
     setMsg('견적서 ' + q.number + '로 인보이스 초안을 만들었어요. 선택 품목은 뺐어요.');
+    refreshNumbers();
   });
 
-  $('duplicate').addEventListener('click', function () {
-    if (dirty && !window.confirm('저장하지 않은 변경은 원본이 아니라 복제본에만 들어가요. 계속할까요?')) return;
+  $('duplicate').addEventListener('click', async function () {
+    if (dirty && !(await ask('저장하지 않은 변경은 원본이 아니라 복제본에만 들어가요. 복제할까요?', '복제'))) return;
     var c = clone(doc);
     c.id = null; c.status = 'draft'; c.savedStatus = null; c.paid_at = null; c.source_id = null;
     c.issue_date = kstToday(); c.due_date = addDays(c.issue_date, dueDays(c.kind)); c.dueAuto = true;
@@ -1143,19 +1227,20 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     c.data.items.forEach(function (it) { it.id = uid(); });
     doc = c; dirty = true; resetReview(); fillForm(); render();
     setMsg('복제했어요. 새 번호 ' + doc.number + '로 저장돼요.');
+    refreshNumbers();
   });
 
   $('remove').addEventListener('click', async function () {
     if (!doc.id || doc.savedStatus !== 'draft') return;
-    if (!window.confirm(doc.number + ' 초안을 삭제할까요? 삭제하면 되돌릴 수 없어요.')) return;
+    if (!(await ask(doc.number + ' 초안을 삭제할까요? 삭제하면 되돌릴 수 없어요.', '삭제'))) return;
     busy(true);
     try { await store.remove(doc.id); forgetId(doc.id); var k = doc.kind; dirty = false; newDoc(k); setMsg('초안을 삭제했어요.'); }
     catch (e) { setMsg('삭제하지 못했어요: ' + errText(e), true); }
     finally { busy(false); }
   });
 
-  $('newquote').addEventListener('click', function () { if (confirmDiscard()) { newDoc('quote'); setMsg(''); } });
-  $('newinvoice').addEventListener('click', function () { if (confirmDiscard()) { newDoc('invoice'); setMsg(''); } });
+  $('newquote').addEventListener('click', function () { confirmDiscard().then(function (ok) { if (ok) { newDoc('quote'); setMsg(''); } }); });
+  $('newinvoice').addEventListener('click', function () { confirmDiscard().then(function (ok) { if (ok) { newDoc('invoice'); setMsg(''); } }); });
 
   /* JSON: move a document between browsers, or start one from a prepared file. Bank details are never included. */
   $('export').addEventListener('click', function () {
@@ -1166,24 +1251,24 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(function () { URL.revokeObjectURL(a.href); }, 1500);
   });
-  $('importbtn').addEventListener('click', function () { $('importfile').click(); });
-  $('importfile').addEventListener('change', function () {
-    var file = this.files && this.files[0];
-    this.value = '';
+  // The file chooser is a visible, labelled field, so it can also be filled by an AI working the page.
+  $('importfile').addEventListener('change', async function () {
+    var input = this, file = input.files && input.files[0];
     if (!file) return;
-    file.text().then(function (txt) {
-      var o = JSON.parse(txt);
-      if (!o || !KIND[o.kind]) throw new Error('kind');
-      if (!confirmDiscard()) return;
-      var d = normalize({ kind: o.kind, number: o.number, currency: o.currency, issue_date: o.issue_date, due_date: o.due_date, title: o.title, client: o.client, data: o.data, memo: o.memo });
-      delete d.data.snapshot;
-      if (!o.data || o.data.contact == null) d.data.contact = bi(settings.prefs.contact);
-      var note = '';
-      if (d.number && numberTaken(d.number, null)) { note = ' ' + d.number + '는 이미 있는 번호라서 새 번호를 붙였어요.'; d.number = ''; }
-      if (!d.number) { d.number = proposeNumber(d.kind, d.issue_date, null); d.numberAuto = true; }
-      doc = d; dirty = true; resetReview(); fillForm(); render();
-      setMsg('불러왔어요. 한국어·English 미리보기를 확인하고 저장하거나 발행하세요.' + note + (d.oldDetails ? ' 예전 형식의 서비스 정보 표는 가져오지 않았어요. 필요한 내용은 품목 세부사항에 넣어 주세요.' : ''));
-    }).catch(function () { setMsg('이 파일은 견적서·인보이스 JSON이 아니에요.', true); });
+    var o;
+    try { o = JSON.parse(await file.text()); if (!o || !KIND[o.kind]) throw new Error('kind'); }
+    catch (e) { input.value = ''; setMsg('이 파일은 견적서·인보이스 JSON이 아니에요.', true); return; }
+    if (!(await confirmDiscard())) { input.value = ''; return; }
+    input.value = '';
+    try { numbers = await store.numbers(); } catch (e) { /* keep the list we have */ }
+    var d = normalize({ kind: o.kind, number: o.number, currency: o.currency, issue_date: o.issue_date, due_date: o.due_date, title: o.title, client: o.client, data: o.data, memo: o.memo });
+    delete d.data.snapshot;
+    if (!o.data || o.data.contact == null) d.data.contact = bi(settings.prefs.contact);
+    var note = '';
+    if (d.number && numberTaken(d.number, null)) { note = ' ' + d.number + '는 이미 있는 번호라서 새 번호를 붙였어요.'; d.number = ''; }
+    if (!d.number) { d.number = proposeNumber(d.kind, d.issue_date, null); d.numberAuto = true; }
+    doc = d; dirty = true; resetReview(); fillForm(); render();
+    setMsg('불러왔어요. 한국어·English 미리보기를 확인하고 저장하거나 발행하세요.' + note + (d.oldMoved ? ' 예전 형식 파일이라 안내 문구(제목, 서비스 정보, 포함·불포함, 결제, 취소, 기타)는 문서에 넣지 않고 내부 메모로 옮겼어요. 필요한 문장만 한국어·영어로 다시 넣어 주세요.' : ''));
   });
 
   /* ---------- Lists and settings ---------- */
@@ -1218,7 +1303,7 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
   }
   async function openRow(e) {
     var tr = e.target.closest('tr[data-id]');
-    if (!tr || !confirmDiscard()) return;
+    if (!tr || !(await confirmDiscard())) return;
     var id = /^\d+$/.test(tr.dataset.id) ? +tr.dataset.id : tr.dataset.id;
     try {
       var row = await store.get(id);
@@ -1295,6 +1380,8 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
 
     var stamp = d.status === 'void' ? 'void' : (k === 'invoice' && d.status === 'paid') ? 'paid' : (k === 'quote' && d.status === 'accepted') ? 'accepted' : null;
     if (stamp) root.appendChild(h('div', { class: 'd-stamp ' + stamp }, [T.stamp[stamp], stamp === 'paid' && d.paid_at ? h('small', { text: T.date(kstDate(d.paid_at)) }) : null]));
+    // Hidden on screen; only a draft printed by mistake (Ctrl+P) shows it.
+    if (d.status === 'draft') root.appendChild(h('div', { class: 'd-draftmark', 'aria-hidden': 'true', text: lang === 'ko' ? '초안 · 발행 전' : 'DRAFT · NOT ISSUED' }));
 
     root.appendChild(h('header', { class: 'd-head' }, [
       h('div', { class: 'd-brand' }, [
@@ -1418,7 +1505,7 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
       $('loginmsg').className = r.error ? 'msg err' : 'msg';
     });
   });
-  $('logout').addEventListener('click', function () { if (confirmDiscard()) { dirty = false; sb.auth.signOut(); } });
+  $('logout').addEventListener('click', function () { confirmDiscard().then(function (ok) { if (ok) { dirty = false; sb.auth.signOut(); } }); });
   window.addEventListener('beforeunload', function (e) { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
 })();
 </script>
