@@ -3,15 +3,17 @@
 -- Customers never read these tables: admins save the document as a PDF and send it themselves.
 -- Bank details live only in billing_settings, never in the site code.
 
--- One row of company and bank details shown on every document.
+-- One row of defaults that fill every new document (기본정보 설정 on the page).
 create table if not exists public.billing_settings (
   id          smallint primary key default 1 check (id = 1),
-  issuer      jsonb not null default '{}'::jsonb,  -- company, address, registration, contact
-  bank        jsonb not null default '{}'::jsonb,  -- bank, SWIFT, holder, account, bank address
-  contact     text,                                -- default contact person line on new documents
+  issuer      jsonb not null default '{}'::jsonb,  -- company, brand, address, registration, contact, in Korean and English
+  bank        jsonb not null default '{}'::jsonb,  -- bank, holder, account, SWIFT, bank address
+  contact     text,                                -- (first version) default contact line; now kept in prefs
+  prefs       jsonb not null default '{}'::jsonb,  -- our contact person (ko/en), bank charges, days until due
   updated_at  timestamptz not null default now(),
   updated_by  uuid default auth.uid()
 );
+alter table public.billing_settings add column if not exists prefs jsonb not null default '{}'::jsonb;
 
 -- Last number used per prefix and year (Q-2026-0001, INV-2026-0001).
 create table if not exists public.billing_counters (
@@ -44,7 +46,8 @@ create table if not exists public.billing_docs (
 
 create index if not exists billing_docs_created_at_idx on public.billing_docs (created_at desc);
 
--- Give each new document the next number, and keep updated_at current.
+-- The page proposes the next number (Q-2026-0001, INV-2026-0001) and people can correct it while the document is a draft.
+-- A document saved without a number gets the next free one here.
 create or replace function public.billing_docs_number()
 returns trigger
 language plpgsql
@@ -55,13 +58,19 @@ declare
   p text := case new.kind when 'quote' then 'Q' else 'INV' end;
   y integer := extract(year from coalesce(new.issue_date, (now() at time zone 'Asia/Seoul')::date))::integer;
   n integer;
+  candidate text;
 begin
+  new.number := nullif(btrim(new.number), '');
   if new.number is null then
-    insert into public.billing_counters as c (prefix, year, last)
-    values (p, y, 1)
-    on conflict (prefix, year) do update set last = c.last + 1
-    returning c.last into n;
-    new.number := p || '-' || y || '-' || lpad(n::text, 4, '0');
+    loop
+      insert into public.billing_counters as c (prefix, year, last)
+      values (p, y, 1)
+      on conflict (prefix, year) do update set last = c.last + 1
+      returning c.last into n;
+      candidate := p || '-' || y || '-' || lpad(n::text, 4, '0');
+      exit when not exists (select 1 from public.billing_docs d where d.number = candidate);
+    end loop;
+    new.number := candidate;
   end if;
   return new;
 end
@@ -78,8 +87,11 @@ begin
       using errcode = 'check_violation';
   end if;
   new.updated_at := now();
-  new.number := old.number;  -- numbers never change once given
   new.kind := old.kind;
+  -- A draft's number can still be corrected. Once issued, the number never changes.
+  if old.status <> 'draft' or nullif(btrim(new.number), '') is null then
+    new.number := old.number;
+  end if;
   return new;
 end
 $$;

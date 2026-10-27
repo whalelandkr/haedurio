@@ -8,7 +8,7 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-/* Fonts: the same self-hosted files as the public site (SIL Open Font License). */
+/* Fonts: the same self-hosted files as the public site (SIL Open Font License). Korean text uses the system font. */
 @font-face{font-family:"Instrument Sans";font-style:normal;font-display:swap;font-weight:400 700;font-stretch:75% 100%;src:url(/assets/fonts/instrument-sans-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:"Instrument Sans";font-style:normal;font-display:swap;font-weight:400 700;font-stretch:75% 100%;src:url(/assets/fonts/instrument-sans-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20A8,U+20AA-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
 @font-face{font-family:"HD Won";font-style:normal;font-display:swap;font-weight:100 900;src:url(/assets/fonts/won.woff2) format("woff2");unicode-range:U+20A9}
@@ -16,7 +16,7 @@
 :root{--ink:#121826;--graphite:#4A5363;--gray:#5B6474;--slate:#8A93A3;--line:#E3E7EE;--line2:#D5DAE1;--bg:#F5F7FA;--blue:#1F4FE0;--blue-tint:#EAF0FD;--red:#B42318;--green:#0B7A50;--green-tint:#E5F3EB;--amber:#8A5A00}
 *{box-sizing:border-box}
 html,body{margin:0}
-body{font:14px/1.5 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+body{font:14px/1.5 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Segoe UI",Roboto,"Noto Sans KR","Noto Sans CJK KR",sans-serif;color:var(--ink);background:var(--bg)}
 [hidden]{display:none!important}
 code{font-size:12.5px;background:#fff;padding:1px 5px;border-radius:5px;border:1px solid var(--line)}
 
@@ -34,30 +34,35 @@ main{padding:18px 20px 40px}
 .f > span small,.f small{font-weight:400;color:var(--slate);margin-left:4px}
 .f.inline{flex-direction:row;align-items:center;gap:8px;margin:0}
 input,select,textarea{font:inherit;font-size:14px;font-weight:400;width:100%;padding:8px 10px;border:1px solid #CBD2DC;border-radius:9px;background:#fff;color:var(--ink)}
+input[readonly]{background:#F3F5F8;color:var(--graphite)}
 .f.inline select{width:auto;padding:6px 8px}
 textarea{resize:vertical;line-height:1.45}
 input:focus,select:focus,textarea:focus{outline:2px solid #D3DDF9;border-color:var(--blue)}
 .check{display:flex;align-items:center;gap:8px;font-size:13px;margin:4px 0 8px}
-.check input{width:auto}
+.check input{width:auto;margin:0}
 .check small{color:var(--slate)}
 button{font:inherit;font-size:13.5px;font-weight:600;padding:8px 13px;border-radius:9px;border:1px solid #CBD2DC;background:#fff;color:var(--ink);cursor:pointer;white-space:nowrap}
 button:hover{background:var(--bg)}
 button.primary{background:var(--blue);border-color:var(--blue);color:#fff}
 button.primary:hover{background:#1A42BD}
 button.danger{color:var(--red)}
-button:disabled{opacity:.5;cursor:default}
+button:disabled{opacity:.45;cursor:default}
+button.primary:disabled:hover{background:var(--blue)}
 .row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:6px}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.mt{margin-top:12px}
+.g2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.g3{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:10px}
 .msg{font-size:13px;color:var(--gray)}
 .msg.err{color:var(--red)}
-.warn{color:var(--amber);font-size:12.5px;margin:4px 0 0}
+.warn{color:var(--amber);font-size:12.5px;margin:4px 0 8px}
 .sub{color:var(--gray);font-size:12px}
 .notice{margin:0 0 14px;padding:11px 14px;border-radius:10px;background:#FFF4D6;color:#5C3D00;font-size:13px}
-.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
 .toolbar .spacer{flex:1}
-.workspace{display:grid;grid-template-columns:minmax(380px,450px) minmax(0,1fr);gap:20px;align-items:start}
+.steps{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px;padding:0;list-style:none;font-size:12.5px}
+.steps li{padding:4px 11px;border-radius:99px;background:#fff;border:1px solid var(--line);color:var(--gray)}
+.steps li.on{background:var(--blue-tint);border-color:#C9D6F8;color:var(--blue);font-weight:700}
+.steps li.done{color:var(--green)}
+.workspace{display:grid;grid-template-columns:minmax(420px,520px) minmax(0,1fr);gap:20px;align-items:start}
 .editor{background:#fff;border:1px solid var(--line);border-radius:14px;position:sticky;top:66px;max-height:calc(100vh - 86px);overflow:auto}
 .ed-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px 10px}
 .ed-actions{display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 14px;border-bottom:1px solid var(--line)}
@@ -68,20 +73,46 @@ button:disabled{opacity:.5;cursor:default}
 .ed:last-child{border-bottom:0}
 .ed h3{margin:0 0 10px;font-size:13.5px}
 .ed h3 small{font-weight:400;color:var(--slate);margin-left:4px}
+fieldset.radios{border:0;margin:0 0 10px;padding:0;display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center}
+fieldset.radios legend{float:left;font-size:12.5px;font-weight:600;padding:0;margin-right:6px}
+fieldset.radios label{display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer}
+fieldset.radios input{width:auto;margin:0}
 .item{border:1px solid var(--line);border-radius:10px;padding:10px 10px 2px;margin-bottom:10px;background:#FBFCFD}
 .item.opt{border-style:dashed}
 .item-h{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13px}
-.item-amt{color:var(--gray);font-size:12.5px;flex:1}
+.item-h .sub{flex:1}
 .item-btns{display:flex;gap:4px}
 .item-btns button{padding:3px 8px;font-size:12px}
+.item-amt{display:block;padding:8px 0;font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}
+.item-calc{margin:-6px 0 10px;font-size:12.5px;color:var(--graphite);font-variant-numeric:tabular-nums}
+.addrow{display:flex;gap:8px;align-items:flex-end;margin-bottom:12px}
+.addrow .f{flex:1;margin:0}
 .sum{margin:4px 0 10px;font-weight:700;font-size:13.5px}
 .previewwrap{min-width:0}
+.review{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 18px 12px;margin-bottom:16px}
+.review h2{margin:0 0 10px;font-size:14px}
+.tabs{display:inline-flex;border:1px solid #CBD2DC;border-radius:10px;overflow:hidden;margin-bottom:10px}
+.tabs button{border:0;border-radius:0;padding:7px 14px}
+.tabs button + button{border-left:1px solid #CBD2DC}
+.tabs button[aria-selected="true"]{background:var(--ink);color:#fff}
+.checks{margin:0 0 8px;padding:0;list-style:none;font-size:13px}
+.checks li{position:relative;padding:1px 0 1px 18px}
+.checks li::before{position:absolute;left:2px;top:1px;font-weight:700}
+.checks li.err{color:var(--red)}
+.checks li.err::before{content:"!"}
+.checks li.warn{color:var(--amber)}
+.checks li.warn::before{content:"·"}
+.checks li.ok{color:var(--green)}
+.checks li.ok::before{content:"✓"}
+.review .acts{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 6px}
+.confirm{margin:8px 0;padding:10px 12px;border-radius:10px;background:#FFF4D6;color:#5C3D00;font-size:13px}
+.confirm p{margin:0 0 4px}
 .preview{display:flex;justify-content:center}
 .badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:12px;font-weight:700;white-space:nowrap;background:#F0F1F4;color:var(--gray)}
 .b-issued,.b-accepted{background:var(--blue-tint);color:var(--blue)}
 .b-paid{background:var(--green-tint);color:var(--green)}
 .b-void{background:#FBEAE8;color:var(--red)}
-dialog.dlg{border:0;border-radius:14px;padding:0;width:min(640px,94vw);max-height:88vh;box-shadow:0 20px 60px rgba(18,24,38,.25);color:var(--ink)}
+dialog.dlg{border:0;border-radius:14px;padding:0;width:min(680px,94vw);max-height:88vh;box-shadow:0 20px 60px rgba(18,24,38,.25);color:var(--ink)}
 dialog.dlg.wide{width:min(980px,96vw)}
 dialog::backdrop{background:rgba(18,24,38,.35)}
 .dlg-head{display:flex;gap:10px;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:1}
@@ -101,87 +132,95 @@ table.list{width:100%;border-collapse:collapse;font-size:13.5px}
 @media (max-width:560px){.g2,.g3{grid-template-columns:1fr}.bar{flex-wrap:wrap}}
 
 /* ---------- The document (A4) ---------- */
-.doc{position:relative;width:210mm;min-height:297mm;padding:16mm 15mm 15mm;background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(18,24,38,.08),0 12px 32px rgba(18,24,38,.08);font-family:"Instrument Sans","HD Won",-apple-system,"Segoe UI",Arial,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:9.4pt;line-height:1.45;font-variant-numeric:tabular-nums;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+/* The preview uses the same margins as the printed page (@page below), so lines break in the same places. */
+.doc{position:relative;width:210mm;min-height:297mm;padding:12mm 14mm 13mm;background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(18,24,38,.08),0 12px 32px rgba(18,24,38,.08);font-family:"Instrument Sans","HD Won",-apple-system,"Segoe UI",Arial,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR","Noto Sans CJK KR",sans-serif;font-size:9.2pt;line-height:1.42;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.doc:lang(ko){word-break:keep-all;line-height:1.48}
 .doc p{margin:0}
 .doc .sep{word-spacing:.22em}
 .doc .seg{white-space:nowrap}
-.d-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8mm;padding-bottom:5.5mm;border-bottom:1.2pt solid var(--ink)}
+.d-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8mm;padding-bottom:4mm;border-bottom:1.2pt solid var(--ink)}
 .d-brand{display:flex;align-items:center;gap:3mm}
-.d-brand img{width:11mm;height:11mm;display:block}
-.d-word{font-size:19pt;font-weight:600;letter-spacing:-.035em;font-stretch:92%;line-height:1}
+.d-brand img{width:10mm;height:10mm;display:block}
+.d-word{font-size:18pt;font-weight:600;letter-spacing:-.035em;font-stretch:92%;line-height:1}
 .d-by{font-size:7pt;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-top:1.4mm}
 .d-type{text-align:right}
-.d-kind{font-size:19pt;font-weight:600;letter-spacing:.08em;line-height:1;color:var(--blue)}
+.d-kind{font-size:18pt;font-weight:600;letter-spacing:.08em;line-height:1;color:var(--blue)}
 .doc.invoice .d-kind{color:var(--ink)}
 .d-no{margin-top:2.2mm;font-size:9pt;color:var(--graphite)}
-.d-meta{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:5mm;padding:4.5mm 0;border-bottom:.6pt solid var(--line2)}
 .d-lab{font-size:6.8pt;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);font-weight:600;margin-bottom:1mm}
-.d-val{font-size:9.6pt;font-weight:500}
-.d-val.big{font-size:12.5pt;font-weight:650;letter-spacing:-.01em}
-.d-parties{display:grid;grid-template-columns:1fr 1fr;gap:8mm;padding:4.5mm 0 5mm}
+.d-val{font-size:9.4pt;font-weight:500}
+.d-val.big{font-size:12pt;font-weight:650;letter-spacing:-.01em}
+.d-parties{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) 40mm;gap:7mm;padding:3.5mm 0 4mm;border-bottom:.6pt solid var(--line2);margin-bottom:3mm}
+.d-dates > div + div{margin-top:2.2mm}
 .d-party p{margin:0 0 .5mm;color:var(--graphite)}
 .d-party p.nm{color:var(--ink);font-weight:650;font-size:10pt}
 .d-party p.ct{color:var(--ink);margin-top:1.4mm}
 .d-subject{margin:1mm 0 3mm;font-size:12.5pt;font-weight:650;letter-spacing:-.01em;line-height:1.3}
-.d-details{display:grid;grid-template-columns:31mm 1fr;gap:1.3mm 4mm;margin:0 0 6mm;padding:3.6mm 4.5mm;background:#F6F7F9;border-radius:2mm}
-.d-details dt{color:var(--slate);font-size:8.4pt}
-.d-details dd{margin:0;font-size:8.9pt}
-.d-details dd.full{grid-column:1 / -1}
-table.d-items{width:100%;border-collapse:collapse}
+table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
+.d-items col.n{width:7mm}
+.d-items col.q{width:23mm}
+.d-items col.p{width:22mm}
+.d-items col.a{width:26mm}
 .d-items thead{display:table-header-group}
 .d-items th{font-size:6.8pt;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);font-weight:600;text-align:left;padding:0 0 2mm;border-bottom:.9pt solid var(--ink)}
-.d-items td{padding:2.8mm 0;border-bottom:.6pt solid var(--line);vertical-align:top}
+.d-items th.q,.d-items th.p,.d-items th.a{text-align:right}
+.d-items td{padding:2.3mm 0;border-bottom:.6pt solid var(--line);vertical-align:top}
 .d-items tr{break-inside:avoid}
-.d-items .n{width:7mm;color:var(--slate)}
-.d-items .q{width:12mm;text-align:right}
-.d-items .p,.d-items .a{width:27mm;text-align:right}
+.d-items td.n{color:var(--slate)}
+.d-items td.ds{padding-right:3mm}
+.d-items td.q,.d-items td.p,.d-items td.a{text-align:right;padding-left:2mm}
 .d-items td.a{font-weight:600}
 .d-it{font-weight:600}
-.d-dt{margin-top:.8mm;color:var(--graphite);font-size:8.4pt}
-.d-dt div{margin-top:.5mm}
-.d-totals{display:flex;justify-content:flex-end;margin-top:3.5mm;break-inside:avoid}
+.d-dt{margin-top:.7mm;color:var(--graphite);font-size:8.5pt}
+.d-dt div{margin-top:.3mm}
+.d-totals{display:flex;justify-content:flex-end;margin-top:3mm;break-inside:avoid}
 .d-totals table{width:82mm;border-collapse:collapse}
 .d-totals td{padding:1.2mm 0;color:var(--graphite)}
 .d-totals td:last-child{text-align:right}
 .d-totals tr.t td{border-top:1.2pt solid var(--ink);padding-top:2.4mm;color:var(--ink);font-weight:650;font-size:12.5pt}
-.d-ref{margin-top:1.2mm;font-size:8pt;color:var(--slate);text-align:right}
 .d-opt{margin-top:6mm;padding:3.2mm 4.5mm;border:.7pt dashed var(--line2);border-radius:2mm;break-inside:avoid}
 .d-opt table{width:100%;border-collapse:collapse}
 .d-opt td{padding:1.2mm 0;vertical-align:top}
-.d-opt td.a{text-align:right;width:40mm;font-weight:600}
-.d-cols{display:grid;grid-template-columns:1fr 1fr;gap:8mm;margin-top:3mm}
+.d-opt td.a{text-align:right;width:52mm;font-weight:600;padding-left:3mm}
+.d-cols{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:7mm;margin-top:1mm}
 .d-cols.one{grid-template-columns:1fr}
-.d-sec{margin-top:6mm;break-inside:avoid}
+.d-sec{margin-top:4mm;break-inside:avoid;font-size:8.8pt}
 .doc h4{margin:0 0 1.8mm;font-size:6.8pt;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);font-weight:600}
-.d-sec p{margin:0 0 1.2mm}
+.d-sec p{margin:0 0 .9mm}
 .d-list{margin:0;padding:0;list-style:none}
-.d-list li{position:relative;padding-left:4mm;margin-bottom:1.3mm}
+.d-list li{position:relative;padding-left:4mm;margin-bottom:1mm}
 .d-list li::before{content:"";position:absolute;left:0;top:.55em;width:1.5mm;height:1.5mm;border-radius:50%;background:var(--blue)}
 .d-list.minus li::before{background:none;border-top:.9pt solid var(--slate);border-radius:0;width:2mm;height:0;top:.72em}
 .d-pay{break-inside:avoid}
-.d-bank{margin-top:4mm;padding:4mm 5mm;background:var(--blue-tint);border-radius:2mm;break-inside:avoid}
+.d-bank{margin-top:3.5mm;padding:3.2mm 4.5mm 3mm;background:var(--blue-tint);border-radius:2mm;break-inside:avoid}
 .d-bank h4{color:var(--blue)}
-.d-bank dl{display:grid;grid-template-columns:33mm 1fr;gap:1.2mm 4mm;margin:0}
-.d-bank dt{color:var(--graphite);font-size:8.6pt}
-.d-bank dd{margin:0;font-weight:600}
-.d-bnote{margin-top:2mm!important;font-size:8.4pt;color:var(--graphite)}
-.d-foot{margin-top:9mm;padding-top:3mm;border-top:.6pt solid var(--line2);font-size:7.4pt;color:var(--slate);break-inside:avoid}
-.d-foot p{margin:0 0 .6mm}
-.d-foot .d-thanks{font-size:9pt;color:var(--ink);font-weight:600;margin-bottom:1.6mm}
-.d-stamp{position:absolute;top:42mm;right:16mm;transform:rotate(-8deg);border:2.2pt solid currentColor;border-radius:2mm;padding:1.6mm 4.5mm 1.2mm;font-size:16pt;font-weight:700;letter-spacing:.16em;line-height:1.1;text-align:center;opacity:.88}
+.d-bank .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2mm 5mm}
+.d-bank .full{grid-column:1 / -1}
+.d-bank .k{font-size:7.6pt;color:var(--graphite)}
+.d-bank .v{font-weight:600}
+.d-foot{margin-top:4.5mm;padding-top:2.6mm;border-top:.6pt solid var(--line2);font-size:7.4pt;color:var(--slate);break-inside:avoid}
+.d-foot p{margin:0 0 .5mm}
+.d-foot .d-top{display:flex;justify-content:space-between;align-items:baseline;gap:6mm;margin-bottom:.8mm}
+.d-foot .d-thanks{font-size:8.8pt;color:var(--ink);font-weight:600}
+.d-stamp{position:absolute;top:30mm;right:15mm;transform:rotate(-8deg);border:2.2pt solid currentColor;border-radius:2mm;padding:1.6mm 4.5mm 1.2mm;font-size:16pt;font-weight:700;letter-spacing:.16em;line-height:1.1;text-align:center;opacity:.88}
 .d-stamp small{display:block;font-size:7pt;letter-spacing:.04em;font-weight:600;margin-top:.6mm}
 .d-stamp.paid{color:var(--green)}
 .d-stamp.void{color:var(--red)}
 .d-stamp.accepted{color:var(--blue)}
+/* Korean labels read better without wide letter spacing */
+.doc:lang(ko) .d-lab,.doc:lang(ko) h4,.doc:lang(ko) .d-items th{letter-spacing:.03em;font-size:7.4pt}
+.doc:lang(ko) .d-kind{letter-spacing:.04em}
+.doc:lang(ko) .d-by{letter-spacing:.05em}
+.doc:lang(ko) .d-stamp{letter-spacing:.06em}
 
-/* ---------- Printing: only the document, on A4 ---------- */
-@page{size:A4;margin:14mm 14mm 15mm;@bottom-right{content:counter(page) " / " counter(pages);font-family:"Instrument Sans",Arial,sans-serif;font-size:7pt;color:#8A93A3}}
+/* ---------- Printing: only the chosen document, on A4 ---------- */
+@page{size:A4;margin:12mm 14mm 13mm;@bottom-right{content:counter(page) " / " counter(pages);font-family:"Instrument Sans",Arial,sans-serif;font-size:7pt;color:#8A93A3}}
 @media print{
   html,body{background:#fff}
-  .bar,#login,.notice,.toolbar,.editor,dialog{display:none!important}
+  .bar,#login,.notice,.toolbar,.steps,.editor,.review,dialog{display:none!important}
   main,#app,.workspace,.previewwrap,.preview{display:block!important;padding:0!important;margin:0!important;border:0!important;background:none!important}
   .doc{zoom:1!important;width:auto;min-height:0;padding:0;box-shadow:none}
-  .d-stamp{top:28mm;right:2mm}
+  .d-stamp{top:20mm;right:2mm}
 }
 </style>
 </head>
@@ -207,22 +246,22 @@ table.d-items{width:100%;border-collapse:collapse}
 <button type="button" id="newquote">새 견적서</button>
 <button type="button" id="newinvoice">새 인보이스</button>
 <button type="button" id="openlist">문서 목록</button>
-<button type="button" id="opensettings">회사·입금 정보</button>
+<button type="button" id="opensettings">기본정보 설정</button>
 <button type="button" id="importbtn">JSON 가져오기</button>
 <input type="file" id="importfile" accept=".json,application/json" hidden>
 <span class="spacer"></span>
 <span class="msg" id="msg" role="status"></span>
 </div>
+<ol class="steps" aria-label="진행 순서"><li id="st1">① 내용 입력</li><li id="st2">② 한국어·영어 미리보기 확인</li><li id="st3">③ 발행 후 언어별 PDF 저장</li></ol>
 
 <div class="workspace">
-<form class="editor" id="editor" autocomplete="off" novalidate>
+<form class="editor" id="editor" autocomplete="off" novalidate aria-label="내용 입력">
 <div class="ed-head">
 <div><span class="kind-badge" id="kindbadge">견적서</span> <strong id="numlabel"></strong></div>
 <label class="f inline"><span>상태</span><select data-k="status" id="status"></select></label>
 </div>
 <div class="ed-actions">
 <button type="button" class="primary" id="save">저장</button>
-<button type="button" id="print" title="인쇄 창에서 대상: PDF로 저장">PDF로 저장</button>
 <button type="button" id="toinvoice">인보이스로 만들기</button>
 <button type="button" id="duplicate">복제</button>
 <button type="button" id="export">JSON 내보내기</button>
@@ -230,68 +269,93 @@ table.d-items{width:100%;border-collapse:collapse}
 </div>
 
 <section class="ed">
-<h3>문서</h3>
+<h3>문서 <small>번호와 날짜는 자동으로 채워져요. 필요하면 고치세요</small></h3>
+<div class="g2">
+<label class="f"><span>문서 번호 <small id="numhint">자동</small></span><input id="numinput" data-k="number" maxlength="40" spellcheck="false"></label>
+<label class="f"><span>통화</span><select data-k="currency"><option value="USD">USD (미국 달러)</option><option value="KRW">KRW (원)</option></select></label>
+</div>
 <div class="g2">
 <label class="f"><span>발행일</span><input type="date" data-k="issue_date"></label>
-<label class="f"><span id="duelabel">유효 기한</span><input type="date" data-k="due_date"></label>
+<label class="f"><span id="duelabel">결제기한</span><input type="date" data-k="due_date"></label>
+</div>
+</section>
+
+<section class="ed">
+<h3>청구 대상</h3>
+<fieldset class="radios"><legend>고객 유형</legend>
+<label><input type="radio" name="ctype" value="person" data-k="client.type"> 개인</label>
+<label><input type="radio" name="ctype" value="company" data-k="client.type"> 회사</label>
+</fieldset>
+<div data-ctype="person"><label class="f"><span>고객 이름</span><input data-k="client.name"></label></div>
+<div data-ctype="company">
+<label class="f"><span>회사명 <small>청구 대상 첫 줄</small></span><input data-k="client.company"></label>
+<label class="f"><span>담당자 이름 <small>선택. 문서에 Attn: 으로 표시</small></span><input data-k="client.attn"></label>
 </div>
 <div class="g2">
-<label class="f"><span>통화</span><select data-k="currency"><option value="USD">USD (미국 달러)</option><option value="KRW">KRW (원)</option></select></label>
-<label class="f"><span>담당자 <small>From 아래 표시</small></span><input data-k="data.contact" placeholder="이름 · 이메일 · 전화"></label>
+<label class="f"><span>이메일 <small>선택</small></span><input type="email" data-k="client.email"></label>
+<label class="f"><span>전화 <small>선택</small></span><input type="tel" data-k="client.phone"></label>
 </div>
-<label class="f"><span>제목 <small>예: Private concierge in Seoul · December 1–5, 2026</small></span><input data-k="title" maxlength="200"></label>
+<label class="f"><span>주소 <small>선택. 줄바꿈 그대로</small></span><textarea data-k="client.address" rows="2"></textarea></label>
 </section>
 
 <section class="ed">
-<h3>고객</h3>
-<label class="f"><span>이름</span><input data-k="client.name"></label>
-<label class="f"><span>회사</span><input data-k="client.company"></label>
-<label class="f"><span>이메일</span><input data-k="client.email"></label>
-<label class="f"><span>주소·기타 <small>줄바꿈 그대로 표시</small></span><textarea data-k="client.address" rows="2"></textarea></label>
-</section>
-
-<section class="ed">
-<h3>서비스 정보 <small>한 줄에 하나, '항목: 내용'</small></h3>
-<label class="f"><textarea data-k="data.details" rows="5" placeholder="Hotel: hotel name, area&#10;Arrival: date · flight · time"></textarea></label>
-</section>
-
-<section class="ed">
-<h3>품목</h3>
+<h3>품목 <small>금액 = 수량 × 단가</small></h3>
 <div id="items"></div>
+<div class="addrow">
+<label class="f"><span>추가할 품목</span><select id="addtype"></select></label>
 <button type="button" id="additem">품목 추가</button>
-<div class="g2 mt">
-<label class="f"><span>할인 <small>금액</small></span><input type="number" step="any" min="0" data-k="data.discount"></label>
-<label class="f"><span>참고 금액 <small>합계 아래 작게</small></span><input data-k="data.reference" placeholder="Equivalent to KRW 1,000,000"></label>
+</div>
+<div class="g2">
+<label class="f"><span>할인 <small>금액. 선택</small></span><input type="number" step="any" min="0" data-k="data.discount"></label>
 </div>
 <p class="sum" id="sumline"></p>
 </section>
 
 <section class="ed">
-<h3>고객 안내</h3>
-<label class="f"><span>포함 사항 <small>한 줄에 하나</small></span><textarea data-k="data.included" rows="5"></textarea></label>
-<label class="f"><span>불포함 사항 <small>한 줄에 하나</small></span><textarea data-k="data.excluded" rows="3"></textarea></label>
-<label class="f"><span>결제 안내 <small>{total} {due} {number}는 자동으로 바뀜</small></span><textarea data-k="data.payment" rows="4"></textarea></label>
-<label class="f"><span>취소·환불</span><textarea data-k="data.cancellation" rows="4"></textarea></label>
-<label class="f"><span>기타 안내</span><textarea data-k="data.notes" rows="2"></textarea></label>
-<label class="check"><input type="checkbox" data-k="data.show_bank"> 입금 정보 표시 <small>회사·입금 정보에서 입력</small></label>
-<p class="warn" id="bankwarn" hidden>입금 정보가 비어 있어요. '회사·입금 정보'에서 은행과 계좌번호를 넣어 주세요.</p>
+<h3>문서 문구 <small>언어마다 따로 써요. 비워 둔 칸은 문서에 나오지 않아요</small></h3>
+<div id="textfields"></div>
+<label class="check"><input type="checkbox" data-k="data.show_bank"> 입금 정보 표시 <small>계좌는 기본정보 설정에서 관리</small></label>
+<p class="warn" id="bankwarn" hidden></p>
 </section>
 
 <section class="ed">
 <h3>내부 메모 <small>문서에 나오지 않음</small></h3>
-<label class="f"><textarea data-k="memo" rows="2"></textarea></label>
+<label class="f"><textarea data-k="memo" rows="2" aria-label="내부 메모"></textarea></label>
 </section>
 </form>
 
 <div class="previewwrap" id="previewwrap">
-<div class="preview"><article class="doc" id="doc" aria-label="문서 미리보기"></article></div>
+<section class="review" aria-labelledby="reviewh">
+<h2 id="reviewh">미리보기 확인과 발행</h2>
+<div class="tabs" role="tablist" aria-label="미리보기 언어">
+<button type="button" role="tab" id="tab-ko" aria-controls="doc-ko" aria-selected="true">한국어 미리보기</button>
+<button type="button" role="tab" id="tab-en" aria-controls="doc-en" aria-selected="false">English 미리보기</button>
+</div>
+<ul class="checks" id="checks" aria-label="확인할 것"></ul>
+<label class="check"><input type="checkbox" id="ok-ko"> 한국어 문서를 확인했어요</label>
+<label class="check"><input type="checkbox" id="ok-en"> English 문서를 확인했어요</label>
+<div class="acts">
+<button type="button" class="primary" id="issue">발행하기</button>
+<button type="button" id="pdf-ko">한국어 PDF 저장</button>
+<button type="button" id="pdf-en">English PDF 저장</button>
+</div>
+<div class="confirm" id="issueconfirm" role="group" aria-labelledby="issueq" hidden>
+<p id="issueq"></p>
+<div class="acts"><button type="button" class="primary" id="issueyes">발행 확정</button><button type="button" id="issueno">취소</button></div>
+</div>
+<p class="msg" id="reviewmsg"></p>
+</section>
+<div class="preview">
+<article class="doc" id="doc-ko" lang="ko" role="tabpanel" aria-labelledby="tab-ko"></article>
+<article class="doc" id="doc-en" lang="en" role="tabpanel" aria-labelledby="tab-en" hidden></article>
+</div>
 </div>
 </div>
 </div>
 </main>
 
 <dialog class="dlg wide" id="listdlg">
-<div class="dlg-head"><h2>문서 목록</h2><input id="listq" type="search" placeholder="번호, 고객, 제목 검색"><button type="button" data-close>닫기</button></div>
+<div class="dlg-head"><h2>문서 목록</h2><input id="listq" type="search" placeholder="번호, 고객, 제목 검색" aria-label="문서 검색"><button type="button" data-close>닫기</button></div>
 <div class="dlg-body">
 <table class="list"><thead><tr><th>번호</th><th>고객 · 제목</th><th class="num">금액</th><th>상태</th><th>발행일</th></tr></thead><tbody id="listrows"></tbody></table>
 <p class="msg" id="listmsg"></p>
@@ -299,39 +363,54 @@ table.d-items{width:100%;border-collapse:collapse}
 </dialog>
 
 <dialog class="dlg" id="settingsdlg">
-<div class="dlg-head"><h2>회사·입금 정보</h2><button type="button" data-close>닫기</button></div>
+<div class="dlg-head"><h2>기본정보 설정</h2><button type="button" data-close>닫기</button></div>
 <div class="dlg-body">
-<p class="sub">모든 문서에 들어가요. 관리자만 볼 수 있는 DB에 저장되고, 사이트 코드에는 들어가지 않아요.</p>
-<h3>회사</h3>
+<p class="sub">새 문서에 자동으로 채워져요. 관리자만 볼 수 있는 DB에 저장되고, 사이트 코드에는 들어가지 않아요. 이미 발행한 문서는 발행할 때의 정보 그대로 남아요.</p>
+<h3>발행인</h3>
 <div class="g2">
-<label class="f"><span>회사명</span><input data-s="issuer.company"></label>
-<label class="f"><span>서비스 이름</span><input data-s="issuer.brand"></label>
+<label class="f"><span>회사명 · 한국어</span><input data-s="issuer.company.ko"></label>
+<label class="f"><span>회사명 · English</span><input data-s="issuer.company.en"></label>
 </div>
 <div class="g2">
-<label class="f"><span>대표자</span><input data-s="issuer.representative"></label>
+<label class="f"><span>서비스 이름 · 한국어</span><input data-s="issuer.brand.ko"></label>
+<label class="f"><span>서비스 이름 · English</span><input data-s="issuer.brand.en"></label>
+</div>
+<div class="g2">
+<label class="f"><span>대표자 · 한국어</span><input data-s="issuer.representative.ko"></label>
+<label class="f"><span>대표자 · English</span><input data-s="issuer.representative.en"></label>
+</div>
+<label class="f"><span>주소 · 한국어</span><input data-s="issuer.address.ko"></label>
+<label class="f"><span>주소 · English</span><input data-s="issuer.address.en"></label>
+<div class="g2">
 <label class="f"><span>사업자등록번호</span><input data-s="issuer.registration"></label>
-</div>
-<label class="f"><span>주소</span><input data-s="issuer.address"></label>
-<div class="g2">
-<label class="f"><span>통신판매업 신고번호</span><input data-s="issuer.ecommerce"></label>
 <label class="f"><span>웹사이트</span><input data-s="issuer.website"></label>
+</div>
+<div class="g2">
+<label class="f"><span>통신판매업 신고번호 · 한국어</span><input data-s="issuer.ecommerce.ko"></label>
+<label class="f"><span>통신판매업 신고번호 · English</span><input data-s="issuer.ecommerce.en"></label>
 </div>
 <div class="g2">
 <label class="f"><span>이메일</span><input data-s="issuer.email"></label>
 <label class="f"><span>전화</span><input data-s="issuer.phone"></label>
 </div>
-<label class="f"><span>새 문서 기본 담당자 <small>이름 · 이메일 · 전화</small></span><input data-s="contact"></label>
-<h3>입금 계좌 (해외 송금용, 영문)</h3>
+<h3>새 문서 기본값</h3>
+<label class="f"><span>우리 담당자 · 한국어 <small>이름 · 이메일 · 전화</small></span><input data-s="prefs.contact.ko"></label>
+<label class="f"><span>우리 담당자 · English</span><input data-s="prefs.contact.en"></label>
 <div class="g2">
-<label class="f"><span>은행</span><input data-s="bank.bank"></label>
-<label class="f"><span>SWIFT/BIC</span><input data-s="bank.swift"></label>
+<label class="f"><span>인보이스 결제기한 <small>발행일부터 며칠</small></span><input type="number" min="0" max="365" step="1" data-s="prefs.invoice_days"></label>
+<label class="f"><span>견적서 유효기한 <small>발행일부터 며칠</small></span><input type="number" min="0" max="365" step="1" data-s="prefs.quote_days"></label>
+</div>
+<h3>입금 계좌 <small>해외 송금용, 영문</small></h3>
+<div class="g2">
+<label class="f"><span>은행 (Bank)</span><input data-s="bank.bank"></label>
+<label class="f"><span>예금주 (Account holder)</span><input data-s="bank.holder"></label>
 </div>
 <div class="g2">
-<label class="f"><span>예금주</span><input data-s="bank.holder"></label>
-<label class="f"><span>계좌번호</span><input data-s="bank.account" inputmode="numeric"></label>
+<label class="f"><span>계좌번호 (Account number)</span><input data-s="bank.account" inputmode="numeric"></label>
+<label class="f"><span>SWIFT / BIC</span><input data-s="bank.swift"></label>
 </div>
 <label class="f"><span>은행 주소 <small>선택</small></span><input data-s="bank.address"></label>
-<label class="f"><span>추가 안내 <small>선택, 입금 정보 아래 표시</small></span><input data-s="bank.note"></label>
+<label class="f"><span>송금 수수료 (Bank charges)</span><select data-s="prefs.charges"><option value="OUR">송금인 부담 (OUR)</option><option value="SHA">나누어 부담 (SHA)</option><option value="BEN">수취인 부담 (BEN)</option></select></label>
 </div>
 <div class="dlg-foot"><button type="button" class="primary" id="savesettings">저장</button><span class="msg" id="settingsmsg"></span></div>
 </dialog>
@@ -347,28 +426,101 @@ table.d-items{width:100%;border-collapse:collapse}
   var $ = function (id) { return document.getElementById(id); };
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
 
+  var LANGS = ['ko', 'en'];
+  var LANG_NAME = { ko: '한국어', en: 'English' };
+  var FILE_TAG = { ko: 'KR', en: 'EN' };
   var KIND = {
-    quote: { ko: '견적서', en: 'Quotation', head: 'QUOTATION', due: '유효 기한', dueEn: 'Valid until', totalEn: 'Total', partyEn: 'Prepared for', days: 7, prefix: 'Q', statuses: ['draft', 'issued', 'accepted', 'void'] },
-    invoice: { ko: '인보이스', en: 'Invoice', head: 'INVOICE', due: '납부 기한', dueEn: 'Payment due', totalEn: 'Amount due', partyEn: 'Bill to', days: 3, prefix: 'INV', statuses: ['draft', 'issued', 'paid', 'void'] }
+    quote: { ko: '견적서', en: 'Quotation', prefix: 'Q', due: '유효기한', daysKey: 'quote_days', statuses: ['draft', 'issued', 'accepted', 'void'] },
+    invoice: { ko: '인보이스', en: 'Invoice', prefix: 'INV', due: '결제기한', daysKey: 'invoice_days', statuses: ['draft', 'issued', 'paid', 'void'] }
   };
   var STATUS = { draft: '초안', issued: '발행함', accepted: '수락됨', paid: '결제 완료', void: '무효' };
-  var STAMP = { accepted: 'ACCEPTED', paid: 'PAID', void: 'VOID' };
-  // Public company details, as shown in the site footer. Bank details are entered in the page, never here.
-  var ISSUER = { company: 'Whaleland', brand: 'Haedurio', representative: 'Jeonghu Kim', registration: '428-04-03222', ecommerce: '2025-Seoul Gangnam-04140', address: 'Eonju-ro 425, Gangnam-gu, Seoul, Republic of Korea', email: 'contact@whalelandkr.com', phone: '+82 10-4982-4357', website: 'www.haedurio.com' };
-  var TEXT = {
-    quote_payment: 'Full payment in advance by bank transfer confirms the service and reserves our team. We will send an invoice with our bank details.',
-    invoice_payment: 'Please transfer {total} by {due} (KST). Choose “OUR” as the charge option so that the full amount reaches us, and write {number} as the payment reference. Let us know once you have sent it and we will confirm receipt.',
-    excluded: 'Treatments, meals, admission fees and other third-party costs'
+
+  // Service items. To offer a new kind of item, add it here. Each document can still change the name, unit and price.
+  // No item has a default price: the price is entered for each quote or invoice.
+  var SERVICES = {
+    concierge: { label: '컨시어지 서비스', basis: '이용 일수', ko: { name: '컨시어지 서비스', unit: ['일', '일'] }, en: { name: 'Concierge service', unit: ['day', 'days'] } },
+    pickup: { label: '공항 픽업', basis: '이용 횟수', ko: { name: '공항 픽업', unit: ['회', '회'] }, en: { name: 'Airport pickup', unit: ['trip', 'trips'] } },
+    dropoff: { label: '공항 샌딩', basis: '이용 횟수', ko: { name: '공항 샌딩', unit: ['회', '회'] }, en: { name: 'Airport drop-off', unit: ['trip', 'trips'] } },
+    pickup_dropoff: { label: '공항 픽업 및 샌딩', basis: '왕복 묶음 수', ko: { name: '공항 픽업 및 샌딩', unit: ['묶음', '묶음'] }, en: { name: 'Airport pickup and drop-off', unit: ['round trip', 'round trips'] } },
+    custom: { label: '직접 입력', basis: '수량', ko: { name: '', unit: ['', ''] }, en: { name: '', unit: ['', ''] } }
+  };
+
+  // Texts written per document, in each language. Empty ones are left out of the document entirely.
+  var TEXT_FIELDS = [
+    { k: 'title', label: '제목', hint: '선택. 품목 표 위에 표시', rows: 1 },
+    { k: 'contact', label: '우리 담당자', hint: '발행인 아래 표시. 이름 · 이메일 · 전화', rows: 1 },
+    { k: 'included', label: '포함 사항', hint: '한 줄에 하나', rows: 4 },
+    { k: 'excluded', label: '별도 비용', hint: '한 줄에 하나. 문서에는 불포함 사항으로 표시', rows: 3 },
+    { k: 'terms', label: '결제 조건', hint: '선택. 짧게', rows: 2 },
+    { k: 'cancellation', label: '취소·환불', hint: '한 줄에 한 문장', rows: 3 },
+    { k: 'notes', label: '특이사항', hint: '선택. 비워 두면 문서에 나오지 않아요', rows: 2 }
+  ];
+  // Starting texts for a new document. They never say that a transfer or a trip is excluded.
+  var TEMPLATE = {
+    excluded: { ko: '시술, 식사, 입장료 등 외부 업체 비용', en: 'Treatments, meals, admission fees and other third-party costs' },
+    terms: {
+      quote: { ko: '은행 송금으로 전액을 미리 결제하시면 서비스가 확정되고 담당 팀이 배정됩니다. 입금 정보는 인보이스로 보내 드립니다.', en: 'Full payment in advance by bank transfer confirms the service and reserves our team. We will send an invoice with our bank details.' },
+      invoice: { ko: '', en: '' }
+    }
+  };
+  // Public company details, as shown in the site footer. Bank details are never in this file:
+  // they are kept in 기본정보 설정 (the admin-only billing_settings table).
+  var DEFAULTS = {
+    issuer: {
+      company: { ko: '웨일랜드', en: 'Whaleland' },
+      brand: { ko: '해드리오', en: 'Haedurio' },
+      representative: { ko: '김정후', en: 'Jeonghu Kim' },
+      address: { ko: '서울특별시 강남구 언주로 425', en: 'Eonju-ro 425, Gangnam-gu, Seoul, Republic of Korea' },
+      registration: '428-04-03222',
+      ecommerce: { ko: '2025-서울강남-04140', en: '2025-Seoul Gangnam-04140' },
+      email: 'contact@whalelandkr.com', phone: '+82 10-4982-4357', website: 'www.haedurio.com'
+    },
+    prefs: { charges: 'OUR', invoice_days: 3, quote_days: 7 }
   };
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+  // Words printed on the documents.
+  var L = {
+    en: {
+      head: { quote: 'QUOTATION', invoice: 'INVOICE' }, no: 'No. ', issue: 'Issue date', due: { quote: 'Valid until', invoice: 'Payment due' },
+      total: { quote: 'Total', invoice: 'Amount due' }, from: 'From', to: { quote: 'Prepared for', invoice: 'Bill to' },
+      attn: 'Attn: ', contact: 'Your contact: ', reg: 'Business registration no. ', rep: 'Representative: ', ecom: 'E-commerce registration ',
+      cols: ['#', 'Description', 'Qty', 'Unit price', 'Amount'], subtotal: 'Subtotal', discount: 'Discount',
+      optional: 'Optional, not included in the total', included: 'Included', excluded: 'Not included', terms: 'Payment terms',
+      bankTitle: 'Bank transfer details', bank: 'Bank', holder: 'Account holder', account: 'Account number', swift: 'SWIFT / BIC', bankAddress: 'Bank address',
+      charges: 'Bank charges', chargeText: { OUR: 'Sender (OUR)', SHA: 'Shared (SHA)', BEN: 'Recipient (BEN)' }, reference: 'Payment reference',
+      cancel: 'Cancellation and refunds', notes: 'Notes', stamp: { paid: 'PAID', void: 'VOID', accepted: 'ACCEPTED' },
+      by: function (I) { return 'Seoul concierge by ' + I.company.en; },
+      thanks: function (I) { return 'Thank you for choosing ' + (I.brand.en || 'us') + '.'; },
+      date: function (iso) { if (!iso) return ''; var p = String(iso).split('-'); return MONTHS[+p[1] - 1] + ' ' + (+p[2]) + ', ' + p[0]; },
+      qty: function (q, u) { return u ? q + ' ' + u : q; }
+    },
+    ko: {
+      head: { quote: '견적서', invoice: '인보이스' }, no: '번호 ', issue: '발행일', due: { quote: '유효기한', invoice: '결제기한' },
+      total: { quote: '합계', invoice: '청구 금액' }, from: '발행인', to: { quote: '견적 대상', invoice: '청구 대상' },
+      attn: '담당자: ', contact: '문의: ', reg: '사업자등록번호 ', rep: '대표자 ', ecom: '통신판매업 신고 ',
+      cols: ['#', '품목', '수량', '단가', '금액'], subtotal: '소계', discount: '할인',
+      optional: '선택 품목 (합계에 포함되지 않음)', included: '포함 사항', excluded: '불포함 사항 (별도 비용)', terms: '결제 조건',
+      bankTitle: '입금 정보', bank: '은행', holder: '예금주', account: '계좌번호', swift: 'SWIFT / BIC', bankAddress: '은행 주소',
+      charges: '송금 수수료', chargeText: { OUR: '송금인 부담 (OUR)', SHA: '나누어 부담 (SHA)', BEN: '수취인 부담 (BEN)' }, reference: '송금 참조',
+      cancel: '취소·환불', notes: '특이사항', stamp: { paid: '결제 완료', void: '무효', accepted: '수락됨' },
+      by: function (I) { return '서울 컨시어지 · ' + I.company.ko; },
+      thanks: function () { return '이용해 주셔서 감사합니다.'; },
+      date: function (iso) { if (!iso) return ''; var p = String(iso).split('-'); return p[0] + '년 ' + (+p[1]) + '월 ' + (+p[2]) + '일'; },
+      qty: function (q, u) { return u ? q + u : q; }
+    }
+  };
   var LS = { docs: 'hd_billing_docs', settings: 'hd_billing_settings' };
 
-  var settings = { issuer: Object.assign({}, ISSUER), bank: {}, contact: '' };
-  var mode = 'db';        // 'local' while the tables have not been created yet
-  var doc = null;         // the document on screen
+  var settings = normSettings(null);
+  var mode = 'db';          // 'local' while the tables have not been created yet
+  var doc = null;           // the document on screen
   var dirty = false;
   var booted = false;
   var listCache = [];
+  var numbers = {};         // document number -> id, to propose the next number and catch duplicates
+  var reviewed = { ko: false, en: false };
+  var shown = 'ko';
 
   /* ---------- Small helpers ---------- */
   function h(tag, attrs, kids) {
@@ -388,7 +540,6 @@ table.d-items{width:100%;border-collapse:collapse}
   function kstToday() { return new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10); }
   function kstDate(ts) { return new Date(new Date(ts).getTime() + 9 * 3600e3).toISOString().slice(0, 10); }
   function addDays(iso, n) { var d = new Date(iso + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); }
-  function longDate(iso) { if (!iso) return '—'; var p = String(iso).split('-'); return MONTHS[+p[1] - 1] + ' ' + (+p[2]) + ', ' + p[0]; }
   function dec(cur) { return cur === 'KRW' ? 0 : 2; }
   function round(n, cur) { var f = Math.pow(10, dec(cur)); return Math.round(+((+n || 0) * f).toPrecision(12)) / f; }
   function num(n, cur) { return (+n || 0).toLocaleString('en-US', { minimumFractionDigits: dec(cur), maximumFractionDigits: dec(cur) }); }
@@ -402,15 +553,48 @@ table.d-items{width:100%;border-collapse:collapse}
     var disc = Math.max(0, Math.min(round(d.data.discount, cur), sub));
     return { sub: sub, disc: disc, total: round(sub - disc, cur), opt: round(opt, cur) };
   }
-  function fill(text, d, t) {
-    return String(text || '')
-      .replace(/\{total\}/g, money(t.total, d.currency))
-      .replace(/\{due\}/g, longDate(d.due_date))
-      .replace(/\{number\}/g, d.number || 'the document number')
-      .replace(/\{issue\}/g, longDate(d.issue_date));
-  }
   function setMsg(text, err) { var m = $('msg'); m.textContent = text || ''; m.className = 'msg' + (err ? ' err' : ''); }
   function errText(e) { return (e && (e.message || e.error_description)) || String(e); }
+  function uid() { return 'i' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  function str(v, def) { return v == null ? (def == null ? '' : String(def)) : String(v); }
+  // A text kept in both languages. Older documents and settings were in English only.
+  function bi(v, def) {
+    def = def || { ko: '', en: '' };
+    if (v && typeof v === 'object') return { ko: str(v.ko, def.ko), en: str(v.en, def.en) };
+    if (typeof v === 'string') return { ko: str(def.ko), en: v };
+    return { ko: str(def.ko), en: str(def.en) };
+  }
+  function intIn(v, def) { var n = parseInt(v, 10); return n >= 0 && n <= 365 ? n : def; }
+  function dueDays(kind) { return settings.prefs[KIND[kind].daysKey]; }
+  function isLocked() { return !!(doc && doc.savedStatus && doc.savedStatus !== 'draft'); }
+  function clientLabel(c) {
+    c = c || {};
+    var type = c.type || (c.company ? 'company' : 'person');
+    return type === 'company' ? [c.company, c.attn].filter(Boolean).join(' · ') : str(c.name);
+  }
+
+  /* ---------- Settings (기본정보) ---------- */
+  function normSettings(s) {
+    s = s || {};
+    var I = s.issuer || {}, D = DEFAULTS.issuer, B = s.bank || {}, P = s.prefs || {};
+    return {
+      issuer: {
+        company: bi(I.company, D.company), brand: bi(I.brand, D.brand), representative: bi(I.representative, D.representative),
+        address: bi(I.address, D.address), registration: str(I.registration, D.registration), ecommerce: bi(I.ecommerce, D.ecommerce),
+        email: str(I.email, D.email), phone: str(I.phone, D.phone), website: str(I.website, D.website)
+      },
+      bank: { bank: str(B.bank), holder: str(B.holder), account: str(B.account), swift: str(B.swift), address: str(B.address) },
+      prefs: {
+        contact: bi(P.contact != null ? P.contact : (s.contact ? { ko: '', en: s.contact } : null)),
+        charges: /^(OUR|SHA|BEN)$/.test(P.charges) ? P.charges : DEFAULTS.prefs.charges,
+        invoice_days: intIn(P.invoice_days, DEFAULTS.prefs.invoice_days),
+        quote_days: intIn(P.quote_days, DEFAULTS.prefs.quote_days)
+      }
+    };
+  }
+  // A document shows the settings of the day it was issued; drafts follow the current settings.
+  function basics(d) { return d.data.snapshot ? normSettings(d.data.snapshot) : settings; }
+  function bankComplete(B) { return !!(B.bank && B.holder && B.account && B.swift); }
 
   /* ---------- Storage: Supabase, or this browser until the SQL has been run ---------- */
   // Only "this table does not exist" switches to browser storage, and only when the page starts.
@@ -418,21 +602,21 @@ table.d-items{width:100%;border-collapse:collapse}
   function missing(err) { return !!err && (/^(PGRST205|42P01)$/.test(err.code || '') || /could not find the table/i.test(err.message || '')); }
   function lsGet(k, fallback) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : fallback; } catch (e) { return fallback; } }
   function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } }
+  function duplicateError(no) { var e = new Error('number ' + no + ' already exists'); e.code = '23505'; return e; }
 
   var local = {
     all: function () { return lsGet(LS.docs, []); },
     get: function (id) { return local.all().filter(function (x) { return x.id === id; })[0] || null; },
     save: function (id, row) {
       var list = local.all(), now = new Date().toISOString(), rec;
+      if (list.some(function (x) { return x.number === row.number && x.id !== id; })) throw duplicateError(row.number);
       if (id) {
         var i = list.findIndex(function (x) { return x.id === id; });
         if (i < 0) throw new Error('문서를 찾지 못했어요.');
-        rec = Object.assign(list[i], row, { id: id, number: list[i].number, kind: list[i].kind, updated_at: now });
+        var keep = list[i].status !== 'draft';  // issued documents keep their number
+        rec = Object.assign(list[i], row, { id: id, kind: list[i].kind, number: keep ? list[i].number : row.number, updated_at: now });
       } else {
-        var year = String(row.issue_date || kstToday()).slice(0, 4), p = KIND[row.kind].prefix, key = 'hd_billing_counter_' + p + '_' + year;
-        var n = (+lsGet(key, 0) || 0) + 1;
-        lsSet(key, n);
-        rec = Object.assign({ id: 'L' + Date.now(), number: p + '-' + year + '-L' + String(n).padStart(3, '0'), created_at: now, updated_at: now }, row);
+        rec = Object.assign({ id: 'L' + Date.now(), created_at: now, updated_at: now }, row);
         list.unshift(rec);
       }
       if (!lsSet(LS.docs, list)) throw new Error('브라우저에 저장하지 못했어요.');
@@ -460,17 +644,27 @@ table.d-items{width:100%;border-collapse:collapse}
       if (r.error) throw r.error;
       return mine.concat(r.data || []);
     },
+    numbers: async function () {
+      var map = {};
+      local.all().forEach(function (x) { if (x.number) map[x.number] = String(x.id); });
+      if (mode === 'db') {
+        var r = await sb.from('billing_docs').select('id,number').limit(5000);
+        if (r.error) throw r.error;
+        (r.data || []).forEach(function (x) { if (x.number) map[x.number] = String(x.id); });
+      }
+      return map;
+    },
     get: async function (id) {
       if (isLocalId(id)) return local.get(id);
       var r = await sb.from('billing_docs').select('*').eq('id', id).single();
       if (r.error) throw r.error;
       return r.data;
     },
-    save: async function (id, row, number) {
+    save: async function (id, row) {
       if (mode === 'local') return local.save(id, row);
       var r;
       if (isLocalId(id)) {
-        r = await sb.from('billing_docs').insert(Object.assign({}, row, { number: number })).select('*').single();
+        r = await sb.from('billing_docs').insert(row).select('*').single();
         if (r.error) throw r.error;
         local.remove(id);
         return r.data;
@@ -493,131 +687,251 @@ table.d-items{width:100%;border-collapse:collapse}
     },
     saveSettings: async function (s) {
       if (mode === 'local') { if (!lsSet(LS.settings, s)) throw new Error('브라우저에 저장하지 못했어요.'); return; }
-      var r = await sb.from('billing_settings').upsert({ id: 1, issuer: s.issuer, bank: s.bank, contact: s.contact || null });
+      var r = await sb.from('billing_settings').upsert({ id: 1, issuer: s.issuer, bank: s.bank, prefs: s.prefs });
       if (r.error) throw r.error;
     }
   };
 
+  /* ---------- Document numbers ---------- */
+  // The next number after the highest one used this year: Q-2026-0001, INV-2026-0001.
+  function proposeNumber(kind, iso, selfId) {
+    var p = KIND[kind].prefix, year = String(iso || kstToday()).slice(0, 4), re = new RegExp('^' + p + '-' + year + '-(\\d+)$'), max = 0;
+    Object.keys(numbers).forEach(function (n) { var m = re.exec(n); if (m && numbers[n] !== String(selfId)) max = Math.max(max, +m[1]); });
+    return p + '-' + year + '-' + String(max + 1).padStart(4, '0');
+  }
+  function numberTaken(no, id) { return !!no && numbers[no] != null && numbers[no] !== String(id); }
+  function docNumber() { return doc.number || proposeNumber(doc.kind, doc.issue_date, doc.id); }
+  function forgetId(id) { Object.keys(numbers).forEach(function (n) { if (numbers[n] === String(id)) delete numbers[n]; }); }
+
   /* ---------- Document model ---------- */
-  function blankItem() { return { title: '', detail: '', qty: 1, price: 0, optional: false }; }
+  function unitFor(type, lang, qty) { var u = (SERVICES[type] || SERVICES.custom)[lang].unit; return +qty === 1 ? u[0] : u[1]; }
+  function newItem(type) {
+    type = SERVICES[type] ? type : 'custom';
+    var s = SERVICES[type], it = { id: uid(), type: type, qty: 1, price: 0, optional: false, unitAuto: { ko: true, en: true } };
+    LANGS.forEach(function (l) { it[l] = { name: s[l].name, unit: unitFor(type, l, 1), details: '' }; });
+    return it;
+  }
+  function normItem(x) {
+    x = x || {};
+    if (x.ko || x.en) {
+      var it = { id: x.id || uid(), type: SERVICES[x.type] ? x.type : 'custom', qty: +x.qty || 0, price: +x.price || 0, optional: !!x.optional, unitAuto: { ko: !!(x.unitAuto && x.unitAuto.ko), en: !!(x.unitAuto && x.unitAuto.en) } };
+      LANGS.forEach(function (l) { var t = x[l] || {}; it[l] = { name: str(t.name), unit: str(t.unit), details: str(t.details) }; });
+      return it;
+    }
+    // First version: one English title and description per item.
+    return { id: uid(), type: 'custom', qty: +x.qty || 0, price: +x.price || 0, optional: !!x.optional, unitAuto: { ko: false, en: false },
+      ko: { name: '', unit: '', details: '' }, en: { name: str(x.title), unit: '', details: str(x.detail) } };
+  }
   function blank(kind) {
     var today = kstToday();
     return {
-      id: null, kind: kind, number: null, status: 'draft', currency: 'USD',
-      issue_date: today, due_date: addDays(today, KIND[kind].days), title: '',
-      client: { name: '', company: '', email: '', address: '' },
+      id: null, kind: kind, number: '', numberAuto: true, status: 'draft', currency: 'USD',
+      issue_date: today, due_date: addDays(today, dueDays(kind)), dueAuto: true,
+      client: { type: 'person', name: '', company: '', attn: '', email: '', phone: '', address: '' },
       data: {
-        contact: settings.contact || '', details: '', items: [blankItem()], discount: 0, reference: '',
-        included: '', excluded: TEXT.excluded,
-        payment: kind === 'invoice' ? TEXT.invoice_payment : TEXT.quote_payment,
-        cancellation: '', notes: '', show_bank: kind === 'invoice'
+        v: 2, title: bi(), contact: bi(settings.prefs.contact), items: [], discount: 0,
+        included: bi(), excluded: bi(TEMPLATE.excluded), terms: bi(TEMPLATE.terms[kind]), cancellation: bi(), notes: bi(),
+        show_bank: kind === 'invoice'
       },
-      source_id: null, memo: '', paid_at: null
+      source_id: null, memo: '', paid_at: null, savedStatus: null
     };
   }
   function normalize(row) {
-    var kind = KIND[row.kind] ? row.kind : 'quote', d = blank(kind);
-    ['id', 'number', 'status', 'currency', 'issue_date', 'title', 'source_id', 'memo', 'paid_at'].forEach(function (k) { if (row[k] != null) d[k] = row[k]; });
+    var kind = KIND[row.kind] ? row.kind : 'quote', d = blank(kind), data = row.data || {}, c = row.client || {};
+    ['id', 'status', 'currency', 'issue_date', 'source_id', 'memo', 'paid_at'].forEach(function (k) { if (row[k] != null) d[k] = row[k]; });
     if (row.due_date !== undefined) d.due_date = row.due_date || '';
-    d.client = Object.assign(d.client, row.client || {});
-    var data = row.data || {};
-    d.data = Object.assign(d.data, data);
-    d.data.items = (Array.isArray(data.items) && data.items.length ? data.items : [blankItem()]).map(function (it) {
-      return { title: String(it.title || ''), detail: String(it.detail || ''), qty: +it.qty || 0, price: +it.price || 0, optional: !!it.optional };
-    });
-    d.data.discount = +d.data.discount || 0;
-    d.data.show_bank = !!d.data.show_bank;
+    d.dueAuto = !row.id && row.due_date == null;
+    d.number = str(row.number).trim();
+    d.numberAuto = !d.number;
+    var type = c.type === 'company' || c.type === 'person' ? c.type : (c.company ? 'company' : 'person');
+    d.client = {
+      type: type, name: str(c.name), company: str(c.company),
+      attn: c.attn != null ? str(c.attn) : (type === 'company' ? str(c.name) : ''),
+      email: str(c.email), phone: str(c.phone), address: str(c.address)
+    };
+    var first = data.v !== 2;
+    d.data.title = data.title != null ? bi(data.title) : bi(row.title || '');
+    ['contact', 'included', 'excluded', 'terms', 'cancellation', 'notes'].forEach(function (k) { if (data[k] != null) d.data[k] = bi(data[k]); });
+    // The first version had a long payment paragraph; invoices now show the bank details and payment reference instead.
+    if (first) d.data.terms = kind === 'quote' && data.payment ? bi(data.payment) : bi();
+    d.data.items = (Array.isArray(data.items) ? data.items : []).map(normItem);
+    if (kind === 'invoice') d.data.items.forEach(function (it) { it.optional = false; });
+    d.data.discount = +data.discount || 0;
+    d.data.show_bank = data.show_bank != null ? !!data.show_bank : kind === 'invoice';
+    if (data.snapshot) d.data.snapshot = data.snapshot;
+    d.oldDetails = first && lines(data.details).length > 0;  // the first version's trip table is no longer printed
     if (KIND[kind].statuses.indexOf(d.status) < 0) d.status = 'draft';
     if (d.currency !== 'KRW') d.currency = 'USD';
-    d.savedStatus = row.id ? d.status : null;  // what is stored; decides delete and the status choices
+    d.savedStatus = row.id ? d.status : null;
     return d;
   }
 
   /* ---------- Editor ---------- */
+  (function buildStatic() {
+    var box = $('textfields');
+    TEXT_FIELDS.forEach(function (f) {
+      LANGS.forEach(function (l) {
+        var attrs = { 'data-k': 'data.' + f.k + '.' + l, lang: l };
+        var input = f.rows > 1 ? h('textarea', Object.assign({ rows: f.rows }, attrs)) : h('input', attrs);
+        box.appendChild(h('label', { class: 'f' }, [h('span', null, [f.label + ' · ' + LANG_NAME[l], l === 'ko' && f.hint ? h('small', { text: f.hint }) : null]), input]));
+      });
+    });
+    var sel = $('addtype');
+    Object.keys(SERVICES).forEach(function (k) { sel.appendChild(h('option', { value: k, text: SERVICES[k].label + (k === 'custom' ? '' : ' · ' + SERVICES[k].basis) })); });
+  })();
+
+  function editorField(k) { return $('editor').querySelector('[data-k="' + k + '"]'); }
+  // Text boxes grow with their text, so nothing typed is hidden behind a scroll bar.
+  function autosize(el) { if (!el.offsetParent) return; el.style.height = 'auto'; el.style.height = (el.scrollHeight + 2) + 'px'; }
+  function autosizeAll() { $$('#editor textarea').forEach(autosize); }
+  function updateNumberHint() {
+    $('numhint').textContent = isLocked() ? '발행 후 고정' : (doc.numberAuto ? '자동' : '직접 입력');
+    $('numlabel').textContent = docNumber();
+  }
+  function showClientType() { var t = doc.client.type; $$('[data-ctype]').forEach(function (el) { el.hidden = el.dataset.ctype !== t; }); }
+
   function fillForm() {
-    var k = KIND[doc.kind];
+    var k = KIND[doc.kind], locked = isLocked();
     $('kindbadge').textContent = k.ko;
     $('kindbadge').className = 'kind-badge ' + doc.kind;
-    $('numlabel').textContent = doc.number || '저장하면 번호가 붙어요';
     $('duelabel').textContent = k.due;
-    // Once a document has been issued it can't go back to draft; it can be marked void instead.
+    // A draft leaves draft only through 발행하기. After that: paid / accepted / void.
     var st = $('status');
     st.textContent = '';
-    k.statuses.forEach(function (s) {
-      if (s === 'draft' && doc.savedStatus && doc.savedStatus !== 'draft') return;
-      st.appendChild(h('option', { value: s, text: STATUS[s] }));
-    });
+    if (!locked) st.appendChild(h('option', { value: 'draft', text: STATUS.draft }));
+    else k.statuses.forEach(function (s) { if (s !== 'draft') st.appendChild(h('option', { value: s, text: STATUS[s] })); });
+    st.disabled = !locked;
+    if (!doc.number) doc.number = proposeNumber(doc.kind, doc.issue_date, doc.id);
     $$('#editor [data-k]').forEach(function (el) {
       var v = getPath(doc, el.dataset.k);
-      if (el.type === 'checkbox') el.checked = !!v; else el.value = v == null ? '' : v;
+      if (el.type === 'radio') el.checked = el.value === v;
+      else if (el.type === 'checkbox') el.checked = !!v;
+      else el.value = v == null ? '' : v;
     });
+    $('numinput').readOnly = locked;
+    updateNumberHint();
     $('toinvoice').hidden = doc.kind !== 'quote';
     $('remove').hidden = !(doc.id && doc.savedStatus === 'draft');
+    showClientType();
     renderItems();
     updateSum();
+    autosizeAll();
   }
 
-  function itemAmountText(it) { return (it.optional ? '선택 사항 · ' : '') + money(lineAmount(it, doc.currency), doc.currency); }
-  function field(label, input, hint) { return h('label', { class: 'f' }, [h('span', null, [label, hint ? h('small', { text: hint }) : null]), input]); }
-  function itemButton(text, act, i, label) { return h('button', { type: 'button', 'data-act': act, 'data-i': i, 'aria-label': label || null, title: label || null, text: text }); }
-
+  function field(label, input) { return h('label', { class: 'f' }, [h('span', { text: label }), input]); }
+  function itemButton(text, act, i, label) { return h('button', { type: 'button', 'data-act': act, 'data-i': i, 'aria-label': label, title: label, text: text }); }
+  function itemCalc(it) {
+    var cur = doc.currency, q = L.ko.qty(qtyText(it.qty), it.ko.unit.trim());
+    return q + ' × ' + money(it.price, cur) + ' = ' + money(lineAmount(it, cur), cur) + (it.optional ? ' (선택 품목, 합계에서 뺌)' : '');
+  }
   function renderItems() {
     var box = $('items');
     box.textContent = '';
+    if (!doc.data.items.length) box.appendChild(h('p', { class: 'sub', text: '아직 품목이 없어요. 아래에서 품목을 골라 추가하세요.' }));
     doc.data.items.forEach(function (it, i) {
+      var n = (i + 1) + '번 품목', s = SERVICES[it.type] || SERVICES.custom, cur = doc.currency;
+      var inp = function (f, label, extra) { return h('input', Object.assign({ 'data-i': i, 'data-f': f, 'aria-label': n + ' ' + label }, extra || {})); };
+      var area = function (f, label, l) { return h('textarea', { 'data-i': i, 'data-f': f, rows: 3, lang: l, 'aria-label': n + ' ' + label }); };
       var card = h('div', { class: 'item' + (it.optional ? ' opt' : '') }, [
         h('div', { class: 'item-h' }, [
-          h('strong', { text: '품목 ' + (i + 1) }),
-          h('span', { class: 'item-amt', text: itemAmountText(it) }),
-          h('span', { class: 'item-btns' }, [itemButton('↑', 'up', i, '위로'), itemButton('↓', 'down', i, '아래로'), itemButton('복제', 'dup', i), itemButton('삭제', 'del', i)])
+          h('strong', { text: (i + 1) + '. ' + s.label }),
+          h('span', { class: 'sub', text: '수량 기준: ' + s.basis }),
+          h('span', { class: 'item-btns' }, [itemButton('↑', 'up', i, n + ' 위로'), itemButton('↓', 'down', i, n + ' 아래로'), itemButton('삭제', 'del', i, n + ' 삭제')])
         ]),
-        field('항목명', h('input', { 'data-i': i, 'data-f': 'title', maxlength: 160 })),
-        field('설명', h('textarea', { 'data-i': i, 'data-f': 'detail', rows: 3 }), '한 줄에 하나'),
-        h('div', { class: 'g2' }, [
-          field('수량', h('input', { type: 'number', step: 'any', min: 0, 'data-i': i, 'data-f': 'qty' })),
-          field('단가', h('input', { type: 'number', step: 'any', 'data-i': i, 'data-f': 'price' }))
+        h('div', { class: 'g3' }, [
+          field('수량', inp('qty', '수량', { type: 'number', step: 'any', min: 0, inputmode: 'decimal' })),
+          field('단가 (' + cur + ')', inp('price', '단가', { type: 'number', step: 'any', min: 0, inputmode: 'decimal' })),
+          h('div', { class: 'f' }, [h('span', { text: '금액' }), h('output', { class: 'item-amt', 'data-amt': i, 'aria-label': n + ' 금액' })])
         ]),
-        h('label', { class: 'check' }, [h('input', { type: 'checkbox', 'data-i': i, 'data-f': 'optional' }), ' 선택 사항 (합계에서 빼고 따로 표시)'])
+        h('p', { class: 'item-calc', 'data-calc': i }),
+        h('div', { class: 'g2' }, [field('품목명 · 한국어', inp('ko.name', '품목명 한국어', { lang: 'ko' })), field('품목명 · English', inp('en.name', '품목명 English', { lang: 'en' }))]),
+        h('div', { class: 'g2' }, [field('단위 · 한국어', inp('ko.unit', '단위 한국어', { lang: 'ko' })), field('단위 · English', inp('en.unit', '단위 English', { lang: 'en' }))]),
+        field('세부사항 · 한국어', area('ko.details', '세부사항 한국어', 'ko')),
+        field('세부사항 · English', area('en.details', '세부사항 English', 'en')),
+        doc.kind === 'quote' ? h('label', { class: 'check' }, [h('input', { type: 'checkbox', 'data-i': i, 'data-f': 'optional', 'aria-label': n + ' 선택 품목' }), ' 선택 품목 (합계에서 빼고 따로 표시)']) : null
       ]);
       $$('[data-f]', card).forEach(function (el) {
-        var v = it[el.dataset.f];
+        var v = getPath(it, el.dataset.f);
         if (el.type === 'checkbox') el.checked = !!v; else el.value = v == null ? '' : v;
       });
       box.appendChild(card);
+      updateItemCalc(i);
     });
+    $$('textarea', box).forEach(autosize);
+  }
+  function updateItemCalc(i) {
+    var it = doc.data.items[i], out = $('items').querySelector('[data-amt="' + i + '"]'), calc = $('items').querySelector('[data-calc="' + i + '"]');
+    if (!it || !out) return;
+    out.textContent = money(lineAmount(it, doc.currency), doc.currency);
+    calc.textContent = itemCalc(it);
   }
 
   function updateSum() {
-    var t = totals(doc), cur = doc.currency;
-    $('sumline').textContent = '합계 ' + money(t.total, cur) + (t.disc ? ' (할인 ' + money(t.disc, cur) + ' 반영)' : '') + (t.opt ? ' · 선택 사항 ' + money(t.opt, cur) + ' 별도' : '');
-    $('bankwarn').hidden = !(doc.data.show_bank && !(settings.bank && settings.bank.account));
+    var t = totals(doc), cur = doc.currency, B = basics(doc).bank, w = $('bankwarn');
+    $('sumline').textContent = '합계 ' + money(t.total, cur) + (t.disc ? ' (할인 ' + money(t.disc, cur) + ' 반영)' : '') + (t.opt ? ' · 선택 품목 ' + money(t.opt, cur) + ' 별도' : '');
+    var text = '';
+    if (doc.data.snapshot) text = '발행한 문서라서 발행할 때의 발행인·입금 정보로 고정돼 있어요.';
+    else if (doc.data.show_bank && !bankComplete(B)) text = '입금 계좌가 비어 있어요. 기본정보 설정에서 은행, 예금주, 계좌번호, SWIFT를 넣어 주세요.';
+    w.textContent = text;
+    w.hidden = !text;
+    updateReview();
   }
 
   var raf = 0;
   function schedule() { if (!raf) raf = requestAnimationFrame(function () { raf = 0; render(); }); }
-  function markDirty() { if (!dirty) { dirty = true; setMsg('저장하지 않은 변경이 있어요'); } }
+  function resetReview() { reviewed = { ko: false, en: false }; }
+  function markDirty() {
+    resetReview();
+    if (!dirty) { dirty = true; setMsg('저장하지 않은 변경이 있어요. 미리보기를 다시 확인해 주세요.'); }
+  }
+  function changed() { markDirty(); updateSum(); schedule(); }
   function confirmDiscard() { return !dirty || window.confirm('저장하지 않은 변경이 있어요. 버리고 계속할까요?'); }
 
   function onEdit(e) {
     var el = e.target;
+    if (el.tagName === 'TEXTAREA') autosize(el);
+    if (el.id === 'numinput') {
+      if (isLocked()) return;
+      var val = el.value.trim();
+      if (e.type === 'change' && !val) { val = proposeNumber(doc.kind, doc.issue_date, doc.id); el.value = val; doc.numberAuto = true; }
+      else if (e.type === 'input') doc.numberAuto = false;
+      if (doc.number !== val) { doc.number = val; changed(); }
+      updateNumberHint();
+      return;
+    }
     if (el.dataset.k) {
-      var v = el.type === 'checkbox' ? el.checked : el.type === 'number' ? (el.value === '' ? 0 : +el.value) : el.value;
-      if (getPath(doc, el.dataset.k) === v) return;
-      setPath(doc, el.dataset.k, v);
-      if (el.dataset.k === 'currency') renderItems();
+      var k = el.dataset.k, v;
+      if (el.type === 'radio') { if (!el.checked) return; v = el.value; }
+      else if (el.type === 'checkbox') v = el.checked;
+      else if (el.type === 'number') v = el.value === '' ? 0 : +el.value;
+      else v = el.value;
+      if (getPath(doc, k) === v) return;
+      setPath(doc, k, v);
+      if (k === 'issue_date' && v) {
+        if (doc.dueAuto) { doc.due_date = addDays(v, dueDays(doc.kind)); editorField('due_date').value = doc.due_date; }
+        if (doc.numberAuto && !isLocked()) { doc.number = proposeNumber(doc.kind, v, doc.id); $('numinput').value = doc.number; updateNumberHint(); }
+      }
+      if (k === 'due_date') doc.dueAuto = false;
+      if (k === 'currency') renderItems();
+      if (k === 'client.type') { showClientType(); autosizeAll(); }
     } else if (el.dataset.f) {
-      var it = doc.data.items[+el.dataset.i], f = el.dataset.f;
+      var i = +el.dataset.i, it = doc.data.items[i], f = el.dataset.f;
       if (!it) return;
       var nv = el.type === 'checkbox' ? el.checked : (f === 'qty' || f === 'price') ? (el.value === '' ? 0 : +el.value) : el.value;
-      if (it[f] === nv) return;
-      it[f] = nv;
-      var card = el.closest('.item');
-      card.querySelector('.item-amt').textContent = itemAmountText(it);
-      if (f === 'optional') card.classList.toggle('opt', !!nv);
+      if (getPath(it, f) === nv) return;
+      setPath(it, f, nv);
+      // A unit someone typed is kept as typed. Units still following the item type change with the quantity (day / days).
+      if (/\.unit$/.test(f)) it.unitAuto[f.split('.')[0]] = false;
+      if (f === 'qty') LANGS.forEach(function (l) {
+        if (!it.unitAuto[l]) return;
+        it[l].unit = unitFor(it.type, l, nv);
+        var u = $('items').querySelector('[data-i="' + i + '"][data-f="' + l + '.unit"]');
+        if (u) u.value = it[l].unit;
+      });
+      if (f === 'optional') el.closest('.item').classList.toggle('opt', !!nv);
+      updateItemCalc(i);
     } else return;
-    markDirty();
-    updateSum();
-    schedule();
+    changed();
   }
   $('editor').addEventListener('input', onEdit);
   $('editor').addEventListener('change', onEdit);
@@ -629,107 +943,213 @@ table.d-items{width:100%;border-collapse:collapse}
     var i = +b.dataset.i, items = doc.data.items, act = b.dataset.act;
     if (act === 'up' && i > 0) items.splice(i - 1, 0, items.splice(i, 1)[0]);
     else if (act === 'down' && i < items.length - 1) items.splice(i + 1, 0, items.splice(i, 1)[0]);
-    else if (act === 'dup') items.splice(i + 1, 0, clone(items[i]));
-    else if (act === 'del') { if (items.length > 1) items.splice(i, 1); else items[0] = blankItem(); }
+    else if (act === 'del') items.splice(i, 1);
     else return;
-    markDirty(); renderItems(); updateSum(); schedule();
+    renderItems(); changed();
   });
   $('additem').addEventListener('click', function () {
-    doc.data.items.push(blankItem());
-    markDirty(); renderItems(); updateSum(); schedule();
+    doc.data.items.push(newItem($('addtype').value));
+    renderItems(); changed();
     var last = $('items').lastElementChild;
-    if (last) last.querySelector('input').focus();
+    if (last) last.querySelector('[data-f="qty"]').focus();
+  });
+
+  /* ---------- Review, then issue ---------- */
+  function problems() {
+    var d = doc, errs = [], warns = [], c = d.client, no = docNumber();
+    if (c.type === 'company' ? !c.company.trim() : !c.name.trim()) errs.push(c.type === 'company' ? '회사명을 넣어 주세요.' : '고객 이름을 넣어 주세요.');
+    if (!isLocked() && numberTaken(no, d.id)) errs.push('다른 문서가 이미 ' + no + ' 번호를 쓰고 있어요. 번호를 바꿔 주세요.');
+    if (!d.issue_date) errs.push('발행일을 넣어 주세요.');
+    if (d.kind === 'invoice' && !d.due_date) errs.push('결제기한을 넣어 주세요.');
+    if (!d.data.items.length) errs.push('품목을 하나 이상 넣어 주세요.');
+    d.data.items.forEach(function (it, i) {
+      var n = (i + 1) + '번 품목';
+      if (!it.ko.name.trim() || !it.en.name.trim()) errs.push(n + ': 한국어와 영어 품목명을 모두 넣어 주세요.');
+      if (!(+it.qty > 0)) errs.push(n + ': 수량을 넣어 주세요.');
+      if (!(+it.price > 0)) warns.push(n + ': 단가가 0이에요.');
+      if (!it.ko.details.trim() !== !it.en.details.trim()) warns.push(n + ': 세부사항이 ' + (it.ko.details.trim() ? '한국어' : '영어') + '에만 있어요.');
+    });
+    if (d.data.show_bank && !bankComplete(basics(d).bank)) errs.push('입금 계좌가 비어 있어요. 기본정보 설정에서 넣어 주세요.');
+    TEXT_FIELDS.forEach(function (f) {
+      var t = d.data[f.k];
+      if (!t.ko.trim() !== !t.en.trim()) warns.push('‘' + f.label + '’ 내용이 ' + (t.ko.trim() ? '한국어' : '영어') + ' 문서에만 있어요.');
+    });
+    return { errs: errs, warns: warns };
+  }
+  var saving = null, issuing = false, printing = false;
+  function updateReview() {
+    if (!doc) return;
+    var p = problems(), list = $('checks'), draft = !isLocked(), both = reviewed.ko && reviewed.en, clean = !p.errs.length;
+    list.textContent = '';
+    p.errs.forEach(function (t) { list.appendChild(h('li', { class: 'err', text: t })); });
+    p.warns.forEach(function (t) { list.appendChild(h('li', { class: 'warn', text: t })); });
+    if (clean && !p.warns.length) list.appendChild(h('li', { class: 'ok', text: '빠진 내용이 없어요.' }));
+    $('ok-ko').checked = reviewed.ko;
+    $('ok-en').checked = reviewed.en;
+    var idle = !saving && !issuing;
+    $('issue').hidden = !draft;
+    $('issue').disabled = !(clean && both && idle);
+    if (!draft || !clean || !both) $('issueconfirm').hidden = true;
+    $('issueyes').disabled = !idle;
+    $('pdf-ko').disabled = $('pdf-en').disabled = !(clean && both && !draft && idle);
+    $('reviewmsg').textContent = !clean ? '빨간 항목을 고치면 발행할 수 있어요.'
+      : !both ? '한국어와 English 미리보기를 각각 끝까지 보고 둘 다 체크해 주세요.'
+      : draft ? '발행하면 번호가 고정되고, 언어별 PDF를 저장할 수 있어요. 고객에게 메일은 보내지 않아요.'
+      : '언어별로 PDF를 따로 저장하세요. 파일 이름 끝에 _KR, _EN이 붙어요.';
+    $('st1').className = clean ? 'done' : 'on';
+    $('st2').className = !clean ? '' : both ? 'done' : 'on';
+    $('st3').className = clean && both ? 'on' : '';
+  }
+  function showLang(l) {
+    shown = l;
+    LANGS.forEach(function (x) { $('doc-' + x).hidden = x !== l; $('tab-' + x).setAttribute('aria-selected', String(x === l)); });
+    fit();
+  }
+  LANGS.forEach(function (l) {
+    $('tab-' + l).addEventListener('click', function () { showLang(l); });
+    $('ok-' + l).addEventListener('change', function () { reviewed[l] = this.checked; if (this.checked) showLang(l); updateReview(); });
   });
 
   /* ---------- Actions ---------- */
-  function newDoc(kind) { doc = blank(kind); dirty = false; fillForm(); render(); }
+  function newDoc(kind) {
+    doc = blank(kind);
+    doc.number = proposeNumber(kind, doc.issue_date, null);
+    dirty = false; resetReview(); fillForm(); render();
+  }
 
-  // One save at a time: a double click (or 저장 then PDF) reuses the save already running,
-  // so a new document never gets two numbers.
-  var saving = null;
+  // One save at a time: a double click reuses the save already running.
   function save() {
-    if (!saving) saving = doSave().finally(function () { saving = null; });
+    if (!saving) saving = doSave().finally(function () { saving = null; updateReview(); });
     return saving;
   }
-  function busy(on) { ['save', 'print', 'toinvoice', 'duplicate', 'remove'].forEach(function (id) { $(id).disabled = on; }); }
+  function busy(on) { ['save', 'issue', 'pdf-ko', 'pdf-en', 'toinvoice', 'duplicate', 'remove'].forEach(function (id) { $(id).disabled = on; }); if (!on) updateReview(); }
   async function doSave() {
     if (!doc.issue_date) { setMsg('발행일을 넣어 주세요.', true); return false; }
+    if (!doc.number) { doc.number = proposeNumber(doc.kind, doc.issue_date, doc.id); doc.numberAuto = true; }
+    if (!isLocked() && numberTaken(doc.number, doc.id)) {
+      if (!doc.numberAuto) { setMsg('다른 문서가 이미 ' + doc.number + ' 번호를 쓰고 있어요. 번호를 바꾸고 다시 저장해 주세요.', true); return false; }
+      doc.number = proposeNumber(doc.kind, doc.issue_date, doc.id);
+    }
     var t = totals(doc);
     var row = {
-      kind: doc.kind, status: doc.status, currency: doc.currency,
+      kind: doc.kind, number: doc.number, status: doc.status, currency: doc.currency,
       issue_date: doc.issue_date, due_date: doc.due_date || null,
-      title: doc.title || null, client: doc.client, data: doc.data, total: t.total,
+      title: (doc.data.title.en || doc.data.title.ko || '').slice(0, 200) || null,
+      client: doc.client, data: doc.data, total: t.total,
       source_id: doc.source_id || null, memo: doc.memo || null,
       paid_at: doc.status === 'paid' ? (doc.paid_at || new Date().toISOString()) : null
     };
     busy(true);
     setMsg('저장 중…');
     try {
-      var moved = mode === 'db' && isLocalId(doc.id);
-      doc = normalize(await store.save(doc.id, row, doc.number));
+      var moved = mode === 'db' && isLocalId(doc.id), prevId = doc.id;
+      var saved = await store.save(doc.id, row);
+      if (prevId) forgetId(prevId);
+      doc = normalize(saved);
+      numbers[doc.number] = String(doc.id);
       dirty = false;
       fillForm(); render();
       setMsg((moved ? 'DB로 옮겨 저장했어요 · ' : '저장했어요 · ') + doc.number);
       return true;
     } catch (e) {
-      setMsg('저장하지 못했어요: ' + errText(e), true);
+      if ((e && e.code) === '23505') {
+        setMsg('다른 문서가 이미 ' + row.number + ' 번호를 쓰고 있어요. 번호를 바꾸고 다시 저장해 주세요.', true);
+        try { numbers = await store.numbers(); } catch (e2) { /* keep the old list */ }
+      } else setMsg('저장하지 못했어요: ' + errText(e), true);
       return false;
     } finally { busy(false); }
   }
   $('save').addEventListener('click', function () { save(); });
 
-  function fileName() {
-    var who = doc.client.company || doc.client.name || '';
-    return ['Haedurio', KIND[doc.kind].en, doc.number || 'draft', who].filter(Boolean).join(' ').replace(/[\\/:*?"<>|]+/g, ' ').replace(/\s+/g, ' ').trim();
+  // 발행하기: only after both languages were checked, and confirmed on the page (no browser pop-up).
+  // Keeps the issuer and bank details of today with the document.
+  $('issue').addEventListener('click', function () {
+    if (issuing || isLocked()) return;
+    var p = problems();
+    if (p.errs.length || !(reviewed.ko && reviewed.en)) return;
+    $('issueq').textContent = docNumber() + ' 문서를 발행할까요? 발행하면 번호가 고정되고 초안으로 되돌릴 수 없어요. 고객에게 메일을 보내지는 않아요.';
+    $('issueconfirm').hidden = false;
+    $('issueyes').focus();
+  });
+  $('issueno').addEventListener('click', function () { $('issueconfirm').hidden = true; });
+  $('issueyes').addEventListener('click', async function () {
+    if (issuing || isLocked()) return;
+    var p = problems();
+    if (p.errs.length || !(reviewed.ko && reviewed.en)) { $('issueconfirm').hidden = true; return; }
+    $('issueconfirm').hidden = true;
+    issuing = true;
+    var before = { status: doc.status, snapshot: doc.data.snapshot };
+    doc.status = 'issued';
+    doc.data.snapshot = { issuer: clone(settings.issuer), bank: clone(settings.bank), prefs: { charges: settings.prefs.charges } };
+    try {
+      var ok = await save();
+      if (!ok) {
+        doc.status = before.status;
+        if (before.snapshot) doc.data.snapshot = before.snapshot; else delete doc.data.snapshot;
+        return;
+      }
+      setMsg(doc.number + ' 발행했어요. 이제 한국어·English PDF를 각각 저장하세요.');
+    } finally { issuing = false; updateReview(); }
+  });
+
+  function fileName(lang) {
+    var parts = ['Haedurio', KIND[doc.kind].en, doc.number, clientLabel({ type: doc.client.type, name: doc.client.name, company: doc.client.company })];
+    var base = parts.filter(Boolean).join('_').replace(/[\\/:*?"<>|]+/g, ' ').replace(/\s+/g, '-');
+    return lang ? base + '_' + FILE_TAG[lang] : base;
   }
-  var printing = false;
-  $('print').addEventListener('click', async function () {
-    if (printing) return;
+  async function printLang(lang) {
+    if (printing || saving) return;
+    var p = problems();
+    if (p.errs.length || !(reviewed.ko && reviewed.en) || !isLocked()) return;
     printing = true;
     try {
-      if (dirty || !doc.number) { if (!(await save())) return; }
-      var before = document.title;
-      document.title = fileName();
-      setMsg('인쇄 창에서 대상은 "PDF로 저장", 머리글과 바닥글은 끄고 저장하세요.');
+      if (dirty && !(await save())) return;
+      showLang(lang);
+      var before = document.title, name = fileName(lang);
+      document.title = name;
+      setMsg('인쇄 창에서 대상을 "PDF로 저장"으로 고르고, 머리글과 바닥글은 끄고 저장하세요. 파일 이름: ' + name + '.pdf');
       window.print();
       setTimeout(function () { document.title = before; }, 1000);
     } finally { printing = false; }
-  });
+  }
+  $('pdf-ko').addEventListener('click', function () { printLang('ko'); });
+  $('pdf-en').addEventListener('click', function () { printLang('en'); });
 
   $('toinvoice').addEventListener('click', async function () {
     if (doc.kind !== 'quote') return;
     if (dirty || !doc.id) { if (!(await save())) return; }
     var q = doc, inv = blank('invoice'), d = clone(q.data);
-    d.items = d.items.filter(function (it) { return !it.optional; });
-    if (!d.items.length) d.items = [blankItem()];
-    d.payment = TEXT.invoice_payment;
+    d.items = d.items.filter(function (it) { return !it.optional; }).map(function (it) { it.id = uid(); return it; });
+    delete d.snapshot;
+    d.terms = bi(TEMPLATE.terms.invoice);
     d.show_bank = true;
-    d.reference = '';
     inv.currency = q.currency;
-    inv.title = q.title;
     inv.client = clone(q.client);
     inv.data = d;
     inv.source_id = typeof q.id === 'number' ? q.id : null;
     inv.memo = '견적서 ' + q.number + '에서 만듦';
-    doc = inv; dirty = true; fillForm(); render();
-    setMsg('견적서 ' + q.number + '로 인보이스 초안을 만들었어요. 저장하면 번호가 붙어요.');
+    inv.number = proposeNumber('invoice', inv.issue_date, null);
+    doc = inv; dirty = true; resetReview(); fillForm(); render();
+    setMsg('견적서 ' + q.number + '로 인보이스 초안을 만들었어요. 선택 품목은 뺐어요.');
   });
 
   $('duplicate').addEventListener('click', function () {
     if (dirty && !window.confirm('저장하지 않은 변경은 원본이 아니라 복제본에만 들어가요. 계속할까요?')) return;
     var c = clone(doc);
-    c.id = null; c.number = null; c.status = 'draft'; c.paid_at = null; c.source_id = null;
-    c.issue_date = kstToday();
-    c.due_date = addDays(c.issue_date, KIND[c.kind].days);
-    doc = normalize(c); dirty = true; fillForm(); render();
-    setMsg('복제했어요. 저장하면 새 번호가 붙어요.');
+    c.id = null; c.status = 'draft'; c.savedStatus = null; c.paid_at = null; c.source_id = null;
+    c.issue_date = kstToday(); c.due_date = addDays(c.issue_date, dueDays(c.kind)); c.dueAuto = true;
+    c.number = proposeNumber(c.kind, c.issue_date, null); c.numberAuto = true;
+    delete c.data.snapshot;
+    c.data.items.forEach(function (it) { it.id = uid(); });
+    doc = c; dirty = true; resetReview(); fillForm(); render();
+    setMsg('복제했어요. 새 번호 ' + doc.number + '로 저장돼요.');
   });
 
   $('remove').addEventListener('click', async function () {
     if (!doc.id || doc.savedStatus !== 'draft') return;
-    if (!window.confirm((doc.number || '이 문서') + ' 초안을 삭제할까요? 삭제하면 되돌릴 수 없어요.')) return;
+    if (!window.confirm(doc.number + ' 초안을 삭제할까요? 삭제하면 되돌릴 수 없어요.')) return;
     busy(true);
-    try { await store.remove(doc.id); var k = doc.kind; dirty = false; newDoc(k); setMsg('초안을 삭제했어요.'); }
+    try { await store.remove(doc.id); forgetId(doc.id); var k = doc.kind; dirty = false; newDoc(k); setMsg('초안을 삭제했어요.'); }
     catch (e) { setMsg('삭제하지 못했어요: ' + errText(e), true); }
     finally { busy(false); }
   });
@@ -739,7 +1159,9 @@ table.d-items{width:100%;border-collapse:collapse}
 
   /* JSON: move a document between browsers, or start one from a prepared file. Bank details are never included. */
   $('export').addEventListener('click', function () {
-    var o = { haedurio_doc: 1, kind: doc.kind, currency: doc.currency, issue_date: doc.issue_date, due_date: doc.due_date, title: doc.title, client: doc.client, data: doc.data, memo: doc.memo };
+    var data = clone(doc.data);
+    delete data.snapshot;
+    var o = { haedurio_doc: 2, kind: doc.kind, number: doc.number, currency: doc.currency, issue_date: doc.issue_date, due_date: doc.due_date, client: doc.client, data: data, memo: doc.memo };
     var a = h('a', { href: URL.createObjectURL(new Blob([JSON.stringify(o, null, 2)], { type: 'application/json' })), download: fileName() + '.json' });
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(function () { URL.revokeObjectURL(a.href); }, 1500);
@@ -753,10 +1175,14 @@ table.d-items{width:100%;border-collapse:collapse}
       var o = JSON.parse(txt);
       if (!o || !KIND[o.kind]) throw new Error('kind');
       if (!confirmDiscard()) return;
-      var d = normalize({ kind: o.kind, currency: o.currency, issue_date: o.issue_date, due_date: o.due_date, title: o.title, client: o.client, data: o.data, memo: o.memo });
-      if (!o.data || !o.data.contact) d.data.contact = settings.contact || '';
-      doc = d; dirty = true; fillForm(); render();
-      setMsg('불러왔어요. 확인하고 저장하면 번호가 붙어요.');
+      var d = normalize({ kind: o.kind, number: o.number, currency: o.currency, issue_date: o.issue_date, due_date: o.due_date, title: o.title, client: o.client, data: o.data, memo: o.memo });
+      delete d.data.snapshot;
+      if (!o.data || o.data.contact == null) d.data.contact = bi(settings.prefs.contact);
+      var note = '';
+      if (d.number && numberTaken(d.number, null)) { note = ' ' + d.number + '는 이미 있는 번호라서 새 번호를 붙였어요.'; d.number = ''; }
+      if (!d.number) { d.number = proposeNumber(d.kind, d.issue_date, null); d.numberAuto = true; }
+      doc = d; dirty = true; resetReview(); fillForm(); render();
+      setMsg('불러왔어요. 한국어·English 미리보기를 확인하고 저장하거나 발행하세요.' + note + (d.oldDetails ? ' 예전 형식의 서비스 정보 표는 가져오지 않았어요. 필요한 내용은 품목 세부사항에 넣어 주세요.' : ''));
     }).catch(function () { setMsg('이 파일은 견적서·인보이스 JSON이 아니에요.', true); });
   });
 
@@ -777,14 +1203,13 @@ table.d-items{width:100%;border-collapse:collapse}
     var rows = listCache.filter(function (r) {
       if (!q) return true;
       var c = r.client || {};
-      return [r.number, r.title, c.name, c.company, c.email].join(' ').toLowerCase().indexOf(q) >= 0;
+      return [r.number, r.title, c.name, c.company, c.attn, c.email].join(' ').toLowerCase().indexOf(q) >= 0;
     });
     $('listmsg').textContent = rows.length ? '' : (listCache.length ? '찾는 문서가 없어요.' : '아직 만든 문서가 없어요.');
     rows.forEach(function (r) {
-      var c = r.client || {}, who = [c.company, c.name].filter(Boolean).join(' · ');
       tb.appendChild(h('tr', { tabindex: 0, 'data-id': r.id }, [
-        h('td', null, [h('div', { class: 'mono', text: r.number || '—' }), h('div', { class: 'sub', text: (KIND[r.kind] ? KIND[r.kind].ko : r.kind) + (r.local && mode === 'db' ? ' · 이 브라우저에만 있음, 저장하면 DB로 옮겨요' : '') })]),
-        h('td', null, [h('div', { text: who || '—' }), r.title ? h('div', { class: 'sub', text: r.title }) : null]),
+        h('td', null, [h('div', { class: 'mono', text: r.number || '' }), h('div', { class: 'sub', text: (KIND[r.kind] ? KIND[r.kind].ko : r.kind) + (r.local && mode === 'db' ? ' · 이 브라우저에만 있음, 저장하면 DB로 옮겨요' : '') })]),
+        h('td', null, [h('div', { text: clientLabel(r.client) }), r.title ? h('div', { class: 'sub', text: r.title }) : null]),
         h('td', { class: 'num', text: money(r.total, r.currency) }),
         h('td', null, [h('span', { class: 'badge b-' + r.status, text: STATUS[r.status] || r.status })]),
         h('td', { class: 'sub', text: r.issue_date || '' })
@@ -798,7 +1223,7 @@ table.d-items{width:100%;border-collapse:collapse}
     try {
       var row = await store.get(id);
       if (!row) throw new Error('문서를 찾지 못했어요.');
-      doc = normalize(row); dirty = false; fillForm(); render();
+      doc = normalize(row); dirty = false; resetReview(); fillForm(); render();
       $('listdlg').close();
       setMsg(doc.number + ' 열었어요');
     } catch (err) { $('listmsg').textContent = '열지 못했어요: ' + errText(err); }
@@ -814,148 +1239,147 @@ table.d-items{width:100%;border-collapse:collapse}
   $('savesettings').addEventListener('click', async function () {
     var s = clone(settings);
     $$('#settingsdlg [data-s]').forEach(function (el) { setPath(s, el.dataset.s, el.value.trim()); });
+    s = normSettings(s);
     $('settingsmsg').textContent = '저장 중…';
     try {
       await store.saveSettings(s);
       settings = s;
       $('settingsmsg').textContent = '저장했어요.';
+      if (doc && !doc.data.snapshot) resetReview();  // drafts show the new details: look at them again
       updateSum(); render();
       setTimeout(function () { $('settingsdlg').close(); }, 500);
     } catch (e) { $('settingsmsg').textContent = '저장하지 못했어요: ' + errText(e); }
   });
 
-  /* ---------- The document ---------- */
-  // "A · B · C": a little more room around the dots, and short parts (a phone number, an email) never split across lines.
-  function dotted(str) {
-    var frag = document.createDocumentFragment();
-    String(str).split(/\s+·\s+/).forEach(function (part, i) {
+  /* ---------- The documents: one in Korean, one in English, from the same data ---------- */
+  // "A · B · C": a little more room around the dots, and short parts (a name, a phone number, an email) never split across lines.
+  // Only lines that have dots get this; every other line wraps normally, so nothing runs past its column.
+  function dotted(s) {
+    var frag = document.createDocumentFragment(), parts = String(s).split(/\s+·\s+/);
+    parts.forEach(function (part, i) {
       if (i) frag.appendChild(h('span', { class: 'sep', text: ' · ' }));
-      frag.appendChild(part.length <= 42 ? h('span', { class: 'seg', text: part }) : document.createTextNode(part));
+      var wide = part.length + (part.match(/[ᄀ-ᇿ㄰-㆏가-힯　-鿿]/g) || []).length;
+      frag.appendChild(parts.length > 1 && wide <= 30 ? h('span', { class: 'seg', text: part }) : document.createTextNode(part));
     });
     return frag;
   }
-  function tx(tag, cls, str) { return h(tag, cls ? { class: cls } : null, [dotted(str)]); }
+  function tx(tag, cls, s) { return h(tag, cls ? { class: cls } : null, [dotted(s)]); }
   function sec(title, body, cls) { return h('section', { class: 'd-sec' + (cls ? ' ' + cls : '') }, [h('h4', { text: title }), body]); }
-  function paras(text, d, t) { var ls = lines(fill(text, d, t)); return ls.length ? h('div', null, ls.map(function (l) { return tx('p', null, l); })) : null; }
+  function paras(text) { var ls = lines(text); return ls.length ? h('div', null, ls.map(function (l) { return tx('p', null, l); })) : null; }
   function bullets(text, cls) { var ls = lines(text); return ls.length ? h('ul', { class: 'd-list' + (cls ? ' ' + cls : '') }, ls.map(function (l) { return tx('li', null, l); })) : null; }
-  function describe(it) {
-    var td = h('td', { class: 'ds' }, [tx('div', 'd-it', it.title || '—')]);
-    var ls = lines(it.detail);
-    if (ls.length) td.appendChild(h('div', { class: 'd-dt' }, ls.map(function (l) { return tx('div', null, l); })));
+  // Keep a time and its zone together on one line ("19:25 KST"); the words themselves are printed as typed.
+  function keepTimes(s) { return String(s).replace(/(\d{1,2}:\d{2}) (KST|UTC|GMT)/g, '$1 $2'); }
+  function describe(it, lang) {
+    var t = it[lang], td = h('td', { class: 'ds' }, [tx('div', 'd-it', t.name)]);
+    var ls = lines(t.details);
+    if (ls.length) td.appendChild(h('div', { class: 'd-dt' }, ls.map(function (l) { return tx('div', null, keepTimes(l)); })));
     return td;
   }
-  function bankBox(d, B) {
-    var dl = h('dl');
-    [['Bank', B.bank], ['SWIFT / BIC', B.swift], ['Account holder', B.holder], ['Account number', B.account], ['Bank address', B.address], ['Payment reference', d.number]].forEach(function (r) {
-      if (r[0] === 'Bank address' && !r[1]) return;
-      dl.appendChild(h('dt', { text: r[0] }));
-      dl.appendChild(h('dd', { text: r[1] || '—' }));
+  function qtyLabel(it, lang) { return L[lang].qty(qtyText(it.qty), it[lang].unit.trim()); }
+  function bankBox(lang, no, S) {
+    var T = L[lang], B = S.bank, grid = h('div', { class: 'grid' });
+    [[T.bank, B.bank], [T.holder, B.holder], [T.account, B.account], [T.swift, B.swift], [T.charges, T.chargeText[S.prefs.charges]], [T.reference, no], [T.bankAddress, B.address, 'full']].forEach(function (r) {
+      if (!r[1]) return;
+      grid.appendChild(h('div', { class: r[2] || null }, [h('div', { class: 'k', text: r[0] }), tx('div', 'v', r[1])]));
     });
-    return h('section', { class: 'd-bank' }, [h('h4', { text: 'Bank transfer details' }), dl, B.note ? tx('p', 'd-bnote', B.note) : null]);
+    return h('section', { class: 'd-bank' }, [h('h4', { text: T.bankTitle }), grid]);
   }
 
-  function render() {
-    if (!doc) return;
-    var d = doc, k = KIND[d.kind], cur = d.currency, t = totals(d), I = settings.issuer || {}, B = settings.bank || {}, c = d.client;
-    var root = $('doc');
+  function renderDoc(lang) {
+    var d = doc, T = L[lang], k = d.kind, cur = d.currency, t = totals(d), S = basics(d), I = S.issuer, c = d.client, no = docNumber();
+    // Layout: header (brand, kind, number) · from | bill to | dates and amount · items · total · payment and scope · terms · footer.
+    var tr = function (o) { return (o && o[lang]) || ''; };
+    var root = $('doc-' + lang);
     root.textContent = '';
-    root.className = 'doc ' + d.kind;
+    root.className = 'doc ' + k;
 
-    var stamp = d.status === 'void' ? 'void' : (d.kind === 'invoice' && d.status === 'paid') ? 'paid' : (d.kind === 'quote' && d.status === 'accepted') ? 'accepted' : null;
-    if (stamp) root.appendChild(h('div', { class: 'd-stamp ' + stamp }, [STAMP[stamp], stamp === 'paid' && d.paid_at ? h('small', { text: longDate(kstDate(d.paid_at)) }) : null]));
+    var stamp = d.status === 'void' ? 'void' : (k === 'invoice' && d.status === 'paid') ? 'paid' : (k === 'quote' && d.status === 'accepted') ? 'accepted' : null;
+    if (stamp) root.appendChild(h('div', { class: 'd-stamp ' + stamp }, [T.stamp[stamp], stamp === 'paid' && d.paid_at ? h('small', { text: T.date(kstDate(d.paid_at)) }) : null]));
 
     root.appendChild(h('header', { class: 'd-head' }, [
       h('div', { class: 'd-brand' }, [
         h('img', { src: '/assets/seal.svg', alt: '', width: 42, height: 42 }),
-        h('div', null, [h('div', { class: 'd-word', text: (I.brand || 'Haedurio').toLowerCase() }), h('div', { class: 'd-by', text: 'Seoul concierge by ' + (I.company || 'Whaleland') })])
+        h('div', null, [h('div', { class: 'd-word', text: (I.brand.en || 'Haedurio').toLowerCase() }), h('div', { class: 'd-by', text: T.by(I) })])
       ]),
-      h('div', { class: 'd-type' }, [h('div', { class: 'd-kind', text: k.head }), h('div', { class: 'd-no', text: d.number ? 'No. ' + d.number : 'Draft, not numbered yet' })])
+      h('div', { class: 'd-type' }, [h('div', { class: 'd-kind', text: T.head[k] }), h('div', { class: 'd-no', text: T.no + no })])
     ]));
 
-    root.appendChild(h('section', { class: 'd-meta' }, [
-      ['Issue date', longDate(d.issue_date)],
-      [k.dueEn, d.due_date ? longDate(d.due_date) : '—'],
-      [k.totalEn, money(t.total, cur), true]
-    ].map(function (m) { return h('div', null, [h('div', { class: 'd-lab', text: m[0] }), h('div', { class: 'd-val' + (m[2] ? ' big' : ''), text: m[1] })]); })));
+    var dates = [[T.issue, T.date(d.issue_date)]];
+    if (d.due_date) dates.push([T.due[k], T.date(d.due_date)]);
+    dates.push([T.total[k], money(t.total, cur), true]);
 
+    // The company's own email and phone are in the footer; here only who to talk to about this document.
     var from = [
-      tx('p', 'nm', (I.company || 'Whaleland') + (I.brand ? ' (' + I.brand + ')' : '')),
-      I.address ? tx('p', null, I.address) : null,
-      I.registration ? tx('p', null, 'Business registration no. ' + I.registration) : null,
-      I.representative ? tx('p', null, 'Representative: ' + I.representative) : null,
-      (I.email || I.phone) ? tx('p', null, [I.email, I.phone].filter(Boolean).join(' · ')) : null,
-      d.data.contact ? tx('p', 'ct', 'Your contact: ' + d.data.contact) : null
+      tx('p', 'nm', tr(I.company) + (tr(I.brand) ? ' (' + tr(I.brand) + ')' : '')),
+      tr(I.address) ? tx('p', null, tr(I.address)) : null,
+      tr(d.data.contact).trim() ? tx('p', 'ct', T.contact + tr(d.data.contact).trim()) : null
     ];
-    var to = [tx('p', 'nm', c.name || '—'), c.company ? tx('p', null, c.company) : null, c.email ? tx('p', null, c.email) : null]
-      .concat(lines(c.address).map(function (l) { return tx('p', null, l); }));
+    // Only the chosen customer type is printed, so names typed under the other type never mix in.
+    var to = c.type === 'company'
+      ? [c.company.trim() ? tx('p', 'nm', c.company.trim()) : null, c.attn.trim() ? tx('p', null, T.attn + c.attn.trim()) : null]
+      : [c.name.trim() ? tx('p', 'nm', c.name.trim()) : null];
+    to = to.concat([c.email.trim() ? tx('p', null, c.email.trim()) : null, c.phone.trim() ? tx('p', null, c.phone.trim()) : null], lines(c.address).map(function (l) { return tx('p', null, l); }));
     root.appendChild(h('section', { class: 'd-parties' }, [
-      h('div', { class: 'd-party' }, [h('div', { class: 'd-lab', text: 'From' })].concat(from)),
-      h('div', { class: 'd-party' }, [h('div', { class: 'd-lab', text: k.partyEn })].concat(to))
+      h('div', { class: 'd-party' }, [h('div', { class: 'd-lab', text: T.from })].concat(from)),
+      h('div', { class: 'd-party' }, [h('div', { class: 'd-lab', text: T.to[k] })].concat(to)),
+      h('div', { class: 'd-dates' }, dates.map(function (m) {
+        return h('div', null, [h('div', { class: 'd-lab', text: m[0] }), h('div', { class: 'd-val' + (m[2] ? ' big' : ''), text: m[1] })]);
+      }))
     ]));
 
-    if (d.title) root.appendChild(tx('h2', 'd-subject', d.title));
-    var det = lines(d.data.details);
-    if (det.length) {
-      var dl = h('dl', { class: 'd-details' });
-      det.forEach(function (l) {
-        var m = /^([^:]{2,40}?):\s+(.+)$/.exec(l);
-        if (m) { dl.appendChild(h('dt', { text: m[1].trim() })); dl.appendChild(tx('dd', null, m[2].trim())); }
-        else dl.appendChild(tx('dd', 'full', l));
-      });
-      root.appendChild(dl);
-    }
+    if (tr(d.data.title).trim()) root.appendChild(tx('h2', 'd-subject', tr(d.data.title).trim()));
 
     var regular = d.data.items.filter(function (it) { return !it.optional; });
     var optional = d.data.items.filter(function (it) { return it.optional; });
     root.appendChild(h('table', { class: 'd-items' }, [
-      h('thead', null, [h('tr', null, [h('th', { class: 'n', text: '#' }), h('th', { text: 'Description' }), h('th', { class: 'q', text: 'Qty' }), h('th', { class: 'p', text: 'Unit price' }), h('th', { class: 'a', text: 'Amount (' + cur + ')' })])]),
+      h('colgroup', null, [h('col', { class: 'n' }), h('col'), h('col', { class: 'q' }), h('col', { class: 'p' }), h('col', { class: 'a' })]),
+      h('thead', null, [h('tr', null, [h('th', { text: T.cols[0] }), h('th', { text: T.cols[1] }), h('th', { class: 'q', text: T.cols[2] }), h('th', { class: 'p', text: T.cols[3] }), h('th', { class: 'a', text: T.cols[4] + ' (' + cur + ')' })])]),
       h('tbody', null, regular.map(function (it, i) {
-        return h('tr', null, [h('td', { class: 'n', text: String(i + 1) }), describe(it), h('td', { class: 'q', text: qtyText(it.qty) }), h('td', { class: 'p', text: num(it.price, cur) }), h('td', { class: 'a', text: num(lineAmount(it, cur), cur) })]);
+        return h('tr', null, [h('td', { class: 'n', text: String(i + 1) }), describe(it, lang), h('td', { class: 'q', text: qtyLabel(it, lang) }), h('td', { class: 'p', text: num(it.price, cur) }), h('td', { class: 'a', text: num(lineAmount(it, cur), cur) })]);
       }))
     ]));
 
     var rows = [];
     if (t.disc) {
-      rows.push(h('tr', null, [h('td', { text: 'Subtotal' }), h('td', { text: num(t.sub, cur) })]));
-      rows.push(h('tr', null, [h('td', { text: 'Discount' }), h('td', { text: '−' + num(t.disc, cur) })]));
+      rows.push(h('tr', null, [h('td', { text: T.subtotal }), h('td', { text: num(t.sub, cur) })]));
+      rows.push(h('tr', null, [h('td', { text: T.discount }), h('td', { text: '−' + num(t.disc, cur) })]));
     }
-    rows.push(h('tr', { class: 't' }, [h('td', { text: k.totalEn }), h('td', { text: money(t.total, cur) })]));
-    root.appendChild(h('div', { class: 'd-totals' }, [h('div', null, [h('table', null, [h('tbody', null, rows)]), d.data.reference ? h('p', { class: 'd-ref', text: d.data.reference }) : null])]));
+    rows.push(h('tr', { class: 't' }, [h('td', { text: T.total[k] }), h('td', { text: money(t.total, cur) })]));
+    root.appendChild(h('div', { class: 'd-totals' }, [h('table', null, [h('tbody', null, rows)])]));
 
     if (optional.length) {
       root.appendChild(h('section', { class: 'd-opt' }, [
-        h('h4', { text: 'Optional, not included in the ' + k.totalEn.toLowerCase() }),
+        h('h4', { text: T.optional }),
         h('table', null, [h('tbody', null, optional.map(function (it) {
-          var each = +it.qty === 1 ? '' : qtyText(it.qty) + ' × ' + num(it.price, cur) + ' = ';
-          return h('tr', null, [describe(it), h('td', { class: 'a', text: each + money(lineAmount(it, cur), cur) })]);
+          return h('tr', null, [describe(it, lang), h('td', { class: 'a', text: qtyLabel(it, lang) + ' × ' + num(it.price, cur) + ' = ' + money(lineAmount(it, cur), cur) })]);
         }))])
       ]));
     }
 
     // An invoice says how to pay right under the amount; a quote explains the scope first.
-    var pay = paras(d.data.payment, d, t);
-    var bank = d.data.show_bank ? bankBox(d, B) : null;
-    var payment = (pay || bank) ? h('div', { class: 'd-pay' }, [pay ? sec(d.kind === 'invoice' ? 'Payment' : 'Payment terms', pay) : null, bank]) : null;
-    var inc = bullets(d.data.included), exc = bullets(d.data.excluded, 'minus');
-    var scope = (inc || exc) ? h('div', { class: 'd-cols' + (inc && exc ? '' : ' one') }, [inc ? sec('Included', inc) : null, exc ? sec('Not included', exc) : null]) : null;
-    var can = paras(d.data.cancellation, d, t), notes = paras(d.data.notes, d, t);
-    (d.kind === 'invoice' ? [payment, scope] : [scope, payment]).forEach(function (n) { if (n) root.appendChild(n); });
-    if (can) root.appendChild(sec('Cancellation and refunds', can));
-    if (notes) root.appendChild(sec('Notes', notes));
+    var terms = paras(tr(d.data.terms));
+    var bank = d.data.show_bank ? bankBox(lang, no, S) : null;
+    var payment = (terms || bank) ? h('div', { class: 'd-pay' }, [terms ? sec(T.terms, terms) : null, bank]) : null;
+    var inc = bullets(tr(d.data.included)), exc = bullets(tr(d.data.excluded), 'minus');
+    var scope = (inc || exc) ? h('div', { class: 'd-cols' + (inc && exc ? '' : ' one') }, [inc ? sec(T.included, inc) : null, exc ? sec(T.excluded, exc) : null]) : null;
+    (k === 'invoice' ? [payment, scope] : [scope, payment]).forEach(function (n) { if (n) root.appendChild(n); });
+    var can = paras(tr(d.data.cancellation)), notes = paras(tr(d.data.notes));
+    if (can) root.appendChild(sec(T.cancel, can));
+    if (notes) root.appendChild(sec(T.notes, notes));
 
     root.appendChild(h('footer', { class: 'd-foot' }, [
-      h('p', { class: 'd-thanks', text: 'Thank you for choosing ' + (I.brand || 'Haedurio') + '.' }),
-      tx('p', null, [I.company && I.brand ? I.company + ' · ' + I.brand : I.company, I.registration && 'Business registration no. ' + I.registration, I.ecommerce && 'E-commerce registration ' + I.ecommerce].filter(Boolean).join(' · ')),
-      tx('p', null, [I.address, I.website, I.email].filter(Boolean).join(' · '))
+      h('div', { class: 'd-top' }, [h('p', { class: 'd-thanks', text: T.thanks(I) }), tx('p', null, [I.website, I.email, I.phone].filter(Boolean).join(' · '))]),
+      tx('p', null, [tr(I.company), tr(I.brand), tr(I.representative) && T.rep + tr(I.representative), I.registration && T.reg + I.registration, tr(I.ecommerce) && T.ecom + tr(I.ecommerce)].filter(Boolean).join(' · '))
     ]));
-    fit();
   }
+  function render() { if (!doc) return; LANGS.forEach(renderDoc); fit(); }
 
   // Shrink the A4 preview to the column; printing always uses the real size.
   function fit() {
     var wrap = $('previewwrap');
     if (!wrap.clientWidth) return;
-    $('doc').style.zoom = Math.max(0.35, Math.min(1, (wrap.clientWidth - 4) / 794));
+    var z = Math.max(0.35, Math.min(1, (wrap.clientWidth - 4) / 794));
+    LANGS.forEach(function (l) { $('doc-' + l).style.zoom = z; });
   }
   if (window.ResizeObserver) new ResizeObserver(fit).observe($('previewwrap'));
 
@@ -965,10 +1389,10 @@ table.d-items{width:100%;border-collapse:collapse}
     var problem = '';
     try { await store.probe(); }
     catch (e) { problem = 'DB에 연결하지 못했어요(' + errText(e) + '). 새로고침해 주세요.'; }
-    try {
-      var saved = await store.loadSettings();
-      if (saved) settings = { issuer: Object.assign({}, ISSUER, saved.issuer || {}), bank: Object.assign({}, saved.bank || {}), contact: saved.contact || '' };
-    } catch (e) { problem = problem || '회사·입금 정보를 불러오지 못했어요: ' + errText(e); }
+    try { settings = normSettings(await store.loadSettings()); }
+    catch (e) { problem = problem || '기본정보를 불러오지 못했어요: ' + errText(e); }
+    try { numbers = await store.numbers(); }
+    catch (e) { problem = problem || '문서 번호 목록을 불러오지 못했어요: ' + errText(e); }
     // Signing in again (e.g. after the session ended in another tab) keeps unsaved work on screen.
     if (doc && dirty) { fillForm(); render(); }
     else newDoc('quote');
