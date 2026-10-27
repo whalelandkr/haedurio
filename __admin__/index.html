@@ -18,8 +18,11 @@
         <a id="payments-link" href="/__admin__/payments.html" class="hidden inline-flex items-center justify-center bg-white border border-gray-300 text-gray-900 px-4 py-2 rounded-lg font-bold hover:bg-gray-100 transition">
           결제 링크
         </a>
-        <a id="quote-builder-link" href="/__admin__/quote-builder.html" class="hidden inline-flex items-center justify-center bg-gray-900 text-white px-4 py-2 rounded-lg font-bold hover:bg-gray-700 transition">
-          Quote Builder
+        <a id="documents-link" href="/__admin__/documents.html" class="hidden inline-flex items-center justify-center bg-gray-900 text-white px-4 py-2 rounded-lg font-bold hover:bg-gray-700 transition">
+          견적서·인보이스
+        </a>
+        <a id="quote-builder-link" href="/__admin__/quote-builder.html" class="hidden inline-flex items-center justify-center bg-white border border-gray-300 text-gray-500 px-4 py-2 rounded-lg font-bold hover:bg-gray-100 transition">
+          옛 견적 빌더
         </a>
       </div>
     </div>
@@ -65,6 +68,7 @@
       $("quote-builder-link").classList.toggle("hidden", !isLoggedIn);
       $("analytics-link").classList.toggle("hidden", !isLoggedIn);
       $("payments-link").classList.toggle("hidden", !isLoggedIn);
+      $("documents-link").classList.toggle("hidden", !isLoggedIn);
       if (!isLoggedIn) {
         $("list").innerHTML = `<div class="text-gray-400">Please login.</div>`;
       }
