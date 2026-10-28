@@ -94,7 +94,7 @@ function suggestFor(page) {
 }
 
 /* ---------- Pages ---------- */
-const PAGES = ['home', 'services', 'prices', 'request', 'help', 'terms', 'privacy'];
+const PAGES = ['home', 'services', 'prices', 'request', 'help', 'reviews', 'terms', 'privacy'];
 for (const lang of langs) {
   const c = makeCtx(site, lang, strings[lang.code]);
   for (const page of PAGES) {
@@ -104,6 +104,7 @@ for (const lang of langs) {
     else if (page === 'prices') body = P.prices(c);
     else if (page === 'request') body = P.request(c, en, langs);
     else if (page === 'help') body = P.help(c);
+    else if (page === 'reviews') body = P.reviews(c);
     else body = P.legal(c, page);
 
     let jsonld = [];

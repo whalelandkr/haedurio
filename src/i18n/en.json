@@ -10,6 +10,7 @@
     "nav": {
       "services": "Services",
       "prices": "Prices",
+      "reviews": "Reviews",
       "help": "Help"
     },
     "cta": "Start a request",
@@ -32,6 +33,7 @@
       "contact": "Contact",
       "services": "Services",
       "pricesRefunds": "Prices and refunds",
+      "reviews": "Reviews",
       "help": "Help",
       "request": "Start a request",
       "terms": "Terms of service",
@@ -129,6 +131,11 @@
           "area": "Business and product"
         }
       ]
+    },
+    "reviews": {
+      "title": "What customers say",
+      "all": "All reviews",
+      "write": "Write a review"
     },
     "startTitle": "What do you need done?",
     "startLabel": "Describe what you need",
@@ -814,9 +821,58 @@
     "privacy": "Privacy policy",
     "refunds": "Refund rules"
   },
+  "reviews": {
+    "title": "Reviews | Haedurio",
+    "description": "Reviews from visitors who used Haedurio in Seoul. Used our service? Write a review.",
+    "h1": "Reviews",
+    "lead": "What visitors say about Haedurio. Used our service? Tell others how it went.",
+    "writeCta": "Write a review",
+    "listLabel": "Reviews from customers",
+    "summaryOne": "{avg} out of 5 · 1 review",
+    "summaryMany": "{avg} out of 5 · {count} reviews",
+    "ratingOf": "{n} out of 5",
+    "loading": "Loading reviews…",
+    "empty": "No reviews yet. Be the first to write one.",
+    "loadError": "Reviews didn’t load. Refresh the page to try again.",
+    "more": "Show more reviews",
+    "formTitle": "Write a review",
+    "formLead": "Your review appears on this page right away. We remove reviews that are spam, abusive or not about our service.",
+    "ratingLabel": "Your rating",
+    "stars": [
+      "1 star",
+      "2 stars",
+      "3 stars",
+      "4 stars",
+      "5 stars"
+    ],
+    "errRating": "Choose a rating from 1 to 5 stars.",
+    "bodyLabel": "Your review",
+    "bodyPlaceholder": "What did we help with, and how did it go?",
+    "errBody": "Write at least 10 characters.",
+    "errLinks": "Remove the links from your review, then post it.",
+    "nameLabel": "Name to show",
+    "namePlaceholder": "Emma, or Emma T.",
+    "errName": "Enter the name to show with your review.",
+    "countryLabel": "Country (optional)",
+    "countryPlaceholder": "Australia",
+    "serviceLabel": "Service you used (optional)",
+    "serviceNone": "Choose a service",
+    "orderLabel": "Quote or invoice number (optional)",
+    "orderNote": "Not shown on the site. It helps us confirm you used our service.",
+    "consent": "I agree that my name, country and review are shown on this site, as described in the {privacy}.",
+    "consentLink": "privacy policy",
+    "errConsent": "Tick the box to post your review.",
+    "submit": "Post review",
+    "sending": "Posting…",
+    "errSend": "Your review didn’t post. Try again in a moment.",
+    "errDuplicate": "This review is already on the page.",
+    "errBusy": "Too many reviews were posted just now. Try again in a few minutes.",
+    "thanksTitle": "Thank you for your review",
+    "thanksText": "Your review is now on this page."
+  },
   "legal": {
     "updated": "Last updated {date}",
-    "date": "21 October 2026",
+    "date": "27 October 2026",
     "translationNote": "Translations are provided for convenience. If a translation differs from the English version, the English version applies.",
     "contents": "Contents"
   },
@@ -928,6 +984,7 @@
           "When a task needs it: delivery addresses, hotel names and the name a room is booked under, recipient details for shipping, and booking names.",
           "Only for tasks that legally require it, such as collecting a lost item on your behalf, and only with your consent: a copy of your passport.",
           "When you pay: your name, email and phone number (the card company needs them), the order and amount, and the payment result. You enter your card details in KG Inicis’s payment window, so we never see your card number.",
+          "When you write a review: the name you choose to show, your country, the service you used, your rating and review, and your quote or invoice number if you give one. Everything except the quote or invoice number is shown publicly on this site.",
           "To keep the site safe: technical data such as your IP address and browser type, processed by our hosting and spam-protection providers."
         ]
       },
@@ -937,6 +994,7 @@
           "To reply to you, quote and carry out your request",
           "To take payments and send refunds",
           "To give support and handle disputes",
+          "To show customer reviews on this site",
           "To keep the site and our services safe from abuse"
         ],
         "after": [
@@ -947,6 +1005,7 @@
         "h": "How long we keep it",
         "list": [
           "Request and support details: 1 year after your task ends, then deleted.",
+          "Reviews: until you ask us to remove them, or until we take them down.",
           "Passport copies: deleted as soon as the task is done, and no later than 30 days after.",
           "Records that Korean law requires us to keep, such as payment and contract records under the Act on Consumer Protection in Electronic Commerce (5 years) and complaint records (3 years): only for the period that law requires."
         ],

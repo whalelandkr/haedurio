@@ -10,6 +10,7 @@
     "nav": {
       "services": "Dịch vụ",
       "prices": "Bảng giá",
+      "reviews": "Đánh giá",
       "help": "Trợ giúp"
     },
     "cta": "Tạo yêu cầu",
@@ -32,6 +33,7 @@
       "contact": "Liên hệ",
       "services": "Dịch vụ",
       "pricesRefunds": "Bảng giá và hoàn tiền",
+      "reviews": "Đánh giá",
       "help": "Trợ giúp",
       "request": "Gửi yêu cầu",
       "terms": "Điều khoản dịch vụ",
@@ -129,6 +131,11 @@
           "area": "Kinh doanh và sản phẩm"
         }
       ]
+    },
+    "reviews": {
+      "title": "Khách hàng nói gì",
+      "all": "Xem tất cả đánh giá",
+      "write": "Viết đánh giá"
     },
     "startTitle": "Bạn cần chúng tôi làm gì?",
     "startLabel": "Mô tả việc bạn cần",
@@ -814,9 +821,58 @@
     "privacy": "Chính sách quyền riêng tư",
     "refunds": "Quy định hoàn tiền"
   },
+  "reviews": {
+    "title": "Đánh giá | Haedurio",
+    "description": "Đánh giá của du khách đã dùng Haedurio ở Seoul. Bạn đã dùng dịch vụ của chúng tôi? Hãy viết đánh giá.",
+    "h1": "Đánh giá",
+    "lead": "Du khách nói gì về Haedurio. Bạn đã dùng dịch vụ của chúng tôi? Hãy chia sẻ trải nghiệm của bạn.",
+    "writeCta": "Viết đánh giá",
+    "listLabel": "Đánh giá của khách hàng",
+    "summaryOne": "{avg}/5 · 1 đánh giá",
+    "summaryMany": "{avg}/5 · {count} đánh giá",
+    "ratingOf": "{n} trên 5 sao",
+    "loading": "Đang tải đánh giá…",
+    "empty": "Chưa có đánh giá nào. Hãy là người đầu tiên viết đánh giá.",
+    "loadError": "Không tải được đánh giá. Vui lòng tải lại trang.",
+    "more": "Xem thêm đánh giá",
+    "formTitle": "Viết đánh giá",
+    "formLead": "Đánh giá của bạn sẽ hiện trên trang này ngay. Chúng tôi sẽ gỡ các đánh giá là thư rác, mang tính xúc phạm hoặc không liên quan đến dịch vụ của chúng tôi.",
+    "ratingLabel": "Số sao",
+    "stars": [
+      "1 sao",
+      "2 sao",
+      "3 sao",
+      "4 sao",
+      "5 sao"
+    ],
+    "errRating": "Vui lòng chọn từ 1 đến 5 sao.",
+    "bodyLabel": "Nội dung đánh giá",
+    "bodyPlaceholder": "Chúng tôi đã giúp bạn việc gì, và mọi việc thế nào?",
+    "errBody": "Vui lòng viết ít nhất 10 ký tự.",
+    "errLinks": "Vui lòng xóa các đường link khỏi đánh giá rồi đăng lại.",
+    "nameLabel": "Tên hiển thị",
+    "namePlaceholder": "Minh Anh, hoặc Nguyễn Minh Anh",
+    "errName": "Vui lòng nhập tên hiển thị cùng đánh giá.",
+    "countryLabel": "Quốc gia (không bắt buộc)",
+    "countryPlaceholder": "Việt Nam",
+    "serviceLabel": "Dịch vụ bạn đã dùng (không bắt buộc)",
+    "serviceNone": "Chọn dịch vụ",
+    "orderLabel": "Số báo giá hoặc hóa đơn (không bắt buộc)",
+    "orderNote": "Không hiển thị trên trang. Giúp chúng tôi xác nhận bạn đã dùng dịch vụ.",
+    "consent": "Tôi đồng ý để tên, quốc gia và đánh giá của tôi được hiển thị trên trang này, theo {privacy}.",
+    "consentLink": "chính sách quyền riêng tư",
+    "errConsent": "Vui lòng đánh dấu vào ô để đăng đánh giá.",
+    "submit": "Đăng đánh giá",
+    "sending": "Đang đăng…",
+    "errSend": "Chưa đăng được đánh giá. Vui lòng thử lại sau ít phút.",
+    "errDuplicate": "Đánh giá này đã có trên trang.",
+    "errBusy": "Vừa có quá nhiều đánh giá được đăng. Vui lòng thử lại sau vài phút.",
+    "thanksTitle": "Cảm ơn bạn đã đánh giá",
+    "thanksText": "Đánh giá của bạn đã hiện trên trang này."
+  },
   "legal": {
     "updated": "Cập nhật lần cuối: {date}",
-    "date": "21 tháng 10 năm 2026",
+    "date": "27 tháng 10 năm 2026",
     "translationNote": "Bản dịch được cung cấp để thuận tiện cho bạn. Nếu bản dịch có điểm khác với bản tiếng Anh, bản tiếng Anh sẽ được áp dụng.",
     "contents": "Mục lục"
   },
@@ -928,6 +984,7 @@
           "Khi công việc cần đến: địa chỉ giao hàng, tên khách sạn và tên người đặt phòng, thông tin người nhận khi gửi hàng, và tên dùng để đặt chỗ.",
           "Chỉ với những công việc mà pháp luật yêu cầu, chẳng hạn thay mặt bạn nhận lại đồ thất lạc, và chỉ khi có sự đồng ý của bạn: bản sao hộ chiếu.",
           "Khi bạn thanh toán: tên, email và số điện thoại của bạn (công ty thẻ cần các thông tin này), đơn hàng và số tiền, cùng kết quả thanh toán. Bạn nhập thông tin thẻ trong cửa sổ thanh toán của KG Inicis, nên chúng tôi không bao giờ thấy số thẻ của bạn.",
+          "Khi bạn viết đánh giá: tên bạn chọn để hiển thị, quốc gia, dịch vụ bạn đã dùng, số sao và nội dung đánh giá, cùng số báo giá hoặc hóa đơn nếu bạn cung cấp. Mọi thông tin trừ số báo giá hoặc hóa đơn đều được hiển thị công khai trên trang này.",
           "Để giữ an toàn cho trang web: dữ liệu kỹ thuật như địa chỉ IP và loại trình duyệt của bạn, do các nhà cung cấp hosting và dịch vụ chống spam của chúng tôi xử lý."
         ]
       },
@@ -937,6 +994,7 @@
           "Để trả lời bạn, báo giá và thực hiện yêu cầu của bạn",
           "Để nhận thanh toán và hoàn tiền",
           "Để hỗ trợ và giải quyết tranh chấp",
+          "Để hiển thị đánh giá của khách hàng trên trang này",
           "Để bảo vệ trang web và dịch vụ của chúng tôi khỏi bị lạm dụng"
         ],
         "after": [
@@ -947,6 +1005,7 @@
         "h": "Thời gian lưu giữ",
         "list": [
           "Thông tin yêu cầu và hỗ trợ: lưu 1 năm sau khi công việc kết thúc, sau đó xóa.",
+          "Đánh giá: lưu cho đến khi bạn yêu cầu gỡ, hoặc khi chúng tôi gỡ xuống.",
           "Bản sao hộ chiếu: xóa ngay khi công việc hoàn tất, và chậm nhất 30 ngày sau đó.",
           "Các hồ sơ mà pháp luật Hàn Quốc yêu cầu lưu giữ, chẳng hạn hồ sơ thanh toán và hợp đồng theo Luật Bảo vệ Người tiêu dùng trong Thương mại Điện tử của Hàn Quốc (5 năm) và hồ sơ khiếu nại (3 năm): chỉ lưu trong thời hạn luật đó yêu cầu."
         ],

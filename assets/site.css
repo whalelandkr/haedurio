@@ -488,6 +488,48 @@ select.input{padding:0 40px 0 14px;appearance:none;-webkit-appearance:none;backg
 .xlist svg{margin-top:2px;color:var(--graphite)}
 .policylinks{padding:0 4px;display:flex;flex-wrap:wrap;column-gap:20px;font-size:15px}
 
+/* ---------- Reviews (home section and /reviews/) ---------- */
+.stars{display:inline-flex;align-items:center;gap:2px;flex:0 0 auto;color:#E3A008}
+.stars svg{width:18px;height:18px}
+.stars .off{color:var(--line-2)}
+.rvsum{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;font-size:16px;font-weight:500;color:var(--ink)}
+.rvlist{list-style:none;display:flex;flex-direction:column;gap:12px}
+.rvlist--grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:16px}
+.rv{display:flex;flex-direction:column;gap:10px;min-width:0;padding:22px 24px;border:1px solid var(--line);border-radius:20px;background:#fff}
+.rv__head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 12px}
+.rv__date{font-size:14px;color:var(--graphite)}
+.rv__body{font-size:16px;line-height:1.6;white-space:pre-line;overflow-wrap:anywhere}
+.rv__meta{margin-top:auto;font-size:14px;line-height:1.5;color:var(--graphite);overflow-wrap:anywhere}
+.rv__name{font-weight:600;color:var(--ink)}
+.hrv{padding:clamp(80px,10vw,136px) 0 0}
+.hrv__head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 32px;margin-bottom:32px}
+.hrv__links{margin-top:24px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px}
+.reviews{padding:clamp(24px,3.6vw,52px) 0 clamp(88px,10vw,136px)}
+.rv__top{margin-top:28px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px}
+.rv__grid{margin-top:clamp(32px,4vw,48px);display:flex;flex-wrap:wrap;align-items:flex-start;gap:48px clamp(40px,6vw,88px)}
+.rv__main{flex:999 1 520px;min-width:0}
+.rv__status{padding:8px 0 20px;font-size:16px;line-height:1.55;color:var(--graphite)}
+.rv__more{margin-top:20px}
+.rv__write{flex:1 1 340px;min-width:0;max-width:460px;padding:28px;border-radius:24px;background:var(--mist);scroll-margin-top:calc(var(--hdr-h) + 12px)}
+.rv__write .form{margin-top:24px;gap:20px}
+.rv__write .form__foot{padding-top:20px;border-top-color:var(--line-4)}
+.rv__thanks h2:focus{outline:none}
+.rate{min-width:0;margin:0;padding:0;border:0}
+.rate>legend{padding:0;font-size:15px;font-weight:600}
+.rate__stars{margin-top:6px;display:flex;gap:2px;margin-left:-6px}
+.rate__stars input{position:absolute;width:1px;height:1px;margin:0;opacity:0}
+.rate__stars label{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;color:var(--rule);cursor:pointer;transition:color .1s}
+.rate__stars input:focus-visible+label{outline:2px solid var(--blue);outline-offset:-2px}
+.rate__stars[data-show="1"] label:nth-of-type(-n+1),
+.rate__stars[data-show="2"] label:nth-of-type(-n+2),
+.rate__stars[data-show="3"] label:nth-of-type(-n+3),
+.rate__stars[data-show="4"] label:nth-of-type(-n+4),
+.rate__stars[data-show="5"] label:nth-of-type(-n+5){color:#E3A008}
+.rate .err{margin-top:4px}
+.field__note{font-size:13px;line-height:1.45;color:var(--graphite)}
+.hp{position:absolute!important;left:-10000px;width:1px;height:1px;overflow:hidden}
+html:not(.js) .rv__write,html:not(.js) .rv__top .btn{display:none}
+
 /* ---------- Legal documents ---------- */
 .doc{padding:clamp(24px,3.6vw,52px) 0 clamp(88px,10vw,136px)}
 .doc__wrap{max-width:780px}
@@ -516,6 +558,10 @@ select.input{padding:0 40px 0 14px;appearance:none;-webkit-appearance:none;backg
 /* ---------- Responsive ---------- */
 @media (max-width:900px){
   .js .svc__back{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;min-height:44px;margin:-8px 0 -20px;color:var(--ink);font-size:15px;font-weight:600;text-decoration:none}
+  .hdr__bar{column-gap:16px}
+  .hdr__link{padding:0 10px}
+  .lang__name{display:none}
+  .lang>summary{width:44px;padding:0;justify-content:center}
 }
 @media (max-width:760px){
   :root{--hdr-h:76px}
@@ -560,6 +606,9 @@ select.input{padding:0 40px 0 14px;appearance:none;-webkit-appearance:none;backg
   .ask .btn{width:100%}
   .sent__ctas .btn{flex:1 1 auto}
   .ftr__top{gap:28px 32px}
+  .rv{padding:18px 18px 20px;border-radius:18px}
+  .rv__write{padding:24px 20px;border-radius:22px}
+  .rv__top .btn{width:100%}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 @media print{.hdr,.ftr,.skip,.suggest{display:none}}

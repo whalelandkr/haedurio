@@ -24,14 +24,14 @@ export function header(c, page, langs) {
   return `<header class="hdr" data-hdr>
 <div class="wrap hdr__bar">
 ${brand(c)}
-<nav class="hdr__nav" aria-label="${attr(c.s.common.menu)}">${link('services', n.services)}${link('prices', n.prices)}${link('help', n.help)}</nav>
+<nav class="hdr__nav" aria-label="${attr(c.s.common.menu)}">${link('services', n.services)}${link('prices', n.prices)}${link('reviews', n.reviews)}${link('help', n.help)}</nav>
 <div class="hdr__tools">
 ${langMenu(c, page in SLUG ? page : 'home', langs)}
 <a class="btn btn--primary btn--sm hdr__cta" href="${c.href('request')}">${esc(c.s.common.cta)}</a>
 <button type="button" class="iconbtn hdr__menu" aria-expanded="false" aria-controls="sitemenu" aria-label="${attr(c.s.common.menu)}">${icon.menu}${icon.menuClose}</button>
 </div>
 </div>
-<div class="wrap sitemenu" id="sitemenu" hidden>${mlink('services', n.services)}${mlink('prices', n.prices)}${mlink('help', n.help)}<a href="${c.href('request')}">${esc(c.s.common.cta)}</a></div>
+<div class="wrap sitemenu" id="sitemenu" hidden>${mlink('services', n.services)}${mlink('prices', n.prices)}${mlink('reviews', n.reviews)}${mlink('help', n.help)}<a href="${c.href('request')}">${esc(c.s.common.cta)}</a></div>
 </header>`;
 }
 
@@ -66,7 +66,7 @@ export function footerFull(c) {
 <div class="ftr__top">
 <div class="ftr__brand">${brand(c, 34)}<p class="ftr__tagline">${esc(f.tagline)}</p></div>
 <nav class="ftr__col" aria-labelledby="ftr-site"><h2 class="ftr__h" id="ftr-site">${esc(f.site)}</h2>
-<a href="${c.href('services')}">${esc(f.services)}</a><a href="${c.href('prices')}">${esc(f.pricesRefunds)}</a><a href="${c.href('help')}">${esc(f.help)}</a><a href="${c.href('request')}">${esc(f.request)}</a></nav>
+<a href="${c.href('services')}">${esc(f.services)}</a><a href="${c.href('prices')}">${esc(f.pricesRefunds)}</a><a href="${c.href('reviews')}">${esc(f.reviews)}</a><a href="${c.href('help')}">${esc(f.help)}</a><a href="${c.href('request')}">${esc(f.request)}</a></nav>
 <nav class="ftr__col" aria-labelledby="ftr-pol"><h2 class="ftr__h" id="ftr-pol">${esc(f.policies)}</h2>
 <a href="${c.href('terms')}">${esc(f.terms)}</a><a href="${c.href('privacy')}">${esc(f.privacy)}</a><a href="${c.href('help', '#dont')}">${esc(f.dont)}</a></nav>
 <div class="ftr__col ftr__col--wide"><h2 class="ftr__h">${esc(f.contact)}</h2>
