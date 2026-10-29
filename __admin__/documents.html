@@ -166,6 +166,13 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
 .d-items col.q{width:23mm}
 .d-items col.p{width:22mm}
 .d-items col.a{width:26mm}
+.d-items.dual col.q{width:20mm}
+.d-items.dual col.p{width:31mm}
+.d-items.dual col.a{width:35mm}
+.doc .u{white-space:nowrap}
+.doc .krw{white-space:nowrap;color:var(--slate);font-weight:400;font-size:.85em}
+.d-val.big .krw{font-size:.66em;font-weight:500}
+.d-totals tr.t td .krw{font-size:.6em;font-weight:500}
 .d-items thead{display:table-header-group}
 .d-items th{font-size:6.8pt;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);font-weight:600;text-align:left;padding:0 0 2mm;border-bottom:.9pt solid var(--ink)}
 .d-items th.q,.d-items th.p,.d-items th.a{text-align:right}
@@ -225,6 +232,27 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
    The page itself has no margin: the document's own padding is the margin, repeated on every page.
    With no room left in the page margin, Chrome adds no header or footer of its own (date, URL). */
 @page{size:A4;margin:0}
+.fxline{display:flex;gap:6px;align-items:center}.fxline input{flex:1;min-width:0}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.calc{border:1px solid #C9D6F8;border-radius:10px;padding:10px 10px 4px;margin-bottom:10px;background:#F7F9FE}
+.calc-h{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px;margin-bottom:8px;font-size:13px}
+.calc-h .sub{flex:1;min-width:0}
+.calc fieldset{border:1px solid var(--line);border-radius:9px;margin:0 0 10px;padding:6px 10px 0;background:#fff;min-width:0}
+.calc legend{font-size:12.5px;font-weight:600;padding:0 4px}
+.calc .opts{display:flex;flex-wrap:wrap;gap:0 16px}
+.calc .auto{margin:-4px 0 8px;font-size:12px;color:var(--graphite)}
+.breakdown{width:100%;border-collapse:collapse;margin:0 0 8px;font-size:12.5px;font-variant-numeric:tabular-nums;background:#fff;border:1px solid var(--line)}
+.breakdown td{padding:5px 8px;border-top:1px solid var(--line);vertical-align:top}
+.breakdown td.n{text-align:right;white-space:nowrap}
+.breakdown tr.t td{font-weight:700;border-top:1px solid var(--line2)}
+.breakdown tr.off td{color:var(--slate)}
+.breakdown button{padding:1px 7px;font-size:11.5px}
+.item.calcitem{background:#F7F9FE;border-color:#C9D6F8;padding:6px 10px 1px}
+.item.calcitem .item-h{margin-bottom:2px}
+.item.calcitem .item-calc{margin:0 0 5px}
+.item-calc .en{color:var(--slate)}
+.calc p.stale{margin:0 0 8px;padding:7px 10px;border-radius:8px;background:#FFF4D6;color:#5C3D00;font-size:12.5px}
+.calc p.stale button{padding:2px 8px;font-size:12px}
 @media print{
   html,body{background:#fff}
   .bar,#login,.notice,.toolbar,.steps,.editor,.review,dialog{display:none!important}
@@ -282,8 +310,13 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
 <h3>문서 <small>번호와 날짜는 자동으로 채워져요. 필요하면 고치세요</small></h3>
 <div class="g2">
 <label class="f"><span>문서 번호 <small id="numhint">자동</small></span><input id="numinput" data-k="number" maxlength="40" spellcheck="false"></label>
-<label class="f"><span>통화</span><select data-k="currency"><option value="USD">USD (미국 달러)</option><option value="KRW">KRW (원)</option></select></label>
+<label class="f"><span>통화</span><select data-k="currency"><option value="USD">USD (달러, 원화 괄호 병기)</option><option value="KRW">KRW (원만)</option></select></label>
 </div>
+<div class="g2" id="fxrow">
+<label class="f"><span>환율 <small>1달러당 원. 원화 단가를 이 환율로 바꿔 품목마다 1달러 단위로 올려요</small></span><input type="number" step="any" min="0" inputmode="decimal" data-k="data.fx.rate" id="fxrate"></label>
+<div class="f"><span>환율 기준일</span><div class="fxline"><input type="date" data-k="data.fx.date" id="fxdate" aria-label="환율 기준일"><button type="button" id="fxfetch">오늘 환율 불러오기</button></div></div>
+</div>
+<p class="sub" id="fxnote" role="status"></p>
 <div class="g2">
 <label class="f"><span>발행일</span><input type="date" data-k="issue_date"></label>
 <label class="f"><span id="duelabel">결제기한</span><input type="date" data-k="due_date"></label>
@@ -306,6 +339,16 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
 <label class="f"><span>전화 <small>선택</small></span><input type="tel" data-k="client.phone"></label>
 </div>
 <label class="f"><span>주소 <small>선택. 줄바꿈 그대로</small></span><textarea data-k="client.address" rows="2"></textarea></label>
+</section>
+
+<section class="ed" id="calcsec">
+<h3>가격 계산기 <small>사이트 가격표 기준. 조건과 시간을 넣으면 아래 품목이 자동으로 바뀌어요</small></h3>
+<p class="sub" id="calclock" hidden>발행한 문서라서 계산기는 잠겨 있어요. 품목은 발행할 때의 금액 그대로예요.</p>
+<div id="calcs"></div>
+<div class="addrow" id="calcadd">
+<label class="f"><span>서비스</span><select id="calcsvc"></select></label>
+<button type="button" id="addcalc">계산기 추가</button>
+</div>
 </section>
 
 <section class="ed">
@@ -559,15 +602,38 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
   function round(n, cur) { var f = Math.pow(10, dec(cur)); return Math.round(+((+n || 0) * f).toPrecision(12)) / f; }
   function num(n, cur) { return (+n || 0).toLocaleString('en-US', { minimumFractionDigits: dec(cur), maximumFractionDigits: dec(cur) }); }
   function money(n, cur) { return cur + ' ' + num(n, cur); }
+  function won(n) { return '\u20a9' + Math.round(+n || 0).toLocaleString('en-US'); }
+  // Dollar documents keep each unit price in won as the source. The dollar unit price is the won price at the
+  // document's exchange rate, rounded up to a whole dollar, so every line adds up on paper in both currencies.
+  function normFx(f) { f = f || {}; var r = +f.rate; return { rate: r > 0 ? r : 0, date: str(f.date), source: str(f.source) }; }
+  function fxRate(d) { var r = d && d.data && d.data.fx ? +d.data.fx.rate : 0; return r > 0 ? r : 0; }
+  function dual(d) { return !!d && d.currency === 'USD' && fxRate(d) > 0; }
+  function hasKrw(it) { return it.krw != null && it.krw !== '' && isFinite(+it.krw); }
+  function usdFromKrw(krw, rate) { return Math.ceil(+((+krw || 0) / rate).toPrecision(12)); }
+  function lineKrw(it) { return Math.round((+it.qty || 0) * Math.round(+it.krw || 0)); }
+  // A won document prints the won price itself.
+  function applyFx(d) {
+    if (d.currency === 'KRW') { d.data.items.forEach(function (it) { if (hasKrw(it)) it.price = Math.round(+it.krw); }); return; }
+    // Without a rate, calculator lines have no dollar price yet; issuing asks for the rate.
+    if (!dual(d)) { d.data.items.forEach(function (it) { if (it.calc) it.price = 0; }); return; }
+    var r = fxRate(d);
+    d.data.items.forEach(function (it) { if (hasKrw(it)) it.price = usdFromKrw(it.krw, r); });
+  }
   function qtyText(q) { q = +q || 0; return Number.isInteger(q) ? String(q) : String(+q.toFixed(2)); }
   // The unit price counts as printed (whole won for KRW, cents for USD), so the line always adds up on paper.
   function lineAmount(it, cur) { return round((+it.qty || 0) * round(it.price, cur), cur); }
   function totals(d) {
-    var cur = d.currency, sub = 0, opt = 0;
-    d.data.items.forEach(function (it) { if (it.optional) opt += lineAmount(it, cur); else sub += lineAmount(it, cur); });
+    var cur = d.currency, sub = 0, opt = 0, ksub = 0, kall = true, any = false;
+    d.data.items.forEach(function (it) {
+      if (it.optional) { opt += lineAmount(it, cur); return; }
+      sub += lineAmount(it, cur); any = true;
+      if (hasKrw(it)) ksub += lineKrw(it); else kall = false;
+    });
     sub = round(sub, cur);
     var disc = Math.max(0, Math.min(round(d.data.discount, cur), sub));
-    return { sub: sub, disc: disc, total: round(sub - disc, cur), opt: round(opt, cur) };
+    // The won total is shown only when every line has a won price and no dollar discount changes it.
+    var krw = dual(d) && any && kall && !disc ? ksub : null;
+    return { sub: sub, disc: disc, total: round(sub - disc, cur), opt: round(opt, cur), krw: krw };
   }
   function setMsg(text, err) { var m = $('msg'); m.textContent = text || ''; m.className = 'msg' + (err ? ' err' : ''); }
   function errText(e) { return (e && (e.message || e.error_description)) || String(e); }
@@ -723,14 +789,16 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
   function unitFor(type, lang, qty) { var u = (SERVICES[type] || SERVICES.custom)[lang].unit; return +qty === 1 ? u[0] : u[1]; }
   function newItem(type) {
     type = SERVICES[type] ? type : 'custom';
-    var s = SERVICES[type], it = { id: uid(), type: type, qty: 1, price: 0, optional: false, unitAuto: { ko: true, en: true } };
+    var s = SERVICES[type], it = { id: uid(), type: type, qty: 1, price: 0, krw: null, optional: false, unitAuto: { ko: true, en: true } };
     LANGS.forEach(function (l) { it[l] = { name: s[l].name, unit: unitFor(type, l, 1), details: '' }; });
     return it;
   }
   function normItem(x) {
     x = x || {};
     if (x.ko || x.en) {
-      var it = { id: x.id || uid(), type: SERVICES[x.type] ? x.type : 'custom', qty: +x.qty || 0, price: +x.price || 0, optional: !!x.optional, unitAuto: { ko: !!(x.unitAuto && x.unitAuto.ko), en: !!(x.unitAuto && x.unitAuto.en) } };
+      var it = { id: x.id || uid(), type: SERVICES[x.type] ? x.type : 'custom', qty: +x.qty || 0, price: +x.price || 0, krw: hasKrw(x) ? Math.round(+x.krw) : null, optional: !!x.optional, unitAuto: { ko: !!(x.unitAuto && x.unitAuto.ko), en: !!(x.unitAuto && x.unitAuto.en) } };
+      if (x.calc) { it.calc = str(x.calc); it.role = str(x.role); }
+      if (x.from) it.from = str(x.from);
       LANGS.forEach(function (l) { var t = x[l] || {}; it[l] = { name: str(t.name), unit: str(t.unit), details: str(t.details) }; });
       return it;
     }
@@ -747,7 +815,7 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
       data: {
         v: 2, title: bi(), contact: bi(settings.prefs.contact), items: [], discount: 0,
         included: bi(), excluded: bi(TEMPLATE.excluded), terms: bi(TEMPLATE.terms[kind]), cancellation: bi(), notes: bi(),
-        show_bank: kind === 'invoice'
+        show_bank: kind === 'invoice', fx: normFx(), calcs: []
       },
       source_id: null, memo: '', paid_at: null, savedStatus: null
     };
@@ -785,9 +853,13 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     if (kind === 'invoice') d.data.items.forEach(function (it) { it.optional = false; });
     d.data.discount = +data.discount || 0;
     d.data.show_bank = data.show_bank != null ? !!data.show_bank : kind === 'invoice';
+    d.data.fx = normFx(data.fx);
+    d.data.calcs = (Array.isArray(data.calcs) ? data.calcs : []).map(normCalc);
     if (data.snapshot) d.data.snapshot = data.snapshot;
     if (KIND[kind].statuses.indexOf(d.status) < 0) d.status = 'draft';
     if (d.currency !== 'KRW') d.currency = 'USD';
+    // An issued document keeps the dollar prices it was issued with; a draft follows its won prices and rate.
+    if (!(row.id && d.status !== 'draft')) applyFx(d);
     d.savedStatus = row.id ? d.status : null;
     return d;
   }
@@ -837,6 +909,8 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     $('toinvoice').hidden = doc.kind !== 'quote';
     $('remove').hidden = !(doc.id && doc.savedStatus === 'draft');
     showClientType();
+    showFxRow(); showFxNote();
+    renderCalcs();
     renderItems();
     updateSum();
     autosizeAll();
@@ -844,9 +918,12 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
 
   // An issued document keeps its content: only its status and the internal memo can change. A void document stays void.
   function lockForm() {
-    var locked = isLocked();
-    $$('#editor input, #editor textarea, #editor select, #items button, #additem').forEach(function (el) {
-      el.disabled = locked && el.id !== 'status' && el.dataset.k !== 'memo';
+    var locked = isLocked(), two = dual(doc);
+    $$('#editor input, #editor textarea, #editor select, #editor button, #additem').forEach(function (el) {
+      if (el.closest('.ed-actions') || el.closest('.ed-head')) return;
+      // A dollar unit price that comes from a won price is worked out, not typed.
+      var fixed = two && el.dataset.f === 'price' && hasKrw(doc.data.items[+el.dataset.i] || {});
+      el.disabled = fixed || (locked && el.id !== 'status' && el.dataset.k !== 'memo');
     });
     $('status').disabled = !locked || doc.savedStatus === 'void';
     $('locknote').hidden = !locked;
@@ -854,8 +931,9 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
   function field(label, input) { return h('label', { class: 'f' }, [h('span', { text: label }), input]); }
   function itemButton(text, act, i, label) { return h('button', { type: 'button', 'data-act': act, 'data-i': i, 'aria-label': label, title: label, text: text }); }
   function itemCalc(it) {
-    var cur = doc.currency, q = L.ko.qty(qtyText(it.qty), it.ko.unit.trim());
-    return q + ' × ' + money(it.price, cur) + ' = ' + money(lineAmount(it, cur), cur) + (it.optional ? ' (선택 품목, 합계에서 뺌)' : '');
+    var cur = doc.currency, q = L.ko.qty(qtyText(it.qty), it.ko.unit.trim()), opt = it.optional ? ' (선택 품목, 합계에서 뺌)' : '';
+    if (dual(doc) && hasKrw(it)) return q + ' × ' + won(it.krw) + ' = ' + won(lineKrw(it)) + '  →  ' + q + ' × ' + money(it.price, cur) + ' = ' + money(lineAmount(it, cur), cur) + ' (1달러 단위 올림)' + opt;
+    return q + ' × ' + money(it.price, cur) + ' = ' + money(lineAmount(it, cur), cur) + opt;
   }
   function renderItems() {
     var box = $('items');
@@ -863,6 +941,7 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     if (!doc.data.items.length) box.appendChild(h('p', { class: 'sub', text: '아직 품목이 없어요. 아래에서 품목을 골라 추가하세요.' }));
     doc.data.items.forEach(function (it, i) {
       var n = (i + 1) + '번 품목', s = SERVICES[it.type] || SERVICES.custom, cur = doc.currency;
+      if (calcById(it.calc)) { box.appendChild(calcItemCard(it, i, n)); return; }
       var inp = function (f, label, extra) { return h('input', Object.assign({ 'data-i': i, 'data-f': f, 'aria-label': n + ' ' + label }, extra || {})); };
       var area = function (f, label, l) { return h('textarea', { 'data-i': i, 'data-f': f, rows: 3, lang: l, 'aria-label': n + ' ' + label }); };
       var card = h('div', { class: 'item' + (it.optional ? ' opt' : '') }, [
@@ -871,7 +950,12 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
           h('span', { class: 'sub', text: '수량 기준: ' + s.basis }),
           h('span', { class: 'item-btns' }, [itemButton('↑', 'up', i, n + ' 위로'), itemButton('↓', 'down', i, n + ' 아래로'), itemButton('삭제', 'del', i, n + ' 삭제')])
         ]),
-        h('div', { class: 'g3' }, [
+        dual(doc) ? h('div', { class: 'g4' }, [
+          field('수량', inp('qty', '수량', { type: 'number', step: 'any', min: 0, inputmode: 'decimal' })),
+          field('단가 (KRW)', inp('krw', '단가 원화', { type: 'number', step: '1', min: 0, inputmode: 'numeric' })),
+          field('단가 (USD)', inp('price', '단가', { type: 'number', step: 'any', min: 0, inputmode: 'decimal', disabled: hasKrw(it) })),
+          h('div', { class: 'f' }, [h('span', { text: '금액' }), h('output', { class: 'item-amt', 'data-amt': i, 'aria-label': n + ' 금액' })])
+        ]) : h('div', { class: 'g3' }, [
           field('수량', inp('qty', '수량', { type: 'number', step: 'any', min: 0, inputmode: 'decimal' })),
           field('단가 (' + cur + ')', inp('price', '단가', { type: 'number', step: 'any', min: 0, inputmode: 'decimal' })),
           h('div', { class: 'f' }, [h('span', { text: '금액' }), h('output', { class: 'item-amt', 'data-amt': i, 'aria-label': n + ' 금액' })])
@@ -892,17 +976,20 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     });
     $$('textarea', box).forEach(autosize);
     lockForm();
+    updateCalcViews();
   }
   function updateItemCalc(i) {
     var it = doc.data.items[i], out = $('items').querySelector('[data-amt="' + i + '"]'), calc = $('items').querySelector('[data-calc="' + i + '"]');
     if (!it || !out) return;
-    out.textContent = money(lineAmount(it, doc.currency), doc.currency);
+    out.textContent = money(lineAmount(it, doc.currency), doc.currency) + (dual(doc) && hasKrw(it) ? ' (' + won(lineKrw(it)) + ')' : '');
     calc.textContent = itemCalc(it);
+    var usd = $('items').querySelector('[data-i="' + i + '"][data-f="price"]');
+    if (usd && dual(doc)) { if (document.activeElement !== usd) usd.value = it.price; usd.disabled = hasKrw(it) || isLocked(); }
   }
 
   function updateSum() {
     var t = totals(doc), cur = doc.currency, B = basics(doc).bank, w = $('bankwarn');
-    $('sumline').textContent = '합계 ' + money(t.total, cur) + (t.disc ? ' (할인 ' + money(t.disc, cur) + ' 반영)' : '') + (t.opt ? ' · 선택 품목 ' + money(t.opt, cur) + ' 별도' : '');
+    $('sumline').textContent = '합계 ' + money(t.total, cur) + (t.krw != null ? ' (' + won(t.krw) + ')' : '') + (t.disc ? ' (할인 ' + money(t.disc, cur) + ' 반영)' : '') + (t.opt ? ' · 선택 품목 ' + money(t.opt, cur) + ' 별도' : '');
     var text = '';
     if (doc.data.snapshot) text = '발행한 문서라서 발행할 때의 발행인·입금 정보로 고정돼 있어요.';
     else if (doc.data.show_bank && !bankComplete(B)) text = '입금 계좌가 비어 있어요. 기본정보 설정에서 은행, 예금주, 계좌번호, SWIFT를 넣어 주세요.';
@@ -963,12 +1050,13 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
         if (doc.numberAuto && !isLocked()) { doc.number = proposeNumber(doc.kind, v, doc.id); $('numinput').value = doc.number; updateNumberHint(); }
       }
       if (k === 'due_date') doc.dueAuto = false;
-      if (k === 'currency') renderItems();
+      if (k === 'data.fx.rate' || k === 'data.fx.date') { doc.data.fx.source = 'manual'; showFxNote(); }
+      if (k === 'currency' || k === 'data.fx.rate') { applyFx(doc); renderItems(); showFxRow(); }
       if (k === 'client.type') { showClientType(); autosizeAll(); }
     } else if (el.dataset.f) {
       var i = +el.dataset.i, it = doc.data.items[i], f = el.dataset.f;
       if (!it) return;
-      var nv = el.type === 'checkbox' ? el.checked : (f === 'qty' || f === 'price') ? (el.value === '' ? 0 : +el.value) : el.value;
+      var nv = el.type === 'checkbox' ? el.checked : f === 'krw' ? (el.value === '' ? null : Math.max(0, Math.round(+el.value))) : (f === 'qty' || f === 'price') ? (el.value === '' ? 0 : +el.value) : el.value;
       if (getPath(it, f) === nv) return;
       setPath(it, f, nv);
       // A unit someone typed is kept as typed. Units still following the item type change with the quantity (day / days).
@@ -980,7 +1068,12 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
         if (u) u.value = it[l].unit;
       });
       if (f === 'optional') el.closest('.item').classList.toggle('opt', !!nv);
+      if (f === 'krw') applyFx(doc);
+      // A won document keeps the won price as the source too, so the same item can later be shown in dollars.
+      if (f === 'price' && doc.currency === 'KRW') it.krw = Math.max(0, Math.round(nv));
       updateItemCalc(i);
+    } else if (el.dataset.cf) {
+      if (!calcEdit(el)) return;
     } else return;
     changed();
   }
@@ -995,8 +1088,16 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     if (act === 'up' && i > 0) items.splice(i - 1, 0, items.splice(i, 1)[0]);
     else if (act === 'down' && i < items.length - 1) items.splice(i + 1, 0, items.splice(i, 1)[0]);
     else if (act === 'del') items.splice(i, 1);
-    else return;
+    else if (act === 'detach') {
+      // The line becomes an ordinary item that can be edited, and its calculator stops making it.
+      var it = items[i], c = it && calcById(it.calc);
+      if (!c) return;
+      if (c.detached.indexOf(it.role) < 0) c.detached.push(it.role);
+      it.from = c.id + '-' + it.role;
+      delete it.calc; delete it.role;
+    } else return;
     renderItems(); changed();
+    if (act === 'detach') { var nm = $('items').querySelector('[data-i="' + i + '"][data-f="ko.name"]'); if (nm) nm.focus(); }
   });
   $('additem').addEventListener('click', function () {
     doc.data.items.push(newItem($('addtype').value));
@@ -1004,6 +1105,441 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     var last = $('items').lastElementChild;
     if (last) last.querySelector('[data-f="qty"]').focus();
   });
+
+  /* ---------- Price calculator: the site's price list, in won ---------- */
+  // The same numbers as the public site: service prices in src/site.json, add-ons in the catalog of src/i18n/en.json,
+  // and the timing, distance and size extras on the prices page (tools/pages.mjs).
+  // When a price changes there, change it here too. node tools/check-pricing.mjs lists any that differ.
+  var PR = {
+    handling: 4.5,
+    lead: [
+      { id: 'h48', pct: 10, ko: '48시간 이내', en: 'Within 48 hours' },
+      { id: 'h24', pct: 20, ko: '24시간 이내', en: 'Within 24 hours' },
+      { id: 'same', pct: 35, ko: '당일', en: 'Same day' },
+      { id: 'h3', pct: 60, ko: '3시간 이내', en: 'Within 3 hours' }
+    ],
+    night: { pct: 30, ko: '야간 작업 22:00–02:00', en: 'Night work, 22:00 to 02:00' },
+    fixed: { pct: 20, ko: '도착 시간 지정', en: 'A fixed arrival time' },
+    distance: [
+      { id: 'central', krw: 0, ko: '서울 도심', en: 'Central Seoul' },
+      { id: 'seoul', krw: 16000, ko: '서울 그 외 지역', en: 'Rest of Seoul' },
+      { id: 'outer', krw: 31000, ko: '서울 외곽·장거리', en: 'Outer Seoul and longer trips' },
+      { id: 'airport', krw: 54000, ko: '공항·인근 도시', en: 'Airports and nearby cities' }
+    ],
+    size: [
+      { id: 'none', krw: 0, ko: '보통', en: '' },
+      { id: 'bulky', krw: 16000, ko: '10~20kg 또는 부피가 큼', en: '10 to 20 kg, or bulky' },
+      { id: 'heavy', krw: 39000, ko: '20kg 초과 또는 2인 필요', en: 'Over 20 kg, or needs two people' }
+    ],
+    ship: 48000,
+    costs: [
+      { id: 'items', label: '물품값', ko: '물품값 (실비)', en: 'Items, at cost' },
+      { id: 'transport', label: '교통비 (택시 등)', ko: '교통비 (실비)', en: 'Taxi and transport, at cost' },
+      { id: 'postage', label: '배송비·우편료', ko: '배송비·우편료 (실비)', en: 'Postage and courier fees, at cost' },
+      { id: 'deposit', label: '예약금·보증금', ko: '예약금·보증금 (실비)', en: 'Deposits, at cost' },
+      { id: 'other', label: '식비·기타', ko: '식비·기타 (실비)', en: 'Food and other expenses, at cost' }
+    ]
+  };
+  // kind: count = price × count · hours = the first block, then each extra hour · perhour = price × hours
+  //       variant = one of a few fixed prices · varhours = one of a few hourly prices
+  // rushIncluded: the price is already for urgent work, so no rush extra is added automatically.
+  var SV = {
+    reservation: { ko: '예약 대행', en: 'Reservation', kind: 'count', krw: 9000, qtyLabel: '예약할 곳 수', unit: { ko: ['곳', '곳'], en: ['place', 'places'] },
+      addons: [
+        { id: 'compare', krw: 5000, ko: '여러 곳 먼저 비교', en: 'Compare a few places first' },
+        { id: 'change', krw: 5000, ko: '나중에 예약 변경·취소', en: 'Change or cancel the booking later' },
+        { id: 'follow', krw: 5000, ko: '여러 번 확인이 필요한 곳', en: 'Places that need repeated follow-ups' }
+      ] },
+    info: { ko: '정보 확인 (30분 단위)', en: 'Info check, per 30 minutes', kind: 'count', krw: 9000, minutes: 30, qtyLabel: '30분 단위 수 (2 = 1시간)', unit: { ko: ['회', '회'], en: ['', ''] }, research: 22000 },
+    instore: { ko: '매장 구매 대행 (첫 1시간)', en: 'In-store purchase, first hour', kind: 'hours', krw: 102000, first: 1, extra: 56000, onsite: true, size: true, ship: true, itemMin: 8000 },
+    online: { ko: '국내 전용 온라인몰 주문', en: 'Korea-only online shop order', kind: 'count', krw: 30000, qtyLabel: '주문 건수', unit: { ko: ['건', '건'], en: ['order', 'orders'] }, ship: true, itemMin: 8000 },
+    openrun: { ko: '팝업 오픈런 (대기 2시간 포함)', en: 'Pop-up open-run, up to 2 hours in the queue', kind: 'hours', krw: 342000, first: 2, extra: 37000,
+      extraKo: '추가 대기 시간', extraEn: 'Each extra hour in the queue', hoursLabel: '대기 시간 (시간)', onsite: true, size: true, ship: true },
+    errand: { ko: '현장 심부름 (첫 1시간)', en: 'On-site errand, first hour', kind: 'hours', krw: 95000, first: 1, extra: 56000, onsite: true, size: true,
+      addons: [{ id: 'lobby', krw: 8000, ko: '호텔 로비 전달', en: 'Handoff at the hotel lobby' }] },
+    remote: { ko: '원격 통역 (30분 단위)', en: 'Remote interpretation, per 30 minutes', kind: 'count', krw: 31000, minutes: 30, qtyLabel: '30분 단위 수 (2 = 1시간)', unit: { ko: ['회', '회'], en: ['', ''] } },
+    companion: { ko: '동행 통역 (첫 1시간)', en: 'Companion interpretation, first hour', kind: 'hours', krw: 126000, first: 1, extra: 56000, onsite: true },
+    pro: { ko: '전문 통역', en: 'Professional interpretation', kind: 'perhour', krw: 93000, onsite: true },
+    shipping: { ko: '해외 배송 대행', en: 'International shipping', kind: 'count', krw: 48000, qtyLabel: '보내는 건수', unit: { ko: ['건', '건'], en: ['shipment', 'shipments'] } },
+    parcel: { ko: '택배 수령·보관', en: 'Parcel receiving', kind: 'count', krw: 28000, qtyLabel: '택배 개수', unit: { ko: ['개', '개'], en: ['parcel', 'parcels'] }, storage: 1500 },
+    lostcheck: { ko: '분실물 조회', en: 'Lost item check', kind: 'count', krw: 39000, qtyLabel: '찾을 물건 수', unit: { ko: ['건', '건'], en: ['item', 'items'] } },
+    pickup: { ko: '분실물 수령·당일 배송', en: 'Pickup and same-day delivery', kind: 'variant', onsite: true, size: true,
+      variants: [
+        { id: 'lost', krw: 132000, ko: '분실물 수령 (위임장 필요)', en: 'Lost item pickup, with your signed authorization' },
+        { id: 'urgent', krw: 148000, rushIncluded: true, ko: '당일 긴급 배송 (서울 도심)', en: 'Same-day urgent delivery in central Seoul' }
+      ] },
+    genie: { ko: '기타 요청', en: 'Something else', kind: 'varhours', size: true,
+      variants: [
+        { id: 'remote', krw: 31000, ko: '기타 요청 (원격, 시간당)', en: 'Something else, remote, per hour' },
+        { id: 'onsite', krw: 56000, onsite: true, ko: '기타 요청 (현장, 시간당)', en: 'Something else, on site, per hour' }
+      ] }
+  };
+  var SV_ORDER = ['reservation', 'info', 'instore', 'online', 'openrun', 'errand', 'remote', 'companion', 'pro', 'shipping', 'parcel', 'lostcheck', 'pickup', 'genie'];
+  var SV_GROUP = { reservation: '예약·정보', info: '예약·정보', instore: '쇼핑', online: '쇼핑', openrun: '쇼핑', errand: '심부름', remote: '통역', companion: '통역', pro: '통역', shipping: '택배·배송', parcel: '택배·배송', lostcheck: '분실물·긴급', pickup: '분실물·긴급', genie: '기타' };
+
+  function pick(list, id) { return list.filter(function (x) { return x.id === id; })[0] || null; }
+  function unitOf(pair, n) { return +n === 1 ? pair[0] : pair[1]; }
+  // Each calculator keeps the price list it was made with, so a saved quote, or an invoice made from one, never
+  // changes price by itself after the site's prices change. '지금 가격으로 다시 계산' takes the current list.
+  function priceList(svc) { return SV[svc] ? { PR: clone(PR), S: clone(SV[svc]) } : null; }
+  // Compared with sorted keys: the database (jsonb) does not keep the order of keys.
+  function sortedJson(o) { return JSON.stringify(o, function (k, v) { return v && typeof v === 'object' && !Array.isArray(v) ? Object.keys(v).sort().reduce(function (a, x) { a[x] = v[x]; return a; }, {}) : v; }); }
+  function stale(c) { var now = priceList(c.svc); return !!now && sortedJson(c.pl) !== sortedJson(now); }
+  function svcLabel(S) { return S.ko.replace(/\s*\(.*\)$/, ''); }
+  function svcPrice(S) {
+    if (S.variants) return S.variants.map(function (v) { return won(v.krw) + (S.kind === 'varhours' ? '/시간' : ''); }).join(' 또는 ');
+    if (S.kind === 'hours') return won(S.krw) + (S.first > 1 ? ' (' + S.first + '시간까지)' : ' (첫 1시간)') + ' + 1시간마다 ' + won(S.extra);
+    if (S.kind === 'perhour') return '시간당 ' + won(S.krw);
+    return S.minutes ? S.minutes + '분마다 ' + won(S.krw) : S.unit.ko[0] + '당 ' + won(S.krw);
+  }
+  function calcList() { return (doc && doc.data.calcs) || []; }
+  function calcById(id) { return id ? calcList().filter(function (c) { return c.id === id; })[0] || null : null; }
+  function variantOf(c) { var S = c.pl.S; return S.variants ? pick(S.variants, c.variant) || S.variants[0] : null; }
+  function onsiteCalc(c) { var v = variantOf(c); return !!(c.pl.S.onsite || (v && v.onsite)); }
+  function sizeCalc(c) { return !!c.pl.S.size && onsiteCalc(c); }
+  // The time the request came in, kept as an instant and shown in Korean time.
+  function toKstLocal(iso) { var t = Date.parse(iso); return t ? new Date(t + 9 * 3600e3).toISOString().slice(0, 16) : ''; }
+  function fromKstLocal(v) { var m = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})/.exec(v || ''), t = m ? Date.parse(m[1] + 'T' + m[2] + ':00+09:00') : NaN; return t ? new Date(t).toISOString() : ''; }
+  function normCalc(x) {
+    x = x || {};
+    var pl = x.pl && x.pl.PR && x.pl.S && x.pl.S.kind ? x.pl : null;
+    var svc = SV[x.svc] || (pl && x.svc) ? String(x.svc) : 'errand';
+    pl = pl || priceList(svc);
+    var S = pl.S, P = pl.PR;
+    var c = {
+      id: str(x.id) || 'c' + uid(), svc: svc, pl: pl, date: str(x.date), time: /^\d{2}:\d{2}$/.test(x.time) ? x.time : '',
+      hours: +x.hours > 0 ? +x.hours : (S.first || 1), qty: +x.qty > 0 ? Math.round(+x.qty) : 1,
+      asked: str(x.asked), lead: str(x.lead, 'auto'), night: str(x.night, 'auto'), fixed: !!x.fixed,
+      distance: pick(P.distance, x.distance) ? x.distance : 'central', size: pick(P.size, x.size) ? x.size : 'none',
+      variant: str(x.variant), research: +x.research > 0 ? Math.round(+x.research) : 0, storage: +x.storage > 0 ? Math.round(+x.storage) : 0,
+      addons: {}, costs: {}, handling: x.handling == null ? true : !!x.handling, note: bi(x.note),
+      detached: Array.isArray(x.detached) ? x.detached.map(String) : []
+    };
+    if (['auto', 'none'].concat(P.lead.map(function (l) { return l.id; })).indexOf(c.lead) < 0) c.lead = 'auto';
+    if (['auto', 'on', 'off'].indexOf(c.night) < 0) c.night = 'auto';
+    (S.addons || []).forEach(function (a) { c.addons[a.id] = !!(x.addons && x.addons[a.id]); });
+    if (S.ship) c.addons.ship = !!(x.addons && x.addons.ship);
+    P.costs.forEach(function (k) { var v = x.costs ? +x.costs[k.id] : 0; c.costs[k.id] = v > 0 ? Math.round(v) : 0; });
+    if (S.variants && !pick(S.variants, c.variant)) c.variant = S.variants[0].id;
+    return c;
+  }
+  // A second calculator usually belongs to the same request: it starts from the first one's request time and date.
+  function newCalc(svc) {
+    var first = calcList()[0];
+    return normCalc({ svc: svc, asked: (first && first.asked) || new Date().toISOString(), date: (first && first.date) || kstToday() });
+  }
+
+  // How long the work runs, to see whether it reaches into the night. Count services use their 30-minute blocks.
+  function calcHours(c) {
+    var S = c.pl.S;
+    if (S.kind === 'hours') return Math.max(S.first, +c.hours || 0);
+    if (S.kind === 'perhour' || S.kind === 'varhours') return Math.max(1, +c.hours || 0);
+    if (S.minutes) return (Math.max(1, Math.round(+c.qty || 1)) * S.minutes) / 60;
+    return 0;
+  }
+  function startMs(c) { return c.date && c.time ? Date.parse(c.date + 'T' + c.time + ':00+09:00') : NaN; }
+  // Rush extras by how soon the work starts after the request: within 3 hours, the same day, within 24 or 48 hours.
+  function autoLead(c) {
+    var s = startMs(c), a = Date.parse(c.asked);
+    if (!(s > 0) || !(a > 0)) return { id: 'none', why: !c.date ? '날짜를 넣으면 정해요' : !c.time ? '시작 시각을 넣으면 정해요' : '요청 받은 시각을 넣으면 정해요' };
+    var hrs = (s - a) / 3600e3;
+    if (hrs < 0) return { id: 'none', why: '시작 시각이 요청 받은 시각보다 빨라요' };
+    var id = hrs <= 3 ? 'h3' : kstDate(a) === c.date ? 'same' : hrs <= 24 ? 'h24' : hrs <= 48 ? 'h48' : 'none';
+    return { id: id, why: '요청 ' + (Math.round(hrs * 10) / 10) + '시간 뒤 시작' };
+  }
+  // Night work: any part of the work between 22:00 and 02:00, Korean time.
+  function autoNight(c) {
+    var s = startMs(c);
+    if (!(s > 0)) return false;
+    var e = s + Math.max(calcHours(c), 0.5) * 3600e3;
+    for (var k = -1; k <= 1; k++) {
+      var ns = Date.parse(addDays(c.date, k) + 'T22:00:00+09:00'), ne = ns + 4 * 3600e3;
+      if (s < ne && e > ns) return true;
+    }
+    return false;
+  }
+  function whenText(c, lang) {
+    if (!c.date) return '';
+    var t = c.time, end = '', dur = calcHours(c);
+    if (t && dur > 0) {
+      var m = ((+t.slice(0, 2) * 60 + +t.slice(3) + Math.round(dur * 60)) % 1440 + 1440) % 1440;
+      end = String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0');
+    }
+    if (lang === 'en') return L.en.date(c.date) + (t ? ', ' + t + (end ? '–' + end : '') + ' KST' : '');
+    return L.ko.date(c.date) + (t ? ' ' + t + (end ? '–' + end : '') + ' (한국 시간)' : '');
+  }
+
+  // The lines one calculator puts on the document, in won. Timing extras are charged on the service fee
+  // (the menu price and its extra time) and multiply each other; add-ons, travel, size and actual costs are not multiplied.
+  function calcLines(c) {
+    var S = c.pl.S, P = c.pl.PR, all = [], notes = [], q = Math.max(1, Math.round(+c.qty || 1)), v = variantOf(c);
+    var line = function (role, ko, en, qty, krw, timed) {
+      krw = Math.round(krw);
+      if (!(krw > 0) || !(qty > 0)) return;
+      all.push({ role: role, qty: qty, krw: krw, timed: !!timed,
+        ko: { name: ko.name, unit: ko.unit || '', details: ko.details || '' }, en: { name: en.name, unit: en.unit || '', details: en.details || '' } });
+    };
+    var det = function (lang) { return [whenText(c, lang), c.note[lang].trim()].filter(Boolean).join('\n'); };
+    if (S.kind === 'count') {
+      line('base', { name: S.ko, unit: unitOf(S.unit.ko, q), details: det('ko') }, { name: S.en, unit: unitOf(S.unit.en, q), details: det('en') }, q, S.krw, true);
+      if (S.research && c.research > 0) line('research', { name: '리서치 (시간당)', unit: '시간' }, { name: 'Research, per hour', unit: unitOf(['hour', 'hours'], c.research) }, c.research, S.research, true);
+    } else if (S.kind === 'hours') {
+      line('base', { name: S.ko, details: det('ko') }, { name: S.en, details: det('en') }, 1, S.krw, true);
+      var extra = Math.max(0, Math.ceil(+c.hours || 0) - S.first);
+      line('extra', { name: S.extraKo || '추가 시간', unit: '시간' }, { name: S.extraEn || 'Each extra hour', unit: unitOf(['hour', 'hours'], extra) }, extra, S.extra, true);
+    } else if (S.kind === 'perhour' || S.kind === 'varhours') {
+      var n = Math.max(1, Math.ceil(+c.hours || 0)), p = S.kind === 'perhour' ? S : v;
+      line('base', { name: p.ko, unit: '시간', details: det('ko') }, { name: p.en, unit: unitOf(['hour', 'hours'], n), details: det('en') }, n, p.krw, true);
+    } else {
+      line('base', { name: v.ko, details: det('ko') }, { name: v.en, details: det('en') }, 1, v.krw, true);
+    }
+
+    var fee = all.reduce(function (a, o) { return a + o.qty * o.krw; }, 0), f = 1;
+    var al = autoLead(c), rushIn = !!(v && v.rushIncluded), lead = c.lead === 'auto' ? (rushIn ? 'none' : al.id) : c.lead, lo = pick(P.lead, lead);
+    var nightAuto = autoNight(c), night = c.night === 'auto' ? nightAuto : c.night === 'on';
+    var timing = function (role, o) {
+      var basis = Math.round(fee * f), first = f === 1;
+      line(role,
+        { name: '할증 · ' + o.ko + ' (+' + o.pct + '%)', details: (first ? '서비스 요금 ' : '앞 할증까지 더한 요금 ') + won(basis) + ' × ' + o.pct + '%' },
+        { name: 'Timing extra · ' + o.en + ' (+' + o.pct + '%)', details: o.pct + '% of ' + (first ? 'the ' + won(basis) + ' service fee' : won(basis) + ', the service fee with the extra above') },
+        1, basis * o.pct / 100);
+      f *= 1 + o.pct / 100;
+    };
+    if (lo) timing('lead', lo);
+    if (night) timing('night', P.night);
+    if (c.fixed) timing('fixed', P.fixed);
+
+    (S.addons || []).forEach(function (a) { if (c.addons[a.id]) line('addon-' + a.id, { name: a.ko }, { name: a.en }, 1, a.krw); });
+    if (S.ship && c.addons.ship) line('ship', { name: '해외 발송' }, { name: 'Ship it abroad' }, 1, P.ship);
+    if (S.storage && c.storage > 0) line('storage', { name: '7일 넘는 보관', unit: '일' }, { name: 'Storage after 7 days', unit: unitOf(['day', 'days'], c.storage) }, c.storage, S.storage);
+    var dist = pick(P.distance, c.distance);
+    if (onsiteCalc(c) && dist && dist.krw) line('distance', { name: '이동 · ' + dist.ko }, { name: 'Travel · ' + dist.en }, 1, dist.krw);
+    var size = pick(P.size, c.size);
+    if (sizeCalc(c) && size && size.krw) line('size', { name: '크기·무게 · ' + size.ko }, { name: 'Size · ' + size.en }, 1, size.krw);
+
+    // Actual costs at cost, plus 4.5% handling. For shop orders the service fee already covers the first ₩8,000
+    // of item handling, so only what goes beyond it is added.
+    var costSum = 0;
+    P.costs.forEach(function (k) { var x = c.costs[k.id] || 0; if (x > 0) { costSum += x; line('cost-' + k.id, { name: k.ko }, { name: k.en }, 1, x); } });
+    if (costSum > 0 && c.handling) {
+      var items = c.costs.items || 0, incl = S.itemMin && items > 0 ? S.itemMin * (S.kind === 'count' ? q : 1) : 0;
+      var base = Math.round(costSum * P.handling / 100), ded = Math.min(Math.round(items * P.handling / 100), incl);
+      line('handling',
+        { name: '실비 처리 수수료 ' + P.handling + '%', details: '실비 ' + won(costSum) + ' × ' + P.handling + '%' + (ded ? ' − 서비스 요금에 포함된 ' + won(ded) : '') },
+        { name: 'Handling, ' + P.handling + '% of actual costs', details: P.handling + '% of ' + won(costSum) + (ded ? ', less ' + won(ded) + ' already in the service fee' : '') },
+        1, base - ded);
+      if (ded && base - ded <= 0) notes.push('물품 처리 수수료 ' + won(base) + '이(가) 서비스 요금에 포함된 ' + won(incl) + ' 안이라 따로 받지 않아요.');
+    }
+    return {
+      all: all, notes: notes, auto: al, nightAuto: nightAuto, rushIncluded: rushIn,
+      // Whether other lines are worked out from the service fee lines, or from the actual costs
+      feeUsed: f > 1, costsUsed: costSum > 0 && !!c.handling,
+      lines: all.filter(function (o) { return c.detached.indexOf(o.role) < 0; })
+    };
+  }
+  function calcItems(c) {
+    return calcLines(c).lines.map(function (o) {
+      // The unit price follows the won price: applyFx sets it for the document's currency and rate.
+      return { id: c.id + '-' + o.role, type: 'custom', calc: c.id, role: o.role, qty: o.qty, krw: o.krw, price: 0, optional: false,
+        unitAuto: { ko: false, en: false }, ko: o.ko, en: o.en };
+    });
+  }
+  // Puts a calculator's current lines into the item list. Each line keeps its place; a new line goes right after
+  // the calculator line before it (a new calculator's lines go at the end). Other items stay where they are.
+  function syncCalc(c) {
+    var fresh = calcItems(c), byRole = {}, out = [];
+    fresh.forEach(function (it) { byRole[it.role] = it; });
+    doc.data.items.forEach(function (it) {
+      if (it.calc !== c.id) out.push(it);
+      else if (byRole[it.role] && out.indexOf(byRole[it.role]) < 0) out.push(byRole[it.role]);
+    });
+    var last = -1;
+    fresh.forEach(function (it) {
+      var at = out.indexOf(it);
+      if (at >= 0) { last = at; return; }
+      if (last < 0) {
+        var firstHere = out.length;
+        fresh.forEach(function (x) { var j = out.indexOf(x); if (j >= 0 && j < firstHere) firstHere = j; });
+        last = firstHere - 1;
+      }
+      out.splice(last + 1, 0, it);
+      last += 1;
+    });
+    doc.data.items = out;
+    applyFx(doc);
+  }
+  // Lines taken out of a calculator ('직접 고치기') whose amount was changed although other lines are worked out from them.
+  function calcDrift(c) {
+    var r = calcLines(c), out = [];
+    r.all.forEach(function (o) {
+      if (c.detached.indexOf(o.role) < 0 || !(o.timed ? r.feeUsed : /^cost-/.test(o.role) && r.costsUsed)) return;
+      var key = c.id + '-' + o.role, it = doc.data.items.filter(function (x) { return !x.calc && (x.from === key || x.id === key); })[0];
+      if (!it || !hasKrw(it) || lineKrw(it) !== o.qty * o.krw) out.push(o.ko.name);
+    });
+    return out;
+  }
+
+  function calcCard(c, ci) {
+    var S = c.pl.S, P = c.pl.PR, n = '계산기 ' + (ci + 1);
+    var attrs = function (f, label, extra) { return Object.assign({ 'data-c': c.id, 'data-cf': f, 'aria-label': n + ' ' + label }, extra || {}); };
+    var inp = function (f, label, extra) { return h('input', attrs(f, label, extra)); };
+    var sel = function (f, label, opts) { return h('select', attrs(f, label), opts.map(function (o) { return h('option', { value: o[0], text: o[1] }); })); };
+    var chk = function (f, label) { return h('label', { class: 'check' }, [h('input', attrs(f, label, { type: 'checkbox' })), ' ' + label]); };
+    var kids = [h('div', { class: 'calc-h' }, [
+      h('strong', { text: n + '. ' + svcLabel(S) }), h('span', { class: 'sub', text: svcPrice(S) }),
+      h('span', { class: 'item-btns' }, [h('button', { type: 'button', 'data-cact': 'del', 'data-c': c.id, 'aria-label': n + ' 삭제', text: '계산기 삭제' })])
+    ])];
+    var amount = S.kind === 'count' ? field(S.qtyLabel, inp('qty', S.qtyLabel, { type: 'number', step: 1, min: 1, inputmode: 'numeric' }))
+      : S.kind === 'variant' ? h('div')
+      : field(S.hoursLabel || '이용 시간 (시간)', inp('hours', '시간', { type: 'number', step: 0.5, min: S.first || 1, inputmode: 'decimal' }));
+    kids.push(h('div', { class: 'g3' }, [field('날짜', inp('date', '날짜', { type: 'date' })), field('시작 시각 (한국)', inp('time', '시작 시각', { type: 'time', step: 300 })), amount]));
+    if (S.variants) kids.push(field(S.kind === 'variant' ? '종류' : '방식', sel('variant', '종류', S.variants.map(function (x) { return [x.id, x.ko + ' · ' + won(x.krw)]; }))));
+    if (S.research) kids.push(field('리서치 시간 (1시간마다 ' + won(S.research) + ')', inp('research', '리서치 시간', { type: 'number', step: 1, min: 0, inputmode: 'numeric' })));
+    if (S.storage) kids.push(field('7일 넘게 보관한 날 수 (하루 ' + won(S.storage) + ')', inp('storage', '보관 일수', { type: 'number', step: 1, min: 0, inputmode: 'numeric' })));
+    kids.push(h('fieldset', null, [h('legend', { text: '시간 할증' }),
+      field('요청 받은 시각 (한국)', inp('asked', '요청 받은 시각', { type: 'datetime-local' })),
+      h('div', { class: 'g2' }, [
+        field('급행', sel('lead', '급행', [['auto', '자동'], ['none', '없음']].concat(P.lead.map(function (x) { return [x.id, x.ko + ' +' + x.pct + '%']; })))),
+        field('야간 22:00–02:00', sel('night', '야간', [['auto', '자동'], ['on', '적용 +' + P.night.pct + '%'], ['off', '적용 안 함']]))
+      ]),
+      chk('fixed', P.fixed.ko + ' +' + P.fixed.pct + '%'),
+      h('p', { class: 'auto', 'data-cauto': c.id })
+    ]));
+    if (onsiteCalc(c)) kids.push(h('div', { class: 'g2' }, [
+      field('이동 거리 (서울 밖은 따로 견적)', sel('distance', '이동 거리', P.distance.map(function (x) { return [x.id, x.ko + (x.krw ? ' +' + won(x.krw) : ' (포함)')]; }))),
+      sizeCalc(c) ? field('크기·무게', sel('size', '크기·무게', P.size.map(function (x) { return [x.id, x.ko + (x.krw ? ' +' + won(x.krw) : '')]; }))) : h('div')
+    ]));
+    var ad = (S.addons || []).map(function (a) { return chk('addons.' + a.id, a.ko + ' +' + won(a.krw)); });
+    if (S.ship) ad.push(chk('addons.ship', '해외 발송 +' + won(P.ship)));
+    if (ad.length) kids.push(h('fieldset', null, [h('legend', { text: '추가 옵션' }), h('div', { class: 'opts' }, ad)]));
+    kids.push(h('fieldset', null, [h('legend', { text: '실비 (원, 쓴 금액 그대로)' }),
+      h('div', { class: 'g3' }, P.costs.map(function (k) { return field(k.label, inp('costs.' + k.id, k.label, { type: 'number', step: 1, min: 0, inputmode: 'numeric' })); })),
+      chk('handling', '실비 처리 수수료 ' + P.handling + '% 붙이기')
+    ]));
+    kids.push(h('div', { class: 'g2' }, [
+      field('문서 메모 · 한국어', inp('note.ko', '메모 한국어', { lang: 'ko', placeholder: '예: 명동 매장 → 롯데호텔 로비' })),
+      field('문서 메모 · English', inp('note.en', '메모 English', { lang: 'en', placeholder: 'e.g. Myeongdong store to the Lotte Hotel lobby' }))
+    ]));
+    kids.push(h('table', { class: 'breakdown', 'aria-label': n + ' 계산 내역' }, [h('tbody', { 'data-cbreak': c.id })]));
+    kids.push(h('p', { class: 'sub', 'data-cnotes': c.id }));
+    kids.push(h('p', { class: 'stale', 'data-cstale': c.id, hidden: true }, [
+      '이 계산기는 만들 때의 가격표로 계산해요. 그 뒤 사이트 가격이 바뀌었어요. ',
+      h('button', { type: 'button', 'data-cact': 'reprice', 'data-c': c.id, text: '지금 가격으로 다시 계산' })
+    ]));
+    var card = h('div', { class: 'calc', 'data-calcid': c.id }, kids);
+    $$('[data-cf]', card).forEach(function (el) {
+      var f = el.dataset.cf, v = getPath(c, f);
+      if (f === 'asked') el.value = toKstLocal(c.asked);
+      else if (el.type === 'checkbox') el.checked = !!v;
+      else el.value = v == null || (el.type === 'number' && v === 0) ? '' : v;
+    });
+    return card;
+  }
+  function renderCalcs() {
+    var box = $('calcs'), locked = isLocked();
+    // An issued document keeps the amounts it was issued with; its calculators are shown for reference only.
+    $('calcsec').hidden = locked && !calcList().length;
+    $('calclock').hidden = !locked;
+    $('calcadd').hidden = locked;
+    box.textContent = '';
+    calcList().forEach(function (c, i) { box.appendChild(calcCard(c, i)); });
+    updateCalcViews();
+    lockForm();
+  }
+  function updateCalcView(c) {
+    var box = $('calcs'), tb = box.querySelector('[data-cbreak="' + c.id + '"]');
+    if (!tb) return;
+    var au = box.querySelector('[data-cauto="' + c.id + '"]'), nt = box.querySelector('[data-cnotes="' + c.id + '"]'), st = box.querySelector('[data-cstale="' + c.id + '"]');
+    var r = calcLines(c), two = dual(doc), rate = fxRate(doc), sum = 0, usd = 0, lo = pick(c.pl.PR.lead, r.auto.id), locked = isLocked();
+    tb.parentNode.hidden = locked;
+    st.hidden = locked || !stale(c);
+    au.textContent = '자동 판단: 급행 ' + (r.rushIncluded ? '없음 (긴급 배송 요금에 포함)' : (lo ? lo.ko + ' +' + lo.pct + '%' : '없음') + ' (' + r.auto.why + ')') + ' · 야간 ' + (r.nightAuto ? '해당' : '아님');
+    tb.textContent = '';
+    r.all.forEach(function (o) {
+      var amt = o.qty * o.krw, off = c.detached.indexOf(o.role) >= 0, u = two ? o.qty * usdFromKrw(o.krw, rate) : 0;
+      if (!off) { sum += amt; usd += u; }
+      tb.appendChild(h('tr', off ? { class: 'off' } : null, [
+        h('td', null, [o.ko.name + (o.qty !== 1 || o.ko.unit ? ' · ' + L.ko.qty(qtyText(o.qty), o.ko.unit) : ''),
+          off ? h('span', null, [' (직접 고친 품목으로 바꿈) ', h('button', { type: 'button', 'data-cact': 'reattach', 'data-c': c.id, 'data-role': o.role, text: '다시 자동으로' })]) : null]),
+        h('td', { class: 'n', text: won(amt) }), two ? h('td', { class: 'n', text: money(u, 'USD') }) : null
+      ]));
+    });
+    tb.appendChild(h('tr', { class: 't' }, [h('td', { text: '이 계산기 합계' + (c.detached.length ? ' (직접 고친 품목 빼고)' : '') }), h('td', { class: 'n', text: won(sum) }), two ? h('td', { class: 'n', text: money(usd, 'USD') }) : null]));
+    nt.textContent = r.notes.join(' ');
+    nt.hidden = !r.notes.length;
+  }
+  function updateCalcViews() { calcList().forEach(updateCalcView); }
+  // In the item list, a calculator's lines are shown, not typed: change them in the calculator, or make one editable.
+  function calcItemCard(it, i, n) {
+    var c = calcById(it.calc), cur = doc.currency, q = +it.qty === 1 && !it.ko.unit ? '' : L.ko.qty(qtyText(it.qty), it.ko.unit.trim()) + ' × ';
+    var amount = q + won(it.krw) + (q ? ' = ' + won(lineKrw(it)) : '') + (cur === 'KRW' ? '' : ' → ' + money(lineAmount(it, cur), cur));
+    return h('div', { class: 'item calcitem' }, [
+      h('div', { class: 'item-h' }, [
+        h('strong', { text: (i + 1) + '. ' + it.ko.name }),
+        h('span', { class: 'sub', text: '계산기 ' + (calcList().indexOf(c) + 1) }),
+        h('span', { class: 'item-btns' }, [itemButton('직접 고치기', 'detach', i, n + ' 직접 고치기')])
+      ]),
+      h('p', { class: 'item-calc' }, [amount, h('span', { class: 'en', lang: 'en', text: ' · ' + it.en.name })])
+    ]);
+  }
+  // Called from onEdit for the calculator fields. Returns true when something changed.
+  function calcEdit(el) {
+    var c = calcById(el.dataset.c), cf = el.dataset.cf, v;
+    if (!c || isLocked()) return false;
+    if (el.type === 'checkbox') v = el.checked;
+    else if (cf === 'asked') v = fromKstLocal(el.value);
+    else if (el.type === 'number') { v = el.value === '' ? 0 : Math.max(0, +el.value || 0); if (cf !== 'hours') v = Math.round(v); }
+    else v = cf === 'time' ? (el.value || '').slice(0, 5) : el.value;
+    if (getPath(c, cf) === v) return false;
+    setPath(c, cf, v);
+    syncCalc(c);
+    if (cf === 'variant') {
+      renderCalcs();
+      var again = $('calcs').querySelector('[data-c="' + c.id + '"][data-cf="variant"]');
+      if (again) again.focus();
+    }
+    renderItems();
+    return true;
+  }
+  $('calcs').addEventListener('click', async function (e) {
+    var b = e.target.closest('button[data-cact]');
+    if (!b || isLocked()) return;
+    var c = calcById(b.dataset.c), act = b.dataset.cact;
+    if (!c) return;
+    if (act === 'del') {
+      if (!(await ask('계산기 ' + (calcList().indexOf(c) + 1) + ' (' + svcLabel(c.pl.S) + ')와 그 품목을 지울까요? 직접 고친 품목은 남아요.', '지우기'))) return;
+      doc.data.calcs = calcList().filter(function (x) { return x !== c; });
+      doc.data.items = doc.data.items.filter(function (it) { return it.calc !== c.id; });
+    } else if (act === 'reattach') {
+      var role = b.dataset.role, key = c.id + '-' + role;
+      c.detached = c.detached.filter(function (r) { return r !== role; });
+      doc.data.items = doc.data.items.filter(function (it) { return it.calc || (it.from !== key && it.id !== key); });
+      syncCalc(c);
+    } else if (act === 'reprice') {
+      if (!SV[c.svc]) return;
+      var now = normCalc(Object.assign({}, c, { pl: priceList(c.svc) }));
+      Object.keys(now).forEach(function (k) { c[k] = now[k]; });
+      syncCalc(c);
+    } else return;
+    renderCalcs(); renderItems(); changed();
+  });
+  $('addcalc').addEventListener('click', function () {
+    if (isLocked()) return;
+    var c = newCalc($('calcsvc').value);
+    doc.data.calcs = calcList().concat([c]);
+    syncCalc(c);
+    renderCalcs(); renderItems(); changed();
+    var t = $('calcs').querySelector('[data-c="' + c.id + '"][data-cf="time"]');
+    if (t) { t.scrollIntoView({ block: 'nearest' }); t.focus(); }
+  });
+  (function buildCalcPicker() {
+    var sel = $('calcsvc'), groups = {};
+    SV_ORDER.forEach(function (k) {
+      var g = SV_GROUP[k];
+      if (!groups[g]) { groups[g] = h('optgroup', { label: g }); sel.appendChild(groups[g]); }
+      groups[g].appendChild(h('option', { value: k, text: svcLabel(SV[k]) + ' · ' + svcPrice(SV[k]) }));
+    });
+  })();
 
   /* ---------- Review, then issue ---------- */
   function problems() {
@@ -1013,6 +1549,17 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     if (!d.issue_date) errs.push('발행일을 넣어 주세요.');
     if (d.kind === 'invoice' && !d.due_date) errs.push('결제기한을 넣어 주세요.');
     if (!d.data.items.length) errs.push('품목을 하나 이상 넣어 주세요.');
+    if (d.currency === 'USD' && !(fxRate(d) > 0) && d.data.items.some(hasKrw)) errs.push('환율을 넣어 주세요. 원화 단가로 계산하는 품목이 있어요.');
+    if (!isLocked()) (d.data.calcs || []).forEach(function (c, i) {
+      var n = '계산기 ' + (i + 1) + ': ', s = startMs(c), a = Date.parse(c.asked), drift = calcDrift(c);
+      if (!c.note.ko.trim() !== !c.note.en.trim()) errs.push(n + '문서 메모가 ' + (c.note.ko.trim() ? '한국어' : '영어') + '에만 있어요. 두 언어 모두 쓰거나 둘 다 비워 주세요.');
+      if (drift.length) warns.push(n + '직접 고친 ' + drift.map(function (x) { return '‘' + x + '’'; }).join(', ') + ' 금액이 계산기와 달라요. 할증이나 실비 수수료는 계산기 금액으로 계산돼 있으니, 금액은 계산기에서 바꾸거나 그 줄들도 직접 고쳐 주세요.');
+      if (stale(c)) warns.push(n + '만들 때의 가격표로 계산돼 있어요. 지금 사이트 가격으로 바꾸려면 계산기에서 ‘지금 가격으로 다시 계산’을 누르세요.');
+      if (c.lead !== 'auto' && c.night !== 'auto') return;
+      if (!(s > 0)) warns.push(n + (c.date ? '시작 시각이' : '날짜와 시작 시각이') + ' 없어서 급행·야간 할증을 자동으로 정하지 않았어요.');
+      else if (c.lead === 'auto' && !(a > 0)) warns.push(n + '요청 받은 시각이 없어서 급행 할증을 자동으로 정하지 않았어요.');
+      else if (c.lead === 'auto' && a > s) warns.push(n + '시작 시각이 요청 받은 시각보다 빨라요. 급행 할증을 확인해 주세요.');
+    });
     d.data.items.forEach(function (it, i) {
       var n = (i + 1) + '번 품목';
       if (!it.ko.name.trim() || !it.en.name.trim()) errs.push(n + ': 한국어와 영어 품목명을 모두 넣어 주세요.');
@@ -1078,7 +1625,37 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     doc.number = proposeNumber(kind, doc.issue_date, null);
     dirty = false; resetReview(); fillForm(); render();
     refreshNumbers();
+    fetchRate(true);
   }
+  var FX_SOURCES = [
+    { url: 'https://open.er-api.com/v6/latest/USD', pick: function (j) { return j && j.result === 'success' && j.rates ? +j.rates.KRW : 0; } },
+    { url: 'https://api.frankfurter.dev/v1/latest?base=USD&symbols=KRW', pick: function (j) { return j && j.rates ? +j.rates.KRW : 0; } }
+  ];
+  function showFxRow() { var on = doc && doc.currency === 'USD'; $('fxrow').hidden = !on; $('fxnote').hidden = !on; }
+  function showFxNote(text) {
+    var fx = doc.data.fx, n = $('fxnote');
+    n.textContent = text || (!(fx.rate > 0) ? '환율을 넣으면 원화 단가가 달러로 바뀌어요. 원화 없이 달러만 쓰려면 비워 두세요.'
+      : fx.source === 'api' ? fx.date + ' 시장 환율이에요 (자동). 필요하면 고치세요.' : '직접 넣은 환율이에요' + (fx.date ? ' (' + fx.date + ' 기준)' : '') + '.');
+  }
+  async function fetchRate(quiet) {
+    if (!doc || isLocked() || doc.currency !== 'USD') return;
+    var target = doc, btn = $('fxfetch');
+    btn.disabled = true;
+    if (!quiet) showFxNote('오늘 환율을 불러오는 중…');
+    var rate = 0;
+    for (var i = 0; i < FX_SOURCES.length && !(rate > 0); i++) {
+      try { var r = await fetch(FX_SOURCES[i].url, { cache: 'no-store' }); rate = FX_SOURCES[i].pick(await r.json()); } catch (e) { rate = 0; }
+    }
+    btn.disabled = isLocked();
+    if (doc !== target) return;
+    if (!(rate > 0)) { showFxNote('환율을 불러오지 못했어요. 직접 넣어 주세요.'); return; }
+    doc.data.fx = { rate: Math.round(rate * 100) / 100, date: kstToday(), source: 'api' };
+    editorField('data.fx.rate').value = doc.data.fx.rate;
+    editorField('data.fx.date').value = doc.data.fx.date;
+    applyFx(doc); renderItems(); showFxNote();
+    if (quiet && !dirty) { updateSum(); schedule(); } else changed();
+  }
+  $('fxfetch').addEventListener('click', function () { fetchRate(false); });
 
   // One save at a time: a double click reuses the save already running.
   function save() {
@@ -1360,6 +1937,8 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     if (ls.length) td.appendChild(h('div', { class: 'd-dt' }, ls.map(function (l) { return tx('div', null, keepTimes(l)); })));
     return td;
   }
+  // The dollar figure, then the won figure in brackets beside it (it moves under the dollar figure when space runs out).
+  function amountKids(usdText, krw) { return krw == null ? [h('span', { class: 'u', text: usdText })] : [h('span', { class: 'u', text: usdText }), ' ', h('span', { class: 'krw', text: '(' + won(krw) + ')' })]; }
   function qtyLabel(it, lang) { return L[lang].qty(qtyText(it.qty), it[lang].unit.trim()); }
   function bankBox(lang, no, S) {
     var T = L[lang], B = S.bank, grid = h('div', { class: 'grid' });
@@ -1393,7 +1972,7 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
 
     var dates = [[T.issue, T.date(d.issue_date)]];
     if (d.due_date) dates.push([T.due[k], T.date(d.due_date)]);
-    dates.push([T.total[k], money(t.total, cur), true]);
+    dates.push([T.total[k], amountKids(money(t.total, cur), t.krw), true]);
 
     // The company's own email and phone are in the footer; here only who to talk to about this document.
     var from = [
@@ -1410,7 +1989,7 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
       h('div', { class: 'd-party' }, [h('div', { class: 'd-lab', text: T.from })].concat(from)),
       h('div', { class: 'd-party' }, [h('div', { class: 'd-lab', text: T.to[k] })].concat(to)),
       h('div', { class: 'd-dates' }, dates.map(function (m) {
-        return h('div', null, [h('div', { class: 'd-lab', text: m[0] }), h('div', { class: 'd-val' + (m[2] ? ' big' : ''), text: m[1] })]);
+        return h('div', null, [h('div', { class: 'd-lab', text: m[0] }), h('div', { class: 'd-val' + (m[2] ? ' big' : '') }, Array.isArray(m[1]) ? m[1] : [m[1]])]);
       }))
     ]));
 
@@ -1418,11 +1997,14 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
 
     var regular = d.data.items.filter(function (it) { return !it.optional; });
     var optional = d.data.items.filter(function (it) { return it.optional; });
-    root.appendChild(h('table', { class: 'd-items' }, [
+    var two = dual(d);
+    root.appendChild(h('table', { class: 'd-items' + (two ? ' dual' : '') }, [
       h('colgroup', null, [h('col', { class: 'n' }), h('col'), h('col', { class: 'q' }), h('col', { class: 'p' }), h('col', { class: 'a' })]),
       h('thead', null, [h('tr', null, [h('th', { text: T.cols[0] }), h('th', { text: T.cols[1] }), h('th', { class: 'q', text: T.cols[2] }), h('th', { class: 'p', text: T.cols[3] }), h('th', { class: 'a', text: T.cols[4] + ' (' + cur + ')' })])]),
       h('tbody', null, regular.map(function (it, i) {
-        return h('tr', null, [h('td', { class: 'n', text: String(i + 1) }), describe(it, lang), h('td', { class: 'q', text: qtyLabel(it, lang) }), h('td', { class: 'p', text: num(it.price, cur) }), h('td', { class: 'a', text: num(lineAmount(it, cur), cur) })]);
+        var k1 = two && hasKrw(it);
+        return h('tr', null, [h('td', { class: 'n', text: String(i + 1) }), describe(it, lang), h('td', { class: 'q', text: qtyLabel(it, lang) }),
+          h('td', { class: 'p' }, amountKids(num(it.price, cur), k1 ? it.krw : null)), h('td', { class: 'a' }, amountKids(num(lineAmount(it, cur), cur), k1 ? lineKrw(it) : null))]);
       }))
     ]));
 
@@ -1431,14 +2013,14 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
       rows.push(h('tr', null, [h('td', { text: T.subtotal }), h('td', { text: num(t.sub, cur) })]));
       rows.push(h('tr', null, [h('td', { text: T.discount }), h('td', { text: '−' + num(t.disc, cur) })]));
     }
-    rows.push(h('tr', { class: 't' }, [h('td', { text: T.total[k] }), h('td', { text: money(t.total, cur) })]));
+    rows.push(h('tr', { class: 't' }, [h('td', { text: T.total[k] }), h('td', null, amountKids(money(t.total, cur), t.krw))]));
     root.appendChild(h('div', { class: 'd-totals' }, [h('table', null, [h('tbody', null, rows)])]));
 
     if (optional.length) {
       root.appendChild(h('section', { class: 'd-opt' }, [
         h('h4', { text: T.optional }),
         h('table', null, [h('tbody', null, optional.map(function (it) {
-          return h('tr', null, [describe(it, lang), h('td', { class: 'a', text: qtyLabel(it, lang) + ' × ' + num(it.price, cur) + ' = ' + money(lineAmount(it, cur), cur) })]);
+          return h('tr', null, [describe(it, lang), h('td', { class: 'a' }, amountKids(qtyLabel(it, lang) + ' × ' + num(it.price, cur) + ' = ' + money(lineAmount(it, cur), cur), two && hasKrw(it) ? lineKrw(it) : null))]);
         }))])
       ]));
     }
