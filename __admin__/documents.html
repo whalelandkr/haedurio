@@ -1,0 +1,2095 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>견적서·인보이스 | 해드리오 관리자</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+/* Fonts: the same self-hosted files as the public site (SIL Open Font License). Korean text uses the system font. */
+@font-face{font-family:"Instrument Sans";font-style:normal;font-display:swap;font-weight:400 700;font-stretch:75% 100%;src:url(/assets/fonts/instrument-sans-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Instrument Sans";font-style:normal;font-display:swap;font-weight:400 700;font-stretch:75% 100%;src:url(/assets/fonts/instrument-sans-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20A8,U+20AA-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"HD Won";font-style:normal;font-display:swap;font-weight:100 900;src:url(/assets/fonts/won.woff2) format("woff2");unicode-range:U+20A9}
+
+:root{--ink:#121826;--graphite:#4A5363;--gray:#5B6474;--slate:#8A93A3;--line:#E3E7EE;--line2:#D5DAE1;--bg:#F5F7FA;--blue:#1F4FE0;--blue-tint:#EAF0FD;--red:#B42318;--green:#0B7A50;--green-tint:#E5F3EB;--amber:#8A5A00}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font:14px/1.5 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Segoe UI",Roboto,"Noto Sans KR","Noto Sans CJK KR",sans-serif;color:var(--ink);background:var(--bg)}
+[hidden]{display:none!important}
+code{font-size:12.5px;background:#fff;padding:1px 5px;border-radius:5px;border:1px solid var(--line)}
+
+/* ---------- Admin screen ---------- */
+.bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:18px;padding:11px 20px;background:#fff;border-bottom:1px solid var(--line)}
+.bar h1{margin:0;font-size:17px;white-space:nowrap}
+.bar nav{display:flex;gap:2px;flex:1;flex-wrap:wrap}
+.bar nav a{color:var(--gray);text-decoration:none;font-size:13px;padding:5px 9px;border-radius:7px}
+.bar nav a:hover{background:var(--bg);color:var(--ink)}
+.who{font-size:13px;color:var(--gray);white-space:nowrap}
+main{padding:18px 20px 40px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;max-width:560px;margin:40px auto}
+.card h2{margin:0 0 14px;font-size:16px}
+.f{display:flex;flex-direction:column;gap:5px;font-size:12.5px;font-weight:600;margin-bottom:11px;min-width:0}
+.f > span small,.f small{font-weight:400;color:var(--slate);margin-left:4px}
+.f.inline{flex-direction:row;align-items:center;gap:8px;margin:0}
+input,select,textarea{font:inherit;font-size:14px;font-weight:400;width:100%;padding:8px 10px;border:1px solid #CBD2DC;border-radius:9px;background:#fff;color:var(--ink)}
+input[readonly]{background:#F3F5F8;color:var(--graphite)}
+.f.inline select{width:auto;padding:6px 8px}
+textarea{resize:vertical;line-height:1.45}
+input:focus,select:focus,textarea:focus{outline:2px solid #D3DDF9;border-color:var(--blue)}
+.check{display:flex;align-items:center;gap:8px;font-size:13px;margin:4px 0 8px}
+.check input{width:auto;margin:0}
+.check small{color:var(--slate)}
+button{font:inherit;font-size:13.5px;font-weight:600;padding:8px 13px;border-radius:9px;border:1px solid #CBD2DC;background:#fff;color:var(--ink);cursor:pointer;white-space:nowrap}
+button:hover{background:var(--bg)}
+button.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+button.primary:hover{background:#1A42BD}
+button.danger{color:var(--red)}
+button:disabled{opacity:.45;cursor:default}
+button.primary:disabled:hover{background:var(--blue)}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:6px}
+.g2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.g3{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:10px}
+.msg{font-size:13px;color:var(--gray)}
+.msg.err{color:var(--red)}
+.warn{color:var(--amber);font-size:12.5px;margin:4px 0 8px}
+.sub{color:var(--gray);font-size:12px}
+.notice{margin:0 0 14px;padding:11px 14px;border-radius:10px;background:#FFF4D6;color:#5C3D00;font-size:13px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.toolbar .spacer{flex:1}
+.steps{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px;padding:0;list-style:none;font-size:12.5px}
+.steps li{padding:4px 11px;border-radius:99px;background:#fff;border:1px solid var(--line);color:var(--gray)}
+.steps li.on{background:var(--blue-tint);border-color:#C9D6F8;color:var(--blue);font-weight:700}
+.steps li.done{color:var(--green)}
+.workspace{display:grid;grid-template-columns:minmax(420px,520px) minmax(0,1fr);gap:20px;align-items:start}
+.editor{background:#fff;border:1px solid var(--line);border-radius:14px;position:sticky;top:66px;max-height:calc(100vh - 86px);overflow:auto}
+.ed-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px 10px}
+.ed-actions{display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 14px;border-bottom:1px solid var(--line)}
+.ed-actions button{padding:6px 10px;font-size:13px}
+.kind-badge{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:700;background:var(--blue-tint);color:var(--blue)}
+.kind-badge.invoice{background:var(--green-tint);color:var(--green)}
+.ed{padding:14px 18px 6px;border-bottom:1px solid var(--line)}
+.ed:last-child{border-bottom:0}
+.ed h3{margin:0 0 10px;font-size:13.5px}
+.ed h3 small{font-weight:400;color:var(--slate);margin-left:4px}
+fieldset.radios{border:0;margin:0 0 10px;padding:0;display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center}
+fieldset.radios legend{float:left;font-size:12.5px;font-weight:600;padding:0;margin-right:6px}
+fieldset.radios label{display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer}
+fieldset.radios input{width:auto;margin:0}
+.item{border:1px solid var(--line);border-radius:10px;padding:10px 10px 2px;margin-bottom:10px;background:#FBFCFD}
+.item.opt{border-style:dashed}
+.item-h{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13px}
+.item-h .sub{flex:1}
+.item-btns{display:flex;gap:4px}
+.item-btns button{padding:3px 8px;font-size:12px}
+.item-amt{display:block;padding:8px 0;font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}
+.item-calc{margin:-6px 0 10px;font-size:12.5px;color:var(--graphite);font-variant-numeric:tabular-nums}
+.addrow{display:flex;gap:8px;align-items:flex-end;margin-bottom:12px}
+.addrow .f{flex:1;margin:0}
+.sum{margin:4px 0 10px;font-weight:700;font-size:13.5px}
+.previewwrap{min-width:0}
+.review{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 18px 12px;margin-bottom:16px}
+.review h2{margin:0 0 10px;font-size:14px}
+.tabs{display:inline-flex;border:1px solid #CBD2DC;border-radius:10px;overflow:hidden;margin-bottom:10px}
+.tabs button{border:0;border-radius:0;padding:7px 14px}
+.tabs button + button{border-left:1px solid #CBD2DC}
+.tabs button[aria-selected="true"]{background:var(--ink);color:#fff}
+.checks{margin:0 0 8px;padding:0;list-style:none;font-size:13px}
+.checks li{position:relative;padding:1px 0 1px 18px}
+.checks li::before{position:absolute;left:2px;top:1px;font-weight:700}
+.checks li.err{color:var(--red)}
+.checks li.err::before{content:"!"}
+.checks li.warn{color:var(--amber)}
+.checks li.warn::before{content:"·"}
+.checks li.ok{color:var(--green)}
+.checks li.ok::before{content:"✓"}
+.review .acts{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 6px}
+.filepick{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;padding:3px 4px 3px 10px;border:1px solid #CBD2DC;border-radius:9px;background:#fff}
+.filepick input{width:auto;border:0;padding:2px 0;font-size:12.5px;background:none}
+.filepick input::file-selector-button{font:inherit;font-weight:600;padding:5px 10px;margin-right:8px;border-radius:7px;border:1px solid #CBD2DC;background:var(--bg);color:var(--ink);cursor:pointer}
+.editor[inert]{opacity:.65}
+.locknote{margin:0 18px 12px;padding:9px 12px;border-radius:9px;background:var(--blue-tint);color:#1A3A9E;font-size:12.5px}
+.confirm{margin:8px 0;padding:10px 12px;border-radius:10px;background:#FFF4D6;color:#5C3D00;font-size:13px}
+.confirm p{margin:0 0 4px}
+.preview{display:flex;justify-content:center}
+.badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:12px;font-weight:700;white-space:nowrap;background:#F0F1F4;color:var(--gray)}
+.b-issued,.b-accepted{background:var(--blue-tint);color:var(--blue)}
+.b-paid{background:var(--green-tint);color:var(--green)}
+.b-void{background:#FBEAE8;color:var(--red)}
+dialog.dlg{border:0;border-radius:14px;padding:0;width:min(680px,94vw);max-height:88vh;box-shadow:0 20px 60px rgba(18,24,38,.25);color:var(--ink)}
+dialog.dlg.wide{width:min(980px,96vw)}
+dialog::backdrop{background:rgba(18,24,38,.35)}
+.dlg-head{display:flex;gap:10px;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:1}
+.dlg-head h2{margin:0;font-size:16px;flex:1;white-space:nowrap}
+.dlg-head input{max-width:280px}
+.dlg-body{padding:16px 18px}
+.dlg-body h3{margin:16px 0 10px;font-size:13.5px}
+.dlg-foot{padding:12px 18px;border-top:1px solid var(--line);display:flex;gap:10px;align-items:center;position:sticky;bottom:0;background:#fff}
+table.list{width:100%;border-collapse:collapse;font-size:13.5px}
+.list th,.list td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.list th{font-size:12px;color:var(--gray);font-weight:600}
+.list tbody tr{cursor:pointer}
+.list tbody tr:hover,.list tbody tr:focus{background:var(--bg);outline:0}
+.list .num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.mono{font-variant-numeric:tabular-nums;font-weight:600}
+@media (max-width:1100px){.workspace{grid-template-columns:1fr}.editor{position:static;max-height:none}}
+@media (max-width:560px){.g2,.g3{grid-template-columns:1fr}.bar{flex-wrap:wrap}}
+
+/* ---------- The document (A4) ---------- */
+/* The padding is the page margin, on screen and on paper (see Printing), so lines break in the same places. */
+.doc{position:relative;width:210mm;min-height:297mm;padding:12mm 14mm 13mm;background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(18,24,38,.08),0 12px 32px rgba(18,24,38,.08);font-family:"Instrument Sans","HD Won",-apple-system,"Segoe UI",Arial,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR","Noto Sans CJK KR",sans-serif;font-size:9.2pt;line-height:1.42;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.doc:lang(ko){word-break:keep-all;line-height:1.48}
+.doc p{margin:0}
+.doc .sep{word-spacing:.22em}
+.doc .seg{white-space:nowrap}
+.d-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8mm;padding-bottom:4mm;border-bottom:1.2pt solid var(--ink)}
+.d-brand{display:flex;align-items:center;gap:3mm}
+.d-brand img{width:10mm;height:10mm;display:block}
+.d-word{font-size:18pt;font-weight:600;letter-spacing:-.035em;font-stretch:92%;line-height:1}
+.d-by{font-size:7pt;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-top:1.4mm}
+.d-type{text-align:right}
+.d-kind{font-size:18pt;font-weight:600;letter-spacing:.08em;line-height:1;color:var(--blue)}
+.doc.invoice .d-kind{color:var(--ink)}
+.d-no{margin-top:2.2mm;font-size:9pt;color:var(--graphite)}
+.d-lab{font-size:6.8pt;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);font-weight:600;margin-bottom:1mm}
+.d-val{font-size:9.4pt;font-weight:500}
+.d-val.big{font-size:12pt;font-weight:650;letter-spacing:-.01em}
+.d-parties{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) 40mm;gap:7mm;padding:3.5mm 0 4mm;border-bottom:.6pt solid var(--line2);margin-bottom:3mm}
+.d-dates > div + div{margin-top:2.2mm}
+.d-party p{margin:0 0 .5mm;color:var(--graphite)}
+.d-party p.nm{color:var(--ink);font-weight:650;font-size:10pt}
+.d-party p.ct{color:var(--ink);margin-top:1.4mm}
+.d-subject{margin:1mm 0 3mm;font-size:12.5pt;font-weight:650;letter-spacing:-.01em;line-height:1.3}
+table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
+.d-items col.n{width:7mm}
+.d-items col.q{width:23mm}
+.d-items col.p{width:22mm}
+.d-items col.a{width:26mm}
+.d-items.dual col.q{width:20mm}
+.d-items.dual col.p{width:31mm}
+.d-items.dual col.a{width:35mm}
+.doc .u{white-space:nowrap}
+.doc .krw{white-space:nowrap;color:var(--slate);font-weight:400;font-size:.85em}
+.d-val.big .krw{font-size:.66em;font-weight:500}
+.d-totals tr.t td .krw{font-size:.6em;font-weight:500}
+.d-items thead{display:table-header-group}
+.d-items th{font-size:6.8pt;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);font-weight:600;text-align:left;padding:0 0 2mm;border-bottom:.9pt solid var(--ink)}
+.d-items th.q,.d-items th.p,.d-items th.a{text-align:right}
+.d-items td{padding:2.3mm 0;border-bottom:.6pt solid var(--line);vertical-align:top}
+.d-items tr{break-inside:avoid}
+.d-items td.n{color:var(--slate)}
+.d-items td.ds{padding-right:3mm}
+.d-items td.q,.d-items td.p,.d-items td.a{text-align:right;padding-left:2mm}
+.d-items td.a{font-weight:600}
+.d-it{font-weight:600}
+.d-dt{margin-top:.7mm;color:var(--graphite);font-size:8.5pt}
+.d-dt div{margin-top:.3mm}
+.d-totals{display:flex;justify-content:flex-end;margin-top:3mm;break-inside:avoid}
+.d-totals table{width:82mm;border-collapse:collapse}
+.d-totals td{padding:1.2mm 0;color:var(--graphite)}
+.d-totals td:last-child{text-align:right}
+.d-totals tr.t td{border-top:1.2pt solid var(--ink);padding-top:2.4mm;color:var(--ink);font-weight:650;font-size:12.5pt}
+.d-opt{margin-top:6mm;padding:3.2mm 4.5mm;border:.7pt dashed var(--line2);border-radius:2mm;break-inside:avoid}
+.d-opt table{width:100%;border-collapse:collapse}
+.d-opt td{padding:1.2mm 0;vertical-align:top}
+.d-opt td.a{text-align:right;width:52mm;font-weight:600;padding-left:3mm}
+.d-cols{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:7mm;margin-top:1mm}
+.d-cols.one{grid-template-columns:1fr}
+.d-sec{margin-top:4mm;break-inside:avoid;font-size:8.8pt}
+.doc h4{margin:0 0 1.8mm;font-size:6.8pt;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);font-weight:600}
+.d-sec p{margin:0 0 .9mm}
+.d-list{margin:0;padding:0;list-style:none}
+.d-list li{position:relative;padding-left:4mm;margin-bottom:1mm}
+.d-list li::before{content:"";position:absolute;left:0;top:.55em;width:1.5mm;height:1.5mm;border-radius:50%;background:var(--blue)}
+.d-list.minus li::before{background:none;border-top:.9pt solid var(--slate);border-radius:0;width:2mm;height:0;top:.72em}
+.d-pay{break-inside:avoid}
+.d-bank{margin-top:3.5mm;padding:3.2mm 4.5mm 3mm;background:var(--blue-tint);border-radius:2mm;break-inside:avoid}
+.d-bank h4{color:var(--blue)}
+.d-bank .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2mm 5mm}
+.d-bank .full{grid-column:1 / -1}
+.d-bank .k{font-size:7.6pt;color:var(--graphite)}
+.d-bank .v{font-weight:600}
+.d-foot{margin-top:4.5mm;padding-top:2.6mm;border-top:.6pt solid var(--line2);font-size:7.4pt;color:var(--slate);break-inside:avoid}
+.d-foot p{margin:0 0 .5mm}
+.d-foot .d-top{display:flex;justify-content:space-between;align-items:baseline;gap:6mm;margin-bottom:.8mm}
+.d-foot .d-thanks{font-size:8.8pt;color:var(--ink);font-weight:600}
+.d-stamp{position:absolute;top:30mm;right:15mm;transform:rotate(-8deg);border:2.2pt solid currentColor;border-radius:2mm;padding:1.6mm 4.5mm 1.2mm;font-size:16pt;font-weight:700;letter-spacing:.16em;line-height:1.1;text-align:center;opacity:.88}
+.d-stamp small{display:block;font-size:7pt;letter-spacing:.04em;font-weight:600;margin-top:.6mm}
+.d-stamp.paid{color:var(--green)}
+.d-stamp.void{color:var(--red)}
+.d-stamp.accepted{color:var(--blue)}
+/* Korean labels read better without wide letter spacing */
+.doc:lang(ko) .d-lab,.doc:lang(ko) h4,.doc:lang(ko) .d-items th{letter-spacing:.03em;font-size:7.4pt}
+.doc:lang(ko) .d-kind{letter-spacing:.04em}
+.doc:lang(ko) .d-by{letter-spacing:.05em}
+.doc:lang(ko) .d-stamp{letter-spacing:.06em}
+
+/* A draft that is printed anyway (Ctrl+P) says so on every page. Issued documents never show this. */
+.d-draftmark{display:none}
+
+/* ---------- Printing: only the chosen document, on A4 ----------
+   The page itself has no margin: the document's own padding is the margin, repeated on every page.
+   With no room left in the page margin, Chrome adds no header or footer of its own (date, URL). */
+@page{size:A4;margin:0}
+.fxline{display:flex;gap:6px;align-items:center}.fxline input{flex:1;min-width:0}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.calc{border:1px solid #C9D6F8;border-radius:10px;padding:10px 10px 4px;margin-bottom:10px;background:#F7F9FE}
+.calc-h{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px;margin-bottom:8px;font-size:13px}
+.calc-h .sub{flex:1;min-width:0}
+.calc fieldset{border:1px solid var(--line);border-radius:9px;margin:0 0 10px;padding:6px 10px 0;background:#fff;min-width:0}
+.calc legend{font-size:12.5px;font-weight:600;padding:0 4px}
+.calc .opts{display:flex;flex-wrap:wrap;gap:0 16px}
+.calc .auto{margin:-4px 0 8px;font-size:12px;color:var(--graphite)}
+.breakdown{width:100%;border-collapse:collapse;margin:0 0 8px;font-size:12.5px;font-variant-numeric:tabular-nums;background:#fff;border:1px solid var(--line)}
+.breakdown td{padding:5px 8px;border-top:1px solid var(--line);vertical-align:top}
+.breakdown td.n{text-align:right;white-space:nowrap}
+.breakdown tr.t td{font-weight:700;border-top:1px solid var(--line2)}
+.breakdown tr.off td{color:var(--slate)}
+.breakdown button{padding:1px 7px;font-size:11.5px}
+.item.calcitem{background:#F7F9FE;border-color:#C9D6F8;padding:6px 10px 1px}
+.item.calcitem .item-h{margin-bottom:2px}
+.item.calcitem .item-calc{margin:0 0 5px}
+.item-calc .en{color:var(--slate)}
+.calc p.stale{margin:0 0 8px;padding:7px 10px;border-radius:8px;background:#FFF4D6;color:#5C3D00;font-size:12.5px}
+.calc p.stale button{padding:2px 8px;font-size:12px}
+@media print{
+  html,body{background:#fff}
+  .bar,#login,.notice,.toolbar,.steps,.editor,.review,dialog{display:none!important}
+  main,#app,.workspace,.previewwrap,.preview{display:block!important;padding:0!important;margin:0!important;border:0!important;background:none!important}
+  .doc{zoom:1!important;width:auto;min-height:0;box-shadow:none;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .d-draftmark{display:block;position:fixed;top:44%;left:0;right:0;text-align:center;transform:rotate(-24deg);font-size:44pt;font-weight:700;letter-spacing:.08em;color:rgba(18,24,38,.12);pointer-events:none}
+}
+</style>
+</head>
+<body>
+<header class="bar">
+<h1>견적서·인보이스</h1>
+<nav aria-label="관리자 메뉴"><a href="/__admin__/">문의</a><a href="/__admin__/payments.html">결제 링크</a><a href="/__admin__/analytics.html">방문 통계</a></nav>
+<div class="who"><span id="who"></span> <button type="button" id="logout" hidden>로그아웃</button></div>
+</header>
+<main>
+<section class="card" id="login" hidden>
+<h2>관리자 로그인</h2>
+<form id="loginform" class="g2">
+<label class="f"><span>이메일</span><input id="email" type="email" autocomplete="username" required></label>
+<label class="f"><span>비밀번호</span><input id="password" type="password" autocomplete="current-password" required></label>
+</form>
+<div class="row"><button class="primary" type="submit" form="loginform">로그인</button><span class="msg" id="loginmsg"></span></div>
+</section>
+
+<div id="app" hidden>
+<p class="notice" id="localnote" hidden>DB 테이블이 아직 없어서 이 브라우저에만 저장돼요. Supabase SQL 편집기에서 <code>supabase/sql/billing_docs.sql</code>을 한 번 실행하면 두 분이 같은 목록과 번호를 쓰게 돼요.</p>
+<div class="toolbar">
+<button type="button" id="newquote">새 견적서</button>
+<button type="button" id="newinvoice">새 인보이스</button>
+<button type="button" id="openlist">문서 목록</button>
+<button type="button" id="opensettings">기본정보 설정</button>
+<label class="filepick"><span>JSON 가져오기</span><input type="file" id="importfile" accept=".json,application/json"></label>
+<span class="spacer"></span>
+<span class="msg" id="msg" role="status"></span>
+</div>
+<ol class="steps" aria-label="진행 순서"><li id="st1">① 내용 입력</li><li id="st2">② 한국어·영어 미리보기 확인</li><li id="st3">③ 발행 후 언어별 PDF 저장</li></ol>
+
+<div class="workspace">
+<form class="editor" id="editor" autocomplete="off" novalidate aria-label="내용 입력">
+<div class="ed-head">
+<div><span class="kind-badge" id="kindbadge">견적서</span> <strong id="numlabel"></strong></div>
+<label class="f inline"><span>상태</span><select data-k="status" id="status"></select></label>
+</div>
+<p class="locknote" id="locknote" hidden>발행한 문서라서 내용은 고칠 수 없어요. 상태와 내부 메모만 바꿀 수 있어요. 고쳐야 하면 '복제'로 새 번호의 초안을 만들고, 이 문서는 상태를 '무효'로 바꾸세요.</p>
+<div class="ed-actions">
+<button type="button" class="primary" id="save">저장</button>
+<button type="button" id="toinvoice">인보이스로 만들기</button>
+<button type="button" id="duplicate">복제</button>
+<button type="button" id="export">JSON 내보내기</button>
+<button type="button" class="danger" id="remove">초안 삭제</button>
+</div>
+
+<section class="ed">
+<h3>문서 <small>번호와 날짜는 자동으로 채워져요. 필요하면 고치세요</small></h3>
+<div class="g2">
+<label class="f"><span>문서 번호 <small id="numhint">자동</small></span><input id="numinput" data-k="number" maxlength="40" spellcheck="false"></label>
+<label class="f"><span>통화</span><select data-k="currency"><option value="USD">USD (달러, 원화 괄호 병기)</option><option value="KRW">KRW (원만)</option></select></label>
+</div>
+<div class="g2" id="fxrow">
+<label class="f"><span>환율 <small>1달러당 원. 원화 단가를 이 환율로 바꿔 품목마다 1달러 단위로 올려요</small></span><input type="number" step="any" min="0" inputmode="decimal" data-k="data.fx.rate" id="fxrate"></label>
+<div class="f"><span>환율 기준일</span><div class="fxline"><input type="date" data-k="data.fx.date" id="fxdate" aria-label="환율 기준일"><button type="button" id="fxfetch">오늘 환율 불러오기</button></div></div>
+</div>
+<p class="sub" id="fxnote" role="status"></p>
+<div class="g2">
+<label class="f"><span>발행일</span><input type="date" data-k="issue_date"></label>
+<label class="f"><span id="duelabel">결제기한</span><input type="date" data-k="due_date"></label>
+</div>
+</section>
+
+<section class="ed">
+<h3>청구 대상</h3>
+<fieldset class="radios"><legend>고객 유형</legend>
+<label><input type="radio" name="ctype" value="person" data-k="client.type"> 개인</label>
+<label><input type="radio" name="ctype" value="company" data-k="client.type"> 회사</label>
+</fieldset>
+<div data-ctype="person"><label class="f"><span>고객 이름</span><input data-k="client.name"></label></div>
+<div data-ctype="company">
+<label class="f"><span>회사명 <small>청구 대상 첫 줄</small></span><input data-k="client.company"></label>
+<label class="f"><span>담당자 이름 <small>선택. 문서에 Attn: 으로 표시</small></span><input data-k="client.attn"></label>
+</div>
+<div class="g2">
+<label class="f"><span>이메일 <small>선택</small></span><input type="email" data-k="client.email"></label>
+<label class="f"><span>전화 <small>선택</small></span><input type="tel" data-k="client.phone"></label>
+</div>
+<label class="f"><span>주소 <small>선택. 줄바꿈 그대로</small></span><textarea data-k="client.address" rows="2"></textarea></label>
+</section>
+
+<section class="ed" id="calcsec">
+<h3>가격 계산기 <small>사이트 가격표 기준. 조건과 시간을 넣으면 아래 품목이 자동으로 바뀌어요</small></h3>
+<p class="sub" id="calclock" hidden>발행한 문서라서 계산기는 잠겨 있어요. 품목은 발행할 때의 금액 그대로예요.</p>
+<div id="calcs"></div>
+<div class="addrow" id="calcadd">
+<label class="f"><span>서비스</span><select id="calcsvc"></select></label>
+<button type="button" id="addcalc">계산기 추가</button>
+</div>
+</section>
+
+<section class="ed">
+<h3>품목 <small>금액 = 수량 × 단가</small></h3>
+<div id="items"></div>
+<div class="addrow">
+<label class="f"><span>추가할 품목</span><select id="addtype"></select></label>
+<button type="button" id="additem">품목 추가</button>
+</div>
+<div class="g2">
+<label class="f"><span>할인 <small>금액. 선택</small></span><input type="number" step="any" min="0" data-k="data.discount"></label>
+</div>
+<p class="sum" id="sumline"></p>
+</section>
+
+<section class="ed">
+<h3>문서 문구 <small>언어마다 따로 써요. 비워 둔 칸은 문서에 나오지 않아요</small></h3>
+<div id="textfields"></div>
+<label class="check"><input type="checkbox" data-k="data.show_bank"> 입금 정보 표시 <small>계좌는 기본정보 설정에서 관리</small></label>
+<p class="warn" id="bankwarn" hidden></p>
+</section>
+
+<section class="ed">
+<h3>내부 메모 <small>문서에 나오지 않음</small></h3>
+<label class="f"><textarea data-k="memo" rows="2" aria-label="내부 메모"></textarea></label>
+</section>
+</form>
+
+<div class="previewwrap" id="previewwrap">
+<section class="review" aria-labelledby="reviewh">
+<h2 id="reviewh">미리보기 확인과 발행</h2>
+<div class="tabs" role="tablist" aria-label="미리보기 언어">
+<button type="button" role="tab" id="tab-ko" aria-controls="doc-ko" aria-selected="true">한국어 미리보기</button>
+<button type="button" role="tab" id="tab-en" aria-controls="doc-en" aria-selected="false">English 미리보기</button>
+</div>
+<ul class="checks" id="checks" aria-label="확인할 것"></ul>
+<label class="check"><input type="checkbox" id="ok-ko"> 한국어 문서를 확인했어요</label>
+<label class="check"><input type="checkbox" id="ok-en"> English 문서를 확인했어요</label>
+<div class="acts">
+<button type="button" class="primary" id="issue">발행하기</button>
+<button type="button" id="pdf-ko">한국어 PDF 저장</button>
+<button type="button" id="pdf-en">English PDF 저장</button>
+</div>
+<div class="confirm" id="issueconfirm" role="group" aria-labelledby="issueq" hidden>
+<p id="issueq"></p>
+<div class="acts"><button type="button" class="primary" id="issueyes">발행 확정</button><button type="button" id="issueno">취소</button></div>
+</div>
+<p class="msg" id="reviewmsg"></p>
+</section>
+<div class="preview">
+<article class="doc" id="doc-ko" lang="ko" role="tabpanel" aria-labelledby="tab-ko"></article>
+<article class="doc" id="doc-en" lang="en" role="tabpanel" aria-labelledby="tab-en" hidden></article>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+<dialog class="dlg" id="askdlg" aria-labelledby="askmsg">
+<div class="dlg-body"><p id="askmsg"></p></div>
+<div class="dlg-foot"><button type="button" class="primary" id="askyes">계속</button><button type="button" id="askno">취소</button></div>
+</dialog>
+
+<dialog class="dlg wide" id="listdlg">
+<div class="dlg-head"><h2>문서 목록</h2><input id="listq" type="search" placeholder="번호, 고객, 제목 검색" aria-label="문서 검색"><button type="button" data-close>닫기</button></div>
+<div class="dlg-body">
+<table class="list"><thead><tr><th>번호</th><th>고객 · 제목</th><th class="num">금액</th><th>상태</th><th>발행일</th></tr></thead><tbody id="listrows"></tbody></table>
+<p class="msg" id="listmsg"></p>
+</div>
+</dialog>
+
+<dialog class="dlg" id="settingsdlg">
+<div class="dlg-head"><h2>기본정보 설정</h2><button type="button" data-close>닫기</button></div>
+<div class="dlg-body">
+<p class="sub">새 문서에 자동으로 채워져요. 관리자만 볼 수 있는 DB에 저장되고, 사이트 코드에는 들어가지 않아요. 이미 발행한 문서는 발행할 때의 정보 그대로 남아요.</p>
+<h3>발행인</h3>
+<div class="g2">
+<label class="f"><span>회사명 · 한국어</span><input data-s="issuer.company.ko"></label>
+<label class="f"><span>회사명 · English</span><input data-s="issuer.company.en"></label>
+</div>
+<div class="g2">
+<label class="f"><span>서비스 이름 · 한국어</span><input data-s="issuer.brand.ko"></label>
+<label class="f"><span>서비스 이름 · English</span><input data-s="issuer.brand.en"></label>
+</div>
+<div class="g2">
+<label class="f"><span>대표자 · 한국어</span><input data-s="issuer.representative.ko"></label>
+<label class="f"><span>대표자 · English</span><input data-s="issuer.representative.en"></label>
+</div>
+<label class="f"><span>주소 · 한국어</span><input data-s="issuer.address.ko"></label>
+<label class="f"><span>주소 · English</span><input data-s="issuer.address.en"></label>
+<div class="g2">
+<label class="f"><span>사업자등록번호</span><input data-s="issuer.registration"></label>
+<label class="f"><span>웹사이트</span><input data-s="issuer.website"></label>
+</div>
+<div class="g2">
+<label class="f"><span>통신판매업 신고번호 · 한국어</span><input data-s="issuer.ecommerce.ko"></label>
+<label class="f"><span>통신판매업 신고번호 · English</span><input data-s="issuer.ecommerce.en"></label>
+</div>
+<div class="g2">
+<label class="f"><span>이메일</span><input data-s="issuer.email"></label>
+<label class="f"><span>전화</span><input data-s="issuer.phone"></label>
+</div>
+<h3>새 문서 기본값</h3>
+<label class="f"><span>우리 담당자 · 한국어 <small>이름 · 이메일 · 전화</small></span><input data-s="prefs.contact.ko"></label>
+<label class="f"><span>우리 담당자 · English</span><input data-s="prefs.contact.en"></label>
+<div class="g2">
+<label class="f"><span>인보이스 결제기한 <small>발행일부터 며칠</small></span><input type="number" min="0" max="365" step="1" data-s="prefs.invoice_days"></label>
+<label class="f"><span>견적서 유효기한 <small>발행일부터 며칠</small></span><input type="number" min="0" max="365" step="1" data-s="prefs.quote_days"></label>
+</div>
+<h3>입금 계좌 <small>해외 송금용, 영문</small></h3>
+<div class="g2">
+<label class="f"><span>은행 (Bank)</span><input data-s="bank.bank"></label>
+<label class="f"><span>예금주 (Account holder)</span><input data-s="bank.holder"></label>
+</div>
+<div class="g2">
+<label class="f"><span>계좌번호 (Account number)</span><input data-s="bank.account" inputmode="numeric"></label>
+<label class="f"><span>SWIFT / BIC</span><input data-s="bank.swift"></label>
+</div>
+<label class="f"><span>은행 주소 <small>선택</small></span><input data-s="bank.address"></label>
+<label class="f"><span>송금 수수료 (Bank charges)</span><select data-s="prefs.charges"><option value="OUR">송금인 부담 (OUR)</option><option value="SHA">나누어 부담 (SHA)</option><option value="BEN">수취인 부담 (BEN)</option></select></label>
+</div>
+<div class="dlg-foot"><button type="button" class="primary" id="savesettings">저장</button><span class="msg" id="settingsmsg"></span></div>
+</dialog>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- Setup ---------- */
+  var SUPABASE_URL = 'https://sutvnkiroquezjaendkr.supabase.co';
+  var ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1dHZua2lyb3F1ZXpqYWVuZGtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3ODU3OTEsImV4cCI6MjA5ODM2MTc5MX0.cnxKEJPVWzpiWNhhkQ800cacxp6lGLbiNzGNDSCHcaE';
+  var sb = supabase.createClient(SUPABASE_URL, ANON_KEY);
+  var $ = function (id) { return document.getElementById(id); };
+  var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
+
+  var LANGS = ['ko', 'en'];
+  var LANG_NAME = { ko: '한국어', en: 'English' };
+  var FILE_TAG = { ko: 'KR', en: 'EN' };
+  var KIND = {
+    quote: { ko: '견적서', en: 'Quotation', prefix: 'Q', due: '유효기한', daysKey: 'quote_days', statuses: ['draft', 'issued', 'accepted', 'void'] },
+    invoice: { ko: '인보이스', en: 'Invoice', prefix: 'INV', due: '결제기한', daysKey: 'invoice_days', statuses: ['draft', 'issued', 'paid', 'void'] }
+  };
+  var STATUS = { draft: '초안', issued: '발행함', accepted: '수락됨', paid: '결제 완료', void: '무효' };
+
+  // Service items. To offer a new kind of item, add it here. Each document can still change the name, unit and price.
+  // No item has a default price: the price is entered for each quote or invoice.
+  var SERVICES = {
+    concierge: { label: '컨시어지 서비스', basis: '이용 일수', ko: { name: '컨시어지 서비스', unit: ['일', '일'] }, en: { name: 'Concierge service', unit: ['day', 'days'] } },
+    pickup: { label: '공항 픽업', basis: '이용 횟수', ko: { name: '공항 픽업', unit: ['회', '회'] }, en: { name: 'Airport pickup', unit: ['trip', 'trips'] } },
+    dropoff: { label: '공항 샌딩', basis: '이용 횟수', ko: { name: '공항 샌딩', unit: ['회', '회'] }, en: { name: 'Airport drop-off', unit: ['trip', 'trips'] } },
+    pickup_dropoff: { label: '공항 픽업 및 샌딩', basis: '왕복 묶음 수', ko: { name: '공항 픽업 및 샌딩', unit: ['묶음', '묶음'] }, en: { name: 'Airport pickup and drop-off', unit: ['round trip', 'round trips'] } },
+    custom: { label: '직접 입력', basis: '수량', ko: { name: '', unit: ['', ''] }, en: { name: '', unit: ['', ''] } }
+  };
+
+  // Texts written per document, in each language. Empty ones are left out of the document entirely.
+  var TEXT_FIELDS = [
+    { k: 'title', label: '제목', hint: '선택. 품목 표 위에 표시', rows: 1 },
+    { k: 'contact', label: '우리 담당자', hint: '발행인 아래 표시. 이름 · 이메일 · 전화', rows: 1 },
+    { k: 'included', label: '포함 사항', hint: '한 줄에 하나', rows: 4 },
+    { k: 'excluded', label: '별도 비용', hint: '한 줄에 하나. 문서에는 불포함 사항으로 표시', rows: 3 },
+    { k: 'terms', label: '결제 조건', hint: '선택. 짧게', rows: 2 },
+    { k: 'cancellation', label: '취소·환불', hint: '한 줄에 한 문장', rows: 3 },
+    { k: 'notes', label: '특이사항', hint: '선택. 비워 두면 문서에 나오지 않아요', rows: 2 }
+  ];
+  // Starting texts for a new document. They never say that a transfer or a trip is excluded.
+  var TEMPLATE = {
+    excluded: { ko: '시술, 식사, 입장료 등 외부 업체 비용', en: 'Treatments, meals, admission fees and other third-party costs' },
+    terms: {
+      quote: { ko: '은행 송금으로 전액을 미리 결제하시면 서비스가 확정되고 담당 팀이 배정됩니다. 입금 정보는 인보이스로 보내 드립니다.', en: 'Full payment in advance by bank transfer confirms the service and reserves our team. We will send an invoice with our bank details.' },
+      invoice: { ko: '', en: '' }
+    }
+  };
+  // Public company details, as shown in the site footer. Bank details are never in this file:
+  // they are kept in 기본정보 설정 (the admin-only billing_settings table).
+  var DEFAULTS = {
+    issuer: {
+      company: { ko: '웨일랜드', en: 'Whaleland' },
+      brand: { ko: '해드리오', en: 'Haedurio' },
+      representative: { ko: '김정후', en: 'Jeonghu Kim' },
+      address: { ko: '서울특별시 강남구 언주로 425', en: 'Eonju-ro 425, Gangnam-gu, Seoul, Republic of Korea' },
+      registration: '428-04-03222',
+      ecommerce: { ko: '2025-서울강남-04140', en: '2025-Seoul Gangnam-04140' },
+      email: 'contact@whalelandkr.com', phone: '+82 10-4982-4357', website: 'www.haedurio.com'
+    },
+    prefs: { charges: 'OUR', invoice_days: 3, quote_days: 7 }
+  };
+  var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+  // Words printed on the documents.
+  var L = {
+    en: {
+      head: { quote: 'QUOTATION', invoice: 'INVOICE' }, no: 'No. ', issue: 'Issue date', due: { quote: 'Valid until', invoice: 'Payment due' },
+      total: { quote: 'Total', invoice: 'Amount due' }, from: 'From', to: { quote: 'Prepared for', invoice: 'Bill to' },
+      attn: 'Attn: ', contact: 'Your contact: ', reg: 'Business registration no. ', rep: 'Representative: ', ecom: 'E-commerce registration ',
+      cols: ['#', 'Description', 'Qty', 'Unit price', 'Amount'], subtotal: 'Subtotal', discount: 'Discount',
+      optional: 'Optional, not included in the total', included: 'Included', excluded: 'Not included', terms: 'Payment terms',
+      bankTitle: 'Bank transfer details', bank: 'Bank', holder: 'Account holder', account: 'Account number', swift: 'SWIFT / BIC', bankAddress: 'Bank address',
+      charges: 'Bank charges', chargeText: { OUR: 'Sender (OUR)', SHA: 'Shared (SHA)', BEN: 'Recipient (BEN)' }, reference: 'Payment reference',
+      cancel: 'Cancellation and refunds', notes: 'Notes', stamp: { paid: 'PAID', void: 'VOID', accepted: 'ACCEPTED' },
+      by: function (I) { return 'Seoul concierge by ' + I.company.en; },
+      thanks: function (I) { return 'Thank you for choosing ' + (I.brand.en || 'us') + '.'; },
+      date: function (iso) { if (!iso) return ''; var p = String(iso).split('-'); return MONTHS[+p[1] - 1] + ' ' + (+p[2]) + ', ' + p[0]; },
+      qty: function (q, u) { return u ? q + ' ' + u : q; }
+    },
+    ko: {
+      head: { quote: '견적서', invoice: '인보이스' }, no: '번호 ', issue: '발행일', due: { quote: '유효기한', invoice: '결제기한' },
+      total: { quote: '합계', invoice: '청구 금액' }, from: '발행인', to: { quote: '견적 대상', invoice: '청구 대상' },
+      attn: '담당자: ', contact: '문의: ', reg: '사업자등록번호 ', rep: '대표자 ', ecom: '통신판매업 신고 ',
+      cols: ['#', '품목', '수량', '단가', '금액'], subtotal: '소계', discount: '할인',
+      optional: '선택 품목 (합계에 포함되지 않음)', included: '포함 사항', excluded: '불포함 사항 (별도 비용)', terms: '결제 조건',
+      bankTitle: '입금 정보', bank: '은행', holder: '예금주', account: '계좌번호', swift: 'SWIFT / BIC', bankAddress: '은행 주소',
+      charges: '송금 수수료', chargeText: { OUR: '송금인 부담 (OUR)', SHA: '나누어 부담 (SHA)', BEN: '수취인 부담 (BEN)' }, reference: '송금 참조',
+      cancel: '취소·환불', notes: '특이사항', stamp: { paid: '결제 완료', void: '무효', accepted: '수락됨' },
+      by: function (I) { return '서울 컨시어지 · ' + I.company.ko; },
+      thanks: function () { return '이용해 주셔서 감사합니다.'; },
+      date: function (iso) { if (!iso) return ''; var p = String(iso).split('-'); return p[0] + '년 ' + (+p[1]) + '월 ' + (+p[2]) + '일'; },
+      qty: function (q, u) { return u ? q + u : q; }
+    }
+  };
+  var LS = { docs: 'hd_billing_docs', settings: 'hd_billing_settings' };
+
+  var settings = normSettings(null);
+  var mode = 'db';          // 'local' while the tables have not been created yet
+  var doc = null;           // the document on screen
+  var dirty = false;
+  var booted = false;
+  var listCache = [];
+  var numbers = {};         // document number -> id, to propose the next number and catch duplicates
+  var reviewed = { ko: false, en: false };
+  var shown = 'ko';
+
+  /* ---------- Small helpers ---------- */
+  function h(tag, attrs, kids) {
+    var e = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      var v = attrs[k];
+      if (v == null || v === false) return;
+      if (k === 'class') e.className = v; else if (k === 'text') e.textContent = v; else e.setAttribute(k, v);
+    });
+    (kids || []).forEach(function (c) { if (c != null && c !== false) e.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+    return e;
+  }
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+  function getPath(o, p) { return p.split('.').reduce(function (a, k) { return a == null ? undefined : a[k]; }, o); }
+  function setPath(o, p, v) { var ks = p.split('.'), last = ks.pop(); ks.reduce(function (a, k) { return a[k]; }, o)[last] = v; }
+  function lines(text) { return String(text || '').split(/\r?\n/).map(function (s) { return s.trim(); }).filter(Boolean); }
+  function kstToday() { return new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10); }
+  function kstDate(ts) { return new Date(new Date(ts).getTime() + 9 * 3600e3).toISOString().slice(0, 10); }
+  function addDays(iso, n) { var d = new Date(iso + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); }
+  function dec(cur) { return cur === 'KRW' ? 0 : 2; }
+  function round(n, cur) { var f = Math.pow(10, dec(cur)); return Math.round(+((+n || 0) * f).toPrecision(12)) / f; }
+  function num(n, cur) { return (+n || 0).toLocaleString('en-US', { minimumFractionDigits: dec(cur), maximumFractionDigits: dec(cur) }); }
+  function money(n, cur) { return cur + ' ' + num(n, cur); }
+  function won(n) { return '\u20a9' + Math.round(+n || 0).toLocaleString('en-US'); }
+  // Dollar documents keep each unit price in won as the source. The dollar unit price is the won price at the
+  // document's exchange rate, rounded up to a whole dollar, so every line adds up on paper in both currencies.
+  function normFx(f) { f = f || {}; var r = +f.rate; return { rate: r > 0 ? r : 0, date: str(f.date), source: str(f.source) }; }
+  function fxRate(d) { var r = d && d.data && d.data.fx ? +d.data.fx.rate : 0; return r > 0 ? r : 0; }
+  function dual(d) { return !!d && d.currency === 'USD' && fxRate(d) > 0; }
+  function hasKrw(it) { return it.krw != null && it.krw !== '' && isFinite(+it.krw); }
+  function usdFromKrw(krw, rate) { return Math.ceil(+((+krw || 0) / rate).toPrecision(12)); }
+  function lineKrw(it) { return Math.round((+it.qty || 0) * Math.round(+it.krw || 0)); }
+  // A won document prints the won price itself.
+  function applyFx(d) {
+    if (d.currency === 'KRW') { d.data.items.forEach(function (it) { if (hasKrw(it)) it.price = Math.round(+it.krw); }); return; }
+    // Without a rate, calculator lines have no dollar price yet; issuing asks for the rate.
+    if (!dual(d)) { d.data.items.forEach(function (it) { if (it.calc) it.price = 0; }); return; }
+    var r = fxRate(d);
+    d.data.items.forEach(function (it) { if (hasKrw(it)) it.price = usdFromKrw(it.krw, r); });
+  }
+  function qtyText(q) { q = +q || 0; return Number.isInteger(q) ? String(q) : String(+q.toFixed(2)); }
+  // The unit price counts as printed (whole won for KRW, cents for USD), so the line always adds up on paper.
+  function lineAmount(it, cur) { return round((+it.qty || 0) * round(it.price, cur), cur); }
+  function totals(d) {
+    var cur = d.currency, sub = 0, opt = 0, ksub = 0, kall = true, any = false;
+    d.data.items.forEach(function (it) {
+      if (it.optional) { opt += lineAmount(it, cur); return; }
+      sub += lineAmount(it, cur); any = true;
+      if (hasKrw(it)) ksub += lineKrw(it); else kall = false;
+    });
+    sub = round(sub, cur);
+    var disc = Math.max(0, Math.min(round(d.data.discount, cur), sub));
+    // The won total is shown only when every line has a won price and no dollar discount changes it.
+    var krw = dual(d) && any && kall && !disc ? ksub : null;
+    return { sub: sub, disc: disc, total: round(sub - disc, cur), opt: round(opt, cur), krw: krw };
+  }
+  function setMsg(text, err) { var m = $('msg'); m.textContent = text || ''; m.className = 'msg' + (err ? ' err' : ''); }
+  function errText(e) { return (e && (e.message || e.error_description)) || String(e); }
+  function uid() { return 'i' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  function str(v, def) { return v == null ? (def == null ? '' : String(def)) : String(v); }
+  // A text kept in both languages. Older documents and settings were in English only.
+  function bi(v, def) {
+    def = def || { ko: '', en: '' };
+    if (v && typeof v === 'object') return { ko: str(v.ko, def.ko), en: str(v.en, def.en) };
+    if (typeof v === 'string') return { ko: str(def.ko), en: v };
+    return { ko: str(def.ko), en: str(def.en) };
+  }
+  function intIn(v, def) { var n = parseInt(v, 10); return n >= 0 && n <= 365 ? n : def; }
+  function dueDays(kind) { return settings.prefs[KIND[kind].daysKey]; }
+  function isLocked() { return !!(doc && doc.savedStatus && doc.savedStatus !== 'draft'); }
+  function clientLabel(c) {
+    c = c || {};
+    var type = c.type || (c.company ? 'company' : 'person');
+    return type === 'company' ? [c.company, c.attn].filter(Boolean).join(' · ') : str(c.name);
+  }
+
+  /* ---------- Settings (기본정보) ---------- */
+  function normSettings(s) {
+    s = s || {};
+    var I = s.issuer || {}, D = DEFAULTS.issuer, B = s.bank || {}, P = s.prefs || {};
+    return {
+      issuer: {
+        company: bi(I.company, D.company), brand: bi(I.brand, D.brand), representative: bi(I.representative, D.representative),
+        address: bi(I.address, D.address), registration: str(I.registration, D.registration), ecommerce: bi(I.ecommerce, D.ecommerce),
+        email: str(I.email, D.email), phone: str(I.phone, D.phone), website: str(I.website, D.website)
+      },
+      bank: { bank: str(B.bank), holder: str(B.holder), account: str(B.account), swift: str(B.swift), address: str(B.address) },
+      prefs: {
+        contact: bi(P.contact != null ? P.contact : (s.contact ? { ko: '', en: s.contact } : null)),
+        charges: /^(OUR|SHA|BEN)$/.test(P.charges) ? P.charges : DEFAULTS.prefs.charges,
+        invoice_days: intIn(P.invoice_days, DEFAULTS.prefs.invoice_days),
+        quote_days: intIn(P.quote_days, DEFAULTS.prefs.quote_days)
+      }
+    };
+  }
+  // A document shows the settings of the day it was issued; drafts follow the current settings.
+  function basics(d) { return d.data.snapshot ? normSettings(d.data.snapshot) : settings; }
+  function bankComplete(B) { return !!(B.bank && B.holder && B.account && B.swift); }
+
+  /* ---------- Storage: Supabase, or this browser until the SQL has been run ---------- */
+  // Only "this table does not exist" switches to browser storage, and only when the page starts.
+  // Any other error (a timeout, a schema reload) is shown instead, so nothing silently moves out of the database.
+  function missing(err) { return !!err && (/^(PGRST205|42P01)$/.test(err.code || '') || /could not find the table/i.test(err.message || '')); }
+  function lsGet(k, fallback) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : fallback; } catch (e) { return fallback; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } }
+  function duplicateError(no) { var e = new Error('number ' + no + ' already exists'); e.code = '23505'; return e; }
+
+  var local = {
+    all: function () { return lsGet(LS.docs, []); },
+    get: function (id) { return local.all().filter(function (x) { return x.id === id; })[0] || null; },
+    save: function (id, row) {
+      var list = local.all(), now = new Date().toISOString(), rec;
+      if (list.some(function (x) { return x.number === row.number && x.id !== id; })) throw duplicateError(row.number);
+      if (id) {
+        var i = list.findIndex(function (x) { return x.id === id; });
+        if (i < 0) throw new Error('문서를 찾지 못했어요.');
+        var keep = list[i].status !== 'draft';  // issued documents keep their number
+        rec = Object.assign(list[i], row, { id: id, kind: list[i].kind, number: keep ? list[i].number : row.number, updated_at: now });
+      } else {
+        rec = Object.assign({ id: 'L' + Date.now(), created_at: now, updated_at: now }, row);
+        list.unshift(rec);
+      }
+      if (!lsSet(LS.docs, list)) throw new Error('브라우저에 저장하지 못했어요.');
+      return clone(rec);
+    },
+    remove: function (id) { lsSet(LS.docs, local.all().filter(function (x) { return x.id !== id; })); }
+  };
+
+  function isLocalId(id) { return String(id || '').charAt(0) === 'L'; }
+
+  var store = {
+    // Decide once, at start: are the tables there?
+    probe: async function () {
+      var r = await sb.from('billing_docs').select('id').limit(1);
+      if (r.error && missing(r.error)) { mode = 'local'; $('localnote').hidden = false; return; }
+      if (r.error) throw r.error;
+      mode = 'db';
+    },
+    // In database mode, documents made in this browser before the SQL was run are listed too.
+    // Saving one moves it into the database and keeps its number.
+    list: async function () {
+      var mine = local.all().map(function (x) { return Object.assign({}, x, { local: true }); });
+      if (mode === 'local') return mine;
+      var r = await sb.from('billing_docs').select('id,kind,number,status,currency,issue_date,due_date,title,client,total,created_at').order('created_at', { ascending: false }).limit(500);
+      if (r.error) throw r.error;
+      return mine.concat(r.data || []);
+    },
+    numbers: async function () {
+      var map = {};
+      local.all().forEach(function (x) { if (x.number) map[x.number] = String(x.id); });
+      if (mode === 'db') {
+        var r = await sb.from('billing_docs').select('id,number').limit(5000);
+        if (r.error) throw r.error;
+        (r.data || []).forEach(function (x) { if (x.number) map[x.number] = String(x.id); });
+      }
+      return map;
+    },
+    get: async function (id) {
+      if (isLocalId(id)) return local.get(id);
+      var r = await sb.from('billing_docs').select('*').eq('id', id).single();
+      if (r.error) throw r.error;
+      return r.data;
+    },
+    save: async function (id, row) {
+      if (mode === 'local') return local.save(id, row);
+      var r;
+      if (isLocalId(id)) {
+        r = await sb.from('billing_docs').insert(row).select('*').single();
+        if (r.error) throw r.error;
+        local.remove(id);
+        return r.data;
+      }
+      r = await (id ? sb.from('billing_docs').update(row).eq('id', id) : sb.from('billing_docs').insert(row)).select('*').single();
+      if (r.error) throw r.error;
+      return r.data;
+    },
+    remove: async function (id) {
+      if (isLocalId(id)) return local.remove(id);
+      var r = await sb.from('billing_docs').delete().eq('id', id).eq('status', 'draft').select('id');
+      if (r.error) throw r.error;
+      if (!r.data || !r.data.length) throw new Error('초안이 아니어서 지우지 않았어요. 다른 관리자가 이미 발행했을 수 있어요.');
+    },
+    loadSettings: async function () {
+      if (mode === 'local') return lsGet(LS.settings, null);
+      var r = await sb.from('billing_settings').select('*').eq('id', 1).maybeSingle();
+      if (r.error) throw r.error;
+      return r.data;
+    },
+    saveSettings: async function (s) {
+      if (mode === 'local') { if (!lsSet(LS.settings, s)) throw new Error('브라우저에 저장하지 못했어요.'); return; }
+      var r = await sb.from('billing_settings').upsert({ id: 1, issuer: s.issuer, bank: s.bank, prefs: s.prefs });
+      if (r.error) throw r.error;
+    }
+  };
+
+  /* ---------- Document numbers ---------- */
+  // The next number after the highest one used this year: Q-2026-0001, INV-2026-0001.
+  function proposeNumber(kind, iso, selfId) {
+    var p = KIND[kind].prefix, year = String(iso || kstToday()).slice(0, 4), re = new RegExp('^' + p + '-' + year + '-(\\d+)$'), max = 0;
+    Object.keys(numbers).forEach(function (n) { var m = re.exec(n); if (m && numbers[n] !== String(selfId)) max = Math.max(max, +m[1]); });
+    return p + '-' + year + '-' + String(max + 1).padStart(4, '0');
+  }
+  function numberTaken(no, id) { return !!no && numbers[no] != null && numbers[no] !== String(id); }
+  function docNumber() { return doc.number || proposeNumber(doc.kind, doc.issue_date, doc.id); }
+  function forgetId(id) { Object.keys(numbers).forEach(function (n) { if (numbers[n] === String(id)) delete numbers[n]; }); }
+
+  /* ---------- Document model ---------- */
+  function unitFor(type, lang, qty) { var u = (SERVICES[type] || SERVICES.custom)[lang].unit; return +qty === 1 ? u[0] : u[1]; }
+  function newItem(type) {
+    type = SERVICES[type] ? type : 'custom';
+    var s = SERVICES[type], it = { id: uid(), type: type, qty: 1, price: 0, krw: null, optional: false, unitAuto: { ko: true, en: true } };
+    LANGS.forEach(function (l) { it[l] = { name: s[l].name, unit: unitFor(type, l, 1), details: '' }; });
+    return it;
+  }
+  function normItem(x) {
+    x = x || {};
+    if (x.ko || x.en) {
+      var it = { id: x.id || uid(), type: SERVICES[x.type] ? x.type : 'custom', qty: +x.qty || 0, price: +x.price || 0, krw: hasKrw(x) ? Math.round(+x.krw) : null, optional: !!x.optional, unitAuto: { ko: !!(x.unitAuto && x.unitAuto.ko), en: !!(x.unitAuto && x.unitAuto.en) } };
+      if (x.calc) { it.calc = str(x.calc); it.role = str(x.role); }
+      if (x.from) it.from = str(x.from);
+      LANGS.forEach(function (l) { var t = x[l] || {}; it[l] = { name: str(t.name), unit: str(t.unit), details: str(t.details) }; });
+      return it;
+    }
+    // First version: one English title and description per item. The description goes to the internal memo (see normalize).
+    return { id: uid(), type: 'custom', qty: +x.qty || 0, price: +x.price || 0, optional: !!x.optional, unitAuto: { ko: false, en: false },
+      ko: { name: '', unit: '', details: '' }, en: { name: str(x.title), unit: '', details: '' } };
+  }
+  function blank(kind) {
+    var today = kstToday();
+    return {
+      id: null, kind: kind, number: '', numberAuto: true, status: 'draft', currency: 'USD',
+      issue_date: today, due_date: addDays(today, dueDays(kind)), dueAuto: true,
+      client: { type: 'person', name: '', company: '', attn: '', email: '', phone: '', address: '' },
+      data: {
+        v: 2, title: bi(), contact: bi(settings.prefs.contact), items: [], discount: 0,
+        included: bi(), excluded: bi(TEMPLATE.excluded), terms: bi(TEMPLATE.terms[kind]), cancellation: bi(), notes: bi(),
+        show_bank: kind === 'invoice', fx: normFx(), calcs: []
+      },
+      source_id: null, memo: '', paid_at: null, savedStatus: null
+    };
+  }
+  function normalize(row) {
+    var kind = KIND[row.kind] ? row.kind : 'quote', d = blank(kind), data = row.data || {}, c = row.client || {};
+    ['id', 'status', 'currency', 'issue_date', 'source_id', 'memo', 'paid_at'].forEach(function (k) { if (row[k] != null) d[k] = row[k]; });
+    if (row.due_date !== undefined) d.due_date = row.due_date || '';
+    d.dueAuto = !row.id && row.due_date == null;
+    d.number = str(row.number).trim();
+    d.numberAuto = !d.number;
+    var type = c.type === 'company' || c.type === 'person' ? c.type : (c.company ? 'company' : 'person');
+    d.client = {
+      type: type, name: str(c.name), company: str(c.company),
+      attn: c.attn != null ? str(c.attn) : (type === 'company' ? str(c.name) : ''),
+      email: str(c.email), phone: str(c.phone), address: str(c.address)
+    };
+    var first = data.v !== 2;
+    if (first) {
+      // A first-version document (English only, with a trip table). Its notes and terms are not carried into the
+      // document, where they could bring back wording that was removed; they go to the internal memo to copy from.
+      var moved = [['제목', row.title || data.title], ['서비스 정보', data.details]]
+        .concat((Array.isArray(data.items) ? data.items : []).map(function (it, i) { return ['품목 ' + (i + 1) + ' 설명', it && it.detail]; }))
+        .concat([['포함 사항', data.included], ['불포함 사항', data.excluded], ['결제 안내', data.payment], ['취소·환불', data.cancellation], ['기타 안내', data.notes]])
+        .filter(function (m) { return lines(m[1]).length; })
+        .map(function (m) { return '[' + m[0] + ']\n' + lines(m[1]).join('\n'); });
+      ['title', 'included', 'excluded', 'terms', 'cancellation', 'notes'].forEach(function (k) { d.data[k] = bi(); });
+      if (data.contact != null) d.data.contact = bi(data.contact);
+      if (moved.length) d.memo = [d.memo, '예전 형식 문서에서 옮긴 안내 문구 (문서에는 나오지 않음):\n\n' + moved.join('\n\n')].filter(Boolean).join('\n\n');
+      d.oldMoved = moved.length > 0;
+    } else {
+      ['title', 'contact', 'included', 'excluded', 'terms', 'cancellation', 'notes'].forEach(function (k) { if (data[k] != null) d.data[k] = bi(data[k]); });
+    }
+    d.data.items = (Array.isArray(data.items) ? data.items : []).map(normItem);
+    if (kind === 'invoice') d.data.items.forEach(function (it) { it.optional = false; });
+    d.data.discount = +data.discount || 0;
+    d.data.show_bank = data.show_bank != null ? !!data.show_bank : kind === 'invoice';
+    d.data.fx = normFx(data.fx);
+    d.data.calcs = (Array.isArray(data.calcs) ? data.calcs : []).map(normCalc);
+    if (data.snapshot) d.data.snapshot = data.snapshot;
+    if (KIND[kind].statuses.indexOf(d.status) < 0) d.status = 'draft';
+    if (d.currency !== 'KRW') d.currency = 'USD';
+    // An issued document keeps the dollar prices it was issued with; a draft follows its won prices and rate.
+    if (!(row.id && d.status !== 'draft')) applyFx(d);
+    d.savedStatus = row.id ? d.status : null;
+    return d;
+  }
+
+  /* ---------- Editor ---------- */
+  (function buildStatic() {
+    var box = $('textfields');
+    TEXT_FIELDS.forEach(function (f) {
+      LANGS.forEach(function (l) {
+        var attrs = { 'data-k': 'data.' + f.k + '.' + l, lang: l };
+        var input = f.rows > 1 ? h('textarea', Object.assign({ rows: f.rows }, attrs)) : h('input', attrs);
+        box.appendChild(h('label', { class: 'f' }, [h('span', null, [f.label + ' · ' + LANG_NAME[l], l === 'ko' && f.hint ? h('small', { text: f.hint }) : null]), input]));
+      });
+    });
+    var sel = $('addtype');
+    Object.keys(SERVICES).forEach(function (k) { sel.appendChild(h('option', { value: k, text: SERVICES[k].label + (k === 'custom' ? '' : ' · ' + SERVICES[k].basis) })); });
+  })();
+
+  function editorField(k) { return $('editor').querySelector('[data-k="' + k + '"]'); }
+  // Text boxes grow with their text, so nothing typed is hidden behind a scroll bar.
+  function autosize(el) { if (!el.offsetParent) return; el.style.height = 'auto'; el.style.height = (el.scrollHeight + 2) + 'px'; }
+  function autosizeAll() { $$('#editor textarea').forEach(autosize); }
+  function updateNumberHint() {
+    $('numhint').textContent = isLocked() ? '발행 후 고정' : (doc.numberAuto ? '자동' : '직접 입력');
+    $('numlabel').textContent = docNumber();
+  }
+  function showClientType() { var t = doc.client.type; $$('[data-ctype]').forEach(function (el) { el.hidden = el.dataset.ctype !== t; }); }
+
+  function fillForm() {
+    var k = KIND[doc.kind], locked = isLocked();
+    $('kindbadge').textContent = k.ko;
+    $('kindbadge').className = 'kind-badge ' + doc.kind;
+    $('duelabel').textContent = k.due;
+    // A draft leaves draft only through 발행하기. After that: paid / accepted / void.
+    var st = $('status');
+    st.textContent = '';
+    if (!locked) st.appendChild(h('option', { value: 'draft', text: STATUS.draft }));
+    else k.statuses.forEach(function (s) { if (s !== 'draft') st.appendChild(h('option', { value: s, text: STATUS[s] })); });
+    if (!doc.number) doc.number = proposeNumber(doc.kind, doc.issue_date, doc.id);
+    $$('#editor [data-k]').forEach(function (el) {
+      var v = getPath(doc, el.dataset.k);
+      if (el.type === 'radio') el.checked = el.value === v;
+      else if (el.type === 'checkbox') el.checked = !!v;
+      else el.value = v == null ? '' : v;
+    });
+    updateNumberHint();
+    $('toinvoice').hidden = doc.kind !== 'quote';
+    $('remove').hidden = !(doc.id && doc.savedStatus === 'draft');
+    showClientType();
+    showFxRow(); showFxNote();
+    renderCalcs();
+    renderItems();
+    updateSum();
+    autosizeAll();
+  }
+
+  // An issued document keeps its content: only its status and the internal memo can change. A void document stays void.
+  function lockForm() {
+    var locked = isLocked(), two = dual(doc);
+    $$('#editor input, #editor textarea, #editor select, #editor button, #additem').forEach(function (el) {
+      if (el.closest('.ed-actions') || el.closest('.ed-head')) return;
+      // A dollar unit price that comes from a won price is worked out, not typed.
+      var fixed = two && el.dataset.f === 'price' && hasKrw(doc.data.items[+el.dataset.i] || {});
+      el.disabled = fixed || (locked && el.id !== 'status' && el.dataset.k !== 'memo');
+    });
+    $('status').disabled = !locked || doc.savedStatus === 'void';
+    $('locknote').hidden = !locked;
+  }
+  function field(label, input) { return h('label', { class: 'f' }, [h('span', { text: label }), input]); }
+  function itemButton(text, act, i, label) { return h('button', { type: 'button', 'data-act': act, 'data-i': i, 'aria-label': label, title: label, text: text }); }
+  function itemCalc(it) {
+    var cur = doc.currency, q = L.ko.qty(qtyText(it.qty), it.ko.unit.trim()), opt = it.optional ? ' (선택 품목, 합계에서 뺌)' : '';
+    if (dual(doc) && hasKrw(it)) return q + ' × ' + won(it.krw) + ' = ' + won(lineKrw(it)) + '  →  ' + q + ' × ' + money(it.price, cur) + ' = ' + money(lineAmount(it, cur), cur) + ' (1달러 단위 올림)' + opt;
+    return q + ' × ' + money(it.price, cur) + ' = ' + money(lineAmount(it, cur), cur) + opt;
+  }
+  function renderItems() {
+    var box = $('items');
+    box.textContent = '';
+    if (!doc.data.items.length) box.appendChild(h('p', { class: 'sub', text: '아직 품목이 없어요. 아래에서 품목을 골라 추가하세요.' }));
+    doc.data.items.forEach(function (it, i) {
+      var n = (i + 1) + '번 품목', s = SERVICES[it.type] || SERVICES.custom, cur = doc.currency;
+      if (calcById(it.calc)) { box.appendChild(calcItemCard(it, i, n)); return; }
+      var inp = function (f, label, extra) { return h('input', Object.assign({ 'data-i': i, 'data-f': f, 'aria-label': n + ' ' + label }, extra || {})); };
+      var area = function (f, label, l) { return h('textarea', { 'data-i': i, 'data-f': f, rows: 3, lang: l, 'aria-label': n + ' ' + label }); };
+      var card = h('div', { class: 'item' + (it.optional ? ' opt' : '') }, [
+        h('div', { class: 'item-h' }, [
+          h('strong', { text: (i + 1) + '. ' + s.label }),
+          h('span', { class: 'sub', text: '수량 기준: ' + s.basis }),
+          h('span', { class: 'item-btns' }, [itemButton('↑', 'up', i, n + ' 위로'), itemButton('↓', 'down', i, n + ' 아래로'), itemButton('삭제', 'del', i, n + ' 삭제')])
+        ]),
+        dual(doc) ? h('div', { class: 'g4' }, [
+          field('수량', inp('qty', '수량', { type: 'number', step: 'any', min: 0, inputmode: 'decimal' })),
+          field('단가 (KRW)', inp('krw', '단가 원화', { type: 'number', step: '1', min: 0, inputmode: 'numeric' })),
+          field('단가 (USD)', inp('price', '단가', { type: 'number', step: 'any', min: 0, inputmode: 'decimal', disabled: hasKrw(it) })),
+          h('div', { class: 'f' }, [h('span', { text: '금액' }), h('output', { class: 'item-amt', 'data-amt': i, 'aria-label': n + ' 금액' })])
+        ]) : h('div', { class: 'g3' }, [
+          field('수량', inp('qty', '수량', { type: 'number', step: 'any', min: 0, inputmode: 'decimal' })),
+          field('단가 (' + cur + ')', inp('price', '단가', { type: 'number', step: 'any', min: 0, inputmode: 'decimal' })),
+          h('div', { class: 'f' }, [h('span', { text: '금액' }), h('output', { class: 'item-amt', 'data-amt': i, 'aria-label': n + ' 금액' })])
+        ]),
+        h('p', { class: 'item-calc', 'data-calc': i }),
+        h('div', { class: 'g2' }, [field('품목명 · 한국어', inp('ko.name', '품목명 한국어', { lang: 'ko' })), field('품목명 · English', inp('en.name', '품목명 English', { lang: 'en' }))]),
+        h('div', { class: 'g2' }, [field('단위 · 한국어', inp('ko.unit', '단위 한국어', { lang: 'ko' })), field('단위 · English', inp('en.unit', '단위 English', { lang: 'en' }))]),
+        field('세부사항 · 한국어', area('ko.details', '세부사항 한국어', 'ko')),
+        field('세부사항 · English', area('en.details', '세부사항 English', 'en')),
+        doc.kind === 'quote' ? h('label', { class: 'check' }, [h('input', { type: 'checkbox', 'data-i': i, 'data-f': 'optional', 'aria-label': n + ' 선택 품목' }), ' 선택 품목 (합계에서 빼고 따로 표시)']) : null
+      ]);
+      $$('[data-f]', card).forEach(function (el) {
+        var v = getPath(it, el.dataset.f);
+        if (el.type === 'checkbox') el.checked = !!v; else el.value = v == null ? '' : v;
+      });
+      box.appendChild(card);
+      updateItemCalc(i);
+    });
+    $$('textarea', box).forEach(autosize);
+    lockForm();
+    updateCalcViews();
+  }
+  function updateItemCalc(i) {
+    var it = doc.data.items[i], out = $('items').querySelector('[data-amt="' + i + '"]'), calc = $('items').querySelector('[data-calc="' + i + '"]');
+    if (!it || !out) return;
+    out.textContent = money(lineAmount(it, doc.currency), doc.currency) + (dual(doc) && hasKrw(it) ? ' (' + won(lineKrw(it)) + ')' : '');
+    calc.textContent = itemCalc(it);
+    var usd = $('items').querySelector('[data-i="' + i + '"][data-f="price"]');
+    if (usd && dual(doc)) { if (document.activeElement !== usd) usd.value = it.price; usd.disabled = hasKrw(it) || isLocked(); }
+  }
+
+  function updateSum() {
+    var t = totals(doc), cur = doc.currency, B = basics(doc).bank, w = $('bankwarn');
+    $('sumline').textContent = '합계 ' + money(t.total, cur) + (t.krw != null ? ' (' + won(t.krw) + ')' : '') + (t.disc ? ' (할인 ' + money(t.disc, cur) + ' 반영)' : '') + (t.opt ? ' · 선택 품목 ' + money(t.opt, cur) + ' 별도' : '');
+    var text = '';
+    if (doc.data.snapshot) text = '발행한 문서라서 발행할 때의 발행인·입금 정보로 고정돼 있어요.';
+    else if (doc.data.show_bank && !bankComplete(B)) text = '입금 계좌가 비어 있어요. 기본정보 설정에서 은행, 예금주, 계좌번호, SWIFT를 넣어 주세요.';
+    w.textContent = text;
+    w.hidden = !text;
+    updateReview();
+  }
+
+  var raf = 0;
+  function schedule() { if (!raf) raf = requestAnimationFrame(function () { raf = 0; render(); }); }
+  function resetReview() { reviewed = { ko: false, en: false }; }
+  function markDirty() {
+    resetReview();
+    if (!dirty) { dirty = true; setMsg('저장하지 않은 변경이 있어요. 미리보기를 다시 확인해 주세요.'); }
+  }
+  function changed() { markDirty(); updateSum(); schedule(); }
+  // Questions are asked on the page (no browser pop-up), so a person or an AI working the page can answer them alike.
+  function ask(message, yesLabel) {
+    return new Promise(function (resolve) {
+      var dlg = $('askdlg'), done = function (v) {
+        $('askyes').onclick = $('askno').onclick = dlg.onclose = null;
+        if (dlg.open) dlg.close();
+        resolve(v);
+      };
+      $('askmsg').textContent = message;
+      $('askyes').textContent = yesLabel || '계속';
+      $('askyes').onclick = function () { done(true); };
+      $('askno').onclick = function () { done(false); };
+      dlg.onclose = function () { done(false); };
+      dlg.showModal();
+      $('askno').focus();
+    });
+  }
+  function confirmDiscard() { return dirty ? ask('저장하지 않은 변경이 있어요. 버리고 계속할까요?', '버리고 계속') : Promise.resolve(true); }
+
+  function onEdit(e) {
+    var el = e.target;
+    if (el.tagName === 'TEXTAREA') autosize(el);
+    if (el.id === 'numinput') {
+      if (isLocked()) return;
+      var val = el.value.trim();
+      if (e.type === 'change' && !val) { val = proposeNumber(doc.kind, doc.issue_date, doc.id); el.value = val; doc.numberAuto = true; }
+      else if (e.type === 'input') doc.numberAuto = false;
+      if (doc.number !== val) { doc.number = val; changed(); }
+      updateNumberHint();
+      return;
+    }
+    if (el.dataset.k) {
+      var k = el.dataset.k, v;
+      if (el.type === 'radio') { if (!el.checked) return; v = el.value; }
+      else if (el.type === 'checkbox') v = el.checked;
+      else if (el.type === 'number') v = el.value === '' ? 0 : +el.value;
+      else v = el.value;
+      if (getPath(doc, k) === v) return;
+      setPath(doc, k, v);
+      if (k === 'issue_date' && v) {
+        if (doc.dueAuto) { doc.due_date = addDays(v, dueDays(doc.kind)); editorField('due_date').value = doc.due_date; }
+        if (doc.numberAuto && !isLocked()) { doc.number = proposeNumber(doc.kind, v, doc.id); $('numinput').value = doc.number; updateNumberHint(); }
+      }
+      if (k === 'due_date') doc.dueAuto = false;
+      if (k === 'data.fx.rate' || k === 'data.fx.date') { doc.data.fx.source = 'manual'; showFxNote(); }
+      if (k === 'currency' || k === 'data.fx.rate') { applyFx(doc); renderItems(); showFxRow(); }
+      if (k === 'client.type') { showClientType(); autosizeAll(); }
+    } else if (el.dataset.f) {
+      var i = +el.dataset.i, it = doc.data.items[i], f = el.dataset.f;
+      if (!it) return;
+      var nv = el.type === 'checkbox' ? el.checked : f === 'krw' ? (el.value === '' ? null : Math.max(0, Math.round(+el.value))) : (f === 'qty' || f === 'price') ? (el.value === '' ? 0 : +el.value) : el.value;
+      if (getPath(it, f) === nv) return;
+      setPath(it, f, nv);
+      // A unit someone typed is kept as typed. Units still following the item type change with the quantity (day / days).
+      if (/\.unit$/.test(f)) it.unitAuto[f.split('.')[0]] = false;
+      if (f === 'qty') LANGS.forEach(function (l) {
+        if (!it.unitAuto[l]) return;
+        it[l].unit = unitFor(it.type, l, nv);
+        var u = $('items').querySelector('[data-i="' + i + '"][data-f="' + l + '.unit"]');
+        if (u) u.value = it[l].unit;
+      });
+      if (f === 'optional') el.closest('.item').classList.toggle('opt', !!nv);
+      if (f === 'krw') applyFx(doc);
+      // A won document keeps the won price as the source too, so the same item can later be shown in dollars.
+      if (f === 'price' && doc.currency === 'KRW') it.krw = Math.max(0, Math.round(nv));
+      updateItemCalc(i);
+    } else if (el.dataset.cf) {
+      if (!calcEdit(el)) return;
+    } else return;
+    changed();
+  }
+  $('editor').addEventListener('input', onEdit);
+  $('editor').addEventListener('change', onEdit);
+  $('editor').addEventListener('submit', function (e) { e.preventDefault(); });
+
+  $('items').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-act]');
+    if (!b) return;
+    var i = +b.dataset.i, items = doc.data.items, act = b.dataset.act;
+    if (act === 'up' && i > 0) items.splice(i - 1, 0, items.splice(i, 1)[0]);
+    else if (act === 'down' && i < items.length - 1) items.splice(i + 1, 0, items.splice(i, 1)[0]);
+    else if (act === 'del') items.splice(i, 1);
+    else if (act === 'detach') {
+      // The line becomes an ordinary item that can be edited, and its calculator stops making it.
+      var it = items[i], c = it && calcById(it.calc);
+      if (!c) return;
+      if (c.detached.indexOf(it.role) < 0) c.detached.push(it.role);
+      it.from = c.id + '-' + it.role;
+      delete it.calc; delete it.role;
+    } else return;
+    renderItems(); changed();
+    if (act === 'detach') { var nm = $('items').querySelector('[data-i="' + i + '"][data-f="ko.name"]'); if (nm) nm.focus(); }
+  });
+  $('additem').addEventListener('click', function () {
+    doc.data.items.push(newItem($('addtype').value));
+    renderItems(); changed();
+    var last = $('items').lastElementChild;
+    if (last) last.querySelector('[data-f="qty"]').focus();
+  });
+
+  /* ---------- Price calculator: the site's price list, in won ---------- */
+  // The same numbers as the public site: service prices in src/site.json, add-ons in the catalog of src/i18n/en.json,
+  // and the timing, distance and size extras on the prices page (tools/pages.mjs).
+  // When a price changes there, change it here too. node tools/check-pricing.mjs lists any that differ.
+  var PR = {
+    handling: 4.5,
+    lead: [
+      { id: 'h48', pct: 10, ko: '48시간 이내', en: 'Within 48 hours' },
+      { id: 'h24', pct: 20, ko: '24시간 이내', en: 'Within 24 hours' },
+      { id: 'same', pct: 35, ko: '당일', en: 'Same day' },
+      { id: 'h3', pct: 60, ko: '3시간 이내', en: 'Within 3 hours' }
+    ],
+    night: { pct: 30, ko: '야간 작업 22:00–02:00', en: 'Night work, 22:00 to 02:00' },
+    fixed: { pct: 20, ko: '도착 시간 지정', en: 'A fixed arrival time' },
+    distance: [
+      { id: 'central', krw: 0, ko: '서울 도심', en: 'Central Seoul' },
+      { id: 'seoul', krw: 16000, ko: '서울 그 외 지역', en: 'Rest of Seoul' },
+      { id: 'outer', krw: 31000, ko: '서울 외곽·장거리', en: 'Outer Seoul and longer trips' },
+      { id: 'airport', krw: 54000, ko: '공항·인근 도시', en: 'Airports and nearby cities' }
+    ],
+    size: [
+      { id: 'none', krw: 0, ko: '보통', en: '' },
+      { id: 'bulky', krw: 16000, ko: '10~20kg 또는 부피가 큼', en: '10 to 20 kg, or bulky' },
+      { id: 'heavy', krw: 39000, ko: '20kg 초과 또는 2인 필요', en: 'Over 20 kg, or needs two people' }
+    ],
+    ship: 48000,
+    costs: [
+      { id: 'items', label: '물품값', ko: '물품값 (실비)', en: 'Items, at cost' },
+      { id: 'transport', label: '교통비 (택시 등)', ko: '교통비 (실비)', en: 'Taxi and transport, at cost' },
+      { id: 'postage', label: '배송비·우편료', ko: '배송비·우편료 (실비)', en: 'Postage and courier fees, at cost' },
+      { id: 'deposit', label: '예약금·보증금', ko: '예약금·보증금 (실비)', en: 'Deposits, at cost' },
+      { id: 'other', label: '식비·기타', ko: '식비·기타 (실비)', en: 'Food and other expenses, at cost' }
+    ]
+  };
+  // kind: count = price × count · hours = the first block, then each extra hour · perhour = price × hours
+  //       variant = one of a few fixed prices · varhours = one of a few hourly prices
+  // rushIncluded: the price is already for urgent work, so no rush extra is added automatically.
+  var SV = {
+    reservation: { ko: '예약 대행', en: 'Reservation', kind: 'count', krw: 9000, qtyLabel: '예약할 곳 수', unit: { ko: ['곳', '곳'], en: ['place', 'places'] },
+      addons: [
+        { id: 'compare', krw: 5000, ko: '여러 곳 먼저 비교', en: 'Compare a few places first' },
+        { id: 'change', krw: 5000, ko: '나중에 예약 변경·취소', en: 'Change or cancel the booking later' },
+        { id: 'follow', krw: 5000, ko: '여러 번 확인이 필요한 곳', en: 'Places that need repeated follow-ups' }
+      ] },
+    info: { ko: '정보 확인 (30분 단위)', en: 'Info check, per 30 minutes', kind: 'count', krw: 9000, minutes: 30, qtyLabel: '30분 단위 수 (2 = 1시간)', unit: { ko: ['회', '회'], en: ['', ''] }, research: 22000 },
+    instore: { ko: '매장 구매 대행 (첫 1시간)', en: 'In-store purchase, first hour', kind: 'hours', krw: 102000, first: 1, extra: 56000, onsite: true, size: true, ship: true, itemMin: 8000 },
+    online: { ko: '국내 전용 온라인몰 주문', en: 'Korea-only online shop order', kind: 'count', krw: 30000, qtyLabel: '주문 건수', unit: { ko: ['건', '건'], en: ['order', 'orders'] }, ship: true, itemMin: 8000 },
+    openrun: { ko: '팝업 오픈런 (대기 2시간 포함)', en: 'Pop-up open-run, up to 2 hours in the queue', kind: 'hours', krw: 342000, first: 2, extra: 37000,
+      extraKo: '추가 대기 시간', extraEn: 'Each extra hour in the queue', hoursLabel: '대기 시간 (시간)', onsite: true, size: true, ship: true },
+    errand: { ko: '현장 심부름 (첫 1시간)', en: 'On-site errand, first hour', kind: 'hours', krw: 95000, first: 1, extra: 56000, onsite: true, size: true,
+      addons: [{ id: 'lobby', krw: 8000, ko: '호텔 로비 전달', en: 'Handoff at the hotel lobby' }] },
+    remote: { ko: '원격 통역 (30분 단위)', en: 'Remote interpretation, per 30 minutes', kind: 'count', krw: 31000, minutes: 30, qtyLabel: '30분 단위 수 (2 = 1시간)', unit: { ko: ['회', '회'], en: ['', ''] } },
+    companion: { ko: '동행 통역 (첫 1시간)', en: 'Companion interpretation, first hour', kind: 'hours', krw: 126000, first: 1, extra: 56000, onsite: true },
+    pro: { ko: '전문 통역', en: 'Professional interpretation', kind: 'perhour', krw: 93000, onsite: true },
+    shipping: { ko: '해외 배송 대행', en: 'International shipping', kind: 'count', krw: 48000, qtyLabel: '보내는 건수', unit: { ko: ['건', '건'], en: ['shipment', 'shipments'] } },
+    parcel: { ko: '택배 수령·보관', en: 'Parcel receiving', kind: 'count', krw: 28000, qtyLabel: '택배 개수', unit: { ko: ['개', '개'], en: ['parcel', 'parcels'] }, storage: 1500 },
+    lostcheck: { ko: '분실물 조회', en: 'Lost item check', kind: 'count', krw: 39000, qtyLabel: '찾을 물건 수', unit: { ko: ['건', '건'], en: ['item', 'items'] } },
+    pickup: { ko: '분실물 수령·당일 배송', en: 'Pickup and same-day delivery', kind: 'variant', onsite: true, size: true,
+      variants: [
+        { id: 'lost', krw: 132000, ko: '분실물 수령 (위임장 필요)', en: 'Lost item pickup, with your signed authorization' },
+        { id: 'urgent', krw: 148000, rushIncluded: true, ko: '당일 긴급 배송 (서울 도심)', en: 'Same-day urgent delivery in central Seoul' }
+      ] },
+    genie: { ko: '기타 요청', en: 'Something else', kind: 'varhours', size: true,
+      variants: [
+        { id: 'remote', krw: 31000, ko: '기타 요청 (원격, 시간당)', en: 'Something else, remote, per hour' },
+        { id: 'onsite', krw: 56000, onsite: true, ko: '기타 요청 (현장, 시간당)', en: 'Something else, on site, per hour' }
+      ] }
+  };
+  var SV_ORDER = ['reservation', 'info', 'instore', 'online', 'openrun', 'errand', 'remote', 'companion', 'pro', 'shipping', 'parcel', 'lostcheck', 'pickup', 'genie'];
+  var SV_GROUP = { reservation: '예약·정보', info: '예약·정보', instore: '쇼핑', online: '쇼핑', openrun: '쇼핑', errand: '심부름', remote: '통역', companion: '통역', pro: '통역', shipping: '택배·배송', parcel: '택배·배송', lostcheck: '분실물·긴급', pickup: '분실물·긴급', genie: '기타' };
+
+  function pick(list, id) { return list.filter(function (x) { return x.id === id; })[0] || null; }
+  function unitOf(pair, n) { return +n === 1 ? pair[0] : pair[1]; }
+  // Each calculator keeps the price list it was made with, so a saved quote, or an invoice made from one, never
+  // changes price by itself after the site's prices change. '지금 가격으로 다시 계산' takes the current list.
+  function priceList(svc) { return SV[svc] ? { PR: clone(PR), S: clone(SV[svc]) } : null; }
+  // Compared with sorted keys: the database (jsonb) does not keep the order of keys.
+  function sortedJson(o) { return JSON.stringify(o, function (k, v) { return v && typeof v === 'object' && !Array.isArray(v) ? Object.keys(v).sort().reduce(function (a, x) { a[x] = v[x]; return a; }, {}) : v; }); }
+  function stale(c) { var now = priceList(c.svc); return !!now && sortedJson(c.pl) !== sortedJson(now); }
+  function svcLabel(S) { return S.ko.replace(/\s*\(.*\)$/, ''); }
+  function svcPrice(S) {
+    if (S.variants) return S.variants.map(function (v) { return won(v.krw) + (S.kind === 'varhours' ? '/시간' : ''); }).join(' 또는 ');
+    if (S.kind === 'hours') return won(S.krw) + (S.first > 1 ? ' (' + S.first + '시간까지)' : ' (첫 1시간)') + ' + 1시간마다 ' + won(S.extra);
+    if (S.kind === 'perhour') return '시간당 ' + won(S.krw);
+    return S.minutes ? S.minutes + '분마다 ' + won(S.krw) : S.unit.ko[0] + '당 ' + won(S.krw);
+  }
+  function calcList() { return (doc && doc.data.calcs) || []; }
+  function calcById(id) { return id ? calcList().filter(function (c) { return c.id === id; })[0] || null : null; }
+  function variantOf(c) { var S = c.pl.S; return S.variants ? pick(S.variants, c.variant) || S.variants[0] : null; }
+  function onsiteCalc(c) { var v = variantOf(c); return !!(c.pl.S.onsite || (v && v.onsite)); }
+  function sizeCalc(c) { return !!c.pl.S.size && onsiteCalc(c); }
+  // The time the request came in, kept as an instant and shown in Korean time.
+  function toKstLocal(iso) { var t = Date.parse(iso); return t ? new Date(t + 9 * 3600e3).toISOString().slice(0, 16) : ''; }
+  function fromKstLocal(v) { var m = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})/.exec(v || ''), t = m ? Date.parse(m[1] + 'T' + m[2] + ':00+09:00') : NaN; return t ? new Date(t).toISOString() : ''; }
+  function normCalc(x) {
+    x = x || {};
+    var pl = x.pl && x.pl.PR && x.pl.S && x.pl.S.kind ? x.pl : null;
+    var svc = SV[x.svc] || (pl && x.svc) ? String(x.svc) : 'errand';
+    pl = pl || priceList(svc);
+    var S = pl.S, P = pl.PR;
+    var c = {
+      id: str(x.id) || 'c' + uid(), svc: svc, pl: pl, date: str(x.date), time: /^\d{2}:\d{2}$/.test(x.time) ? x.time : '',
+      hours: +x.hours > 0 ? +x.hours : (S.first || 1), qty: +x.qty > 0 ? Math.round(+x.qty) : 1,
+      asked: str(x.asked), lead: str(x.lead, 'auto'), night: str(x.night, 'auto'), fixed: !!x.fixed,
+      distance: pick(P.distance, x.distance) ? x.distance : 'central', size: pick(P.size, x.size) ? x.size : 'none',
+      variant: str(x.variant), research: +x.research > 0 ? Math.round(+x.research) : 0, storage: +x.storage > 0 ? Math.round(+x.storage) : 0,
+      addons: {}, costs: {}, handling: x.handling == null ? true : !!x.handling, note: bi(x.note),
+      detached: Array.isArray(x.detached) ? x.detached.map(String) : []
+    };
+    if (['auto', 'none'].concat(P.lead.map(function (l) { return l.id; })).indexOf(c.lead) < 0) c.lead = 'auto';
+    if (['auto', 'on', 'off'].indexOf(c.night) < 0) c.night = 'auto';
+    (S.addons || []).forEach(function (a) { c.addons[a.id] = !!(x.addons && x.addons[a.id]); });
+    if (S.ship) c.addons.ship = !!(x.addons && x.addons.ship);
+    P.costs.forEach(function (k) { var v = x.costs ? +x.costs[k.id] : 0; c.costs[k.id] = v > 0 ? Math.round(v) : 0; });
+    if (S.variants && !pick(S.variants, c.variant)) c.variant = S.variants[0].id;
+    return c;
+  }
+  // A second calculator usually belongs to the same request: it starts from the first one's request time and date.
+  function newCalc(svc) {
+    var first = calcList()[0];
+    return normCalc({ svc: svc, asked: (first && first.asked) || new Date().toISOString(), date: (first && first.date) || kstToday() });
+  }
+
+  // How long the work runs, to see whether it reaches into the night. Count services use their 30-minute blocks.
+  function calcHours(c) {
+    var S = c.pl.S;
+    if (S.kind === 'hours') return Math.max(S.first, +c.hours || 0);
+    if (S.kind === 'perhour' || S.kind === 'varhours') return Math.max(1, +c.hours || 0);
+    if (S.minutes) return (Math.max(1, Math.round(+c.qty || 1)) * S.minutes) / 60;
+    return 0;
+  }
+  function startMs(c) { return c.date && c.time ? Date.parse(c.date + 'T' + c.time + ':00+09:00') : NaN; }
+  // Rush extras by how soon the work starts after the request: within 3 hours, the same day, within 24 or 48 hours.
+  function autoLead(c) {
+    var s = startMs(c), a = Date.parse(c.asked);
+    if (!(s > 0) || !(a > 0)) return { id: 'none', why: !c.date ? '날짜를 넣으면 정해요' : !c.time ? '시작 시각을 넣으면 정해요' : '요청 받은 시각을 넣으면 정해요' };
+    var hrs = (s - a) / 3600e3;
+    if (hrs < 0) return { id: 'none', why: '시작 시각이 요청 받은 시각보다 빨라요' };
+    var id = hrs <= 3 ? 'h3' : kstDate(a) === c.date ? 'same' : hrs <= 24 ? 'h24' : hrs <= 48 ? 'h48' : 'none';
+    return { id: id, why: '요청 ' + (Math.round(hrs * 10) / 10) + '시간 뒤 시작' };
+  }
+  // Night work: any part of the work between 22:00 and 02:00, Korean time.
+  function autoNight(c) {
+    var s = startMs(c);
+    if (!(s > 0)) return false;
+    var e = s + Math.max(calcHours(c), 0.5) * 3600e3;
+    for (var k = -1; k <= 1; k++) {
+      var ns = Date.parse(addDays(c.date, k) + 'T22:00:00+09:00'), ne = ns + 4 * 3600e3;
+      if (s < ne && e > ns) return true;
+    }
+    return false;
+  }
+  function whenText(c, lang) {
+    if (!c.date) return '';
+    var t = c.time, end = '', dur = calcHours(c);
+    if (t && dur > 0) {
+      var m = ((+t.slice(0, 2) * 60 + +t.slice(3) + Math.round(dur * 60)) % 1440 + 1440) % 1440;
+      end = String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0');
+    }
+    if (lang === 'en') return L.en.date(c.date) + (t ? ', ' + t + (end ? '–' + end : '') + ' KST' : '');
+    return L.ko.date(c.date) + (t ? ' ' + t + (end ? '–' + end : '') + ' (한국 시간)' : '');
+  }
+
+  // The lines one calculator puts on the document, in won. Timing extras are charged on the service fee
+  // (the menu price and its extra time) and multiply each other; add-ons, travel, size and actual costs are not multiplied.
+  function calcLines(c) {
+    var S = c.pl.S, P = c.pl.PR, all = [], notes = [], q = Math.max(1, Math.round(+c.qty || 1)), v = variantOf(c);
+    var line = function (role, ko, en, qty, krw, timed) {
+      krw = Math.round(krw);
+      if (!(krw > 0) || !(qty > 0)) return;
+      all.push({ role: role, qty: qty, krw: krw, timed: !!timed,
+        ko: { name: ko.name, unit: ko.unit || '', details: ko.details || '' }, en: { name: en.name, unit: en.unit || '', details: en.details || '' } });
+    };
+    var det = function (lang) { return [whenText(c, lang), c.note[lang].trim()].filter(Boolean).join('\n'); };
+    if (S.kind === 'count') {
+      line('base', { name: S.ko, unit: unitOf(S.unit.ko, q), details: det('ko') }, { name: S.en, unit: unitOf(S.unit.en, q), details: det('en') }, q, S.krw, true);
+      if (S.research && c.research > 0) line('research', { name: '리서치 (시간당)', unit: '시간' }, { name: 'Research, per hour', unit: unitOf(['hour', 'hours'], c.research) }, c.research, S.research, true);
+    } else if (S.kind === 'hours') {
+      line('base', { name: S.ko, details: det('ko') }, { name: S.en, details: det('en') }, 1, S.krw, true);
+      var extra = Math.max(0, Math.ceil(+c.hours || 0) - S.first);
+      line('extra', { name: S.extraKo || '추가 시간', unit: '시간' }, { name: S.extraEn || 'Each extra hour', unit: unitOf(['hour', 'hours'], extra) }, extra, S.extra, true);
+    } else if (S.kind === 'perhour' || S.kind === 'varhours') {
+      var n = Math.max(1, Math.ceil(+c.hours || 0)), p = S.kind === 'perhour' ? S : v;
+      line('base', { name: p.ko, unit: '시간', details: det('ko') }, { name: p.en, unit: unitOf(['hour', 'hours'], n), details: det('en') }, n, p.krw, true);
+    } else {
+      line('base', { name: v.ko, details: det('ko') }, { name: v.en, details: det('en') }, 1, v.krw, true);
+    }
+
+    var fee = all.reduce(function (a, o) { return a + o.qty * o.krw; }, 0), f = 1;
+    var al = autoLead(c), rushIn = !!(v && v.rushIncluded), lead = c.lead === 'auto' ? (rushIn ? 'none' : al.id) : c.lead, lo = pick(P.lead, lead);
+    var nightAuto = autoNight(c), night = c.night === 'auto' ? nightAuto : c.night === 'on';
+    var timing = function (role, o) {
+      var basis = Math.round(fee * f), first = f === 1;
+      line(role,
+        { name: '할증 · ' + o.ko + ' (+' + o.pct + '%)', details: (first ? '서비스 요금 ' : '앞 할증까지 더한 요금 ') + won(basis) + ' × ' + o.pct + '%' },
+        { name: 'Timing extra · ' + o.en + ' (+' + o.pct + '%)', details: o.pct + '% of ' + (first ? 'the ' + won(basis) + ' service fee' : won(basis) + ', the service fee with the extra above') },
+        1, basis * o.pct / 100);
+      f *= 1 + o.pct / 100;
+    };
+    if (lo) timing('lead', lo);
+    if (night) timing('night', P.night);
+    if (c.fixed) timing('fixed', P.fixed);
+
+    (S.addons || []).forEach(function (a) { if (c.addons[a.id]) line('addon-' + a.id, { name: a.ko }, { name: a.en }, 1, a.krw); });
+    if (S.ship && c.addons.ship) line('ship', { name: '해외 발송' }, { name: 'Ship it abroad' }, 1, P.ship);
+    if (S.storage && c.storage > 0) line('storage', { name: '7일 넘는 보관', unit: '일' }, { name: 'Storage after 7 days', unit: unitOf(['day', 'days'], c.storage) }, c.storage, S.storage);
+    var dist = pick(P.distance, c.distance);
+    if (onsiteCalc(c) && dist && dist.krw) line('distance', { name: '이동 · ' + dist.ko }, { name: 'Travel · ' + dist.en }, 1, dist.krw);
+    var size = pick(P.size, c.size);
+    if (sizeCalc(c) && size && size.krw) line('size', { name: '크기·무게 · ' + size.ko }, { name: 'Size · ' + size.en }, 1, size.krw);
+
+    // Actual costs at cost, plus 4.5% handling. For shop orders the service fee already covers the first ₩8,000
+    // of item handling, so only what goes beyond it is added.
+    var costSum = 0;
+    P.costs.forEach(function (k) { var x = c.costs[k.id] || 0; if (x > 0) { costSum += x; line('cost-' + k.id, { name: k.ko }, { name: k.en }, 1, x); } });
+    if (costSum > 0 && c.handling) {
+      var items = c.costs.items || 0, incl = S.itemMin && items > 0 ? S.itemMin * (S.kind === 'count' ? q : 1) : 0;
+      var base = Math.round(costSum * P.handling / 100), ded = Math.min(Math.round(items * P.handling / 100), incl);
+      line('handling',
+        { name: '실비 처리 수수료 ' + P.handling + '%', details: '실비 ' + won(costSum) + ' × ' + P.handling + '%' + (ded ? ' − 서비스 요금에 포함된 ' + won(ded) : '') },
+        { name: 'Handling, ' + P.handling + '% of actual costs', details: P.handling + '% of ' + won(costSum) + (ded ? ', less ' + won(ded) + ' already in the service fee' : '') },
+        1, base - ded);
+      if (ded && base - ded <= 0) notes.push('물품 처리 수수료 ' + won(base) + '이(가) 서비스 요금에 포함된 ' + won(incl) + ' 안이라 따로 받지 않아요.');
+    }
+    return {
+      all: all, notes: notes, auto: al, nightAuto: nightAuto, rushIncluded: rushIn,
+      // Whether other lines are worked out from the service fee lines, or from the actual costs
+      feeUsed: f > 1, costsUsed: costSum > 0 && !!c.handling,
+      lines: all.filter(function (o) { return c.detached.indexOf(o.role) < 0; })
+    };
+  }
+  function calcItems(c) {
+    return calcLines(c).lines.map(function (o) {
+      // The unit price follows the won price: applyFx sets it for the document's currency and rate.
+      return { id: c.id + '-' + o.role, type: 'custom', calc: c.id, role: o.role, qty: o.qty, krw: o.krw, price: 0, optional: false,
+        unitAuto: { ko: false, en: false }, ko: o.ko, en: o.en };
+    });
+  }
+  // Puts a calculator's current lines into the item list. Each line keeps its place; a new line goes right after
+  // the calculator line before it (a new calculator's lines go at the end). Other items stay where they are.
+  function syncCalc(c) {
+    var fresh = calcItems(c), byRole = {}, out = [];
+    fresh.forEach(function (it) { byRole[it.role] = it; });
+    doc.data.items.forEach(function (it) {
+      if (it.calc !== c.id) out.push(it);
+      else if (byRole[it.role] && out.indexOf(byRole[it.role]) < 0) out.push(byRole[it.role]);
+    });
+    var last = -1;
+    fresh.forEach(function (it) {
+      var at = out.indexOf(it);
+      if (at >= 0) { last = at; return; }
+      if (last < 0) {
+        var firstHere = out.length;
+        fresh.forEach(function (x) { var j = out.indexOf(x); if (j >= 0 && j < firstHere) firstHere = j; });
+        last = firstHere - 1;
+      }
+      out.splice(last + 1, 0, it);
+      last += 1;
+    });
+    doc.data.items = out;
+    applyFx(doc);
+  }
+  // Lines taken out of a calculator ('직접 고치기') whose amount was changed although other lines are worked out from them.
+  function calcDrift(c) {
+    var r = calcLines(c), out = [];
+    r.all.forEach(function (o) {
+      if (c.detached.indexOf(o.role) < 0 || !(o.timed ? r.feeUsed : /^cost-/.test(o.role) && r.costsUsed)) return;
+      var key = c.id + '-' + o.role, it = doc.data.items.filter(function (x) { return !x.calc && (x.from === key || x.id === key); })[0];
+      if (!it || !hasKrw(it) || lineKrw(it) !== o.qty * o.krw) out.push(o.ko.name);
+    });
+    return out;
+  }
+
+  function calcCard(c, ci) {
+    var S = c.pl.S, P = c.pl.PR, n = '계산기 ' + (ci + 1);
+    var attrs = function (f, label, extra) { return Object.assign({ 'data-c': c.id, 'data-cf': f, 'aria-label': n + ' ' + label }, extra || {}); };
+    var inp = function (f, label, extra) { return h('input', attrs(f, label, extra)); };
+    var sel = function (f, label, opts) { return h('select', attrs(f, label), opts.map(function (o) { return h('option', { value: o[0], text: o[1] }); })); };
+    var chk = function (f, label) { return h('label', { class: 'check' }, [h('input', attrs(f, label, { type: 'checkbox' })), ' ' + label]); };
+    var kids = [h('div', { class: 'calc-h' }, [
+      h('strong', { text: n + '. ' + svcLabel(S) }), h('span', { class: 'sub', text: svcPrice(S) }),
+      h('span', { class: 'item-btns' }, [h('button', { type: 'button', 'data-cact': 'del', 'data-c': c.id, 'aria-label': n + ' 삭제', text: '계산기 삭제' })])
+    ])];
+    var amount = S.kind === 'count' ? field(S.qtyLabel, inp('qty', S.qtyLabel, { type: 'number', step: 1, min: 1, inputmode: 'numeric' }))
+      : S.kind === 'variant' ? h('div')
+      : field(S.hoursLabel || '이용 시간 (시간)', inp('hours', '시간', { type: 'number', step: 0.5, min: S.first || 1, inputmode: 'decimal' }));
+    kids.push(h('div', { class: 'g3' }, [field('날짜', inp('date', '날짜', { type: 'date' })), field('시작 시각 (한국)', inp('time', '시작 시각', { type: 'time', step: 300 })), amount]));
+    if (S.variants) kids.push(field(S.kind === 'variant' ? '종류' : '방식', sel('variant', '종류', S.variants.map(function (x) { return [x.id, x.ko + ' · ' + won(x.krw)]; }))));
+    if (S.research) kids.push(field('리서치 시간 (1시간마다 ' + won(S.research) + ')', inp('research', '리서치 시간', { type: 'number', step: 1, min: 0, inputmode: 'numeric' })));
+    if (S.storage) kids.push(field('7일 넘게 보관한 날 수 (하루 ' + won(S.storage) + ')', inp('storage', '보관 일수', { type: 'number', step: 1, min: 0, inputmode: 'numeric' })));
+    kids.push(h('fieldset', null, [h('legend', { text: '시간 할증' }),
+      field('요청 받은 시각 (한국)', inp('asked', '요청 받은 시각', { type: 'datetime-local' })),
+      h('div', { class: 'g2' }, [
+        field('급행', sel('lead', '급행', [['auto', '자동'], ['none', '없음']].concat(P.lead.map(function (x) { return [x.id, x.ko + ' +' + x.pct + '%']; })))),
+        field('야간 22:00–02:00', sel('night', '야간', [['auto', '자동'], ['on', '적용 +' + P.night.pct + '%'], ['off', '적용 안 함']]))
+      ]),
+      chk('fixed', P.fixed.ko + ' +' + P.fixed.pct + '%'),
+      h('p', { class: 'auto', 'data-cauto': c.id })
+    ]));
+    if (onsiteCalc(c)) kids.push(h('div', { class: 'g2' }, [
+      field('이동 거리 (서울 밖은 따로 견적)', sel('distance', '이동 거리', P.distance.map(function (x) { return [x.id, x.ko + (x.krw ? ' +' + won(x.krw) : ' (포함)')]; }))),
+      sizeCalc(c) ? field('크기·무게', sel('size', '크기·무게', P.size.map(function (x) { return [x.id, x.ko + (x.krw ? ' +' + won(x.krw) : '')]; }))) : h('div')
+    ]));
+    var ad = (S.addons || []).map(function (a) { return chk('addons.' + a.id, a.ko + ' +' + won(a.krw)); });
+    if (S.ship) ad.push(chk('addons.ship', '해외 발송 +' + won(P.ship)));
+    if (ad.length) kids.push(h('fieldset', null, [h('legend', { text: '추가 옵션' }), h('div', { class: 'opts' }, ad)]));
+    kids.push(h('fieldset', null, [h('legend', { text: '실비 (원, 쓴 금액 그대로)' }),
+      h('div', { class: 'g3' }, P.costs.map(function (k) { return field(k.label, inp('costs.' + k.id, k.label, { type: 'number', step: 1, min: 0, inputmode: 'numeric' })); })),
+      chk('handling', '실비 처리 수수료 ' + P.handling + '% 붙이기')
+    ]));
+    kids.push(h('div', { class: 'g2' }, [
+      field('문서 메모 · 한국어', inp('note.ko', '메모 한국어', { lang: 'ko', placeholder: '예: 명동 매장 → 롯데호텔 로비' })),
+      field('문서 메모 · English', inp('note.en', '메모 English', { lang: 'en', placeholder: 'e.g. Myeongdong store to the Lotte Hotel lobby' }))
+    ]));
+    kids.push(h('table', { class: 'breakdown', 'aria-label': n + ' 계산 내역' }, [h('tbody', { 'data-cbreak': c.id })]));
+    kids.push(h('p', { class: 'sub', 'data-cnotes': c.id }));
+    kids.push(h('p', { class: 'stale', 'data-cstale': c.id, hidden: true }, [
+      '이 계산기는 만들 때의 가격표로 계산해요. 그 뒤 사이트 가격이 바뀌었어요. ',
+      h('button', { type: 'button', 'data-cact': 'reprice', 'data-c': c.id, text: '지금 가격으로 다시 계산' })
+    ]));
+    var card = h('div', { class: 'calc', 'data-calcid': c.id }, kids);
+    $$('[data-cf]', card).forEach(function (el) {
+      var f = el.dataset.cf, v = getPath(c, f);
+      if (f === 'asked') el.value = toKstLocal(c.asked);
+      else if (el.type === 'checkbox') el.checked = !!v;
+      else el.value = v == null || (el.type === 'number' && v === 0) ? '' : v;
+    });
+    return card;
+  }
+  function renderCalcs() {
+    var box = $('calcs'), locked = isLocked();
+    // An issued document keeps the amounts it was issued with; its calculators are shown for reference only.
+    $('calcsec').hidden = locked && !calcList().length;
+    $('calclock').hidden = !locked;
+    $('calcadd').hidden = locked;
+    box.textContent = '';
+    calcList().forEach(function (c, i) { box.appendChild(calcCard(c, i)); });
+    updateCalcViews();
+    lockForm();
+  }
+  function updateCalcView(c) {
+    var box = $('calcs'), tb = box.querySelector('[data-cbreak="' + c.id + '"]');
+    if (!tb) return;
+    var au = box.querySelector('[data-cauto="' + c.id + '"]'), nt = box.querySelector('[data-cnotes="' + c.id + '"]'), st = box.querySelector('[data-cstale="' + c.id + '"]');
+    var r = calcLines(c), two = dual(doc), rate = fxRate(doc), sum = 0, usd = 0, lo = pick(c.pl.PR.lead, r.auto.id), locked = isLocked();
+    tb.parentNode.hidden = locked;
+    st.hidden = locked || !stale(c);
+    au.textContent = '자동 판단: 급행 ' + (r.rushIncluded ? '없음 (긴급 배송 요금에 포함)' : (lo ? lo.ko + ' +' + lo.pct + '%' : '없음') + ' (' + r.auto.why + ')') + ' · 야간 ' + (r.nightAuto ? '해당' : '아님');
+    tb.textContent = '';
+    r.all.forEach(function (o) {
+      var amt = o.qty * o.krw, off = c.detached.indexOf(o.role) >= 0, u = two ? o.qty * usdFromKrw(o.krw, rate) : 0;
+      if (!off) { sum += amt; usd += u; }
+      tb.appendChild(h('tr', off ? { class: 'off' } : null, [
+        h('td', null, [o.ko.name + (o.qty !== 1 || o.ko.unit ? ' · ' + L.ko.qty(qtyText(o.qty), o.ko.unit) : ''),
+          off ? h('span', null, [' (직접 고친 품목으로 바꿈) ', h('button', { type: 'button', 'data-cact': 'reattach', 'data-c': c.id, 'data-role': o.role, text: '다시 자동으로' })]) : null]),
+        h('td', { class: 'n', text: won(amt) }), two ? h('td', { class: 'n', text: money(u, 'USD') }) : null
+      ]));
+    });
+    tb.appendChild(h('tr', { class: 't' }, [h('td', { text: '이 계산기 합계' + (c.detached.length ? ' (직접 고친 품목 빼고)' : '') }), h('td', { class: 'n', text: won(sum) }), two ? h('td', { class: 'n', text: money(usd, 'USD') }) : null]));
+    nt.textContent = r.notes.join(' ');
+    nt.hidden = !r.notes.length;
+  }
+  function updateCalcViews() { calcList().forEach(updateCalcView); }
+  // In the item list, a calculator's lines are shown, not typed: change them in the calculator, or make one editable.
+  function calcItemCard(it, i, n) {
+    var c = calcById(it.calc), cur = doc.currency, q = +it.qty === 1 && !it.ko.unit ? '' : L.ko.qty(qtyText(it.qty), it.ko.unit.trim()) + ' × ';
+    var amount = q + won(it.krw) + (q ? ' = ' + won(lineKrw(it)) : '') + (cur === 'KRW' ? '' : ' → ' + money(lineAmount(it, cur), cur));
+    return h('div', { class: 'item calcitem' }, [
+      h('div', { class: 'item-h' }, [
+        h('strong', { text: (i + 1) + '. ' + it.ko.name }),
+        h('span', { class: 'sub', text: '계산기 ' + (calcList().indexOf(c) + 1) }),
+        h('span', { class: 'item-btns' }, [itemButton('직접 고치기', 'detach', i, n + ' 직접 고치기')])
+      ]),
+      h('p', { class: 'item-calc' }, [amount, h('span', { class: 'en', lang: 'en', text: ' · ' + it.en.name })])
+    ]);
+  }
+  // Called from onEdit for the calculator fields. Returns true when something changed.
+  function calcEdit(el) {
+    var c = calcById(el.dataset.c), cf = el.dataset.cf, v;
+    if (!c || isLocked()) return false;
+    if (el.type === 'checkbox') v = el.checked;
+    else if (cf === 'asked') v = fromKstLocal(el.value);
+    else if (el.type === 'number') { v = el.value === '' ? 0 : Math.max(0, +el.value || 0); if (cf !== 'hours') v = Math.round(v); }
+    else v = cf === 'time' ? (el.value || '').slice(0, 5) : el.value;
+    if (getPath(c, cf) === v) return false;
+    setPath(c, cf, v);
+    syncCalc(c);
+    if (cf === 'variant') {
+      renderCalcs();
+      var again = $('calcs').querySelector('[data-c="' + c.id + '"][data-cf="variant"]');
+      if (again) again.focus();
+    }
+    renderItems();
+    return true;
+  }
+  $('calcs').addEventListener('click', async function (e) {
+    var b = e.target.closest('button[data-cact]');
+    if (!b || isLocked()) return;
+    var c = calcById(b.dataset.c), act = b.dataset.cact;
+    if (!c) return;
+    if (act === 'del') {
+      if (!(await ask('계산기 ' + (calcList().indexOf(c) + 1) + ' (' + svcLabel(c.pl.S) + ')와 그 품목을 지울까요? 직접 고친 품목은 남아요.', '지우기'))) return;
+      doc.data.calcs = calcList().filter(function (x) { return x !== c; });
+      doc.data.items = doc.data.items.filter(function (it) { return it.calc !== c.id; });
+    } else if (act === 'reattach') {
+      var role = b.dataset.role, key = c.id + '-' + role;
+      c.detached = c.detached.filter(function (r) { return r !== role; });
+      doc.data.items = doc.data.items.filter(function (it) { return it.calc || (it.from !== key && it.id !== key); });
+      syncCalc(c);
+    } else if (act === 'reprice') {
+      if (!SV[c.svc]) return;
+      var now = normCalc(Object.assign({}, c, { pl: priceList(c.svc) }));
+      Object.keys(now).forEach(function (k) { c[k] = now[k]; });
+      syncCalc(c);
+    } else return;
+    renderCalcs(); renderItems(); changed();
+  });
+  $('addcalc').addEventListener('click', function () {
+    if (isLocked()) return;
+    var c = newCalc($('calcsvc').value);
+    doc.data.calcs = calcList().concat([c]);
+    syncCalc(c);
+    renderCalcs(); renderItems(); changed();
+    var t = $('calcs').querySelector('[data-c="' + c.id + '"][data-cf="time"]');
+    if (t) { t.scrollIntoView({ block: 'nearest' }); t.focus(); }
+  });
+  (function buildCalcPicker() {
+    var sel = $('calcsvc'), groups = {};
+    SV_ORDER.forEach(function (k) {
+      var g = SV_GROUP[k];
+      if (!groups[g]) { groups[g] = h('optgroup', { label: g }); sel.appendChild(groups[g]); }
+      groups[g].appendChild(h('option', { value: k, text: svcLabel(SV[k]) + ' · ' + svcPrice(SV[k]) }));
+    });
+  })();
+
+  /* ---------- Review, then issue ---------- */
+  function problems() {
+    var d = doc, errs = [], warns = [], c = d.client, no = docNumber();
+    if (c.type === 'company' ? !c.company.trim() : !c.name.trim()) errs.push(c.type === 'company' ? '회사명을 넣어 주세요.' : '고객 이름을 넣어 주세요.');
+    if (!isLocked() && numberTaken(no, d.id)) errs.push('다른 문서가 이미 ' + no + ' 번호를 쓰고 있어요. 번호를 바꿔 주세요.');
+    if (!d.issue_date) errs.push('발행일을 넣어 주세요.');
+    if (d.kind === 'invoice' && !d.due_date) errs.push('결제기한을 넣어 주세요.');
+    if (!d.data.items.length) errs.push('품목을 하나 이상 넣어 주세요.');
+    if (d.currency === 'USD' && !(fxRate(d) > 0) && d.data.items.some(hasKrw)) errs.push('환율을 넣어 주세요. 원화 단가로 계산하는 품목이 있어요.');
+    if (!isLocked()) (d.data.calcs || []).forEach(function (c, i) {
+      var n = '계산기 ' + (i + 1) + ': ', s = startMs(c), a = Date.parse(c.asked), drift = calcDrift(c);
+      if (!c.note.ko.trim() !== !c.note.en.trim()) errs.push(n + '문서 메모가 ' + (c.note.ko.trim() ? '한국어' : '영어') + '에만 있어요. 두 언어 모두 쓰거나 둘 다 비워 주세요.');
+      if (drift.length) warns.push(n + '직접 고친 ' + drift.map(function (x) { return '‘' + x + '’'; }).join(', ') + ' 금액이 계산기와 달라요. 할증이나 실비 수수료는 계산기 금액으로 계산돼 있으니, 금액은 계산기에서 바꾸거나 그 줄들도 직접 고쳐 주세요.');
+      if (stale(c)) warns.push(n + '만들 때의 가격표로 계산돼 있어요. 지금 사이트 가격으로 바꾸려면 계산기에서 ‘지금 가격으로 다시 계산’을 누르세요.');
+      if (c.lead !== 'auto' && c.night !== 'auto') return;
+      if (!(s > 0)) warns.push(n + (c.date ? '시작 시각이' : '날짜와 시작 시각이') + ' 없어서 급행·야간 할증을 자동으로 정하지 않았어요.');
+      else if (c.lead === 'auto' && !(a > 0)) warns.push(n + '요청 받은 시각이 없어서 급행 할증을 자동으로 정하지 않았어요.');
+      else if (c.lead === 'auto' && a > s) warns.push(n + '시작 시각이 요청 받은 시각보다 빨라요. 급행 할증을 확인해 주세요.');
+    });
+    d.data.items.forEach(function (it, i) {
+      var n = (i + 1) + '번 품목';
+      if (!it.ko.name.trim() || !it.en.name.trim()) errs.push(n + ': 한국어와 영어 품목명을 모두 넣어 주세요.');
+      if (!(+it.qty > 0)) errs.push(n + ': 수량을 넣어 주세요.');
+      if (!(+it.price > 0)) warns.push(n + ': 단가가 0이에요.');
+      // The two documents must say the same thing: text in one language only blocks issuing.
+      if (!it.ko.details.trim() !== !it.en.details.trim()) errs.push(n + ': 세부사항이 ' + (it.ko.details.trim() ? '한국어' : '영어') + '에만 있어요. 두 언어 모두 쓰거나 둘 다 비워 주세요.');
+    });
+    if (d.data.show_bank && !bankComplete(basics(d).bank)) errs.push('입금 계좌가 비어 있어요. 기본정보 설정에서 넣어 주세요.');
+    TEXT_FIELDS.forEach(function (f) {
+      var t = d.data[f.k];
+      if (!t.ko.trim() !== !t.en.trim()) errs.push('‘' + f.label + '’ 내용이 ' + (t.ko.trim() ? '한국어' : '영어') + ' 문서에만 있어요. 두 언어 모두 쓰거나 둘 다 비워 주세요.');
+    });
+    return { errs: errs, warns: warns };
+  }
+  var saving = null, issuing = false, printing = false;
+  function updateReview() {
+    if (!doc) return;
+    var p = problems(), list = $('checks'), draft = !isLocked(), both = reviewed.ko && reviewed.en, clean = !p.errs.length;
+    list.textContent = '';
+    p.errs.forEach(function (t) { list.appendChild(h('li', { class: 'err', text: t })); });
+    p.warns.forEach(function (t) { list.appendChild(h('li', { class: 'warn', text: t })); });
+    if (clean && !p.warns.length) list.appendChild(h('li', { class: 'ok', text: '빠진 내용이 없어요.' }));
+    $('ok-ko').checked = reviewed.ko;
+    $('ok-en').checked = reviewed.en;
+    var idle = !saving && !issuing;
+    $('issue').hidden = !draft;
+    $('issue').disabled = !(clean && both && idle);
+    if (!draft || !clean || !both) $('issueconfirm').hidden = true;
+    $('issueyes').disabled = !idle;
+    $('pdf-ko').disabled = $('pdf-en').disabled = !(clean && both && !draft && idle);
+    $('reviewmsg').textContent = !clean ? '빨간 항목을 고치면 발행할 수 있어요.'
+      : !both ? '한국어와 English 미리보기를 각각 끝까지 보고 둘 다 체크해 주세요.'
+      : draft ? '발행하면 번호가 고정되고, 언어별 PDF를 저장할 수 있어요. 고객에게 메일은 보내지 않아요.'
+      : '언어별로 PDF를 따로 저장하세요. 파일 이름 끝에 _KR, _EN이 붙어요.';
+    $('st1').className = clean ? 'done' : 'on';
+    $('st2').className = !clean ? '' : both ? 'done' : 'on';
+    $('st3').className = clean && both ? 'on' : '';
+  }
+  function showLang(l) {
+    shown = l;
+    LANGS.forEach(function (x) { $('doc-' + x).hidden = x !== l; $('tab-' + x).setAttribute('aria-selected', String(x === l)); });
+    fit();
+  }
+  LANGS.forEach(function (l) {
+    $('tab-' + l).addEventListener('click', function () { showLang(l); });
+    $('ok-' + l).addEventListener('change', function () { reviewed[l] = this.checked; if (this.checked) showLang(l); updateReview(); });
+  });
+
+  /* ---------- Actions ---------- */
+  // Another admin may have taken a number since this page opened: look again before proposing one.
+  function refreshNumbers() {
+    return store.numbers().then(function (map) {
+      numbers = map;
+      if (doc && !isLocked() && doc.numberAuto) {
+        var n = proposeNumber(doc.kind, doc.issue_date, doc.id);
+        if (n !== doc.number) { doc.number = n; $('numinput').value = n; updateNumberHint(); resetReview(); updateReview(); render(); }
+      }
+    }).catch(function () { /* keep the list we have */ });
+  }
+  function newDoc(kind) {
+    doc = blank(kind);
+    doc.number = proposeNumber(kind, doc.issue_date, null);
+    dirty = false; resetReview(); fillForm(); render();
+    refreshNumbers();
+    fetchRate(true);
+  }
+  var FX_SOURCES = [
+    { url: 'https://open.er-api.com/v6/latest/USD', pick: function (j) { return j && j.result === 'success' && j.rates ? +j.rates.KRW : 0; } },
+    { url: 'https://api.frankfurter.dev/v1/latest?base=USD&symbols=KRW', pick: function (j) { return j && j.rates ? +j.rates.KRW : 0; } }
+  ];
+  function showFxRow() { var on = doc && doc.currency === 'USD'; $('fxrow').hidden = !on; $('fxnote').hidden = !on; }
+  function showFxNote(text) {
+    var fx = doc.data.fx, n = $('fxnote');
+    n.textContent = text || (!(fx.rate > 0) ? '환율을 넣으면 원화 단가가 달러로 바뀌어요. 원화 없이 달러만 쓰려면 비워 두세요.'
+      : fx.source === 'api' ? fx.date + ' 시장 환율이에요 (자동). 필요하면 고치세요.' : '직접 넣은 환율이에요' + (fx.date ? ' (' + fx.date + ' 기준)' : '') + '.');
+  }
+  async function fetchRate(quiet) {
+    if (!doc || isLocked() || doc.currency !== 'USD') return;
+    var target = doc, btn = $('fxfetch');
+    btn.disabled = true;
+    if (!quiet) showFxNote('오늘 환율을 불러오는 중…');
+    var rate = 0;
+    for (var i = 0; i < FX_SOURCES.length && !(rate > 0); i++) {
+      try { var r = await fetch(FX_SOURCES[i].url, { cache: 'no-store' }); rate = FX_SOURCES[i].pick(await r.json()); } catch (e) { rate = 0; }
+    }
+    btn.disabled = isLocked();
+    if (doc !== target) return;
+    if (!(rate > 0)) { showFxNote('환율을 불러오지 못했어요. 직접 넣어 주세요.'); return; }
+    doc.data.fx = { rate: Math.round(rate * 100) / 100, date: kstToday(), source: 'api' };
+    editorField('data.fx.rate').value = doc.data.fx.rate;
+    editorField('data.fx.date').value = doc.data.fx.date;
+    applyFx(doc); renderItems(); showFxNote();
+    if (quiet && !dirty) { updateSum(); schedule(); } else changed();
+  }
+  $('fxfetch').addEventListener('click', function () { fetchRate(false); });
+
+  // One save at a time: a double click reuses the save already running.
+  function save() {
+    if (!saving) saving = doSave().finally(function () { saving = null; updateReview(); });
+    return saving;
+  }
+  // While saving, the form can't be typed in: what is on screen is exactly what gets stored.
+  function busy(on) {
+    $('editor').inert = on;
+    ['save', 'issue', 'issueyes', 'issueno', 'pdf-ko', 'pdf-en', 'toinvoice', 'duplicate', 'remove'].forEach(function (id) { $(id).disabled = on; });
+    if (!on) updateReview();
+  }
+  async function doSave() {
+    busy(true);
+    try {
+      if (!doc.issue_date) { setMsg('발행일을 넣어 주세요.', true); return false; }
+      var row, renumbered = false;
+      if (isLocked()) {
+        // Issued: only the status and the internal memo are sent. The content stays as it was issued.
+        row = { status: doc.status, memo: doc.memo || null, paid_at: doc.status === 'paid' ? (doc.paid_at || new Date().toISOString()) : null };
+      } else {
+        try { numbers = await store.numbers(); } catch (e) { /* keep the list we have */ }
+        if (!doc.number || numberTaken(doc.number, doc.id)) {
+          if (doc.number && !doc.numberAuto) { setMsg('다른 문서가 이미 ' + doc.number + ' 번호를 쓰고 있어요. 번호를 바꾸고 다시 저장해 주세요.', true); return false; }
+          var next = proposeNumber(doc.kind, doc.issue_date, doc.id);
+          if (doc.number) {
+            // The number printed on both documents changes, so they have to be looked at again.
+            doc.number = next; doc.numberAuto = true; $('numinput').value = next; updateNumberHint(); resetReview(); render();
+            if (doc.status !== 'draft') { setMsg('다른 관리자가 방금 그 번호를 썼어요. 번호를 ' + next + '로 바꿨으니 미리보기를 다시 확인한 뒤 발행해 주세요.', true); return false; }
+            renumbered = true;
+          } else { doc.number = next; doc.numberAuto = true; }
+        }
+        var t = totals(doc);
+        row = {
+          kind: doc.kind, number: doc.number, status: doc.status, currency: doc.currency,
+          issue_date: doc.issue_date, due_date: doc.due_date || null,
+          title: (doc.data.title.en || doc.data.title.ko || '').slice(0, 200) || null,
+          client: doc.client, data: doc.data, total: t.total,
+          source_id: doc.source_id || null, memo: doc.memo || null,
+          paid_at: doc.status === 'paid' ? (doc.paid_at || new Date().toISOString()) : null
+        };
+      }
+      setMsg('저장 중…');
+      var moved = mode === 'db' && isLocalId(doc.id), prevId = doc.id;
+      var saved = await store.save(doc.id, row);
+      if (prevId) forgetId(prevId);
+      doc = normalize(saved);
+      numbers[doc.number] = String(doc.id);
+      dirty = false;
+      fillForm(); render();
+      setMsg((moved ? 'DB로 옮겨 저장했어요 · ' : '저장했어요 · ') + doc.number + (renumbered ? ' (다른 관리자가 앞 번호를 써서 번호가 바뀌었어요. 미리보기를 다시 확인해 주세요.)' : ''));
+      return true;
+    } catch (e) {
+      if ((e && e.code) === '23505') {
+        setMsg('다른 문서가 이미 ' + doc.number + ' 번호를 쓰고 있어요. 번호를 바꾸고 다시 저장해 주세요.', true);
+        try { numbers = await store.numbers(); } catch (e2) { /* keep the old list */ }
+      } else setMsg('저장하지 못했어요: ' + errText(e), true);
+      return false;
+    } finally { busy(false); }
+  }
+  $('save').addEventListener('click', function () { save(); });
+
+  // 발행하기: only after both languages were checked, and confirmed on the page (no browser pop-up).
+  // Keeps the issuer and bank details of today with the document.
+  $('issue').addEventListener('click', function () {
+    if (issuing || saving || isLocked()) return;
+    var p = problems();
+    if (p.errs.length || !(reviewed.ko && reviewed.en)) return;
+    $('issueq').textContent = docNumber() + ' 문서를 발행할까요? 발행하면 번호와 내용이 고정되고 초안으로 되돌릴 수 없어요. 고객에게 메일을 보내지는 않아요.';
+    $('issueconfirm').hidden = false;
+    $('issueyes').focus();
+  });
+  $('issueno').addEventListener('click', function () { $('issueconfirm').hidden = true; });
+  $('issueyes').addEventListener('click', async function () {
+    if (issuing || isLocked()) return;
+    $('issueconfirm').hidden = true;
+    issuing = true;
+    updateReview();
+    try {
+      while (saving) await saving;  // a save that is already running finishes first; issuing is its own save after it
+      var p = problems();
+      if (p.errs.length || !(reviewed.ko && reviewed.en) || isLocked()) return;
+      var before = { status: doc.status, snapshot: doc.data.snapshot };
+      doc.status = 'issued';
+      doc.data.snapshot = { issuer: clone(settings.issuer), bank: clone(settings.bank), prefs: { charges: settings.prefs.charges } };
+      var ok = await save();
+      if (!ok) {
+        doc.status = before.status;
+        if (before.snapshot) doc.data.snapshot = before.snapshot; else delete doc.data.snapshot;
+        return;
+      }
+      if (doc.savedStatus !== 'issued') { setMsg('발행하지 못했어요. 다시 시도해 주세요.', true); return; }
+      setMsg(doc.number + ' 발행했어요. 이제 한국어·English PDF를 각각 저장하세요.');
+    } finally { issuing = false; updateReview(); }
+  });
+
+  function fileName(lang) {
+    var parts = ['Haedurio', KIND[doc.kind].en, doc.number, clientLabel({ type: doc.client.type, name: doc.client.name, company: doc.client.company })];
+    var base = parts.filter(Boolean).join('_').replace(/[\\/:*?"<>|]+/g, ' ').replace(/\s+/g, '-');
+    return lang ? base + '_' + FILE_TAG[lang] : base;
+  }
+  async function printLang(lang) {
+    if (printing || saving) return;
+    var p = problems();
+    if (p.errs.length || !(reviewed.ko && reviewed.en) || !isLocked()) return;
+    printing = true;
+    try {
+      if (dirty && !(await save())) return;
+      showLang(lang);
+      var before = document.title, name = fileName(lang);
+      document.title = name;
+      setMsg('인쇄 창에서 대상을 "PDF로 저장"으로 고르고 저장하세요. 여백은 "기본값"으로 두세요. 파일 이름: ' + name + '.pdf');
+      window.print();
+      setTimeout(function () { document.title = before; }, 1000);
+    } finally { printing = false; }
+  }
+  $('pdf-ko').addEventListener('click', function () { printLang('ko'); });
+  $('pdf-en').addEventListener('click', function () { printLang('en'); });
+
+  $('toinvoice').addEventListener('click', async function () {
+    if (doc.kind !== 'quote') return;
+    if (dirty || !doc.id) { if (!(await save())) return; }
+    var q = doc, inv = blank('invoice'), d = clone(q.data);
+    d.items = d.items.filter(function (it) { return !it.optional; }).map(function (it) { it.id = uid(); return it; });
+    delete d.snapshot;
+    d.terms = bi(TEMPLATE.terms.invoice);
+    d.show_bank = true;
+    inv.currency = q.currency;
+    inv.client = clone(q.client);
+    inv.data = d;
+    inv.source_id = typeof q.id === 'number' ? q.id : null;
+    inv.memo = '견적서 ' + q.number + '에서 만듦';
+    inv.number = proposeNumber('invoice', inv.issue_date, null);
+    doc = inv; dirty = true; resetReview(); fillForm(); render();
+    setMsg('견적서 ' + q.number + '로 인보이스 초안을 만들었어요. 선택 품목은 뺐어요.');
+    refreshNumbers();
+  });
+
+  $('duplicate').addEventListener('click', async function () {
+    if (dirty && !(await ask('저장하지 않은 변경은 원본이 아니라 복제본에만 들어가요. 복제할까요?', '복제'))) return;
+    var c = clone(doc);
+    c.id = null; c.status = 'draft'; c.savedStatus = null; c.paid_at = null; c.source_id = null;
+    c.issue_date = kstToday(); c.due_date = addDays(c.issue_date, dueDays(c.kind)); c.dueAuto = true;
+    c.number = proposeNumber(c.kind, c.issue_date, null); c.numberAuto = true;
+    delete c.data.snapshot;
+    c.data.items.forEach(function (it) { it.id = uid(); });
+    doc = c; dirty = true; resetReview(); fillForm(); render();
+    setMsg('복제했어요. 새 번호 ' + doc.number + '로 저장돼요.');
+    refreshNumbers();
+  });
+
+  $('remove').addEventListener('click', async function () {
+    if (!doc.id || doc.savedStatus !== 'draft') return;
+    if (!(await ask(doc.number + ' 초안을 삭제할까요? 삭제하면 되돌릴 수 없어요.', '삭제'))) return;
+    busy(true);
+    try { await store.remove(doc.id); forgetId(doc.id); var k = doc.kind; dirty = false; newDoc(k); setMsg('초안을 삭제했어요.'); }
+    catch (e) { setMsg('삭제하지 못했어요: ' + errText(e), true); }
+    finally { busy(false); }
+  });
+
+  $('newquote').addEventListener('click', function () { confirmDiscard().then(function (ok) { if (ok) { newDoc('quote'); setMsg(''); } }); });
+  $('newinvoice').addEventListener('click', function () { confirmDiscard().then(function (ok) { if (ok) { newDoc('invoice'); setMsg(''); } }); });
+
+  /* JSON: move a document between browsers, or start one from a prepared file. Bank details are never included. */
+  $('export').addEventListener('click', function () {
+    var data = clone(doc.data);
+    delete data.snapshot;
+    var o = { haedurio_doc: 2, kind: doc.kind, number: doc.number, currency: doc.currency, issue_date: doc.issue_date, due_date: doc.due_date, client: doc.client, data: data, memo: doc.memo };
+    var a = h('a', { href: URL.createObjectURL(new Blob([JSON.stringify(o, null, 2)], { type: 'application/json' })), download: fileName() + '.json' });
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1500);
+  });
+  // The file chooser is a visible, labelled field, so it can also be filled by an AI working the page.
+  $('importfile').addEventListener('change', async function () {
+    var input = this, file = input.files && input.files[0];
+    if (!file) return;
+    var o;
+    try { o = JSON.parse(await file.text()); if (!o || !KIND[o.kind]) throw new Error('kind'); }
+    catch (e) { input.value = ''; setMsg('이 파일은 견적서·인보이스 JSON이 아니에요.', true); return; }
+    if (!(await confirmDiscard())) { input.value = ''; return; }
+    input.value = '';
+    try { numbers = await store.numbers(); } catch (e) { /* keep the list we have */ }
+    var d = normalize({ kind: o.kind, number: o.number, currency: o.currency, issue_date: o.issue_date, due_date: o.due_date, title: o.title, client: o.client, data: o.data, memo: o.memo });
+    delete d.data.snapshot;
+    if (!o.data || o.data.contact == null) d.data.contact = bi(settings.prefs.contact);
+    var note = '';
+    if (d.number && numberTaken(d.number, null)) { note = ' ' + d.number + '는 이미 있는 번호라서 새 번호를 붙였어요.'; d.number = ''; }
+    if (!d.number) { d.number = proposeNumber(d.kind, d.issue_date, null); d.numberAuto = true; }
+    doc = d; dirty = true; resetReview(); fillForm(); render();
+    setMsg('불러왔어요. 한국어·English 미리보기를 확인하고 저장하거나 발행하세요.' + note + (d.oldMoved ? ' 예전 형식 파일이라 안내 문구(제목, 서비스 정보, 포함·불포함, 결제, 취소, 기타)는 문서에 넣지 않고 내부 메모로 옮겼어요. 필요한 문장만 한국어·영어로 다시 넣어 주세요.' : ''));
+  });
+
+  /* ---------- Lists and settings ---------- */
+  $$('[data-close]').forEach(function (b) { b.addEventListener('click', function () { b.closest('dialog').close(); }); });
+
+  $('openlist').addEventListener('click', async function () {
+    $('listrows').textContent = '';
+    $('listmsg').textContent = '불러오는 중…';
+    $('listdlg').showModal();
+    try { listCache = await store.list(); drawList(); }
+    catch (e) { $('listmsg').textContent = '불러오지 못했어요: ' + errText(e); }
+  });
+  $('listq').addEventListener('input', drawList);
+  function drawList() {
+    var q = $('listq').value.trim().toLowerCase(), tb = $('listrows');
+    tb.textContent = '';
+    var rows = listCache.filter(function (r) {
+      if (!q) return true;
+      var c = r.client || {};
+      return [r.number, r.title, c.name, c.company, c.attn, c.email].join(' ').toLowerCase().indexOf(q) >= 0;
+    });
+    $('listmsg').textContent = rows.length ? '' : (listCache.length ? '찾는 문서가 없어요.' : '아직 만든 문서가 없어요.');
+    rows.forEach(function (r) {
+      tb.appendChild(h('tr', { tabindex: 0, 'data-id': r.id }, [
+        h('td', null, [h('div', { class: 'mono', text: r.number || '' }), h('div', { class: 'sub', text: (KIND[r.kind] ? KIND[r.kind].ko : r.kind) + (r.local && mode === 'db' ? ' · 이 브라우저에만 있음, 저장하면 DB로 옮겨요' : '') })]),
+        h('td', null, [h('div', { text: clientLabel(r.client) }), r.title ? h('div', { class: 'sub', text: r.title }) : null]),
+        h('td', { class: 'num', text: money(r.total, r.currency) }),
+        h('td', null, [h('span', { class: 'badge b-' + r.status, text: STATUS[r.status] || r.status })]),
+        h('td', { class: 'sub', text: r.issue_date || '' })
+      ]));
+    });
+  }
+  async function openRow(e) {
+    var tr = e.target.closest('tr[data-id]');
+    if (!tr || !(await confirmDiscard())) return;
+    var id = /^\d+$/.test(tr.dataset.id) ? +tr.dataset.id : tr.dataset.id;
+    try {
+      var row = await store.get(id);
+      if (!row) throw new Error('문서를 찾지 못했어요.');
+      doc = normalize(row); dirty = false; resetReview(); fillForm(); render();
+      $('listdlg').close();
+      setMsg(doc.number + ' 열었어요');
+    } catch (err) { $('listmsg').textContent = '열지 못했어요: ' + errText(err); }
+  }
+  $('listrows').addEventListener('click', openRow);
+  $('listrows').addEventListener('keydown', function (e) { if (e.key === 'Enter') openRow(e); });
+
+  $('opensettings').addEventListener('click', function () {
+    $$('#settingsdlg [data-s]').forEach(function (el) { var v = getPath(settings, el.dataset.s); el.value = v == null ? '' : v; });
+    $('settingsmsg').textContent = '';
+    $('settingsdlg').showModal();
+  });
+  $('savesettings').addEventListener('click', async function () {
+    var s = clone(settings);
+    $$('#settingsdlg [data-s]').forEach(function (el) { setPath(s, el.dataset.s, el.value.trim()); });
+    s = normSettings(s);
+    $('settingsmsg').textContent = '저장 중…';
+    try {
+      await store.saveSettings(s);
+      settings = s;
+      $('settingsmsg').textContent = '저장했어요.';
+      if (doc && !doc.data.snapshot) resetReview();  // drafts show the new details: look at them again
+      updateSum(); render();
+      setTimeout(function () { $('settingsdlg').close(); }, 500);
+    } catch (e) { $('settingsmsg').textContent = '저장하지 못했어요: ' + errText(e); }
+  });
+
+  /* ---------- The documents: one in Korean, one in English, from the same data ---------- */
+  // "A · B · C": a little more room around the dots, and short parts (a name, a phone number, an email) never split across lines.
+  // Only lines that have dots get this; every other line wraps normally, so nothing runs past its column.
+  function dotted(s) {
+    var frag = document.createDocumentFragment(), parts = String(s).split(/\s+·\s+/);
+    parts.forEach(function (part, i) {
+      if (i) frag.appendChild(h('span', { class: 'sep', text: ' · ' }));
+      var wide = part.length + (part.match(/[ᄀ-ᇿ㄰-㆏가-힯　-鿿]/g) || []).length;
+      frag.appendChild(parts.length > 1 && wide <= 30 ? h('span', { class: 'seg', text: part }) : document.createTextNode(part));
+    });
+    return frag;
+  }
+  function tx(tag, cls, s) { return h(tag, cls ? { class: cls } : null, [dotted(s)]); }
+  function sec(title, body, cls) { return h('section', { class: 'd-sec' + (cls ? ' ' + cls : '') }, [h('h4', { text: title }), body]); }
+  function paras(text) { var ls = lines(text); return ls.length ? h('div', null, ls.map(function (l) { return tx('p', null, l); })) : null; }
+  function bullets(text, cls) { var ls = lines(text); return ls.length ? h('ul', { class: 'd-list' + (cls ? ' ' + cls : '') }, ls.map(function (l) { return tx('li', null, l); })) : null; }
+  // Keep a time and its zone together on one line ("19:25 KST"); the words themselves are printed as typed.
+  function keepTimes(s) { return String(s).replace(/(\d{1,2}:\d{2}) (KST|UTC|GMT)/g, '$1 $2'); }
+  function describe(it, lang) {
+    var t = it[lang], td = h('td', { class: 'ds' }, [tx('div', 'd-it', t.name)]);
+    var ls = lines(t.details);
+    if (ls.length) td.appendChild(h('div', { class: 'd-dt' }, ls.map(function (l) { return tx('div', null, keepTimes(l)); })));
+    return td;
+  }
+  // The dollar figure, then the won figure in brackets beside it (it moves under the dollar figure when space runs out).
+  function amountKids(usdText, krw) { return krw == null ? [h('span', { class: 'u', text: usdText })] : [h('span', { class: 'u', text: usdText }), ' ', h('span', { class: 'krw', text: '(' + won(krw) + ')' })]; }
+  function qtyLabel(it, lang) { return L[lang].qty(qtyText(it.qty), it[lang].unit.trim()); }
+  function bankBox(lang, no, S) {
+    var T = L[lang], B = S.bank, grid = h('div', { class: 'grid' });
+    [[T.bank, B.bank], [T.holder, B.holder], [T.account, B.account], [T.swift, B.swift], [T.charges, T.chargeText[S.prefs.charges]], [T.reference, no], [T.bankAddress, B.address, 'full']].forEach(function (r) {
+      if (!r[1]) return;
+      grid.appendChild(h('div', { class: r[2] || null }, [h('div', { class: 'k', text: r[0] }), tx('div', 'v', r[1])]));
+    });
+    return h('section', { class: 'd-bank' }, [h('h4', { text: T.bankTitle }), grid]);
+  }
+
+  function renderDoc(lang) {
+    var d = doc, T = L[lang], k = d.kind, cur = d.currency, t = totals(d), S = basics(d), I = S.issuer, c = d.client, no = docNumber();
+    // Layout: header (brand, kind, number) · from | bill to | dates and amount · items · total · payment and scope · terms · footer.
+    var tr = function (o) { return (o && o[lang]) || ''; };
+    var root = $('doc-' + lang);
+    root.textContent = '';
+    root.className = 'doc ' + k;
+
+    var stamp = d.status === 'void' ? 'void' : (k === 'invoice' && d.status === 'paid') ? 'paid' : (k === 'quote' && d.status === 'accepted') ? 'accepted' : null;
+    if (stamp) root.appendChild(h('div', { class: 'd-stamp ' + stamp }, [T.stamp[stamp], stamp === 'paid' && d.paid_at ? h('small', { text: T.date(kstDate(d.paid_at)) }) : null]));
+    // Hidden on screen; only a draft printed by mistake (Ctrl+P) shows it.
+    if (d.status === 'draft') root.appendChild(h('div', { class: 'd-draftmark', 'aria-hidden': 'true', text: lang === 'ko' ? '초안 · 발행 전' : 'DRAFT · NOT ISSUED' }));
+
+    root.appendChild(h('header', { class: 'd-head' }, [
+      h('div', { class: 'd-brand' }, [
+        h('img', { src: '/assets/seal.svg', alt: '', width: 42, height: 42 }),
+        h('div', null, [h('div', { class: 'd-word', text: (I.brand.en || 'Haedurio').toLowerCase() }), h('div', { class: 'd-by', text: T.by(I) })])
+      ]),
+      h('div', { class: 'd-type' }, [h('div', { class: 'd-kind', text: T.head[k] }), h('div', { class: 'd-no', text: T.no + no })])
+    ]));
+
+    var dates = [[T.issue, T.date(d.issue_date)]];
+    if (d.due_date) dates.push([T.due[k], T.date(d.due_date)]);
+    dates.push([T.total[k], amountKids(money(t.total, cur), t.krw), true]);
+
+    // The company's own email and phone are in the footer; here only who to talk to about this document.
+    var from = [
+      tx('p', 'nm', tr(I.company) + (tr(I.brand) ? ' (' + tr(I.brand) + ')' : '')),
+      tr(I.address) ? tx('p', null, tr(I.address)) : null,
+      tr(d.data.contact).trim() ? tx('p', 'ct', T.contact + tr(d.data.contact).trim()) : null
+    ];
+    // Only the chosen customer type is printed, so names typed under the other type never mix in.
+    var to = c.type === 'company'
+      ? [c.company.trim() ? tx('p', 'nm', c.company.trim()) : null, c.attn.trim() ? tx('p', null, T.attn + c.attn.trim()) : null]
+      : [c.name.trim() ? tx('p', 'nm', c.name.trim()) : null];
+    to = to.concat([c.email.trim() ? tx('p', null, c.email.trim()) : null, c.phone.trim() ? tx('p', null, c.phone.trim()) : null], lines(c.address).map(function (l) { return tx('p', null, l); }));
+    root.appendChild(h('section', { class: 'd-parties' }, [
+      h('div', { class: 'd-party' }, [h('div', { class: 'd-lab', text: T.from })].concat(from)),
+      h('div', { class: 'd-party' }, [h('div', { class: 'd-lab', text: T.to[k] })].concat(to)),
+      h('div', { class: 'd-dates' }, dates.map(function (m) {
+        return h('div', null, [h('div', { class: 'd-lab', text: m[0] }), h('div', { class: 'd-val' + (m[2] ? ' big' : '') }, Array.isArray(m[1]) ? m[1] : [m[1]])]);
+      }))
+    ]));
+
+    if (tr(d.data.title).trim()) root.appendChild(tx('h2', 'd-subject', tr(d.data.title).trim()));
+
+    var regular = d.data.items.filter(function (it) { return !it.optional; });
+    var optional = d.data.items.filter(function (it) { return it.optional; });
+    var two = dual(d);
+    root.appendChild(h('table', { class: 'd-items' + (two ? ' dual' : '') }, [
+      h('colgroup', null, [h('col', { class: 'n' }), h('col'), h('col', { class: 'q' }), h('col', { class: 'p' }), h('col', { class: 'a' })]),
+      h('thead', null, [h('tr', null, [h('th', { text: T.cols[0] }), h('th', { text: T.cols[1] }), h('th', { class: 'q', text: T.cols[2] }), h('th', { class: 'p', text: T.cols[3] }), h('th', { class: 'a', text: T.cols[4] + ' (' + cur + ')' })])]),
+      h('tbody', null, regular.map(function (it, i) {
+        var k1 = two && hasKrw(it);
+        return h('tr', null, [h('td', { class: 'n', text: String(i + 1) }), describe(it, lang), h('td', { class: 'q', text: qtyLabel(it, lang) }),
+          h('td', { class: 'p' }, amountKids(num(it.price, cur), k1 ? it.krw : null)), h('td', { class: 'a' }, amountKids(num(lineAmount(it, cur), cur), k1 ? lineKrw(it) : null))]);
+      }))
+    ]));
+
+    var rows = [];
+    if (t.disc) {
+      rows.push(h('tr', null, [h('td', { text: T.subtotal }), h('td', { text: num(t.sub, cur) })]));
+      rows.push(h('tr', null, [h('td', { text: T.discount }), h('td', { text: '−' + num(t.disc, cur) })]));
+    }
+    rows.push(h('tr', { class: 't' }, [h('td', { text: T.total[k] }), h('td', null, amountKids(money(t.total, cur), t.krw))]));
+    root.appendChild(h('div', { class: 'd-totals' }, [h('table', null, [h('tbody', null, rows)])]));
+
+    if (optional.length) {
+      root.appendChild(h('section', { class: 'd-opt' }, [
+        h('h4', { text: T.optional }),
+        h('table', null, [h('tbody', null, optional.map(function (it) {
+          return h('tr', null, [describe(it, lang), h('td', { class: 'a' }, amountKids(qtyLabel(it, lang) + ' × ' + num(it.price, cur) + ' = ' + money(lineAmount(it, cur), cur), two && hasKrw(it) ? lineKrw(it) : null))]);
+        }))])
+      ]));
+    }
+
+    // An invoice says how to pay right under the amount; a quote explains the scope first.
+    var terms = paras(tr(d.data.terms));
+    var bank = d.data.show_bank ? bankBox(lang, no, S) : null;
+    var payment = (terms || bank) ? h('div', { class: 'd-pay' }, [terms ? sec(T.terms, terms) : null, bank]) : null;
+    var inc = bullets(tr(d.data.included)), exc = bullets(tr(d.data.excluded), 'minus');
+    var scope = (inc || exc) ? h('div', { class: 'd-cols' + (inc && exc ? '' : ' one') }, [inc ? sec(T.included, inc) : null, exc ? sec(T.excluded, exc) : null]) : null;
+    (k === 'invoice' ? [payment, scope] : [scope, payment]).forEach(function (n) { if (n) root.appendChild(n); });
+    var can = paras(tr(d.data.cancellation)), notes = paras(tr(d.data.notes));
+    if (can) root.appendChild(sec(T.cancel, can));
+    if (notes) root.appendChild(sec(T.notes, notes));
+
+    root.appendChild(h('footer', { class: 'd-foot' }, [
+      h('div', { class: 'd-top' }, [h('p', { class: 'd-thanks', text: T.thanks(I) }), tx('p', null, [I.website, I.email, I.phone].filter(Boolean).join(' · '))]),
+      tx('p', null, [tr(I.company), tr(I.brand), tr(I.representative) && T.rep + tr(I.representative), I.registration && T.reg + I.registration, tr(I.ecommerce) && T.ecom + tr(I.ecommerce)].filter(Boolean).join(' · '))
+    ]));
+  }
+  function render() { if (!doc) return; LANGS.forEach(renderDoc); fit(); }
+
+  // Shrink the A4 preview to the column; printing always uses the real size.
+  function fit() {
+    var wrap = $('previewwrap');
+    if (!wrap.clientWidth) return;
+    var z = Math.max(0.35, Math.min(1, (wrap.clientWidth - 4) / 794));
+    LANGS.forEach(function (l) { $('doc-' + l).style.zoom = z; });
+  }
+  if (window.ResizeObserver) new ResizeObserver(fit).observe($('previewwrap'));
+
+  /* ---------- Sign-in ---------- */
+  async function boot() {
+    booted = true;
+    var problem = '';
+    try { await store.probe(); }
+    catch (e) { problem = 'DB에 연결하지 못했어요(' + errText(e) + '). 새로고침해 주세요.'; }
+    try { settings = normSettings(await store.loadSettings()); }
+    catch (e) { problem = problem || '기본정보를 불러오지 못했어요: ' + errText(e); }
+    try { numbers = await store.numbers(); }
+    catch (e) { problem = problem || '문서 번호 목록을 불러오지 못했어요: ' + errText(e); }
+    // Signing in again (e.g. after the session ended in another tab) keeps unsaved work on screen.
+    if (doc && dirty) { fillForm(); render(); }
+    else newDoc('quote');
+    if (problem) setMsg(problem, true);
+    else if (dirty) setMsg('저장하지 않은 변경이 있어요');
+  }
+  function setAuthed(session) {
+    var on = !!session;
+    $('login').hidden = on;
+    $('app').hidden = !on;
+    $('logout').hidden = !on;
+    $('who').textContent = on ? session.user.email : '';
+    if (on && !booted) boot();
+    if (!on) booted = false;
+  }
+  sb.auth.getSession().then(function (r) { setAuthed(r.data.session); });
+  sb.auth.onAuthStateChange(function (_e, session) { setAuthed(session); });
+  $('loginform').addEventListener('submit', function (e) {
+    e.preventDefault();
+    $('loginmsg').textContent = '로그인 중…';
+    sb.auth.signInWithPassword({ email: $('email').value.trim(), password: $('password').value }).then(function (r) {
+      $('loginmsg').textContent = r.error ? '로그인하지 못했어요: ' + r.error.message : '';
+      $('loginmsg').className = r.error ? 'msg err' : 'msg';
+    });
+  });
+  $('logout').addEventListener('click', function () { confirmDiscard().then(function (ok) { if (ok) { dirty = false; sb.auth.signOut(); } }); });
+  window.addEventListener('beforeunload', function (e) { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+})();
+</script>
+</body>
+</html>
