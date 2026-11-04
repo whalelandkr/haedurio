@@ -1,8 +1,8 @@
 {
   "origin": "https://www.haedurio.com",
-  "updated": "2026-10-27",
+  "updated": "2026-11-04",
   "year": 2026,
-  "usdRate": 1553,
+  "usdRate": 1344,
   "langs": [
     {
       "code": "en",
@@ -105,7 +105,6 @@
     "book",
     "shop",
     "errand",
-    "lang",
     "parcel",
     "lost",
     "other"
@@ -123,12 +122,7 @@
     },
     {
       "cat": "errand",
-      "won": 95000,
-      "kind": "hour"
-    },
-    {
-      "cat": "lang",
-      "won": 31000,
+      "won": 16000,
       "kind": "from"
     },
     {
@@ -163,7 +157,7 @@
       "id": "instore",
       "cat": "shop",
       "lead": "from",
-      "won": 102000,
+      "won": 70000,
       "refund": "B",
       "chip": "shop"
     },
@@ -179,7 +173,7 @@
       "id": "openrun",
       "cat": "shop",
       "lead": "from",
-      "won": 342000,
+      "won": 120000,
       "refund": "C",
       "chip": "shop"
     },
@@ -192,36 +186,12 @@
       "chip": "errand"
     },
     {
-      "id": "remote",
-      "cat": "lang",
+      "id": "courier",
+      "cat": "errand",
       "lead": "fixed",
-      "won": 31000,
+      "won": 16000,
       "refund": "A",
-      "chip": "interp"
-    },
-    {
-      "id": "companion",
-      "cat": "lang",
-      "lead": "from",
-      "won": 126000,
-      "refund": "C",
-      "chip": "interp"
-    },
-    {
-      "id": "pro",
-      "cat": "lang",
-      "lead": "fixed",
-      "won": 93000,
-      "refund": "B",
-      "chip": "interp"
-    },
-    {
-      "id": "shipping",
-      "cat": "parcel",
-      "lead": "from",
-      "won": 48000,
-      "refund": "A",
-      "chip": "parcel"
+      "chip": "errand"
     },
     {
       "id": "parcel",
@@ -272,11 +242,7 @@
     },
     {
       "id": "errand",
-      "won": 95000
-    },
-    {
-      "id": "interp",
-      "won": 31000
+      "won": 16000
     },
     {
       "id": "parcel",

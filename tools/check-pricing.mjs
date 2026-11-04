@@ -64,22 +64,26 @@ same('reservation: repeated follow-ups', ra('follow'), addon('reservation', /fol
 same('info: one hour of research', SV.info.research, addon('info', /research/i));
 same('instore: each extra hour', SV.instore.extra, addon('instore', /extra hour/i));
 same('openrun: each extra hour', SV.openrun.extra, addon('openrun', /extra hour/i));
+same('openrun: limited item bought', byId(SV.openrun.addons, 'limited').krw, addon('openrun', /limited item/i));
 same('errand: each extra hour', SV.errand.extra, addon('errand', /extra hour/i));
-same('companion: each extra hour', SV.companion.extra, addon('companion', /extra hour/i));
-['instore', 'online', 'openrun'].forEach((k) => same(`${k}: ship it abroad`, PR.ship, addon(k, /ship/i)));
 same('errand: hotel lobby', byId(SV.errand.addons, 'lobby').krw, addon('errand', /lobby/i));
 same('errand: outside central Seoul (from)', byId(PR.distance, 'seoul').krw, addon('errand', /outside/i));
 same('pickup: outside central Seoul (from)', byId(PR.distance, 'seoul').krw, addon('pickup', /outside/i));
 same('errand: bulky or heavy (from)', byId(PR.size, 'bulky').krw, addon('errand', /bulky/i));
-same('remote: one hour', 2 * SV.remote.krw, addon('remote', /one hour/i));
-same('companion: two hours', SV.companion.krw + SV.companion.extra, addon('companion', /two hours/i));
-same('pro: two hours', 2 * SV.pro.krw, addon('pro', /two hours/i));
 same('parcel: storage after 7 days, a day', SV.parcel.storage, addon('parcel', /storage/i));
 same('pickup: lost item pickup', byId(SV.pickup.variants, 'lost').krw, won(cat.pickup.included.find((x) => /lost item/i.test(x))));
 same('pickup: same-day urgent delivery', byId(SV.pickup.variants, 'urgent').krw, won(cat.pickup.included.find((x) => /urgent/i.test(x))));
 same('genie: on site, per hour (catalog)', byId(SV.genie.variants, 'onsite').krw, won(cat.genie.unit));
 // Actual costs are charged at what we pay: neither the site nor the calculator adds a fee to them.
 if (/handling/i.test(JSON.stringify(en)) || PR.handling != null) errors.push('a handling fee on actual costs is back on the site or in the calculator');
+// We deliver within Korea only: no shipping abroad on the site or in the calculator.
+if (/ship it abroad|international shipping/i.test(JSON.stringify(en)) || PR.ship != null || Object.values(SV).some((S) => S.ship)) errors.push('shipping abroad is back on the site or in the calculator');
+// The prices page says timing extras are added up, not multiplied.
+same('timing extras are added up (PR.combine)', PR.combine, 'add');
+// Rules written on the service pages
+same('openrun: no fixed-arrival extra (noFixed)', !!SV.openrun.noFixed, true);
+same('courier: no timing extras (noTiming)', !!SV.courier.noTiming, true);
+same('pickup: urgent delivery already includes the rush (rushIncluded)', !!byId(SV.pickup.variants, 'urgent').rushIncluded, true);
 
 // Timing, distance and size on the prices page: labels from en.json, amounts from pages.mjs
 const timing = list('timing').map((t) => parseFloat(String(t).replace(/[+%]/g, '')));

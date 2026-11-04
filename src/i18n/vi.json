@@ -47,11 +47,11 @@
   },
   "home": {
     "title": "Haedurio | Dịch vụ hỗ trợ tại Seoul: đặt chỗ hộ, mua hộ, chạy việc vặt",
-    "description": "Đặt chỗ hộ, mua hộ, chạy việc vặt và phiên dịch tại Seoul dành cho khách đến Hàn Quốc. Nhắn tin bằng tiếng Việt và nhận giá cố định trước khi thanh toán.",
+    "description": "Đặt chỗ hộ, mua hộ và chạy việc vặt tại Seoul dành cho khách đến Hàn Quốc. Nhắn tin bằng tiếng Việt và nhận giá cố định trước khi thanh toán.",
     "h1a": "Cứ để đó,",
     "h1b": "chúng tôi lo.",
     "footnoteLabel": "Chú thích: ý nghĩa của tên gọi",
-    "lead": "Đặt chỗ hộ, mua hộ, chạy việc vặt và phiên dịch tại Seoul. Nhắn tin cho chúng tôi bằng tiếng Việt, bạn sẽ biết giá cố định trước khi thanh toán.",
+    "lead": "Đặt chỗ hộ, mua hộ và chạy việc vặt tại Seoul. Nhắn tin cho chúng tôi bằng tiếng Việt, bạn sẽ biết giá cố định trước khi thanh toán.",
     "ctaSecondary": "Xem dịch vụ và giá",
     "footnote": "Tên Haedurio ({name}) bắt nguồn từ {phrase}, trong tiếng Hàn nghĩa là “Chúng tôi sẽ làm giúp bạn.”",
     "exampleTitle": "Việc của bạn ở Seoul",
@@ -144,7 +144,7 @@
   },
   "services": {
     "title": "Dịch vụ và bảng giá | Haedurio",
-    "description": "Các dịch vụ giá cố định tại Seoul: đặt chỗ nhà hàng và salon tóc, mua hộ, xếp hàng mua hàng pop-up, chạy việc vặt, phiên dịch, bưu kiện và tìm đồ thất lạc.",
+    "description": "Các dịch vụ giá cố định tại Seoul: đặt chỗ nhà hàng và salon tóc, mua hộ, xếp hàng mua hàng pop-up, chạy việc vặt, đặt giao hàng nhanh, bưu kiện và tìm đồ thất lạc.",
     "h1": "Dịch vụ và bảng giá",
     "lead": "Mọi mức giá đều cố định trước khi bạn thanh toán. Tiền hàng, đồ ăn và cước taxi được tính theo giá thực tế.",
     "filterLabel": "Lọc dịch vụ theo danh mục",
@@ -165,17 +165,12 @@
       "errand": {
         "name": "Chạy việc vặt",
         "short": "Việc vặt",
-        "home": "Nhận đồ, giao đồ đến khách sạn và xếp hàng hộ khắp Seoul"
-      },
-      "lang": {
-        "name": "Phiên dịch",
-        "short": "Phiên dịch",
-        "home": "Qua cuộc gọi hoặc đi cùng bạn"
+        "home": "Đặt giao hàng nhanh, nhận đồ, giao đồ đến khách sạn và xếp hàng hộ khắp Seoul"
       },
       "parcel": {
-        "name": "Bưu kiện và gửi hàng",
+        "name": "Bưu kiện",
         "short": "Bưu kiện",
-        "home": "Nhận hàng, lưu giữ và gửi ra nước ngoài giúp bạn"
+        "home": "Nhận hàng, lưu giữ và chuyển tiếp trong Hàn Quốc giúp bạn"
       },
       "lost": {
         "name": "Đồ thất lạc và hỗ trợ gấp",
@@ -203,8 +198,8 @@
     "ifNot": "Nếu chúng tôi không hoàn thành được",
     "refunds": {
       "A": "Nếu chúng tôi không làm được, phí dịch vụ sẽ được hoàn lại toàn bộ.",
-      "B": "Khi chúng tôi đã xuất phát, 35% phí dịch vụ (tối thiểu {won:31000}) sẽ được giữ lại, phần còn lại được hoàn trả.",
-      "C": "Khi đã bắt đầu xếp hàng hoặc bắt đầu buổi đi cùng, 50% phí dịch vụ (tối thiểu {won:70000}) sẽ được giữ lại, phần còn lại được hoàn trả.",
+      "B": "Khi chúng tôi đã xuất phát, hoặc khi bạn hủy trong vòng 24 giờ trước giờ bắt đầu, 35% phí dịch vụ (tối thiểu {won:31000}) sẽ được giữ lại, phần còn lại được hoàn trả.",
+      "C": "Nếu bạn hủy trong vòng 24 giờ trước giờ bắt đầu, 35% phí dịch vụ (tối thiểu {won:31000}) sẽ được giữ lại. Khi đã bắt đầu xếp hàng, mức giữ lại là 50% (tối thiểu {won:56000}). Phần còn lại được hoàn trả.",
       "Q": "Quy định hoàn tiền được ghi trong báo giá trước khi bạn thanh toán."
     },
     "refundTail": "Tiền mua hàng, đồ ăn hoặc taxi còn dư luôn được hoàn lại cho bạn.",
@@ -217,7 +212,8 @@
       "blurb": "Chúng tôi gọi điện hoặc nhắn tin bằng tiếng Hàn cho nhà hàng, salon tóc hoặc cửa hàng và xác nhận đặt chỗ cho bạn.",
       "included": [
         "Một lượt đặt chỗ qua điện thoại hoặc tin nhắn",
-        "Ảnh chụp màn hình xác nhận"
+        "Ảnh chụp màn hình xác nhận",
+        "Gợi ý địa điểm tương tự nếu lựa chọn đầu tiên đã kín chỗ"
       ],
       "need": [
         "Tên địa điểm hoặc link bản đồ",
@@ -256,7 +252,7 @@
       "addons": [
         {
           "label": "Một giờ tìm hiểu thông tin",
-          "price": "{won:22000}"
+          "price": "{won:18000}"
         }
       ],
       "notes": [
@@ -280,10 +276,6 @@
         {
           "label": "Mỗi giờ thêm",
           "price": "+{won:56000}"
-        },
-        {
-          "label": "Gửi ra nước ngoài",
-          "price": "+{won:48000}"
         }
       ],
       "notes": [
@@ -300,17 +292,13 @@
       ],
       "need": [
         "Link sản phẩm, phân loại và số lượng",
-        "Nơi bạn muốn nhận hàng"
+        "Địa chỉ nhận hàng tại Hàn Quốc"
       ],
-      "addons": [
-        {
-          "label": "Gửi ra nước ngoài",
-          "price": "+{won:48000}"
-        }
-      ],
+      "addons": [],
       "notes": [
         "Sau khi đặt hàng, chính sách đổi trả của cửa hàng sẽ được áp dụng.",
-        "Chúng tôi không cho mượn số điện thoại hoặc tài khoản để xác minh danh tính."
+        "Chúng tôi không cho mượn số điện thoại hoặc tài khoản để xác minh danh tính.",
+        "Chúng tôi chỉ giao đến địa chỉ tại Hàn Quốc, chẳng hạn khách sạn của bạn."
       ]
     },
     "openrun": {
@@ -330,15 +318,17 @@
       "addons": [
         {
           "label": "Mỗi giờ xếp hàng thêm",
-          "price": "+{won:37000}"
+          "price": "+{won:30000}"
         },
         {
-          "label": "Gửi ra nước ngoài",
-          "price": "+{won:48000}"
+          "label": "Khi mua được món hàng giới hạn",
+          "price": "+{won:50000}"
         }
       ],
       "notes": [
-        "Hàng giới hạn có thể hết. Thời gian xếp hàng vẫn được tính phí."
+        "Hàng giới hạn có thể hết. Thời gian xếp hàng vẫn được tính phí, nhưng khoản {won:50000} chỉ được tính khi chúng tôi mua được hàng.",
+        "Với các thương hiệu xa xỉ, phí khi mua được hàng sẽ được báo giá riêng.",
+        "Việc có mặt vào giờ đã thống nhất đã bao gồm trong giá, nên không tính phụ phí hẹn giờ đến cố định."
       ]
     },
     "errand": {
@@ -374,88 +364,24 @@
       ],
       "notes": []
     },
-    "remote": {
-      "name": "Phiên dịch từ xa",
-      "unit": "mỗi 30 phút",
-      "blurb": "Phiên dịch trực tiếp giữa tiếng Hàn và ngôn ngữ của bạn qua cuộc gọi thoại hoặc video.",
+    "courier": {
+      "name": "Đặt giao hàng nhanh",
+      "unit": "cộng cước giao hàng",
+      "blurb": "Khi món đồ chỉ cần được chở đi, chúng tôi đặt xe máy hoặc xe tải nhỏ giao hàng nhanh ở Seoul, giải thích cho tài xế bằng tiếng Hàn và theo dõi đến khi giao xong.",
       "included": [
-        "Phiên dịch qua cuộc gọi ba bên hoặc gọi video"
+        "Đặt xe giao hàng qua điện thoại hoặc ứng dụng",
+        "Báo cho tài xế nơi nhận và nơi giao bằng tiếng Hàn",
+        "Theo dõi đến khi giao xong, kèm biên nhận của bên giao hàng"
       ],
       "need": [
-        "Cuộc gọi về việc gì",
-        "Chúng tôi sẽ nói chuyện với ai"
-      ],
-      "addons": [
-        {
-          "label": "Một giờ",
-          "price": "{won:62000}"
-        }
-      ],
-      "notes": []
-    },
-    "companion": {
-      "name": "Phiên dịch đi kèm",
-      "unit": "cho giờ đầu tiên",
-      "blurb": "Chúng tôi gặp bạn tại bệnh viện, nhà thuốc, văn phòng, cửa hàng hoặc đồn cảnh sát và phiên dịch cho bạn ngay tại đó.",
-      "included": [
-        "Gặp bạn tại nơi hẹn",
-        "Phiên dịch đúng nguyên văn những gì được nói"
-      ],
-      "need": [
-        "Địa điểm và thời gian",
-        "Lịch hẹn bạn tự đặt, nếu nơi đó yêu cầu"
-      ],
-      "addons": [
-        {
-          "label": "Hai giờ",
-          "price": "{won:182000}"
-        },
-        {
-          "label": "Mỗi giờ thêm",
-          "price": "+{won:56000}"
-        }
-      ],
-      "notes": [
-        "Bạn tự đặt lịch và tự thanh toán với phòng khám hoặc văn phòng.",
-        "Chúng tôi chỉ phiên dịch, không đưa ra tư vấn y tế hay pháp lý."
-      ]
-    },
-    "pro": {
-      "name": "Phiên dịch chuyên nghiệp",
-      "unit": "mỗi giờ",
-      "blurb": "Phiên dịch tại chỗ cho các buổi tư vấn, cuộc họp và buổi đi xem nhà.",
-      "included": [
-        "Phiên dịch viên đã chuẩn bị trước, có mặt tại chỗ"
-      ],
-      "need": [
-        "Ngày, địa điểm và chủ đề",
-        "Tài liệu cần đọc trước, nếu có"
-      ],
-      "addons": [
-        {
-          "label": "Hai giờ",
-          "price": "{won:186000}"
-        }
-      ],
-      "notes": [
-        "Chúng tôi chỉ phiên dịch, không đưa ra ý kiến y tế hay pháp lý."
-      ]
-    },
-    "shipping": {
-      "name": "Gửi hàng quốc tế",
-      "unit": "cộng cước gửi hàng",
-      "blurb": "Chúng tôi đóng gói lại đồ của bạn và gửi ra nước ngoài, có mã vận đơn để theo dõi.",
-      "included": [
-        "Đóng gói lại cẩn thận",
-        "Mang hàng đi gửi và cung cấp mã vận đơn"
-      ],
-      "need": [
-        "Địa chỉ và số điện thoại người nhận, viết bằng tiếng Anh",
-        "Bên trong có những gì"
+        "Địa chỉ nhận và giao",
+        "Món đồ là gì, kích thước khoảng bao nhiêu",
+        "Ai giao món đồ và ai nhận"
       ],
       "addons": [],
       "notes": [
-        "Chúng tôi không thể gửi thuốc hoặc bất cứ thứ gì bị cấm tại Hàn Quốc hay nước nhận."
+        "Cước giao hàng được tính theo giá thực tế, chúng tôi không cộng phụ phí quãng đường, kích thước hay thời gian. Nếu cần gấp, chúng tôi đặt dịch vụ giao hỏa tốc theo giá của bên giao hàng.",
+        "Nếu cần nhận đồ theo giấy ủy quyền hoặc cần người mang tận tay, hãy chọn chạy việc vặt tận nơi hoặc giao trong ngày."
       ]
     },
     "parcel": {
@@ -493,7 +419,9 @@
         "Đặc điểm của món đồ"
       ],
       "addons": [],
-      "notes": []
+      "notes": [
+        "Nếu không tìm thấy món đồ, việc tìm kiếm vẫn được tính là đã hoàn thành. Bạn sẽ nhận được bản tóm tắt kết quả ở mọi nơi chúng tôi đã kiểm tra."
+      ]
     },
     "pickup": {
       "name": "Lấy đồ và giao trong ngày",
@@ -515,7 +443,10 @@
           "price": "từ +{won:16000}"
         }
       ],
-      "notes": []
+      "notes": [
+        "Giao trong ngày dành cho đồ cần người mang tận tay. Giá đã bao gồm phí giao gấp, nên không cộng thêm phụ phí giao gấp. Nếu chỉ cần chở đi, đặt giao hàng nhanh sẽ rẻ hơn.",
+        "Làm mất đồ trên tàu điện ngầm Seoul? Trung tâm đồ thất lạc của tàu điện ngầm có thể gửi đồ đến địa chỉ tại Hàn Quốc với giá {won:5000}–{won:7000} tùy cân nặng. Chúng tôi sẽ hướng dẫn cách này trước. Nếu bạn cần chúng tôi giúp đăng ký, phí được tính như hỏi thông tin."
+      ]
     },
     "genie": {
       "name": "Yêu cầu khác",
@@ -546,7 +477,7 @@
       },
       {
         "title": "Chi phí thực tế",
-        "text": "Tiền hàng, đồ ăn, taxi, tiền đặt cọc và cước gửi hàng, tính theo giá gốc."
+        "text": "Tiền hàng, đồ ăn, taxi, cước giao hàng và tiền đặt cọc, tính theo giá gốc."
       },
       {
         "title": "Phụ phí",
@@ -570,11 +501,10 @@
     "total": "Tổng cộng",
     "paidNote": "Thanh toán trước khi bắt đầu. Ảnh lúc lấy đồ và lúc giao tại sảnh được gửi qua tin nhắn cho bạn.",
     "extrasTitle": "Phụ phí, chỉ khi cần",
-    "extrasLead": "Báo giá ghi rõ tên từng khoản phụ phí. Khi áp dụng hai phụ phí về thời gian, chúng được nhân với nhau: việc trong ngày làm vào ban đêm là ×1,35 rồi ×1,3.",
+    "extrasLead": "Báo giá ghi rõ tên từng khoản phụ phí. Các phụ phí về thời gian được cộng lại, không nhân với nhau: việc trong ngày làm vào ban đêm là +35% cộng +30%, tức +65% phí dịch vụ.",
     "timingTitle": "Thời gian",
     "timing": [
       "Làm đêm, từ 22:00 đến 02:00",
-      "Trong vòng 48 giờ",
       "Trong vòng 24 giờ",
       "Trong ngày",
       "Trong vòng 3 giờ",
@@ -590,23 +520,23 @@
       "Trên 20 kg, hoặc cần hai người"
     ],
     "included": "Đã bao gồm",
-    "outside": "Ngoài Seoul, chúng tôi báo giá riêng cho từng chuyến.",
+    "outside": "Ngoài Seoul, chúng tôi báo giá riêng cho từng chuyến. Báo giá cũng ghi rõ thời gian di chuyển có được tính vào số giờ hay không.",
     "refundsTitle": "Nếu chúng tôi không hoàn thành được",
-    "refundsLead": "Số phí dịch vụ được hoàn lại tùy thuộc vào việc chúng tôi đã xuất phát hay chưa.",
+    "refundsLead": "Số phí dịch vụ được hoàn lại tùy thuộc vào việc công việc đã đến bước nào. Nếu bạn hủy việc tại chỗ trong vòng 24 giờ trước giờ bắt đầu, sẽ được tính như khi chúng tôi đã xuất phát.",
     "refunds": [
       {
         "title": "Việc online và từ xa",
-        "text": "Đặt chỗ, hỏi thông tin, phiên dịch từ xa, mua hộ online trước khi đặt đơn.",
+        "text": "Đặt chỗ, hỏi thông tin, đặt giao hàng nhanh, mua hộ online trước khi đặt đơn.",
         "bar": "Hoàn lại toàn bộ phí"
       },
       {
         "title": "Việc tại chỗ, khi chúng tôi đã xuất phát",
-        "text": "Chạy việc vặt, mua hộ tại cửa hàng, lấy đồ và phiên dịch chuyên nghiệp. Chúng tôi giữ lại 35% phí, tối thiểu {won:31000}.",
+        "text": "Chạy việc vặt, mua hộ tại cửa hàng và lấy đồ. Chúng tôi giữ lại 35% phí, tối thiểu {won:31000}.",
         "bar": "Hoàn lại tối đa 65%"
       },
       {
-        "title": "Xếp hàng và phiên dịch đi kèm, khi đã bắt đầu",
-        "text": "Xếp hàng mua hàng pop-up và phiên dịch đi kèm. Chúng tôi giữ lại 50% phí, tối thiểu {won:70000}.",
+        "title": "Xếp hàng, khi đã bắt đầu",
+        "text": "Xếp hàng mua hàng pop-up. Chúng tôi giữ lại 50% phí, tối thiểu {won:56000}.",
         "bar": "Hoàn lại tối đa 50%"
       }
     ],
@@ -628,7 +558,6 @@
       "info": "Hỏi thông tin",
       "shop": "Mua hộ",
       "errand": "Việc vặt",
-      "interp": "Phiên dịch",
       "parcel": "Bưu kiện",
       "lost": "Đồ thất lạc",
       "other": "Việc khác"
@@ -764,11 +693,11 @@
       },
       {
         "q": "Haedurio có thể đặt lịch phòng khám hoặc mua vé concert giúp tôi không?",
-        "a": "Không. Luật Hàn Quốc không cho phép chúng tôi đặt lịch hoặc giới thiệu phòng khám, hay mua vé cho người khác. Chúng tôi có thể đi cùng và phiên dịch cho bạn tại phòng khám bạn tự đặt lịch, và chỉ cho bạn nơi bán vé chính thức."
+        "a": "Không. Luật Hàn Quốc không cho phép chúng tôi đặt lịch hoặc giới thiệu phòng khám, hay mua vé cho người khác. Chúng tôi có thể chỉ cho bạn nơi bán vé chính thức."
       },
       {
         "q": "Nếu Haedurio không hoàn thành được việc của tôi thì sao?",
-        "a": "Việc chỉ làm online được hoàn lại toàn bộ phí. Nếu chúng tôi đã xuất phát, một phần phí sẽ được giữ lại. Khoản tiền chưa dùng cho tiền hàng, đồ ăn hoặc taxi luôn được hoàn lại.",
+        "a": "Việc chỉ làm online được hoàn lại toàn bộ phí. Với việc tại chỗ, một phần phí sẽ được giữ lại nếu chúng tôi đã xuất phát, hoặc nếu bạn hủy trong vòng 24 giờ trước giờ bắt đầu. Khoản tiền chưa dùng cho tiền hàng, đồ ăn hoặc taxi luôn được hoàn lại.",
         "link": "Xem quy định hoàn tiền"
       },
       {
@@ -881,7 +810,7 @@
       {
         "h": "Dịch vụ chúng tôi cung cấp",
         "p": [
-          "Chúng tôi thay mặt bạn và theo hướng dẫn của bạn thực hiện các công việc được liệt kê trên trang dịch vụ: đặt chỗ, hỏi thông tin, mua hộ, chạy việc vặt, phiên dịch, bưu kiện và hỗ trợ tìm đồ thất lạc. Chúng tôi chỉ nhận những công việc hợp pháp tại Hàn Quốc."
+          "Chúng tôi thay mặt bạn và theo hướng dẫn của bạn thực hiện các công việc được liệt kê trên trang dịch vụ: đặt chỗ, hỏi thông tin, mua hộ, chạy việc vặt, đặt giao hàng nhanh, bưu kiện và hỗ trợ tìm đồ thất lạc. Chúng tôi chỉ nhận những công việc hợp pháp tại Hàn Quốc."
         ]
       },
       {
@@ -899,34 +828,35 @@
       {
         "h": "Chi phí thực tế",
         "p": [
-          "Tiền hàng, đồ ăn, cước taxi, tiền đặt cọc và cước gửi hàng được tính đúng bằng số tiền chúng tôi thực trả. Chúng tôi gửi hóa đơn hoặc ảnh chụp làm bằng chứng. Khoản tiền không dùng đến sẽ được hoàn lại cho bạn."
+          "Tiền hàng, đồ ăn, cước taxi, cước giao hàng và tiền đặt cọc được tính đúng bằng số tiền chúng tôi thực trả. Chúng tôi gửi hóa đơn hoặc ảnh chụp làm bằng chứng. Khoản tiền không dùng đến sẽ được hoàn lại cho bạn."
         ]
       },
       {
         "h": "Hủy và hoàn tiền",
         "p": [
-          "Bạn có thể hủy bất cứ lúc nào trước khi công việc bắt đầu và được hoàn lại toàn bộ số tiền đã trả.",
+          "Bạn có thể hủy trước khi công việc bắt đầu và được hoàn lại toàn bộ số tiền đã trả. Với việc tại chỗ, điều này áp dụng đến 24 giờ trước giờ bắt đầu đã thống nhất. Sau thời điểm đó, 35% phí dịch vụ (tối thiểu {won:31000}) sẽ được giữ lại và phần còn lại được hoàn trả.",
           "Nếu chúng tôi không hoàn thành được công việc, hoặc bạn hủy sau khi công việc đã bắt đầu, quy định hoàn tiền ghi trong báo giá của bạn sẽ được áp dụng:"
         ],
         "list": [
           "Việc online và từ xa: hoàn lại toàn bộ phí dịch vụ.",
           "Việc tại chỗ, khi chúng tôi đã xuất phát: giữ lại 35% phí dịch vụ (tối thiểu {won:31000}) và hoàn trả phần còn lại.",
-          "Việc xếp hàng và phiên dịch đi kèm, khi đã bắt đầu xếp hàng hoặc bắt đầu buổi đi cùng: giữ lại 50% phí dịch vụ (tối thiểu {won:70000}) và hoàn trả phần còn lại."
+          "Việc xếp hàng, khi đã bắt đầu xếp hàng: giữ lại 50% phí dịch vụ (tối thiểu {won:56000}) và hoàn trả phần còn lại."
         ],
         "after": [
+          "Việc tìm đồ thất lạc được tính là hoàn thành khi chúng tôi đã tra cứu và gửi kết quả cho bạn, kể cả khi không tìm thấy món đồ.",
           "Khoản tiền chưa dùng cho tiền hàng, đồ ăn hoặc taxi luôn được hoàn lại. Phí hủy do cửa hàng, địa điểm hoặc đơn vị chuyển phát thu sẽ không được hoàn. Chúng tôi hoàn tiền về phương thức thanh toán ban đầu trong vòng 3 ngày làm việc kể từ khi xác nhận hoàn tiền."
         ]
       },
       {
         "h": "Những việc chúng tôi không làm",
         "p": [
-          "Chúng tôi không đặt lịch hoặc giới thiệu phòng khám, bệnh viện; không mua hoặc bán lại vé sự kiện; không mua hoặc giao thuốc, rượu bia hay thuốc lá; không cho mượn số điện thoại hoặc tài khoản để xác minh danh tính; không soạn hoặc nộp giấy tờ cho cơ quan nhà nước; không tư vấn pháp lý; không đặt khách sạn, vé máy bay, vé tàu hoặc tour; và không đổi tiền hay chuyển tiền. Chúng tôi cũng không xử lý bất cứ thứ gì bị pháp luật Hàn Quốc cấm. Tuy vậy, chúng tôi vẫn có thể đi cùng và phiên dịch cho bạn, chẳng hạn tại phòng khám do bạn tự đặt lịch."
+          "Chúng tôi không đặt lịch hoặc giới thiệu phòng khám, bệnh viện; không mua hoặc bán lại vé sự kiện; không mua hoặc giao thuốc, rượu bia hay thuốc lá; không cho mượn số điện thoại hoặc tài khoản để xác minh danh tính; không soạn hoặc nộp giấy tờ cho cơ quan nhà nước; không tư vấn pháp lý; không đặt khách sạn, vé máy bay, vé tàu hoặc tour; và không đổi tiền hay chuyển tiền. Chúng tôi cũng không xử lý bất cứ thứ gì bị pháp luật Hàn Quốc cấm."
         ]
       },
       {
         "h": "Trách nhiệm của bạn",
         "p": [
-          "Vui lòng cung cấp thông tin chính xác và cho chúng tôi biết mọi điều có thể ảnh hưởng đến công việc. Chỉ yêu cầu những thứ mà bạn được phép mua, mang theo hoặc gửi đi một cách hợp pháp. Khi chúng tôi gửi hàng ra nước ngoài, bạn chịu trách nhiệm về các quy định nhập khẩu và thuế nhập khẩu của nước nhận hàng."
+          "Vui lòng cung cấp thông tin chính xác và cho chúng tôi biết mọi điều có thể ảnh hưởng đến công việc. Chỉ yêu cầu những thứ mà bạn được phép mua, mang theo hoặc gửi đi một cách hợp pháp."
         ]
       },
       {
