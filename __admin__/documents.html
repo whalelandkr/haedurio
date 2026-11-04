@@ -1111,7 +1111,6 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
   // and the timing, distance and size extras on the prices page (tools/pages.mjs).
   // When a price changes there, change it here too. node tools/check-pricing.mjs lists any that differ.
   var PR = {
-    handling: 4.5,
     lead: [
       { id: 'h48', pct: 10, ko: '48시간 이내', en: 'Within 48 hours' },
       { id: 'h24', pct: 20, ko: '24시간 이내', en: 'Within 24 hours' },
@@ -1151,8 +1150,8 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
         { id: 'follow', krw: 5000, ko: '여러 번 확인이 필요한 곳', en: 'Places that need repeated follow-ups' }
       ] },
     info: { ko: '정보 확인 (30분 단위)', en: 'Info check, per 30 minutes', kind: 'count', krw: 9000, minutes: 30, qtyLabel: '30분 단위 수 (2 = 1시간)', unit: { ko: ['회', '회'], en: ['', ''] }, research: 22000 },
-    instore: { ko: '매장 구매 대행 (첫 1시간)', en: 'In-store purchase, first hour', kind: 'hours', krw: 102000, first: 1, extra: 56000, onsite: true, size: true, ship: true, itemMin: 8000 },
-    online: { ko: '국내 전용 온라인몰 주문', en: 'Korea-only online shop order', kind: 'count', krw: 30000, qtyLabel: '주문 건수', unit: { ko: ['건', '건'], en: ['order', 'orders'] }, ship: true, itemMin: 8000 },
+    instore: { ko: '매장 구매 대행 (첫 1시간)', en: 'In-store purchase, first hour', kind: 'hours', krw: 102000, first: 1, extra: 56000, onsite: true, size: true, ship: true },
+    online: { ko: '국내 전용 온라인몰 주문', en: 'Korea-only online shop order', kind: 'count', krw: 30000, qtyLabel: '주문 건수', unit: { ko: ['건', '건'], en: ['order', 'orders'] }, ship: true },
     openrun: { ko: '팝업 오픈런 (대기 2시간 포함)', en: 'Pop-up open-run, up to 2 hours in the queue', kind: 'hours', krw: 342000, first: 2, extra: 37000,
       extraKo: '추가 대기 시간', extraEn: 'Each extra hour in the queue', hoursLabel: '대기 시간 (시간)', onsite: true, size: true, ship: true },
     errand: { ko: '현장 심부름 (첫 1시간)', en: 'On-site errand, first hour', kind: 'hours', krw: 95000, first: 1, extra: 56000, onsite: true, size: true,
@@ -1212,7 +1211,7 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
       asked: str(x.asked), lead: str(x.lead, 'auto'), night: str(x.night, 'auto'), fixed: !!x.fixed,
       distance: pick(P.distance, x.distance) ? x.distance : 'central', size: pick(P.size, x.size) ? x.size : 'none',
       variant: str(x.variant), research: +x.research > 0 ? Math.round(+x.research) : 0, storage: +x.storage > 0 ? Math.round(+x.storage) : 0,
-      addons: {}, costs: {}, handling: x.handling == null ? true : !!x.handling, note: bi(x.note),
+      addons: {}, costs: {}, note: bi(x.note),
       detached: Array.isArray(x.detached) ? x.detached.map(String) : []
     };
     if (['auto', 'none'].concat(P.lead.map(function (l) { return l.id; })).indexOf(c.lead) < 0) c.lead = 'auto';
@@ -1317,23 +1316,12 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     var size = pick(P.size, c.size);
     if (sizeCalc(c) && size && size.krw) line('size', { name: '크기·무게 · ' + size.ko }, { name: 'Size · ' + size.en }, 1, size.krw);
 
-    // Actual costs at cost, plus 4.5% handling. For shop orders the service fee already covers the first ₩8,000
-    // of item handling, so only what goes beyond it is added.
-    var costSum = 0;
-    P.costs.forEach(function (k) { var x = c.costs[k.id] || 0; if (x > 0) { costSum += x; line('cost-' + k.id, { name: k.ko }, { name: k.en }, 1, x); } });
-    if (costSum > 0 && c.handling) {
-      var items = c.costs.items || 0, incl = S.itemMin && items > 0 ? S.itemMin * (S.kind === 'count' ? q : 1) : 0;
-      var base = Math.round(costSum * P.handling / 100), ded = Math.min(Math.round(items * P.handling / 100), incl);
-      line('handling',
-        { name: '실비 처리 수수료 ' + P.handling + '%', details: '실비 ' + won(costSum) + ' × ' + P.handling + '%' + (ded ? ' − 서비스 요금에 포함된 ' + won(ded) : '') },
-        { name: 'Handling, ' + P.handling + '% of actual costs', details: P.handling + '% of ' + won(costSum) + (ded ? ', less ' + won(ded) + ' already in the service fee' : '') },
-        1, base - ded);
-      if (ded && base - ded <= 0) notes.push('물품 처리 수수료 ' + won(base) + '이(가) 서비스 요금에 포함된 ' + won(incl) + ' 안이라 따로 받지 않아요.');
-    }
+    // Actual costs, at what we pay. No fee is added on top of them.
+    P.costs.forEach(function (k) { var x = c.costs[k.id] || 0; if (x > 0) line('cost-' + k.id, { name: k.ko }, { name: k.en }, 1, x); });
     return {
       all: all, notes: notes, auto: al, nightAuto: nightAuto, rushIncluded: rushIn,
-      // Whether other lines are worked out from the service fee lines, or from the actual costs
-      feeUsed: f > 1, costsUsed: costSum > 0 && !!c.handling,
+      // Whether timing extras are worked out from the service fee lines
+      feeUsed: f > 1,
       lines: all.filter(function (o) { return c.detached.indexOf(o.role) < 0; })
     };
   }
@@ -1368,11 +1356,11 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     doc.data.items = out;
     applyFx(doc);
   }
-  // Lines taken out of a calculator ('직접 고치기') whose amount was changed although other lines are worked out from them.
+  // Service fee lines taken out of a calculator ('직접 고치기') whose amount was changed although the timing extras are worked out from them.
   function calcDrift(c) {
     var r = calcLines(c), out = [];
     r.all.forEach(function (o) {
-      if (c.detached.indexOf(o.role) < 0 || !(o.timed ? r.feeUsed : /^cost-/.test(o.role) && r.costsUsed)) return;
+      if (c.detached.indexOf(o.role) < 0 || !(o.timed && r.feeUsed)) return;
       var key = c.id + '-' + o.role, it = doc.data.items.filter(function (x) { return !x.calc && (x.from === key || x.id === key); })[0];
       if (!it || !hasKrw(it) || lineKrw(it) !== o.qty * o.krw) out.push(o.ko.name);
     });
@@ -1413,8 +1401,7 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     if (S.ship) ad.push(chk('addons.ship', '해외 발송 +' + won(P.ship)));
     if (ad.length) kids.push(h('fieldset', null, [h('legend', { text: '추가 옵션' }), h('div', { class: 'opts' }, ad)]));
     kids.push(h('fieldset', null, [h('legend', { text: '실비 (원, 쓴 금액 그대로)' }),
-      h('div', { class: 'g3' }, P.costs.map(function (k) { return field(k.label, inp('costs.' + k.id, k.label, { type: 'number', step: 1, min: 0, inputmode: 'numeric' })); })),
-      chk('handling', '실비 처리 수수료 ' + P.handling + '% 붙이기')
+      h('div', { class: 'g3' }, P.costs.map(function (k) { return field(k.label, inp('costs.' + k.id, k.label, { type: 'number', step: 1, min: 0, inputmode: 'numeric' })); }))
     ]));
     kids.push(h('div', { class: 'g2' }, [
       field('문서 메모 · 한국어', inp('note.ko', '메모 한국어', { lang: 'ko', placeholder: '예: 명동 매장 → 롯데호텔 로비' })),
@@ -1553,7 +1540,7 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     if (!isLocked()) (d.data.calcs || []).forEach(function (c, i) {
       var n = '계산기 ' + (i + 1) + ': ', s = startMs(c), a = Date.parse(c.asked), drift = calcDrift(c);
       if (!c.note.ko.trim() !== !c.note.en.trim()) errs.push(n + '문서 메모가 ' + (c.note.ko.trim() ? '한국어' : '영어') + '에만 있어요. 두 언어 모두 쓰거나 둘 다 비워 주세요.');
-      if (drift.length) warns.push(n + '직접 고친 ' + drift.map(function (x) { return '‘' + x + '’'; }).join(', ') + ' 금액이 계산기와 달라요. 할증이나 실비 수수료는 계산기 금액으로 계산돼 있으니, 금액은 계산기에서 바꾸거나 그 줄들도 직접 고쳐 주세요.');
+      if (drift.length) warns.push(n + '직접 고친 ' + drift.map(function (x) { return '‘' + x + '’'; }).join(', ') + ' 금액이 계산기와 달라요. 할증은 계산기 금액으로 계산돼 있으니, 금액은 계산기에서 바꾸거나 할증 줄도 직접 고쳐 주세요.');
       if (stale(c)) warns.push(n + '만들 때의 가격표로 계산돼 있어요. 지금 사이트 가격으로 바꾸려면 계산기에서 ‘지금 가격으로 다시 계산’을 누르세요.');
       if (c.lead !== 'auto' && c.night !== 'auto') return;
       if (!(s > 0)) warns.push(n + (c.date ? '시작 시각이' : '날짜와 시작 시각이') + ' 없어서 급행·야간 할증을 자동으로 정하지 않았어요.');

@@ -78,9 +78,8 @@ same('parcel: storage after 7 days, a day', SV.parcel.storage, addon('parcel', /
 same('pickup: lost item pickup', byId(SV.pickup.variants, 'lost').krw, won(cat.pickup.included.find((x) => /lost item/i.test(x))));
 same('pickup: same-day urgent delivery', byId(SV.pickup.variants, 'urgent').krw, won(cat.pickup.included.find((x) => /urgent/i.test(x))));
 same('genie: on site, per hour (catalog)', byId(SV.genie.variants, 'onsite').krw, won(cat.genie.unit));
-['instore', 'online'].forEach((k) => same(`${k}: item handling minimum included`, SV[k].itemMin, won(cat[k].included.find((x) => /handling/i.test(x)))));
-const hm = /(\d+(?:\.\d+)?)% handling/.exec(en.services.lead);
-same('handling fee %', PR.handling, hm ? +hm[1] : null);
+// Actual costs are charged at what we pay: neither the site nor the calculator adds a fee to them.
+if (/handling/i.test(JSON.stringify(en)) || PR.handling != null) errors.push('a handling fee on actual costs is back on the site or in the calculator');
 
 // Timing, distance and size on the prices page: labels from en.json, amounts from pages.mjs
 const timing = list('timing').map((t) => parseFloat(String(t).replace(/[+%]/g, '')));

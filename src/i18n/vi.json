@@ -146,7 +146,7 @@
     "title": "Dịch vụ và bảng giá | Haedurio",
     "description": "Các dịch vụ giá cố định tại Seoul: đặt chỗ nhà hàng và salon tóc, mua hộ, xếp hàng mua hàng pop-up, chạy việc vặt, phiên dịch, bưu kiện và tìm đồ thất lạc.",
     "h1": "Dịch vụ và bảng giá",
-    "lead": "Mọi mức giá đều cố định trước khi bạn thanh toán. Tiền hàng, đồ ăn và cước taxi được tính theo giá thực tế, cộng phí xử lý 4,5%.",
+    "lead": "Mọi mức giá đều cố định trước khi bạn thanh toán. Tiền hàng, đồ ăn và cước taxi được tính theo giá thực tế.",
     "filterLabel": "Lọc dịch vụ theo danh mục",
     "all": "Tất cả",
     "listLabel": "Dịch vụ",
@@ -270,8 +270,7 @@
       "blurb": "Chúng tôi đến cửa hàng, mua hàng giúp bạn và gửi ảnh cho bạn xem trước khi thanh toán.",
       "included": [
         "Đến cửa hàng và mua hàng",
-        "Ảnh chụp sản phẩm trước khi mua",
-        "Phí xử lý 4,5% trên tiền hàng (đã bao gồm mức tối thiểu {won:8000})"
+        "Ảnh chụp sản phẩm trước khi mua"
       ],
       "need": [
         "Ảnh hoặc link sản phẩm",
@@ -297,8 +296,7 @@
       "blurb": "Chúng tôi đặt mua từ các trang mua sắm Hàn Quốc chỉ chấp nhận tài khoản Hàn Quốc, rồi nhận hàng giúp bạn.",
       "included": [
         "Đặt hàng và thanh toán bằng tài khoản doanh nghiệp của chúng tôi",
-        "Nhận và kiểm tra kiện hàng",
-        "Phí xử lý 4,5% trên tiền hàng (đã bao gồm mức tối thiểu {won:8000})"
+        "Nhận và kiểm tra kiện hàng"
       ],
       "need": [
         "Link sản phẩm, phân loại và số lượng",
@@ -374,9 +372,7 @@
           "price": "từ +{won:16000}"
         }
       ],
-      "notes": [
-        "Chúng tôi không thể lái xe chở bạn. Chúng tôi sẽ gọi taxi và đi cùng bạn."
-      ]
+      "notes": []
     },
     "remote": {
       "name": "Phiên dịch từ xa",
@@ -539,7 +535,7 @@
   },
   "prices": {
     "title": "Bảng giá và hoàn tiền | Haedurio",
-    "description": "Cách Haedurio báo giá: phí dịch vụ cố định, chi phí thực tế tính theo giá gốc cộng phí xử lý 4,5%, và phụ phí chỉ khi cần. Kèm quy định hoàn tiền nếu chúng tôi không hoàn thành được.",
+    "description": "Cách Haedurio báo giá: phí dịch vụ cố định, chi phí thực tế tính theo giá gốc, và phụ phí chỉ khi cần. Kèm quy định hoàn tiền nếu chúng tôi không hoàn thành được.",
     "h1": "Bạn sẽ trả những gì",
     "lead": "Phí cố định cho từng việc, chi phí thực tế tính đúng giá gốc, và phụ phí chỉ khi công việc cần đến. Bạn biết tổng số tiền trước khi thanh toán.",
     "equationLabel": "Phí dịch vụ cộng chi phí thực tế cộng phụ phí bằng báo giá của bạn",
@@ -550,7 +546,7 @@
       },
       {
         "title": "Chi phí thực tế",
-        "text": "Tiền hàng, đồ ăn, taxi, tiền đặt cọc và cước gửi hàng, tính theo giá gốc cộng phí xử lý 4,5%."
+        "text": "Tiền hàng, đồ ăn, taxi, tiền đặt cọc và cước gửi hàng, tính theo giá gốc."
       },
       {
         "title": "Phụ phí",
@@ -569,8 +565,7 @@
     "lines": [
       "Chạy việc vặt tận nơi, giờ đầu tiên",
       "Giao nhận tại sảnh khách sạn",
-      "Cước taxi, theo giá thực tế",
-      "Phí xử lý, 4,5% cước taxi"
+      "Cước taxi, theo giá thực tế"
     ],
     "total": "Tổng cộng",
     "paidNote": "Thanh toán trước khi bắt đầu. Ảnh lúc lấy đồ và lúc giao tại sảnh được gửi qua tin nhắn cho bạn.",
@@ -772,10 +767,6 @@
         "a": "Không. Luật Hàn Quốc không cho phép chúng tôi đặt lịch hoặc giới thiệu phòng khám, hay mua vé cho người khác. Chúng tôi có thể đi cùng và phiên dịch cho bạn tại phòng khám bạn tự đặt lịch, và chỉ cho bạn nơi bán vé chính thức."
       },
       {
-        "q": "Haedurio có thể lái xe đưa tôi đi đâu đó không?",
-        "a": "Không. Chúng tôi không thể chở khách bằng xe của mình. Chúng tôi sẽ gọi taxi cho bạn và đi cùng nếu bạn cần hỗ trợ khi đến nơi."
-      },
-      {
         "q": "Nếu Haedurio không hoàn thành được việc của tôi thì sao?",
         "a": "Việc chỉ làm online được hoàn lại toàn bộ phí. Nếu chúng tôi đã xuất phát, một phần phí sẽ được giữ lại. Khoản tiền chưa dùng cho tiền hàng, đồ ăn hoặc taxi luôn được hoàn lại.",
         "link": "Xem quy định hoàn tiền"
@@ -811,7 +802,6 @@
       "Mua hoặc gửi thuốc",
       "Mua rượu bia hoặc thuốc lá",
       "Cho mượn số điện thoại hoặc tài khoản để xác minh danh tính",
-      "Chở khách bằng xe của chúng tôi",
       "Giấy tờ hành chính hoặc tư vấn pháp lý",
       "Đặt khách sạn, vé máy bay, vé tàu hoặc tour",
       "Đổi tiền hoặc chuyển tiền"
@@ -872,7 +862,7 @@
   },
   "legal": {
     "updated": "Cập nhật lần cuối: {date}",
-    "date": "27 tháng 10 năm 2026",
+    "date": "4 tháng 11 năm 2026",
     "translationNote": "Bản dịch được cung cấp để thuận tiện cho bạn. Nếu bản dịch có điểm khác với bản tiếng Anh, bản tiếng Anh sẽ được áp dụng.",
     "contents": "Mục lục"
   },
@@ -909,7 +899,7 @@
       {
         "h": "Chi phí thực tế",
         "p": [
-          "Tiền hàng, đồ ăn, cước taxi, tiền đặt cọc và cước gửi hàng được tính đúng bằng số tiền chúng tôi thực trả, cộng phí xử lý 4,5%. Chúng tôi gửi hóa đơn hoặc ảnh chụp làm bằng chứng. Khoản tiền không dùng đến sẽ được hoàn lại cho bạn."
+          "Tiền hàng, đồ ăn, cước taxi, tiền đặt cọc và cước gửi hàng được tính đúng bằng số tiền chúng tôi thực trả. Chúng tôi gửi hóa đơn hoặc ảnh chụp làm bằng chứng. Khoản tiền không dùng đến sẽ được hoàn lại cho bạn."
         ]
       },
       {
@@ -930,7 +920,7 @@
       {
         "h": "Những việc chúng tôi không làm",
         "p": [
-          "Chúng tôi không đặt lịch hoặc giới thiệu phòng khám, bệnh viện; không mua hoặc bán lại vé sự kiện; không mua hoặc giao thuốc, rượu bia hay thuốc lá; không cho mượn số điện thoại hoặc tài khoản để xác minh danh tính; không chở khách bằng xe của chúng tôi; không soạn hoặc nộp giấy tờ cho cơ quan nhà nước; không tư vấn pháp lý; không đặt khách sạn, vé máy bay, vé tàu hoặc tour; và không đổi tiền hay chuyển tiền. Chúng tôi cũng không xử lý bất cứ thứ gì bị pháp luật Hàn Quốc cấm. Tuy vậy, chúng tôi vẫn có thể đi cùng và phiên dịch cho bạn, chẳng hạn tại phòng khám do bạn tự đặt lịch."
+          "Chúng tôi không đặt lịch hoặc giới thiệu phòng khám, bệnh viện; không mua hoặc bán lại vé sự kiện; không mua hoặc giao thuốc, rượu bia hay thuốc lá; không cho mượn số điện thoại hoặc tài khoản để xác minh danh tính; không soạn hoặc nộp giấy tờ cho cơ quan nhà nước; không tư vấn pháp lý; không đặt khách sạn, vé máy bay, vé tàu hoặc tour; và không đổi tiền hay chuyển tiền. Chúng tôi cũng không xử lý bất cứ thứ gì bị pháp luật Hàn Quốc cấm. Tuy vậy, chúng tôi vẫn có thể đi cùng và phiên dịch cho bạn, chẳng hạn tại phòng khám do bạn tự đặt lịch."
         ]
       },
       {
