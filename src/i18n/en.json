@@ -47,11 +47,11 @@
   },
   "home": {
     "title": "Haedurio | Seoul concierge for bookings, shopping and errands",
-    "description": "Bookings, shopping, errands and interpretation in Seoul for visitors. Message us in your language and get a fixed price before you pay.",
+    "description": "Bookings, shopping and errands in Seoul for visitors. Message us in your language and get a fixed price before you pay.",
     "h1a": "Consider",
     "h1b": "it done.",
     "footnoteLabel": "Footnote: what the name means",
-    "lead": "Bookings, shopping, errands and interpretation in Seoul. Message us in your language, and you’ll see a fixed price before you pay.",
+    "lead": "Bookings, shopping and errands in Seoul. Message us in your language, and you’ll see a fixed price before you pay.",
     "ctaSecondary": "See services and prices",
     "footnote": "Haedurio ({name}) comes from {phrase}, Korean for “We’ll do it for you.”",
     "exampleTitle": "Your list in Seoul",
@@ -144,7 +144,7 @@
   },
   "services": {
     "title": "Services and prices | Haedurio",
-    "description": "Fixed-price services in Seoul: restaurant and salon bookings, shopping, pop-up open-runs, errands, interpretation, parcels and lost items.",
+    "description": "Fixed-price services in Seoul: restaurant and salon bookings, shopping, pop-up open-runs, errands, courier runs, parcels and lost items.",
     "h1": "Services and prices",
     "lead": "Every price is fixed before you pay. Items, food and taxi fares are charged at cost.",
     "filterLabel": "Show services by category",
@@ -165,17 +165,12 @@
       "errand": {
         "name": "Errands",
         "short": "Errands",
-        "home": "Pickups, hotel deliveries and queueing around Seoul"
-      },
-      "lang": {
-        "name": "Interpretation",
-        "short": "Interpretation",
-        "home": "On a call or by your side"
+        "home": "Courier runs, pickups, hotel deliveries and queueing around Seoul"
       },
       "parcel": {
-        "name": "Parcels and shipping",
+        "name": "Parcels",
         "short": "Parcels",
-        "home": "We receive, store and ship abroad for you"
+        "home": "We receive and store parcels, then send them on within Korea"
       },
       "lost": {
         "name": "Lost items and urgent help",
@@ -203,8 +198,8 @@
     "ifNot": "If we can’t finish it",
     "refunds": {
       "A": "If we can’t get it done, the service fee is refunded in full.",
-      "B": "Once we’ve set off, 35% of the service fee (at least {won:31000}) is kept and the rest is refunded.",
-      "C": "Once queueing or the visit has started, 50% of the service fee (at least {won:70000}) is kept and the rest is refunded.",
+      "B": "Once we’ve set off, or if you cancel less than 24 hours before the start, 35% of the service fee (at least {won:31000}) is kept and the rest is refunded.",
+      "C": "If you cancel less than 24 hours before the start, 35% of the service fee (at least {won:31000}) is kept. Once queueing has started, it’s 50% (at least {won:56000}). The rest is refunded.",
       "Q": "The refund rule is written on your quote before you pay."
     },
     "refundTail": "Money left over from items, food or taxis always comes back to you.",
@@ -217,7 +212,8 @@
       "blurb": "We call or message a restaurant, hair salon or shop in Korean and confirm your booking.",
       "included": [
         "One booking, made by phone or message",
-        "A screenshot of the confirmation"
+        "A screenshot of the confirmation",
+        "Similar places suggested if your first choice is full"
       ],
       "need": [
         "The place’s name or a map link",
@@ -256,7 +252,7 @@
       "addons": [
         {
           "label": "One hour of research",
-          "price": "{won:22000}"
+          "price": "{won:18000}"
         }
       ],
       "notes": [
@@ -280,10 +276,6 @@
         {
           "label": "Each extra hour",
           "price": "+{won:56000}"
-        },
-        {
-          "label": "Ship it abroad",
-          "price": "+{won:48000}"
         }
       ],
       "notes": [
@@ -300,17 +292,13 @@
       ],
       "need": [
         "Product link, options and quantity",
-        "Where you want it delivered"
+        "A delivery address in Korea"
       ],
-      "addons": [
-        {
-          "label": "Ship it abroad",
-          "price": "+{won:48000}"
-        }
-      ],
+      "addons": [],
       "notes": [
         "Once ordered, the shop’s own return policy applies.",
-        "We don’t lend phone numbers or accounts for identity checks."
+        "We don’t lend phone numbers or accounts for identity checks.",
+        "We deliver to addresses in Korea only, such as your hotel."
       ]
     },
     "openrun": {
@@ -330,15 +318,17 @@
       "addons": [
         {
           "label": "Each extra hour in the queue",
-          "price": "+{won:37000}"
+          "price": "+{won:30000}"
         },
         {
-          "label": "Ship it abroad",
-          "price": "+{won:48000}"
+          "label": "If we get a limited item for you",
+          "price": "+{won:50000}"
         }
       ],
       "notes": [
-        "Limited items can sell out. Time in the queue is still charged."
+        "Limited items can sell out. Time in the queue is still charged, but the {won:50000} is added only if we get the item.",
+        "For luxury brands, the success fee is quoted separately.",
+        "Arriving at a set time is included, so there’s no fixed-arrival extra."
       ]
     },
     "errand": {
@@ -374,88 +364,24 @@
       ],
       "notes": []
     },
-    "remote": {
-      "name": "Remote interpretation",
-      "unit": "per 30 minutes",
-      "blurb": "Live interpretation between Korean and your language, on a voice or video call.",
+    "courier": {
+      "name": "Courier run",
+      "unit": "plus the courier fare",
+      "blurb": "When something only needs carrying, we book a motorbike or van courier in Seoul, explain the job to the driver in Korean and track it to the door.",
       "included": [
-        "Interpretation on a three-way or video call"
+        "Booking the courier, by phone or app",
+        "Pickup and drop-off details given to the driver in Korean",
+        "Tracking until delivery, and the courier’s receipt"
       ],
       "need": [
-        "What the call is about",
-        "Who we’ll be talking to"
-      ],
-      "addons": [
-        {
-          "label": "One hour",
-          "price": "{won:62000}"
-        }
-      ],
-      "notes": []
-    },
-    "companion": {
-      "name": "Companion interpretation",
-      "unit": "for the first hour",
-      "blurb": "We meet you at a hospital, pharmacy, office, store or police station and interpret for you there.",
-      "included": [
-        "Meeting you on site",
-        "Interpreting what is said, as it is said"
-      ],
-      "need": [
-        "Place and time",
-        "Your own booking, if the place needs one"
-      ],
-      "addons": [
-        {
-          "label": "Two hours",
-          "price": "{won:182000}"
-        },
-        {
-          "label": "Each extra hour",
-          "price": "+{won:56000}"
-        }
-      ],
-      "notes": [
-        "You book and pay the clinic or office yourself.",
-        "We interpret only. We don’t give medical or legal advice."
-      ]
-    },
-    "pro": {
-      "name": "Professional interpretation",
-      "unit": "per hour",
-      "blurb": "On-site interpretation for consultations, meetings and viewings.",
-      "included": [
-        "A prepared interpreter on site"
-      ],
-      "need": [
-        "Date, place and topic",
-        "Documents to read in advance, if any"
-      ],
-      "addons": [
-        {
-          "label": "Two hours",
-          "price": "{won:186000}"
-        }
-      ],
-      "notes": [
-        "We interpret only. We don’t give medical or legal opinions."
-      ]
-    },
-    "shipping": {
-      "name": "International shipping",
-      "unit": "plus postage",
-      "blurb": "We repack your items and send them abroad with tracking.",
-      "included": [
-        "Careful repacking",
-        "Drop-off and a tracking number"
-      ],
-      "need": [
-        "The recipient’s address and phone number, in English",
-        "What’s inside"
+        "Pickup and drop-off addresses",
+        "What the item is, and roughly how big it is",
+        "Who hands it over and who receives it"
       ],
       "addons": [],
       "notes": [
-        "We can’t ship medicine or anything banned in Korea or the destination country."
+        "The courier fare is charged at cost, with no distance, size or timing extras from us. For a rush, we book an express courier at its own fare.",
+        "If someone has to collect it with your authorization or carry it by hand, choose an on-site errand or same-day delivery."
       ]
     },
     "parcel": {
@@ -493,7 +419,9 @@
         "What it looks like"
       ],
       "addons": [],
-      "notes": []
+      "notes": [
+        "If the item isn’t found, the check still counts as done. You get a summary of every place we checked."
+      ]
     },
     "pickup": {
       "name": "Pickup and same-day delivery",
@@ -515,7 +443,10 @@
           "price": "from +{won:16000}"
         }
       ],
-      "notes": []
+      "notes": [
+        "Same-day delivery is for things a person has to carry by hand. The price already includes the rush, so no rush extra is added. If it only needs carrying, a courier run costs less.",
+        "Lost something on the Seoul subway? The subway lost-and-found can send it to an address in Korea for {won:5000} to {won:7000}, depending on weight. We’ll tell you about this first. If you need help applying, we charge it as an info check."
+      ]
     },
     "genie": {
       "name": "Something else",
@@ -546,7 +477,7 @@
       },
       {
         "title": "Actual costs",
-        "text": "Items, food, taxis, deposits and postage, at cost."
+        "text": "Items, food, taxis, courier fares and deposits, at cost."
       },
       {
         "title": "Extras",
@@ -570,11 +501,10 @@
     "total": "Total",
     "paidNote": "Paid before we start. Photos at pickup and at the lobby are sent to your chat.",
     "extrasTitle": "Extras, only when needed",
-    "extrasLead": "Your quote lists every extra by name. When two timing extras apply, they multiply: same day at night is ×1.35, then ×1.3.",
+    "extrasLead": "Your quote lists every extra by name. Timing extras are added up, not multiplied: same day at night is +35% plus +30%, so +65% of the service fee.",
     "timingTitle": "Timing",
     "timing": [
       "Night work, 22:00 to 02:00",
-      "Within 48 hours",
       "Within 24 hours",
       "Same day",
       "Within 3 hours",
@@ -590,23 +520,23 @@
       "Over 20 kg, or needs two people"
     ],
     "included": "Included",
-    "outside": "Outside Seoul, we quote each trip separately.",
+    "outside": "Outside Seoul, we quote each trip separately. Your quote also says whether travel time counts toward the hours.",
     "refundsTitle": "If we can’t finish",
-    "refundsLead": "How much of the service fee comes back depends on whether we had already set off.",
+    "refundsLead": "How much of the service fee comes back depends on how far the task had gone. Cancelling an on-site task less than 24 hours before the start counts as if we had set off.",
     "refunds": [
       {
         "title": "Online and remote tasks",
-        "text": "Bookings, info checks, remote interpretation, online orders before they’re placed.",
+        "text": "Bookings, info checks, courier runs and online orders before they’re placed.",
         "bar": "Full fee back"
       },
       {
         "title": "On-site tasks, once we’ve set off",
-        "text": "Errands, in-store purchases, pickups and professional interpretation. We keep 35% of the fee, at least {won:31000}.",
+        "text": "Errands, in-store purchases and pickups. We keep 35% of the fee, at least {won:31000}.",
         "bar": "Up to 65% back"
       },
       {
-        "title": "Queueing and companion tasks, once started",
-        "text": "Pop-up open-runs and companion interpretation. We keep 50% of the fee, at least {won:70000}.",
+        "title": "Queueing, once started",
+        "text": "Pop-up open-runs. We keep 50% of the fee, at least {won:56000}.",
         "bar": "Up to 50% back"
       }
     ],
@@ -628,7 +558,6 @@
       "info": "Info check",
       "shop": "Shopping",
       "errand": "An errand",
-      "interp": "Interpretation",
       "parcel": "Parcels",
       "lost": "Lost item",
       "other": "Something else"
@@ -764,11 +693,11 @@
       },
       {
         "q": "Can you book a clinic or buy concert tickets for me?",
-        "a": "No. Korean law doesn’t allow us to book or recommend clinics, or to buy tickets for other people. We can go with you and interpret at a clinic you booked yourself, and point you to the official ticket seller."
+        "a": "No. Korean law doesn’t allow us to book or recommend clinics, or to buy tickets for other people. We can point you to the official ticket seller."
       },
       {
         "q": "What if you can’t finish my task?",
-        "a": "Online-only tasks are refunded in full. If we’ve already set off, part of the fee is kept. Money you haven’t used for items, food or taxis always comes back.",
+        "a": "Online-only tasks are refunded in full. For on-site tasks, part of the fee is kept if we’ve already set off, or if you cancel less than 24 hours before the start. Money you haven’t used for items, food or taxis always comes back.",
         "link": "Read the refund rules"
       },
       {
@@ -881,7 +810,7 @@
       {
         "h": "What we do",
         "p": [
-          "We carry out the tasks listed on our services page on your behalf and following your instructions: bookings, information checks, shopping, errands, interpretation, parcels and lost-item help. We only take on tasks that are legal in Korea."
+          "We carry out the tasks listed on our services page on your behalf and following your instructions: bookings, information checks, shopping, errands, courier runs, parcels and lost-item help. We only take on tasks that are legal in Korea."
         ]
       },
       {
@@ -899,34 +828,35 @@
       {
         "h": "Actual costs",
         "p": [
-          "Items, food, taxi fares, deposits and postage are charged at the price we actually pay. We send receipts or photos as proof. Money that isn’t used comes back to you."
+          "Items, food, taxi fares, courier fees and deposits are charged at the price we actually pay. We send receipts or photos as proof. Money that isn’t used comes back to you."
         ]
       },
       {
         "h": "Cancellations and refunds",
         "p": [
-          "You can cancel at any time before a task starts, and get back everything you paid.",
+          "You can cancel before a task starts and get back everything you paid. For on-site tasks, this applies until 24 hours before the agreed start time. After that, 35% of the service fee (at least {won:31000}) is kept and the rest is refunded.",
           "If we can’t finish a task, or you cancel after it starts, the refund rule written on your quote applies:"
         ],
         "list": [
           "Online and remote tasks: the service fee is refunded in full.",
           "On-site tasks, once we’ve set off: 35% of the service fee (at least {won:31000}) is kept and the rest is refunded.",
-          "Queueing and companion tasks, once queueing or the visit has started: 50% of the service fee (at least {won:70000}) is kept and the rest is refunded."
+          "Queueing tasks, once queueing has started: 50% of the service fee (at least {won:56000}) is kept and the rest is refunded."
         ],
         "after": [
+          "A lost item check is done once we’ve searched and sent you what we found, even if the item isn’t found.",
           "Unused money for items, food or taxis is always refunded. Cancellation fees charged by shops, venues or couriers can’t be refunded. We send refunds to the original payment method within 3 business days of confirming them."
         ]
       },
       {
         "h": "What we don’t do",
         "p": [
-          "We don’t book or recommend clinics or hospitals, buy or resell event tickets, buy or deliver medicine, alcohol or tobacco, lend phone numbers or accounts for identity checks, prepare or submit government documents, give legal advice, book hotels, flights, trains or tours, or exchange or transfer money. We also don’t handle anything banned by Korean law. We can still go with you and interpret, for example at a clinic you booked yourself."
+          "We don’t book or recommend clinics or hospitals, buy or resell event tickets, buy or deliver medicine, alcohol or tobacco, lend phone numbers or accounts for identity checks, prepare or submit government documents, give legal advice, book hotels, flights, trains or tours, or exchange or transfer money. We also don’t handle anything banned by Korean law."
         ]
       },
       {
         "h": "Your part",
         "p": [
-          "Please give us accurate details and tell us about anything that could affect the task. Only ask for things that are legal for you to buy, carry or ship. When we ship abroad, you are responsible for the import rules and duties of the destination country."
+          "Please give us accurate details and tell us about anything that could affect the task. Only ask for things that are legal for you to buy, carry or ship."
         ]
       },
       {

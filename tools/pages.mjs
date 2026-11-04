@@ -262,7 +262,7 @@ export function prices(c) {
   const amounts = [95000, 8000, 14000];
   const total = amounts.reduce((a, b) => a + b, 0);
   const lines = p.lines.map((l, i) => `<li><span>${c.t(l)}</span><span class="receipt__dots" aria-hidden="true"></span><b>${esc(c.won(amounts[i]))}</b></li>`).join('');
-  const timing = ['+30%', '+10%', '+20%', '+35%', '+60%', '+20%'];
+  const timing = ['+30%', '+20%', '+35%', '+60%', '+10%'];
   const dist = [null, 16000, 31000, 54000, 16000, 39000];
   const kvT = p.timing.map((l, i) => `<li><span>${c.t(l)}</span><b>${timing[i]}</b></li>`).join('');
   const kvD = p.distance.map((l, i) => `<li><span>${c.t(l)}</span><b>${dist[i] === null ? esc(p.included) : '+' + esc(c.won(dist[i]))}</b></li>`).join('');

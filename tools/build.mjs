@@ -38,6 +38,12 @@ function write(rel, html) {
 }
 const outPath = (lang, page) => path.join(lang.path, SLUG[page], 'index.html');
 
+// The lowest and highest menu prices: service prices, and the fixed prices written in the catalog (pickup, same-day delivery).
+const menuPrices = site.services.flatMap((s) => [s.won, s.won2])
+  .concat(Object.values(en.catalog).flatMap((d) => d.included.map((x) => +((/\{won:(\d+)\}/.exec(x) || [])[1]))))
+  .filter((n) => n > 0);
+const priceRange = `₩${Math.min(...menuPrices).toLocaleString('en-US')}–₩${Math.max(...menuPrices).toLocaleString('en-US')}`;
+
 function business(c, extra = {}) {
   const k = site.contact;
   const b = site.business;
@@ -53,7 +59,7 @@ function business(c, extra = {}) {
     description: en.home.description,
     telephone: ['+82-70-8028-3008', '+82-10-4982-4357'],
     email: k.email,
-    priceRange: '₩9,000–₩342,000',
+    priceRange,
     currenciesAccepted: 'KRW',
     address: { '@type': 'PostalAddress', streetAddress: 'Eonju-ro 425', addressLocality: 'Gangnam-gu', addressRegion: 'Seoul', addressCountry: 'KR' },
     geo: { '@type': 'GeoCoordinates', latitude: 37.5172, longitude: 127.0473 },

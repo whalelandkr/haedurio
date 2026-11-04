@@ -535,7 +535,7 @@
     const state = {
       quoteNo: '', quoteDate: '', validUntil: '', customerName: '', contactChannel: '', requestSummary: '', requestSummaryEn: '',
       acquisitionChannel: '', quoteStatus: 'draft', inquiryTags: '',
-      usdKrwRate: 1553, rateDate: '', fxBufferPercent: 1.5, depositRounding: 'ceil', items: []
+      usdKrwRate: 1344, rateDate: '', fxBufferPercent: 1.5, depositRounding: 'ceil', items: []
     };
 
     const $ = (selector) => document.querySelector(selector);
@@ -628,7 +628,7 @@
       $('#loadSampleBtn').addEventListener('click', loadOpenRunSample);
       $('#resetBtn').addEventListener('click', () => {
         if (!confirm('입력 내용을 초기화할까요?')) return;
-        state.quoteNo = generateQuoteNo(); state.quoteDate = todayISO(); state.validUntil = todayISO(7); state.customerName = ''; state.contactChannel = ''; state.requestSummary = ''; state.requestSummaryEn = ''; state.acquisitionChannel = ''; state.quoteStatus = 'draft'; state.inquiryTags = ''; state.usdKrwRate = 1553; state.rateDate = todayISO(); state.fxBufferPercent = 1.5; state.depositRounding = 'ceil'; state.items = [defaultItem('remote')]; renderAll();
+        state.quoteNo = generateQuoteNo(); state.quoteDate = todayISO(); state.validUntil = todayISO(7); state.customerName = ''; state.contactChannel = ''; state.requestSummary = ''; state.requestSummaryEn = ''; state.acquisitionChannel = ''; state.quoteStatus = 'draft'; state.inquiryTags = ''; state.usdKrwRate = 1344; state.rateDate = todayISO(); state.fxBufferPercent = 1.5; state.depositRounding = 'ceil'; state.items = [defaultItem('remote')]; renderAll();
       });
       $('#saveBtn').addEventListener('click', () => { syncHeaderFromInputs(); localStorage.setItem('haedurioQuoteBuilderV6', JSON.stringify(state)); alert('브라우저에 임시 저장했습니다.'); });
       $('#loadBtn').addEventListener('click', () => {
@@ -1163,7 +1163,7 @@
       return parts.join('\n');
     }
     function loadOpenRunSample() {
-      state.quoteNo = generateQuoteNo(); state.quoteDate = todayISO(); state.validUntil = todayISO(5); state.customerName = '예시 고객'; state.contactChannel = 'Instagram DM'; state.requestSummary = '성수 팝업스토어 한정판 상품을 오픈런으로 구매한 뒤 재포장하여 해외로 배송하는 요청'; state.requestSummaryEn = 'Request to buy a limited item from a Seongsu pop-up store through open-run support, then repack and ship it internationally.'; state.acquisitionChannel = 'Sample'; state.quoteStatus = 'draft'; state.inquiryTags = '현장, 오픈런, 구매, 배송'; state.usdKrwRate = 1553; state.rateDate = todayISO(); state.fxBufferPercent = 1.5; state.depositRounding = 'ceil';
+      state.quoteNo = generateQuoteNo(); state.quoteDate = todayISO(); state.validUntil = todayISO(5); state.customerName = '예시 고객'; state.contactChannel = 'Instagram DM'; state.requestSummary = '성수 팝업스토어 한정판 상품을 오픈런으로 구매한 뒤 재포장하여 해외로 배송하는 요청'; state.requestSummaryEn = 'Request to buy a limited item from a Seongsu pop-up store through open-run support, then repack and ship it internationally.'; state.acquisitionChannel = 'Sample'; state.quoteStatus = 'draft'; state.inquiryTags = '현장, 오픈런, 구매, 배송'; state.usdKrwRate = 1344; state.rateDate = todayISO(); state.fxBufferPercent = 1.5; state.depositRounding = 'ceil';
       const item1 = { ...defaultItem('remote'), customerTitle: '팝업스토어 사전 확인', customerTitleEn: 'Pop-up store pre-check', titleAuto: false, customerDescription: '팝업 운영시간, 입장 방식, 구매 제한, 재고 가능성, 결제 가능 여부를 사전에 확인합니다.', customerDescriptionEn: 'We will pre-check the pop-up operating hours, entry method, purchase limits, stock possibility, and payment availability.', category: 'remote', subtask: '리서치 / 비교', workTime: '1', selectedMethods: ['onlineSearch', 'phoneCall', 'chatMessage'], selectedConditions: ['multiCompareSmall'], selectedRisks: ['stockUncertain'], deadline: 'within48' };
       const item2 = { ...defaultItem('onsite'), customerTitle: '팝업스토어 오픈런 구매 대행', customerTitleEn: 'Pop-up store open-run purchase support', titleAuto: false, customerDescription: '현장 방문, 오픈런, 줄서기, 구매 시도, 상품 검수를 포함합니다. 오픈런과 줄서기는 별도 조건으로 계산했습니다.', customerDescriptionEn: 'Includes on-site visit, open-run early arrival, queueing, purchase attempt, and item inspection. Open-run and queueing are calculated as separate conditions.', category: 'onsite', subtask: '현장 구매', workTime: '1', timeMode: 'queueIncluded', selectedMethods: ['chatMessage'], selectedConditions: ['openRun', 'queue', 'limitedStockNoFee', 'productCheck'], selectedRisks: ['stockUncertain', 'attemptWork'], settlementType: 'attemptBased', queueHours: 4, deadline: 'sameday', fixedTime: true, fixedTimeKst: '오픈 당일 오전 9:30 KST 현장 도착 기준', productDepositKrw: 230000, quickTaxiDepositKrw: 30000 };
       const item3 = { ...defaultItem('shipping'), customerTitle: '재포장 및 해외 배송', customerTitleEn: 'Repacking and international shipping', titleAuto: false, customerDescription: '상품 확인 후 재포장하고 해외 배송 접수를 진행합니다. 실제 해외배송비는 실비 예치금으로 정산합니다.', customerDescriptionEn: 'After checking the item, we will repack it and arrange international shipping. Actual international shipping costs will be settled from the deposit.', category: 'shipping', subtask: '해외 배송', workTime: '0.5', selectedMethods: ['internationalSend'], selectedConditions: ['repacking'], shippingDepositKrw: 55000, otherDepositKrw: 10000 };

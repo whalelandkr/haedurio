@@ -1111,14 +1111,16 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
   // and the timing, distance and size extras on the prices page (tools/pages.mjs).
   // When a price changes there, change it here too. node tools/check-pricing.mjs lists any that differ.
   var PR = {
+    // Timing extras are added up: each one is a share of the service fee. (Price lists saved before
+    // November 2026 have no 'combine' and multiply them, so those quotes keep their amounts.)
+    combine: 'add',
     lead: [
-      { id: 'h48', pct: 10, ko: '48시간 이내', en: 'Within 48 hours' },
       { id: 'h24', pct: 20, ko: '24시간 이내', en: 'Within 24 hours' },
       { id: 'same', pct: 35, ko: '당일', en: 'Same day' },
       { id: 'h3', pct: 60, ko: '3시간 이내', en: 'Within 3 hours' }
     ],
     night: { pct: 30, ko: '야간 작업 22:00–02:00', en: 'Night work, 22:00 to 02:00' },
-    fixed: { pct: 20, ko: '도착 시간 지정', en: 'A fixed arrival time' },
+    fixed: { pct: 10, ko: '도착 시간 지정', en: 'A fixed arrival time' },
     distance: [
       { id: 'central', krw: 0, ko: '서울 도심', en: 'Central Seoul' },
       { id: 'seoul', krw: 16000, ko: '서울 그 외 지역', en: 'Rest of Seoul' },
@@ -1130,11 +1132,10 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
       { id: 'bulky', krw: 16000, ko: '10~20kg 또는 부피가 큼', en: '10 to 20 kg, or bulky' },
       { id: 'heavy', krw: 39000, ko: '20kg 초과 또는 2인 필요', en: 'Over 20 kg, or needs two people' }
     ],
-    ship: 48000,
     costs: [
       { id: 'items', label: '물품값', ko: '물품값 (실비)', en: 'Items, at cost' },
       { id: 'transport', label: '교통비 (택시 등)', ko: '교통비 (실비)', en: 'Taxi and transport, at cost' },
-      { id: 'postage', label: '배송비·우편료', ko: '배송비·우편료 (실비)', en: 'Postage and courier fees, at cost' },
+      { id: 'postage', label: '퀵비·배송비', ko: '퀵비·배송비 (실비)', en: 'Courier and delivery fees, at cost' },
       { id: 'deposit', label: '예약금·보증금', ko: '예약금·보증금 (실비)', en: 'Deposits, at cost' },
       { id: 'other', label: '식비·기타', ko: '식비·기타 (실비)', en: 'Food and other expenses, at cost' }
     ]
@@ -1142,6 +1143,8 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
   // kind: count = price × count · hours = the first block, then each extra hour · perhour = price × hours
   //       variant = one of a few fixed prices · varhours = one of a few hourly prices
   // rushIncluded: the price is already for urgent work, so no rush extra is added automatically.
+  // noFixed: arriving at a set time is part of the service, so there is no fixed-arrival extra.
+  // noTiming: no timing extras at all (a rush is the courier's own express fare, at cost).
   var SV = {
     reservation: { ko: '예약 대행', en: 'Reservation', kind: 'count', krw: 9000, qtyLabel: '예약할 곳 수', unit: { ko: ['곳', '곳'], en: ['place', 'places'] },
       addons: [
@@ -1149,17 +1152,15 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
         { id: 'change', krw: 5000, ko: '나중에 예약 변경·취소', en: 'Change or cancel the booking later' },
         { id: 'follow', krw: 5000, ko: '여러 번 확인이 필요한 곳', en: 'Places that need repeated follow-ups' }
       ] },
-    info: { ko: '정보 확인 (30분 단위)', en: 'Info check, per 30 minutes', kind: 'count', krw: 9000, minutes: 30, qtyLabel: '30분 단위 수 (2 = 1시간)', unit: { ko: ['회', '회'], en: ['', ''] }, research: 22000 },
-    instore: { ko: '매장 구매 대행 (첫 1시간)', en: 'In-store purchase, first hour', kind: 'hours', krw: 102000, first: 1, extra: 56000, onsite: true, size: true, ship: true },
-    online: { ko: '국내 전용 온라인몰 주문', en: 'Korea-only online shop order', kind: 'count', krw: 30000, qtyLabel: '주문 건수', unit: { ko: ['건', '건'], en: ['order', 'orders'] }, ship: true },
-    openrun: { ko: '팝업 오픈런 (대기 2시간 포함)', en: 'Pop-up open-run, up to 2 hours in the queue', kind: 'hours', krw: 342000, first: 2, extra: 37000,
-      extraKo: '추가 대기 시간', extraEn: 'Each extra hour in the queue', hoursLabel: '대기 시간 (시간)', onsite: true, size: true, ship: true },
+    info: { ko: '정보 확인 (30분 단위)', en: 'Info check, per 30 minutes', kind: 'count', krw: 9000, minutes: 30, qtyLabel: '30분 단위 수 (2 = 1시간)', unit: { ko: ['회', '회'], en: ['', ''] }, research: 18000 },
+    instore: { ko: '매장 구매 대행 (첫 1시간)', en: 'In-store purchase, first hour', kind: 'hours', krw: 70000, first: 1, extra: 56000, onsite: true, size: true },
+    online: { ko: '국내 전용 온라인몰 주문', en: 'Korea-only online shop order', kind: 'count', krw: 30000, qtyLabel: '주문 건수', unit: { ko: ['건', '건'], en: ['order', 'orders'] } },
+    openrun: { ko: '팝업 오픈런 (대기 2시간 포함)', en: 'Pop-up open-run, up to 2 hours in the queue', kind: 'hours', krw: 120000, first: 2, extra: 30000,
+      extraKo: '추가 대기 시간', extraEn: 'Each extra hour in the queue', hoursLabel: '대기 시간 (시간)', onsite: true, size: true, noFixed: true,
+      addons: [{ id: 'limited', krw: 50000, ko: '한정 상품 구매 성공 보수', en: 'Success fee, limited item bought for you' }] },
     errand: { ko: '현장 심부름 (첫 1시간)', en: 'On-site errand, first hour', kind: 'hours', krw: 95000, first: 1, extra: 56000, onsite: true, size: true,
       addons: [{ id: 'lobby', krw: 8000, ko: '호텔 로비 전달', en: 'Handoff at the hotel lobby' }] },
-    remote: { ko: '원격 통역 (30분 단위)', en: 'Remote interpretation, per 30 minutes', kind: 'count', krw: 31000, minutes: 30, qtyLabel: '30분 단위 수 (2 = 1시간)', unit: { ko: ['회', '회'], en: ['', ''] } },
-    companion: { ko: '동행 통역 (첫 1시간)', en: 'Companion interpretation, first hour', kind: 'hours', krw: 126000, first: 1, extra: 56000, onsite: true },
-    pro: { ko: '전문 통역', en: 'Professional interpretation', kind: 'perhour', krw: 93000, onsite: true },
-    shipping: { ko: '해외 배송 대행', en: 'International shipping', kind: 'count', krw: 48000, qtyLabel: '보내는 건수', unit: { ko: ['건', '건'], en: ['shipment', 'shipments'] } },
+    courier: { ko: '퀵 대행', en: 'Courier run', kind: 'count', krw: 16000, qtyLabel: '퀵 건수', unit: { ko: ['건', '건'], en: ['run', 'runs'] }, noTiming: true },
     parcel: { ko: '택배 수령·보관', en: 'Parcel receiving', kind: 'count', krw: 28000, qtyLabel: '택배 개수', unit: { ko: ['개', '개'], en: ['parcel', 'parcels'] }, storage: 1500 },
     lostcheck: { ko: '분실물 조회', en: 'Lost item check', kind: 'count', krw: 39000, qtyLabel: '찾을 물건 수', unit: { ko: ['건', '건'], en: ['item', 'items'] } },
     pickup: { ko: '분실물 수령·당일 배송', en: 'Pickup and same-day delivery', kind: 'variant', onsite: true, size: true,
@@ -1173,8 +1174,8 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
         { id: 'onsite', krw: 56000, onsite: true, ko: '기타 요청 (현장, 시간당)', en: 'Something else, on site, per hour' }
       ] }
   };
-  var SV_ORDER = ['reservation', 'info', 'instore', 'online', 'openrun', 'errand', 'remote', 'companion', 'pro', 'shipping', 'parcel', 'lostcheck', 'pickup', 'genie'];
-  var SV_GROUP = { reservation: '예약·정보', info: '예약·정보', instore: '쇼핑', online: '쇼핑', openrun: '쇼핑', errand: '심부름', remote: '통역', companion: '통역', pro: '통역', shipping: '택배·배송', parcel: '택배·배송', lostcheck: '분실물·긴급', pickup: '분실물·긴급', genie: '기타' };
+  var SV_ORDER = ['reservation', 'info', 'instore', 'online', 'openrun', 'errand', 'courier', 'parcel', 'lostcheck', 'pickup', 'genie'];
+  var SV_GROUP = { reservation: '예약·정보', info: '예약·정보', instore: '쇼핑', online: '쇼핑', openrun: '쇼핑', errand: '심부름', courier: '심부름', parcel: '택배', lostcheck: '분실물·긴급', pickup: '분실물·긴급', genie: '기타' };
 
   function pick(list, id) { return list.filter(function (x) { return x.id === id; })[0] || null; }
   function unitOf(pair, n) { return +n === 1 ? pair[0] : pair[1]; }
@@ -1210,6 +1211,8 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
       hours: +x.hours > 0 ? +x.hours : (S.first || 1), qty: +x.qty > 0 ? Math.round(+x.qty) : 1,
       asked: str(x.asked), lead: str(x.lead, 'auto'), night: str(x.night, 'auto'), fixed: !!x.fixed,
       distance: pick(P.distance, x.distance) ? x.distance : 'central', size: pick(P.size, x.size) ? x.size : 'none',
+      // Whether the quote says travel time counts toward the hours ('in') or isn't charged ('free'). Empty: not said.
+      travel: x.travel === 'in' || x.travel === 'free' ? x.travel : '',
       variant: str(x.variant), research: +x.research > 0 ? Math.round(+x.research) : 0, storage: +x.storage > 0 ? Math.round(+x.storage) : 0,
       addons: {}, costs: {}, note: bi(x.note),
       detached: Array.isArray(x.detached) ? x.detached.map(String) : []
@@ -1217,16 +1220,20 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     if (['auto', 'none'].concat(P.lead.map(function (l) { return l.id; })).indexOf(c.lead) < 0) c.lead = 'auto';
     if (['auto', 'on', 'off'].indexOf(c.night) < 0) c.night = 'auto';
     (S.addons || []).forEach(function (a) { c.addons[a.id] = !!(x.addons && x.addons[a.id]); });
+    // Shipping abroad: only in price lists saved before November 2026.
     if (S.ship) c.addons.ship = !!(x.addons && x.addons.ship);
     P.costs.forEach(function (k) { var v = x.costs ? +x.costs[k.id] : 0; c.costs[k.id] = v > 0 ? Math.round(v) : 0; });
     if (S.variants && !pick(S.variants, c.variant)) c.variant = S.variants[0].id;
     return c;
   }
   // A second calculator usually belongs to the same request: it starts from the first one's request time and date.
+  // Travel time counts toward the hours, except for an open-run, whose hours are the time in the queue.
   function newCalc(svc) {
     var first = calcList()[0];
-    return normCalc({ svc: svc, asked: (first && first.asked) || new Date().toISOString(), date: (first && first.date) || kstToday() });
+    return normCalc({ svc: svc, asked: (first && first.asked) || new Date().toISOString(), date: (first && first.date) || kstToday(), travel: svc === 'openrun' ? 'free' : 'in' });
   }
+  // On-site work charged by the hour: the quote says whether travel time is part of those hours.
+  function travelCalc(c) { var k = c.pl.S.kind; return onsiteCalc(c) && (k === 'hours' || k === 'perhour' || k === 'varhours'); }
 
   // How long the work runs, to see whether it reaches into the night. Count services use their 30-minute blocks.
   function calcHours(c) {
@@ -1237,13 +1244,15 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     return 0;
   }
   function startMs(c) { return c.date && c.time ? Date.parse(c.date + 'T' + c.time + ':00+09:00') : NaN; }
-  // Rush extras by how soon the work starts after the request: within 3 hours, the same day, within 24 or 48 hours.
+  // Rush extras by how soon the work starts after the request: within 3 hours, the same day, within 24 hours
+  // (and within 48 hours, in price lists saved before November 2026).
   function autoLead(c) {
     var s = startMs(c), a = Date.parse(c.asked);
     if (!(s > 0) || !(a > 0)) return { id: 'none', why: !c.date ? '날짜를 넣으면 정해요' : !c.time ? '시작 시각을 넣으면 정해요' : '요청 받은 시각을 넣으면 정해요' };
     var hrs = (s - a) / 3600e3;
     if (hrs < 0) return { id: 'none', why: '시작 시각이 요청 받은 시각보다 빨라요' };
-    var id = hrs <= 3 ? 'h3' : kstDate(a) === c.date ? 'same' : hrs <= 24 ? 'h24' : hrs <= 48 ? 'h48' : 'none';
+    var h48 = !!pick(c.pl.PR.lead, 'h48');
+    var id = hrs <= 3 ? 'h3' : kstDate(a) === c.date ? 'same' : hrs <= 24 ? 'h24' : hrs <= 48 && h48 ? 'h48' : 'none';
     return { id: id, why: '요청 ' + (Math.round(hrs * 10) / 10) + '시간 뒤 시작' };
   }
   // Night work: any part of the work between 22:00 and 02:00, Korean time.
@@ -1268,8 +1277,13 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     return L.ko.date(c.date) + (t ? ' ' + t + (end ? '–' + end : '') + ' (한국 시간)' : '');
   }
 
+  var TRAVEL = {
+    in: { ko: '이동 시간도 작업 시간에 포함', en: 'Travel time counts toward the hours' },
+    free: { ko: '이동 시간은 청구하지 않음', en: 'Travel time is not charged' }
+  };
   // The lines one calculator puts on the document, in won. Timing extras are charged on the service fee
-  // (the menu price and its extra time) and multiply each other; add-ons, travel, size and actual costs are not multiplied.
+  // (the menu price and its extra time) and added up; add-ons, travel, size and actual costs get no timing extra.
+  // A price list saved before November 2026 multiplies the timing extras instead, as the site said then.
   function calcLines(c) {
     var S = c.pl.S, P = c.pl.PR, all = [], notes = [], q = Math.max(1, Math.round(+c.qty || 1)), v = variantOf(c);
     var line = function (role, ko, en, qty, krw, timed) {
@@ -1278,7 +1292,8 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
       all.push({ role: role, qty: qty, krw: krw, timed: !!timed,
         ko: { name: ko.name, unit: ko.unit || '', details: ko.details || '' }, en: { name: en.name, unit: en.unit || '', details: en.details || '' } });
     };
-    var det = function (lang) { return [whenText(c, lang), c.note[lang].trim()].filter(Boolean).join('\n'); };
+    var travel = travelCalc(c) && TRAVEL[c.travel];
+    var det = function (lang) { return [whenText(c, lang), travel && travel[lang], c.note[lang].trim()].filter(Boolean).join('\n'); };
     if (S.kind === 'count') {
       line('base', { name: S.ko, unit: unitOf(S.unit.ko, q), details: det('ko') }, { name: S.en, unit: unitOf(S.unit.en, q), details: det('en') }, q, S.krw, true);
       if (S.research && c.research > 0) line('research', { name: '리서치 (시간당)', unit: '시간' }, { name: 'Research, per hour', unit: unitOf(['hour', 'hours'], c.research) }, c.research, S.research, true);
@@ -1293,22 +1308,25 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
       line('base', { name: v.ko, details: det('ko') }, { name: v.en, details: det('en') }, 1, v.krw, true);
     }
 
-    var fee = all.reduce(function (a, o) { return a + o.qty * o.krw; }, 0), f = 1;
-    var al = autoLead(c), rushIn = !!(v && v.rushIncluded), lead = c.lead === 'auto' ? (rushIn ? 'none' : al.id) : c.lead, lo = pick(P.lead, lead);
-    var nightAuto = autoNight(c), night = c.night === 'auto' ? nightAuto : c.night === 'on';
+    var fee = all.reduce(function (a, o) { return a + o.qty * o.krw; }, 0), f = 1, add = P.combine === 'add', used = false;
+    var al = autoLead(c), rushIn = !!(v && v.rushIncluded), lead = c.lead === 'auto' ? (rushIn ? 'none' : al.id) : c.lead;
+    var lo = S.noTiming ? null : pick(P.lead, lead);
+    var nightAuto = autoNight(c), night = !S.noTiming && (c.night === 'auto' ? nightAuto : c.night === 'on');
     var timing = function (role, o) {
-      var basis = Math.round(fee * f), first = f === 1;
+      var basis = add ? fee : Math.round(fee * f), first = add || f === 1;
       line(role,
         { name: '할증 · ' + o.ko + ' (+' + o.pct + '%)', details: (first ? '서비스 요금 ' : '앞 할증까지 더한 요금 ') + won(basis) + ' × ' + o.pct + '%' },
         { name: 'Timing extra · ' + o.en + ' (+' + o.pct + '%)', details: o.pct + '% of ' + (first ? 'the ' + won(basis) + ' service fee' : won(basis) + ', the service fee with the extra above') },
         1, basis * o.pct / 100);
       f *= 1 + o.pct / 100;
+      used = true;
     };
     if (lo) timing('lead', lo);
     if (night) timing('night', P.night);
-    if (c.fixed) timing('fixed', P.fixed);
+    if (c.fixed && !S.noFixed && !S.noTiming) timing('fixed', P.fixed);
 
     (S.addons || []).forEach(function (a) { if (c.addons[a.id]) line('addon-' + a.id, { name: a.ko }, { name: a.en }, 1, a.krw); });
+    // Shipping abroad: only in price lists saved before November 2026.
     if (S.ship && c.addons.ship) line('ship', { name: '해외 발송' }, { name: 'Ship it abroad' }, 1, P.ship);
     if (S.storage && c.storage > 0) line('storage', { name: '7일 넘는 보관', unit: '일' }, { name: 'Storage after 7 days', unit: unitOf(['day', 'days'], c.storage) }, c.storage, S.storage);
     var dist = pick(P.distance, c.distance);
@@ -1321,7 +1339,7 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     return {
       all: all, notes: notes, auto: al, nightAuto: nightAuto, rushIncluded: rushIn,
       // Whether timing extras are worked out from the service fee lines
-      feeUsed: f > 1,
+      feeUsed: used,
       lines: all.filter(function (o) { return c.detached.indexOf(o.role) < 0; })
     };
   }
@@ -1384,20 +1402,25 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     if (S.variants) kids.push(field(S.kind === 'variant' ? '종류' : '방식', sel('variant', '종류', S.variants.map(function (x) { return [x.id, x.ko + ' · ' + won(x.krw)]; }))));
     if (S.research) kids.push(field('리서치 시간 (1시간마다 ' + won(S.research) + ')', inp('research', '리서치 시간', { type: 'number', step: 1, min: 0, inputmode: 'numeric' })));
     if (S.storage) kids.push(field('7일 넘게 보관한 날 수 (하루 ' + won(S.storage) + ')', inp('storage', '보관 일수', { type: 'number', step: 1, min: 0, inputmode: 'numeric' })));
-    kids.push(h('fieldset', null, [h('legend', { text: '시간 할증' }),
+    if (S.noTiming) kids.push(h('p', { class: 'auto', text: '시간 할증이 없는 서비스예요. 급하면 퀵 급송 요금을 실비(퀵비·배송비)에 넣어요.' }));
+    else kids.push(h('fieldset', null, [h('legend', { text: '시간 할증' }),
       field('요청 받은 시각 (한국)', inp('asked', '요청 받은 시각', { type: 'datetime-local' })),
       h('div', { class: 'g2' }, [
         field('급행', sel('lead', '급행', [['auto', '자동'], ['none', '없음']].concat(P.lead.map(function (x) { return [x.id, x.ko + ' +' + x.pct + '%']; })))),
         field('야간 22:00–02:00', sel('night', '야간', [['auto', '자동'], ['on', '적용 +' + P.night.pct + '%'], ['off', '적용 안 함']]))
       ]),
-      chk('fixed', P.fixed.ko + ' +' + P.fixed.pct + '%'),
+      S.noFixed ? h('p', { class: 'auto', text: '정해진 시각에 도착하는 게 서비스에 들어 있어서 도착 시간 지정 할증은 없어요.' }) : chk('fixed', P.fixed.ko + ' +' + P.fixed.pct + '%'),
       h('p', { class: 'auto', 'data-cauto': c.id })
     ]));
     if (onsiteCalc(c)) kids.push(h('div', { class: 'g2' }, [
       field('이동 거리 (서울 밖은 따로 견적)', sel('distance', '이동 거리', P.distance.map(function (x) { return [x.id, x.ko + (x.krw ? ' +' + won(x.krw) : ' (포함)')]; }))),
       sizeCalc(c) ? field('크기·무게', sel('size', '크기·무게', P.size.map(function (x) { return [x.id, x.ko + (x.krw ? ' +' + won(x.krw) : '')]; }))) : h('div')
     ]));
+    if (travelCalc(c)) kids.push(h('div', { class: 'g2' }, [
+      field('이동 시간 (견적 첫 줄에 적혀요)', sel('travel', '이동 시간', [['in', '작업 시간에 포함'], ['free', '청구하지 않음'], ['', '견적에 적지 않음']])), h('div')
+    ]));
     var ad = (S.addons || []).map(function (a) { return chk('addons.' + a.id, a.ko + ' +' + won(a.krw)); });
+    // Shipping abroad: only in price lists saved before November 2026.
     if (S.ship) ad.push(chk('addons.ship', '해외 발송 +' + won(P.ship)));
     if (ad.length) kids.push(h('fieldset', null, [h('legend', { text: '추가 옵션' }), h('div', { class: 'opts' }, ad)]));
     kids.push(h('fieldset', null, [h('legend', { text: '실비 (원, 쓴 금액 그대로)' }),
@@ -1440,7 +1463,7 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
     var r = calcLines(c), two = dual(doc), rate = fxRate(doc), sum = 0, usd = 0, lo = pick(c.pl.PR.lead, r.auto.id), locked = isLocked();
     tb.parentNode.hidden = locked;
     st.hidden = locked || !stale(c);
-    au.textContent = '자동 판단: 급행 ' + (r.rushIncluded ? '없음 (긴급 배송 요금에 포함)' : (lo ? lo.ko + ' +' + lo.pct + '%' : '없음') + ' (' + r.auto.why + ')') + ' · 야간 ' + (r.nightAuto ? '해당' : '아님');
+    if (au) au.textContent = '자동 판단: 급행 ' + (r.rushIncluded ? '없음 (긴급 배송 요금에 포함)' : (lo ? lo.ko + ' +' + lo.pct + '%' : '없음') + ' (' + r.auto.why + ')') + ' · 야간 ' + (r.nightAuto ? '해당' : '아님');
     tb.textContent = '';
     r.all.forEach(function (o) {
       var amt = o.qty * o.krw, off = c.detached.indexOf(o.role) >= 0, u = two ? o.qty * usdFromKrw(o.krw, rate) : 0;
@@ -1542,7 +1565,7 @@ table.d-items{width:100%;border-collapse:collapse;table-layout:fixed}
       if (!c.note.ko.trim() !== !c.note.en.trim()) errs.push(n + '문서 메모가 ' + (c.note.ko.trim() ? '한국어' : '영어') + '에만 있어요. 두 언어 모두 쓰거나 둘 다 비워 주세요.');
       if (drift.length) warns.push(n + '직접 고친 ' + drift.map(function (x) { return '‘' + x + '’'; }).join(', ') + ' 금액이 계산기와 달라요. 할증은 계산기 금액으로 계산돼 있으니, 금액은 계산기에서 바꾸거나 할증 줄도 직접 고쳐 주세요.');
       if (stale(c)) warns.push(n + '만들 때의 가격표로 계산돼 있어요. 지금 사이트 가격으로 바꾸려면 계산기에서 ‘지금 가격으로 다시 계산’을 누르세요.');
-      if (c.lead !== 'auto' && c.night !== 'auto') return;
+      if (c.pl.S.noTiming || (c.lead !== 'auto' && c.night !== 'auto')) return;
       if (!(s > 0)) warns.push(n + (c.date ? '시작 시각이' : '날짜와 시작 시각이') + ' 없어서 급행·야간 할증을 자동으로 정하지 않았어요.');
       else if (c.lead === 'auto' && !(a > 0)) warns.push(n + '요청 받은 시각이 없어서 급행 할증을 자동으로 정하지 않았어요.');
       else if (c.lead === 'auto' && a > s) warns.push(n + '시작 시각이 요청 받은 시각보다 빨라요. 급행 할증을 확인해 주세요.');
