@@ -259,7 +259,7 @@ export function prices(c) {
     const op = i < 3 ? `<span class="op" aria-hidden="true">${i < 2 ? '+' : '='}</span>` : '';
     return `<div class="eq${i === 3 ? ' eq--total' : ''}"><p class="eq__t">${c.t(e.title)}</p><p class="eq__d">${c.t(e.text)}</p></div>${op}`;
   }).join('');
-  const amounts = [95000, 8000, 14000, 630];
+  const amounts = [95000, 8000, 14000];
   const total = amounts.reduce((a, b) => a + b, 0);
   const lines = p.lines.map((l, i) => `<li><span>${c.t(l)}</span><span class="receipt__dots" aria-hidden="true"></span><b>${esc(c.won(amounts[i]))}</b></li>`).join('');
   const timing = ['+30%', '+10%', '+20%', '+35%', '+60%', '+20%'];
@@ -438,7 +438,7 @@ ${err('err-consent', esc(r.errConsent))}
 export function help(c) {
   const h = c.s.help;
   const k = c.site.contact;
-  const links = { 5: c.href('prices', '#refunds'), 6: c.href('privacy') };
+  const links = { 4: c.href('prices', '#refunds'), 5: c.href('privacy') };
   const faq = h.faq.map((q, i) => `<details class="qa" name="faq"${i === 0 ? ' open' : ''}><summary><span>${c.t(q.q)}</span>${icon.chevDown}</summary><div class="qa__a"><p>${c.t(q.a)}</p>${q.link ? `<a class="textlink" href="${links[i]}">${esc(q.link)}</a>` : ''}</div></details>`).join('\n');
   const tk = h.talk;
   const main = `<main id="main" class="helppage">

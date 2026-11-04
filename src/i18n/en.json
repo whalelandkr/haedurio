@@ -146,7 +146,7 @@
     "title": "Services and prices | Haedurio",
     "description": "Fixed-price services in Seoul: restaurant and salon bookings, shopping, pop-up open-runs, errands, interpretation, parcels and lost items.",
     "h1": "Services and prices",
-    "lead": "Every price is fixed before you pay. Items, food and taxi fares are charged at cost, plus a 4.5% handling fee.",
+    "lead": "Every price is fixed before you pay. Items, food and taxi fares are charged at cost.",
     "filterLabel": "Show services by category",
     "all": "All",
     "listLabel": "Services",
@@ -270,8 +270,7 @@
       "blurb": "We go to the store, buy the item for you and send photos before we pay.",
       "included": [
         "Store visit and purchase",
-        "Photos of the item before buying",
-        "Item handling fee of 4.5% (the {won:8000} minimum is included)"
+        "Photos of the item before buying"
       ],
       "need": [
         "A photo or link of the item",
@@ -297,8 +296,7 @@
       "blurb": "We order from Korean online shops that only accept Korean accounts, then receive the parcel for you.",
       "included": [
         "Ordering and paying from our business account",
-        "Receiving and checking the parcel",
-        "Item handling fee of 4.5% (the {won:8000} minimum is included)"
+        "Receiving and checking the parcel"
       ],
       "need": [
         "Product link, options and quantity",
@@ -374,9 +372,7 @@
           "price": "from +{won:16000}"
         }
       ],
-      "notes": [
-        "We can’t drive you anywhere. We’ll call a taxi and ride along."
-      ]
+      "notes": []
     },
     "remote": {
       "name": "Remote interpretation",
@@ -539,7 +535,7 @@
   },
   "prices": {
     "title": "Prices and refunds | Haedurio",
-    "description": "How Haedurio quotes work: a fixed service fee, actual costs at cost plus 4.5% handling, and extras only when needed. Refund rules if we can’t finish.",
+    "description": "How Haedurio quotes work: a fixed service fee, actual costs at cost, and extras only when needed. Refund rules if we can’t finish.",
     "h1": "What you pay",
     "lead": "A fixed fee for the task, real costs passed on at cost, and extras only when a task needs them. You see the total before you pay.",
     "equationLabel": "Service fee, plus actual costs, plus extras, equals your quote",
@@ -550,7 +546,7 @@
       },
       {
         "title": "Actual costs",
-        "text": "Items, food, taxis, deposits and postage, at cost plus 4.5% handling."
+        "text": "Items, food, taxis, deposits and postage, at cost."
       },
       {
         "title": "Extras",
@@ -569,8 +565,7 @@
     "lines": [
       "On-site errand, first hour",
       "Handoff at the hotel lobby",
-      "Taxi fare, at cost",
-      "Handling, 4.5% of the taxi fare"
+      "Taxi fare, at cost"
     ],
     "total": "Total",
     "paidNote": "Paid before we start. Photos at pickup and at the lobby are sent to your chat.",
@@ -772,10 +767,6 @@
         "a": "No. Korean law doesn’t allow us to book or recommend clinics, or to buy tickets for other people. We can go with you and interpret at a clinic you booked yourself, and point you to the official ticket seller."
       },
       {
-        "q": "Can you drive me somewhere?",
-        "a": "No. We can’t carry passengers in our own cars. We’ll call a taxi for you, and ride along if you’d like help on arrival."
-      },
-      {
         "q": "What if you can’t finish my task?",
         "a": "Online-only tasks are refunded in full. If we’ve already set off, part of the fee is kept. Money you haven’t used for items, food or taxis always comes back.",
         "link": "Read the refund rules"
@@ -811,7 +802,6 @@
       "Buying or sending medicine",
       "Buying alcohol or tobacco",
       "Lending phone numbers or accounts for ID checks",
-      "Rides in our own cars",
       "Government paperwork or legal advice",
       "Hotel, flight, train or tour bookings",
       "Currency exchange or money transfers"
@@ -872,7 +862,7 @@
   },
   "legal": {
     "updated": "Last updated {date}",
-    "date": "27 October 2026",
+    "date": "4 November 2026",
     "translationNote": "Translations are provided for convenience. If a translation differs from the English version, the English version applies.",
     "contents": "Contents"
   },
@@ -909,7 +899,7 @@
       {
         "h": "Actual costs",
         "p": [
-          "Items, food, taxi fares, deposits and postage are charged at the price we actually pay, plus a 4.5% handling fee. We send receipts or photos as proof. Money that isn’t used comes back to you."
+          "Items, food, taxi fares, deposits and postage are charged at the price we actually pay. We send receipts or photos as proof. Money that isn’t used comes back to you."
         ]
       },
       {
@@ -930,7 +920,7 @@
       {
         "h": "What we don’t do",
         "p": [
-          "We don’t book or recommend clinics or hospitals, buy or resell event tickets, buy or deliver medicine, alcohol or tobacco, lend phone numbers or accounts for identity checks, give rides in our own cars, prepare or submit government documents, give legal advice, book hotels, flights, trains or tours, or exchange or transfer money. We also don’t handle anything banned by Korean law. We can still go with you and interpret, for example at a clinic you booked yourself."
+          "We don’t book or recommend clinics or hospitals, buy or resell event tickets, buy or deliver medicine, alcohol or tobacco, lend phone numbers or accounts for identity checks, prepare or submit government documents, give legal advice, book hotels, flights, trains or tours, or exchange or transfer money. We also don’t handle anything banned by Korean law. We can still go with you and interpret, for example at a clinic you booked yourself."
         ]
       },
       {
